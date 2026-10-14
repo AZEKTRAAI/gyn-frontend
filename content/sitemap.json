@@ -1,0 +1,238 @@
+{
+  "nav": [
+    {
+      "label": "Home",
+      "href": "https://thegyn.org/"
+    },
+    {
+      "label": "Past Events",
+      "href": "#",
+      "children": [
+        {
+          "label": "FMS Thailand🇹🇭",
+          "href": "https://thegyn.org/fms-thailand/"
+        }
+      ]
+    },
+    {
+      "label": "Upcoming Events",
+      "href": "#",
+      "children": [
+        {
+          "label": "SIS Malaysia 2026 🇲🇾",
+          "href": "https://thegyn.org/sism-2026/"
+        }
+      ]
+    },
+    {
+      "label": "About Us",
+      "href": "https://thegyn.org/about-us/"
+    },
+    {
+      "label": "Contact Us",
+      "href": "https://thegyn.org/contact-us/"
+    }
+  ],
+  "footer": [
+    {
+      "type": "about",
+      "logo": "content/images/shared/logos/gyn-logo.png",
+      "text": "The Global Youth Network is a U.S. based organization that hosts international Conferences to support the United Nations Sustainable Development Goals (SDGs)."
+    },
+    {
+      "heading": "Useful Links",
+      "links": [
+        {
+          "label": "Home",
+          "href": "https://thegyn.org/"
+        },
+        {
+          "label": "About Us",
+          "href": "https://thegyn.org/about-us/"
+        },
+        {
+          "label": "Event",
+          "href": "https://thegyn.org/fms-thailand/"
+        },
+        {
+          "label": "Contact Us",
+          "href": "https://thegyn.org/contact-us/"
+        },
+        {
+          "label": "Affiliate Login",
+          "href": "https://global-youth-network.getrewardful.com/login"
+        },
+        {
+          "label": "Affiliate Sign up",
+          "href": "https://global-youth-network.getrewardful.com/signup"
+        }
+      ]
+    },
+    {
+      "heading": "Policies",
+      "links": [
+        {
+          "label": "Privacy Policy",
+          "href": "https://thegyn.org/privacy-policy/"
+        },
+        {
+          "label": "Refund Policy",
+          "href": "https://thegyn.org/refund-policy/"
+        },
+        {
+          "label": "Terms & Conditions",
+          "href": "https://thegyn.org/terms-conditions/"
+        }
+      ]
+    },
+    {
+      "heading": "Contact Info",
+      "items": [
+        {
+          "type": "phone",
+          "label": "+1 (302) 556-0064",
+          "href": "tel:+13025560064"
+        },
+        {
+          "type": "email",
+          "label": "contact@thegyn.org",
+          "href": "mailto:contact@thegyn.org"
+        },
+        {
+          "type": "address",
+          "label": "1001 S Main St STE 500 Kalispell Montana 59901"
+        }
+      ]
+    },
+    {
+      "type": "copyright",
+      "text": "© 2026 All Rights Reserved."
+    }
+  ],
+  "socials": [
+    {
+      "label": "Facebook",
+      "href": "https://www.facebook.com/share/183ZmovUrB/",
+      "where": "footer"
+    },
+    {
+      "label": "Instagram",
+      "href": "https://www.instagram.com/gyn_global?igsh=emFic2tlcHlyZ2Fj",
+      "where": "footer"
+    },
+    {
+      "label": "Whatsapp",
+      "href": "https://wa.me/message/HGC6MW4HT5YJC1",
+      "where": "footer + floating 'WhatsApp us' chat button"
+    },
+    {
+      "label": "Youtube",
+      "href": "https://www.youtube.com/@globalyouthnetwork/",
+      "where": "footer"
+    },
+    {
+      "label": "Linkedin",
+      "href": "http://linkedin.com/company/thegyn",
+      "where": "thank-you-page only"
+    },
+    {
+      "label": "Facebook (alt URL)",
+      "href": "https://www.facebook.com/thegyn.org/",
+      "where": "sism-2026 FAQ link and og article:publisher"
+    },
+    {
+      "label": "Instagram (alt URL)",
+      "href": "https://www.instagram.com/gyn_global",
+      "where": "sism-2026 FAQ link"
+    }
+  ],
+  "pages": [
+    {
+      "slug": "home",
+      "url": "https://thegyn.org/",
+      "title": "Global Youth Network - GYN"
+    },
+    {
+      "slug": "fms-thailand",
+      "url": "https://thegyn.org/fms-thailand/",
+      "title": "FutureMinds Summit Thailand (FMST 2026) | Bangkok 16-19 July",
+      "parent": "Past Events"
+    },
+    {
+      "slug": "sism-2026",
+      "url": "https://thegyn.org/sism-2026/",
+      "title": "SDG Innovation Summit Malaysia 2026 | Fully Funded Conference",
+      "parent": "Upcoming Events"
+    },
+    {
+      "slug": "sism-forum-access",
+      "url": "https://thegyn.org/sism-forum-access/",
+      "title": "Forum Access Application | SDG Innovation Summit Malaysia",
+      "parent": "sism-2026"
+    },
+    {
+      "slug": "sism-self-funded",
+      "url": "https://thegyn.org/sism-self-funded/",
+      "title": "Self Funded Application | SDG Innovation Summit Malaysia",
+      "parent": "sism-2026"
+    },
+    {
+      "slug": "sism-invitation-letter",
+      "url": "https://thegyn.org/sism-invitation-letter/",
+      "title": "Buy Invitation Letter | SDG Innovation Summit Malaysia 2026",
+      "parent": "sism-2026"
+    },
+    {
+      "slug": "sism-fully-funded-scholarship",
+      "url": "https://thegyn.org/sism-fully-funded-scholarship/",
+      "title": "Fully Funded Scholarship | SDG Innovation Summit Malaysia 2026",
+      "parent": "sism-2026",
+      "linked": false,
+      "foundVia": "page-sitemap.xml"
+    },
+    {
+      "slug": "sism-2026-application-form",
+      "url": "https://thegyn.org/sism-2026-application-form/",
+      "title": "SISM Discounted Form | SDG Innovation Summit Malaysia",
+      "parent": "sism-2026",
+      "linked": false,
+      "foundVia": "page-sitemap.xml"
+    },
+    {
+      "slug": "thank-you-page",
+      "url": "https://thegyn.org/thank-you-page/",
+      "title": "Thank you page - Global Youth Network | TheGYN",
+      "parent": "sism-2026",
+      "linked": false,
+      "foundVia": "page-sitemap.xml"
+    },
+    {
+      "slug": "about-us",
+      "url": "https://thegyn.org/about-us/",
+      "title": "About Us - Global Youth Network | TheGYN"
+    },
+    {
+      "slug": "contact-us",
+      "url": "https://thegyn.org/contact-us/",
+      "title": "Contact Us - Global Youth Network | TheGYN"
+    },
+    {
+      "slug": "privacy-policy",
+      "url": "https://thegyn.org/privacy-policy/",
+      "title": "Privacy Policy - Global Youth Network | TheGYN",
+      "parent": "footer"
+    },
+    {
+      "slug": "refund-policy",
+      "url": "https://thegyn.org/refund-policy/",
+      "title": "Refund Policy - Global Youth Network | TheGYN",
+      "parent": "footer"
+    },
+    {
+      "slug": "terms-conditions",
+      "url": "https://thegyn.org/terms-conditions/",
+      "title": "Terms & Conditions - Global Youth Network | TheGYN",
+      "parent": "footer"
+    }
+  ]
+}

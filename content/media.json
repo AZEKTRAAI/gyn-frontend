@@ -1,0 +1,1110 @@
+{
+  "images": [
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/04/f9fb001c-dd04-48ca-b84f-668fe361dac8.png",
+      "localPath": "content/images/about-us/who-we-are.png",
+      "page": "about-us",
+      "alt": "",
+      "slot": "who-we-are-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/DSC02503-2048x1365.jpg",
+      "localPath": "content/images/about-us/mission-photo.jpg",
+      "page": "about-us",
+      "alt": "",
+      "slot": "mission-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/DSC01881-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01881-1.jpg",
+      "page": "about-us",
+      "alt": "DSC01881 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/07/DSC01881-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC03736-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc03736-1.jpg",
+      "page": "about-us",
+      "alt": "DSC03736 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/08/DSC03736-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC02142-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc02142-1.jpg",
+      "page": "about-us",
+      "alt": "DSC02142 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/08/DSC02142-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC01894-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01894-1.jpg",
+      "page": "about-us",
+      "alt": "DSC01894 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/08/DSC01894-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/DSC02243-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc02243-1.jpg",
+      "page": "about-us",
+      "alt": "DSC02243 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/07/DSC02243-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC01945-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01945-1.jpg",
+      "page": "about-us",
+      "alt": "DSC01945 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/08/DSC01945-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC01976-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01976-1.jpg",
+      "page": "about-us",
+      "alt": "DSC01976 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/08/DSC01976-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC01989-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01989-1.jpg",
+      "page": "about-us",
+      "alt": "DSC01989 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/08/DSC01989-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC01960-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01960-1.jpg",
+      "page": "about-us",
+      "alt": "DSC01960 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/08/DSC01960-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC02120-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc02120-1.jpg",
+      "page": "about-us",
+      "alt": "DSC02120 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/08/DSC02120-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC02159-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc02159-1.jpg",
+      "page": "about-us",
+      "alt": "DSC02159 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/08/DSC02159-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/DSC02503-768x512.jpg",
+      "localPath": "content/images/about-us/mission-photo.jpg",
+      "page": "about-us",
+      "alt": "DSC02503",
+      "slot": "mission-image",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/07/DSC02503-2048x1365.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC02172-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc02172-1.jpg",
+      "page": "about-us",
+      "alt": "DSC02172 (1)",
+      "slot": "photo-gallery",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/08/DSC02172-1.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/sponsor_img.webp",
+      "localPath": "content/images/shared/page-header-bg.webp",
+      "page": "about-us",
+      "alt": "",
+      "slot": "page-header-background"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/1-1.jpg",
+      "localPath": null,
+      "page": "contact-us",
+      "alt": "",
+      "slot": "hero-slideshow",
+      "note": "404 on live site (broken image)"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/1-2.jpg",
+      "localPath": null,
+      "page": "contact-us",
+      "alt": "",
+      "slot": "hero-slideshow",
+      "note": "404 on live site (broken image)"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/1-4.jpg",
+      "localPath": null,
+      "page": "contact-us",
+      "alt": "",
+      "slot": "hero-slideshow",
+      "note": "404 on live site (broken image)"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/1-5.jpg",
+      "localPath": null,
+      "page": "contact-us",
+      "alt": "",
+      "slot": "hero-slideshow",
+      "note": "404 on live site (broken image)"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/elementor/thumbs/DSC01881-1-scaled-rr150858w9xl59njftbucfhfrf7os4ey7q2mgne52o.jpg",
+      "localPath": "content/images/fms-thailand/hero/summit-photo.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC01881 (1)",
+      "slot": "hero-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/file_000000001b20824382c0e40a4dc92288.png",
+      "localPath": null,
+      "page": "fms-thailand",
+      "alt": "",
+      "slot": "speakers",
+      "label": "Ashley Blake (VrCave Canada)",
+      "note": "404 on live site (broken image); same person photo used on home advisory board",
+      "fallbackLocalPath": "content/images/home/advisory-board/ashley-blake.png"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/DSC07495-scaled-e1778604656756-1431x1536-1-e1785767574963.webp",
+      "localPath": "content/images/fms-thailand/speakers/dr-suman-roy.webp",
+      "page": "fms-thailand",
+      "alt": "",
+      "slot": "speakers",
+      "label": "Dr. Suman Roy (CEO Zero Hunger Project Canada)"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/asfdasdfsd.png",
+      "localPath": null,
+      "page": "fms-thailand",
+      "alt": "",
+      "slot": "speakers",
+      "label": "Wenbo Li (CEO Poly Gamma, Greater China)",
+      "note": "404 on live site (broken image); same person photo used on home advisory board",
+      "fallbackLocalPath": "content/images/home/advisory-board/wenbo-li.png"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/Sura.jpeg",
+      "localPath": "content/images/fms-thailand/speakers/sura-fitiani.jpg",
+      "page": "fms-thailand",
+      "alt": "Sura",
+      "slot": "speakers",
+      "label": "Sura Fitiani (Intersect Innovation Hub, Palestine)"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/Untitled-design-5-2048x2048-1.webp",
+      "localPath": "content/images/fms-thailand/speakers/dr-mona-al-kadi.webp",
+      "page": "fms-thailand",
+      "alt": "Untitled-design-5-2048x2048",
+      "slot": "speakers",
+      "label": "Dr. Mona Al Kadi (Life Transformative Coach, UAE)"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/4a7bb189-cc54-4e55-8280-bcc3d8d5c803.png",
+      "localPath": "content/images/fms-thailand/speakers/dr-methinee-wongwanich.png",
+      "page": "fms-thailand",
+      "alt": "4a7bb189-cc54-4e55-8280-bcc3d8d5c803",
+      "slot": "speakers",
+      "label": "Dr. Methinee Wongwanich"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-06-09-at-15.44.43-1536x1536-1.webp",
+      "localPath": "content/images/fms-thailand/speakers/kehkashan-basu.webp",
+      "page": "fms-thailand",
+      "alt": "WhatsApp-Image-2026-06-09-at-15.44.43-1536x1536",
+      "slot": "speakers",
+      "label": "Kehkashan Basu, Zehnder Group North America"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/IMG-20260522-WA0049-1.webp",
+      "localPath": "content/images/fms-thailand/speakers/dr-shaleen-das.webp",
+      "page": "fms-thailand",
+      "alt": "IMG-20260522-WA0049-1",
+      "slot": "speakers",
+      "label": "Dr. Shaleen Das"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-27-at-18.16.22-e1785158264580.jpeg",
+      "localPath": "content/images/fms-thailand/speakers/dr-rishi-jain.jpg",
+      "page": "fms-thailand",
+      "alt": "WhatsApp Image 2026-07-27 at 18.16.22",
+      "slot": "speakers",
+      "label": "Dr. Rishi Jain, Program Director Global Innovation Internship AIT"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-20-at-21.34.39.jpeg",
+      "localPath": "content/images/fms-thailand/speakers/elam-khan.jpg",
+      "page": "fms-thailand",
+      "alt": "WhatsApp Image 2026-04-20 at 21.34.39",
+      "slot": "speakers",
+      "label": "Elam Khan (CEO Axxon group, UK)"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-27-at-15.54.17-e1786395400493.jpeg",
+      "localPath": "content/images/fms-thailand/speakers/syed-bilal-qasim.jpg",
+      "page": "fms-thailand",
+      "alt": "WhatsApp Image 2026-07-27 at 15.54.17",
+      "slot": "speakers",
+      "label": "Syed Bilal Qasim, Founder & CEO Techsol Space"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-25-at-22.43.10-scaled-e1786395434780.jpeg",
+      "localPath": "content/images/fms-thailand/speakers/sidra-riaz.jpg",
+      "page": "fms-thailand",
+      "alt": "",
+      "slot": "speakers",
+      "label": "Sidra Riaz (COP 29 & COP30 Fellow)"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/DSC01881-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01881-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC01881 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC03736-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc03736-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC03736 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC02142-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc02142-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC02142 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC01894-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01894-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC01894 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/DSC02243-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc02243-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC02243 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC01945-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01945-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC01945 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC01976-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01976-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC01976 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC01989-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01989-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC01989 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC01960-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc01960-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC01960 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC02120-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc02120-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC02120 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC02159-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc02159-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC02159 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/DSC02503-768x512.jpg",
+      "localPath": "content/images/about-us/mission-photo.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC02503",
+      "slot": "mission-image",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/07/DSC02503-2048x1365.jpg"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/DSC02172-1-768x512.jpg",
+      "localPath": "content/images/shared/gallery/fmst-dsc02172-1.jpg",
+      "page": "fms-thailand",
+      "alt": "DSC02172 (1)",
+      "slot": "photo-gallery"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/DSC02166-scaled-e1785063157624.jpg",
+      "localPath": "content/images/fms-thailand/hero/hero-bg.jpg",
+      "page": "fms-thailand",
+      "alt": "",
+      "slot": "hero-background"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/unnamed-scaled.png",
+      "localPath": "content/images/home/hero/sism-2026-hero-visual.png",
+      "page": "home",
+      "alt": "",
+      "slot": "hero-visual"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/SDG-logo-e1768682905250.png",
+      "localPath": "content/images/shared/logos/sdg-logo.png",
+      "page": "home",
+      "alt": "",
+      "slot": "sdg-logo"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-25-at-23.48.40-e1785012247868.jpeg",
+      "localPath": "content/images/home/ambassadors/helga-tongi.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Helga Tongi USA 🇺🇸"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-25-at-23.48.41-1.jpeg",
+      "localPath": "content/images/home/ambassadors/yara-shamas.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Yara Shamas Lebanon 🇱🇧"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/ChatGPT-Image-Jul-28-2026-10_14_01-PM-1.png",
+      "localPath": "content/images/home/ambassadors/patee.png",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Patee Thailand 🇹🇭"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-25-at-23.48.41-3-e1785012476393.jpeg",
+      "localPath": "content/images/home/ambassadors/kritika-ghimire.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Kritika Ghimire Nepal 🇳🇵"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-25-at-23.48.41.jpeg",
+      "localPath": "content/images/home/ambassadors/lim-pei-en.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Lim Pei En Malaysia 🇲🇾"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-25-at-23.48.42-1.jpeg",
+      "localPath": "content/images/home/ambassadors/dr-righteous.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Dr Righteous Nigeria 🇳🇬"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-25-at-23.48.42.jpeg",
+      "localPath": "content/images/home/ambassadors/md-nafi.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Md Nafi Bangladesh🇧🇩"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/ChatGPT-Image-Jul-28-2026-10_13_48-PM-1.png",
+      "localPath": "content/images/home/ambassadors/diba.png",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Diba Australia 🇦🇺"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/ChatGPT-Image-Jul-28-2026-10_14_10-PM-1.png",
+      "localPath": "content/images/home/ambassadors/casey.png",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Casey USA 🇺🇸"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-26-at-13.11.37.jpeg",
+      "localPath": "content/images/home/ambassadors/ashif.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Ashif India 🇮🇳"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/ChatGPT-Image-Jul-28-2026-10_22_22-PM-1.png",
+      "localPath": "content/images/home/ambassadors/boling.png",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Boling Laos 🇱🇦"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/1000508475.jpg",
+      "localPath": "content/images/home/ambassadors/abdul-ahad.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "ambassadors",
+      "label": "Abdul Ahad Pakistan🇵🇰"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/1000529729-2048x1216.png",
+      "localPath": "content/images/home/events/sism-2026-call-for-applications.png",
+      "page": "home",
+      "alt": "",
+      "slot": "upcoming-event-banner",
+      "downloadedFrom": "https://thegyn.org/wp-content/uploads/2026/08/1000529729.png"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/oC.png",
+      "localPath": "content/images/shared/partners/oc.png",
+      "page": "home",
+      "alt": "",
+      "slot": "partner-logo"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/OR-White.png",
+      "localPath": "content/images/shared/partners/opportunities-radar.png",
+      "page": "home",
+      "alt": "Opportunities Radar",
+      "slot": "partner-logo"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/tehgzr-1.png",
+      "localPath": "content/images/shared/partners/tehgzr.png",
+      "page": "home",
+      "alt": "",
+      "slot": "partner-logo"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/tss-white.png",
+      "localPath": "content/images/shared/partners/tss.png",
+      "page": "home",
+      "alt": "",
+      "slot": "partner-logo"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/04/AXXON-white-logo-05.png",
+      "localPath": "content/images/shared/partners/axxon.png",
+      "page": "home",
+      "alt": "",
+      "slot": "partner-logo"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/logo-n.png",
+      "localPath": "content/images/shared/partners/logo-n.png",
+      "page": "home",
+      "alt": "",
+      "slot": "partner-logo"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/admin-ajax.png",
+      "localPath": "content/images/home/advisory-board/wenbo-li.png",
+      "page": "home",
+      "alt": "",
+      "slot": "advisory-board",
+      "label": "Wenbo Li CEO Poly-Gamma, China"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-19-at-13.22.48-1.jpeg",
+      "localPath": "content/images/home/advisory-board/sura-fitiani.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "advisory-board",
+      "label": "Sura Fitiani Intersect Innovation Hub, Palestine"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/dr-salah-e1768739395604.png",
+      "localPath": "content/images/home/advisory-board/dr-salah.png",
+      "page": "home",
+      "alt": "",
+      "slot": "advisory-board",
+      "label": "Dr. Salah Senior Government Official, Oman"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-25-at-22.43.10-scaled-e1786395434780.jpeg",
+      "localPath": "content/images/home/advisory-board/sidra-riaz.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "advisory-board",
+      "label": "Sidra Riaz"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-14-at-15.30.46.jpeg",
+      "localPath": "content/images/home/advisory-board/dr-mona-al-kadi.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "advisory-board",
+      "label": "Dr. Mona Al Kadi Life Transformative Coach, UAE"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/04/WhatsApp-Image-2026-04-21-at-14.43.02-e1776768164913.jpeg",
+      "localPath": "content/images/home/advisory-board/mr-elam.jpg",
+      "page": "home",
+      "alt": "",
+      "slot": "advisory-board",
+      "label": "Mr. Elam CEO Axxon group, UK"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/DSC07495-scaled-e1778604656756-1431x1536-1-e1785767574963.webp",
+      "localPath": "content/images/home/advisory-board/dr-suman-roy.webp",
+      "page": "home",
+      "alt": "",
+      "slot": "advisory-board",
+      "label": "Dr. Suman Roy UN SDG Advocate"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/admin-ajax-1.png",
+      "localPath": "content/images/home/advisory-board/ashley-blake.png",
+      "page": "home",
+      "alt": "",
+      "slot": "advisory-board",
+      "label": "Ashley Blake Head of Partnership vrCAVE Canada"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/GYN-Logo-1-e1766761261641.png",
+      "localPath": "content/images/shared/logos/gyn-logo.png",
+      "page": "home",
+      "alt": "",
+      "slot": "site-logo"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/GYN-Logo-1-e1766761261641.png",
+      "localPath": "content/images/shared/logos/gyn-logo.png",
+      "page": "home",
+      "alt": "",
+      "slot": "site-logo"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/sponsor_img.webp",
+      "localPath": "content/images/shared/page-header-bg.webp",
+      "page": "privacy-policy",
+      "alt": "",
+      "slot": "page-header-background"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/sponsor_img.webp",
+      "localPath": "content/images/shared/page-header-bg.webp",
+      "page": "refund-policy",
+      "alt": "",
+      "slot": "page-header-background"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/sponsor_img.webp",
+      "localPath": "content/images/shared/page-header-bg.webp",
+      "page": "refund-policy",
+      "alt": "",
+      "slot": "page-header-background"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/Web-Event-banner.jpg",
+      "localPath": "content/images/shared/sism-form-header-bg.jpg",
+      "page": "sism-2026-application-form",
+      "alt": "",
+      "slot": "form-page-header-background"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/SDG-logo-e1768682905250.png",
+      "localPath": "content/images/shared/logos/sdg-logo.png",
+      "page": "sism-2026",
+      "alt": "Forum Theme ​",
+      "slot": "sdg-logo"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/09/UNU-GlobalHealth_LOGO-ALT_BL_PROVISIONAL.png",
+      "localPath": "content/images/sism-2026/partners/unu-global-health-logo.png",
+      "page": "sism-2026",
+      "alt": "",
+      "slot": "co-host-logo"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/09/APU1.png",
+      "localPath": "content/images/sism-2026/venue/apu-asia-pacific-university.png",
+      "page": "sism-2026",
+      "alt": "",
+      "slot": "apu-visit-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/09/4b670640-af2d-49d6-974c-c64331919da1.png",
+      "localPath": "content/images/sism-2026/speakers/julie-victoire.png",
+      "page": "sism-2026",
+      "alt": "Julie Victoire",
+      "slot": "speakers",
+      "label": "Julie Victoire"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/09/29eaa03a-ed1c-429d-b32f-628b794ffb90.png",
+      "localPath": "content/images/sism-2026/speakers/dr-mohd-farid-bin-atan.png",
+      "page": "sism-2026",
+      "alt": "Dr Mohd Farid bin Atan",
+      "slot": "speakers",
+      "label": "Dr Mohd Farid bin Atan"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/09/9687c49f-6fdb-4d7e-a764-74d0fee38a35.png",
+      "localPath": "content/images/sism-2026/speakers/ayman-william-hermansson.png",
+      "page": "sism-2026",
+      "alt": "Ayman William Hermansson ",
+      "slot": "speakers",
+      "label": "Ayman William Hermansson"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/09/42658d4e-dd90-40bd-ba9e-b6334c9f234a.png",
+      "localPath": "content/images/sism-2026/speakers/syed-bilal-qasim.png",
+      "page": "sism-2026",
+      "alt": "Syed Bilal Qasim",
+      "slot": "speakers",
+      "label": "Syed Bilal Qasim"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/09/ae616bea-ecdf-4673-a4bf-0137b494ed34.png",
+      "localPath": "content/images/sism-2026/speakers/sapargulay-mahtumov.png",
+      "page": "sism-2026",
+      "alt": "Sapargulay Mahtumov",
+      "slot": "speakers",
+      "label": "Sapargulay Mahtumov"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/09/f2efef0b-5678-499e-8da7-3e1f9d929228.png",
+      "localPath": "content/images/sism-2026/speakers/jasmine-cannon-ikurusi.png",
+      "page": "sism-2026",
+      "alt": " JASMINE CANNON-IKURUSI",
+      "slot": "speakers",
+      "label": "JASMINE CANNON-IKURUSI"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/admin-ajax-1.png",
+      "localPath": "content/images/sism-2026/speakers/ashley-blake.png",
+      "page": "sism-2026",
+      "alt": "Ashley Blake",
+      "slot": "speakers",
+      "label": "Ashley Blake"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/09/1.png",
+      "localPath": "content/images/sism-2026/speakers/arumita-mitra.png",
+      "page": "sism-2026",
+      "alt": "Arumita Mitra",
+      "slot": "speakers",
+      "label": "Arumita Mitra"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/1000529729-scaled.png",
+      "localPath": "content/images/sism-2026/organizer/sism-2026-call-for-applications.png",
+      "page": "sism-2026",
+      "alt": "",
+      "slot": "organizer-section-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/Web-Banner-SISM.jpg",
+      "localPath": "content/images/sism-2026/organizer/web-banner-sism.jpg",
+      "page": "sism-2026",
+      "alt": "",
+      "slot": "organizer-section-background"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/Web-Event-banner.jpg",
+      "localPath": "content/images/shared/sism-form-header-bg.jpg",
+      "page": "sism-forum-access",
+      "alt": "",
+      "slot": "form-page-header-background"
+    },
+    {
+      "src": "https://res.cloudinary.com/dgva9p6fv/image/upload/v1777274295/WhatsApp_Image_2026-04-27_at_12.16.02_aibdpa.jpg",
+      "localPath": "content/images/sism-fully-funded-scholarship/crypto-wallet-qr.jpg",
+      "page": "sism-fully-funded-scholarship",
+      "alt": "Wallet QR Code",
+      "slot": "payment-qr-code"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/Web-Event-banner.jpg",
+      "localPath": "content/images/shared/sism-form-header-bg.jpg",
+      "page": "sism-fully-funded-scholarship",
+      "alt": "",
+      "slot": "form-page-header-background"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/Web-Event-banner.jpg",
+      "localPath": "content/images/shared/sism-form-header-bg.jpg",
+      "page": "sism-invitation-letter",
+      "alt": "",
+      "slot": "form-page-header-background"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/Web-Event-banner.jpg",
+      "localPath": "content/images/shared/sism-form-header-bg.jpg",
+      "page": "sism-self-funded",
+      "alt": "",
+      "slot": "form-page-header-background"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/sponsor_img.webp",
+      "localPath": "content/images/shared/page-header-bg.webp",
+      "page": "terms-conditions",
+      "alt": "",
+      "slot": "page-header-background"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/WhatsApp-Image-2026-01-21-at-1.49.09-AM.jpeg",
+      "localPath": "content/images/shared/og/default-og.jpg",
+      "page": "contact-us",
+      "alt": "",
+      "slot": "og-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/WhatsApp-Image-2026-01-21-at-1.49.09-AM.jpeg",
+      "localPath": "content/images/shared/og/default-og.jpg",
+      "page": "privacy-policy",
+      "alt": "",
+      "slot": "og-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/WhatsApp-Image-2026-01-21-at-1.49.09-AM.jpeg",
+      "localPath": "content/images/shared/og/default-og.jpg",
+      "page": "refund-policy",
+      "alt": "",
+      "slot": "og-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/SISM-06-1-scaled.jpeg",
+      "localPath": "content/images/sism-2026/og/sism-2026-og.jpg",
+      "page": "sism-2026-application-form",
+      "alt": "",
+      "slot": "og-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/08/SISM-06-1-scaled.jpeg",
+      "localPath": "content/images/sism-2026/og/sism-2026-og.jpg",
+      "page": "sism-2026",
+      "alt": "",
+      "slot": "og-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/SISM-01-1-scaled.jpg",
+      "localPath": "content/images/sism-2026/og/sism-application-og.jpg",
+      "page": "sism-forum-access",
+      "alt": "",
+      "slot": "og-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/SISM-01-1-scaled.jpg",
+      "localPath": "content/images/sism-2026/og/sism-application-og.jpg",
+      "page": "sism-fully-funded-scholarship",
+      "alt": "",
+      "slot": "og-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/WhatsApp-Image-2026-01-21-at-1.49.09-AM.jpeg",
+      "localPath": "content/images/shared/og/default-og.jpg",
+      "page": "sism-invitation-letter",
+      "alt": "",
+      "slot": "og-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/07/SISM-01-1-scaled.jpg",
+      "localPath": "content/images/sism-2026/og/sism-application-og.jpg",
+      "page": "sism-self-funded",
+      "alt": "",
+      "slot": "og-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/WhatsApp-Image-2026-01-21-at-1.49.09-AM.jpeg",
+      "localPath": "content/images/shared/og/default-og.jpg",
+      "page": "terms-conditions",
+      "alt": "",
+      "slot": "og-image"
+    },
+    {
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/WhatsApp-Image-2026-01-21-at-1.49.09-AM.jpeg",
+      "localPath": "content/images/shared/og/default-og.jpg",
+      "page": "thank-you-page",
+      "alt": "",
+      "slot": "og-image"
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "Aqqo3cL4W6w",
+      "title": "Future Minds Summit 2026 – Day 1 Highlights",
+      "page": "about-us",
+      "category": "highlights",
+      "format": "video",
+      "section": "A Glimpse Into the FMS Thailand Experience",
+      "url": "https://youtu.be/Aqqo3cL4W6w",
+      "thumbnail": "https://i.ytimg.com/vi/Aqqo3cL4W6w/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "Aqqo3cL4W6w",
+      "title": "Future Minds Summit 2026 – Day 1 Highlights",
+      "page": "fms-thailand",
+      "category": "highlights",
+      "format": "video",
+      "section": "A Glimpse Into the FMST Experience",
+      "url": "https://youtu.be/Aqqo3cL4W6w",
+      "thumbnail": "https://i.ytimg.com/vi/Aqqo3cL4W6w/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "Aqqo3cL4W6w",
+      "title": "Future Minds Summit 2026 – Day 1 Highlights",
+      "page": "sism-2026",
+      "category": "highlights",
+      "format": "video",
+      "section": "What Will You Experience?",
+      "url": "https://youtu.be/Aqqo3cL4W6w",
+      "thumbnail": "https://i.ytimg.com/vi/Aqqo3cL4W6w/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "FwjXKiF4QJ0",
+      "title": "Future Minds Summit 2026 – Day 2 Highlights",
+      "page": "about-us",
+      "category": "highlights",
+      "format": "video",
+      "section": "A Glimpse Into the FMS Thailand Experience",
+      "url": "https://youtu.be/FwjXKiF4QJ0",
+      "thumbnail": "https://i.ytimg.com/vi/FwjXKiF4QJ0/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "FwjXKiF4QJ0",
+      "title": "Future Minds Summit 2026 – Day 2 Highlights",
+      "page": "fms-thailand",
+      "category": "highlights",
+      "format": "video",
+      "section": "A Glimpse Into the FMST Experience",
+      "url": "https://youtu.be/FwjXKiF4QJ0",
+      "thumbnail": "https://i.ytimg.com/vi/FwjXKiF4QJ0/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "TjnrswlwX8k",
+      "title": "Future Minds Summit 2026 – Day 3 Highlights",
+      "page": "about-us",
+      "category": "highlights",
+      "format": "video",
+      "section": "A Glimpse Into the FMS Thailand Experience",
+      "url": "https://youtu.be/TjnrswlwX8k",
+      "thumbnail": "https://i.ytimg.com/vi/TjnrswlwX8k/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "TjnrswlwX8k",
+      "title": "Future Minds Summit 2026 – Day 3 Highlights",
+      "page": "fms-thailand",
+      "category": "highlights",
+      "format": "video",
+      "section": "A Glimpse Into the FMST Experience",
+      "url": "https://youtu.be/TjnrswlwX8k",
+      "thumbnail": "https://i.ytimg.com/vi/TjnrswlwX8k/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "cO1D5dJFops",
+      "title": "Experience of Sura Fitiani, One of Our Esteemed Speakers from Palestine",
+      "page": "sism-2026",
+      "category": "speakers",
+      "format": "short",
+      "section": "Hear From Our Speakers & Delegates",
+      "url": "https://youtube.com/shorts/cO1D5dJFops",
+      "thumbnail": "https://i.ytimg.com/vi/cO1D5dJFops/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "eeFq13x-_rQ",
+      "title": "Meet Dr. (Hon) Suman Roy – Most Energetic & Inspiring Speaker at the FutureMinds Summit Thailand",
+      "page": "sism-2026",
+      "category": "speakers",
+      "format": "short",
+      "section": "Hear From Our Speakers & Delegates",
+      "url": "https://youtube.com/shorts/eeFq13x-_rQ",
+      "thumbnail": "https://i.ytimg.com/vi/eeFq13x-_rQ/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "-UwHA0DhXkA",
+      "title": "peaker Testimonial | Future Minds Summit 2026",
+      "page": "sism-2026",
+      "category": "speakers",
+      "format": "short",
+      "section": "Hear From Our Speakers & Delegates",
+      "url": "https://youtube.com/shorts/-UwHA0DhXkA",
+      "thumbnail": "https://i.ytimg.com/vi/-UwHA0DhXkA/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "vcwp4HK7UeI",
+      "title": "Special Guest Testimonial | Future Minds Summit 2026",
+      "page": "sism-2026",
+      "category": "testimonials",
+      "format": "short",
+      "section": "Hear From Our Speakers & Delegates",
+      "url": "https://youtube.com/shorts/vcwp4HK7UeI",
+      "thumbnail": "https://i.ytimg.com/vi/vcwp4HK7UeI/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "T5Xrp8KcqOY",
+      "title": "A Voice from India | Tejaswini Has to Say About Her Experience at Future Minds Summit 2026.",
+      "page": "sism-2026",
+      "category": "testimonials",
+      "format": "short",
+      "section": "Hear From Our Speakers & Delegates",
+      "url": "https://youtube.com/shorts/T5Xrp8KcqOY",
+      "thumbnail": "https://i.ytimg.com/vi/T5Xrp8KcqOY/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    },
+    {
+      "youtubeId": "q-nYUFwEdo4",
+      "title": "Future Minds Summit 2026 | Bangkok, Thailand",
+      "page": "sism-2026",
+      "category": "highlights",
+      "format": "short",
+      "section": "Hear From Our Speakers & Delegates",
+      "url": "https://youtube.com/shorts/q-nYUFwEdo4",
+      "thumbnail": "https://i.ytimg.com/vi/q-nYUFwEdo4/hqdefault.jpg",
+      "channel": "Global Youth Network | GYN"
+    }
+  ],
+  "embeds": [
+    {
+      "type": "linkedin-post",
+      "src": "https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7490062369994473472?collapsed=1",
+      "page": "sism-2026",
+      "section": "Voices, Stories & Impact. See It. Feel It"
+    },
+    {
+      "type": "linkedin-post",
+      "src": "https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7490337382291116032?collapsed=1",
+      "page": "sism-2026",
+      "section": "Voices, Stories & Impact. See It. Feel It"
+    },
+    {
+      "type": "linkedin-post",
+      "src": "https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7487897621919854593?collapsed=1",
+      "page": "sism-2026",
+      "section": "Voices, Stories & Impact. See It. Feel It"
+    },
+    {
+      "type": "linkedin-post",
+      "src": "https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7484743742369767424?collapsed=1",
+      "page": "sism-2026",
+      "section": "Voices, Stories & Impact. See It. Feel It"
+    },
+    {
+      "type": "linkedin-post",
+      "src": "https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7488607693386194944?collapsed=1",
+      "page": "sism-2026",
+      "section": "Voices, Stories & Impact. See It. Feel It"
+    },
+    {
+      "type": "linkedin-post",
+      "src": "https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7486098843525107712?collapsed=1",
+      "page": "sism-2026",
+      "section": "Voices, Stories & Impact. See It. Feel It"
+    },
+    {
+      "type": "linkedin-post",
+      "src": "https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7494456155143045121?collapsed=1",
+      "page": "sism-2026",
+      "section": "Voices, Stories & Impact. See It. Feel It"
+    }
+  ],
+  "logos": [
+    {
+      "name": "Global Youth Network (GYN)",
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/GYN-Logo-1-e1766761261641.png",
+      "localPath": "content/images/shared/logos/gyn-logo.png",
+      "usage": "header logo, footer logo, home og:image",
+      "alsoAt": "design/logo/gyn-logo.png"
+    },
+    {
+      "name": "GYN site icon (favicon)",
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/cropped-GYN-Logo-1-e1766761261641-32x32.png",
+      "localPath": null,
+      "usage": "favicon (not downloaded)"
+    },
+    {
+      "name": "UN SDG logo",
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/SDG-logo-e1768682905250.png",
+      "localPath": "content/images/shared/logos/sdg-logo.png",
+      "usage": "home hero, sism-2026 Forum Theme card",
+      "alsoAt": "design/logo/sdg-logo.png"
+    },
+    {
+      "name": "UNU Global Health (United Nations University – International Institute for Global Health)",
+      "src": "https://thegyn.org/wp-content/uploads/2026/09/UNU-GlobalHealth_LOGO-ALT_BL_PROVISIONAL.png",
+      "localPath": "content/images/sism-2026/partners/unu-global-health-logo.png",
+      "usage": "sism-2026 co-host section"
+    },
+    {
+      "name": null,
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/oC.png",
+      "localPath": "content/images/shared/partners/oc.png",
+      "usage": "home \"Our Partners\" carousel (white logo on dark)",
+      "note": "partner name not given on site; file name: oC.png"
+    },
+    {
+      "name": "Opportunities Radar",
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/OR-White.png",
+      "localPath": "content/images/shared/partners/opportunities-radar.png",
+      "usage": "home \"Our Partners\" carousel (white logo on dark)",
+      "note": null
+    },
+    {
+      "name": null,
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/tehgzr-1.png",
+      "localPath": "content/images/shared/partners/tehgzr.png",
+      "usage": "home \"Our Partners\" carousel (white logo on dark)",
+      "note": "partner name not given on site; file name: tehgzr-1.png"
+    },
+    {
+      "name": null,
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/tss-white.png",
+      "localPath": "content/images/shared/partners/tss.png",
+      "usage": "home \"Our Partners\" carousel (white logo on dark)",
+      "note": "partner name not given on site; file name: tss-white.png"
+    },
+    {
+      "name": null,
+      "src": "https://thegyn.org/wp-content/uploads/2026/04/AXXON-white-logo-05.png",
+      "localPath": "content/images/shared/partners/axxon.png",
+      "usage": "home \"Our Partners\" carousel (white logo on dark)",
+      "note": "partner name not given on site; file name: AXXON-white-logo-05.png"
+    },
+    {
+      "name": null,
+      "src": "https://thegyn.org/wp-content/uploads/2026/01/logo-n.png",
+      "localPath": "content/images/shared/partners/logo-n.png",
+      "usage": "home \"Our Partners\" carousel (white logo on dark)",
+      "note": "partner name not given on site; file name: logo-n.png"
+    }
+  ]
+}

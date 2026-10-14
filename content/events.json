@@ -1,0 +1,391 @@
+{
+  "_notes": "All values copied from thegyn.org on 2026-10-15. Status is derived from the live page (countdown expiry / 'CLOSED NOW' buttons / past dates). Prices in USD.",
+  "events": [
+    {
+      "id": "sism-2026",
+      "name": "SDG Innovation Summit Malaysia 2026",
+      "shortName": "SISM",
+      "navLabel": "SIS Malaysia 2026 🇲🇾",
+      "url": "https://thegyn.org/sism-2026/",
+      "dates": { "start": "2026-11-19", "end": "2026-11-22", "display": "Nov 19–22, 2026", "displayAlt": "19–22 November 2026" },
+      "venue": "Teedo Hotel",
+      "city": "Kuala Lumpur",
+      "country": "Malaysia",
+      "seats": 100,
+      "organizer": "Global Youth Network (GYN)",
+      "coHost": "United Nations University – International Institute for Global Health, Malaysia (UNU Global Health)",
+      "coHostLogo": "content/images/sism-2026/partners/unu-global-health-logo.png",
+      "institutionalVisit": "Asia Pacific University (APU), Malaysia",
+      "theme": "Innovative Ideas for Social Impact",
+      "focusSdgs": [
+        { "sdg": "SDG 4", "label": "Empowering through Quality Education." },
+        { "sdg": "SDG 5", "label": "Breaking barriers for Gender Equality." },
+        { "sdg": "SDG 9", "label": "Driving Innovation & Resilient Infrastructure." },
+        { "sdg": "SDG 13", "label": "Taking urgent action for our Climate." }
+      ],
+      "award": "$1,000 Seed Grant",
+      "status": "closed",
+      "statusDetail": "Scholarship applications closed (deadline passed; 'CLOSED NOW' on both scholarship cards). Forum Access, Self Funded and Invitation Letter registration buttons are still live.",
+      "deadline": { "date": "2026-10-11", "display": "11th October 2026", "countdownTarget": "2026-10-11T23:59:00+00:00" },
+      "resultsDate": { "date": "2026-10-16", "display": "16th October 2026", "conflict": "thank-you-page says 'The scholarship results will be announced on 15 October 2026.'" },
+      "applicationFee": { "amount": 18.5, "display": "$18.50", "appliesTo": "scholarship categories" },
+      "scholarships": {
+        "total": 30,
+        "copy": "There are 30 scholarships available. The top 15 applicants will receive fully funded slots, while the next 15 will be awarded partially funded slots. You can submit a single application for both scholarship categories."
+      },
+      "ticketTypes": [
+        {
+          "id": "fully-funded",
+          "name": "FULLY FUNDED SCHOLARSHIP",
+          "subheading": "EVERYTHING COVERED",
+          "price": 18.5,
+          "priceNote": "Application Fee: $18.50 (single application covers fully and partially funded)",
+          "originalPrice": null,
+          "seats": 15,
+          "includes": [
+            "Round-Trip Airfare Support (15 seats)",
+            "Accommodation (Twin Sharing)",
+            "Meals & Refreshments",
+            "Visa Fees",
+            "Invitation Letter for Visa",
+            "Summit Fee & Access",
+            "GYN Toolkit & Merchandise",
+            "Speaking Opportunity",
+            "Participation Certificate",
+            "Free Sight Seeing in KL",
+            "Asia Pacific University Campus Tour"
+          ],
+          "cta": { "label": "CLOSED NOW", "href": null },
+          "formUrl": "https://thegyn.org/sism-fully-funded-scholarship/",
+          "formNote": "Form page not linked from the site but still live; form product 'SISM FULLY/PARTIAL FUNDED' = $18.50; offers card/Google Pay or crypto.",
+          "status": "closed"
+        },
+        {
+          "id": "partially-funded",
+          "name": "PARTIALLY SCHOLARSHIP",
+          "subheading": "DELEGATES WILL RECEIVE",
+          "price": 18.5,
+          "priceNote": "Application Fee: $18.50 (same application as fully funded)",
+          "originalPrice": null,
+          "seats": 15,
+          "includes": [
+            "Accommodation (Twin Sharing)",
+            "Meals & Refreshments",
+            "Visa Supporting Documents",
+            "Invitation Letter for Visa",
+            "Summit Fee & Access",
+            "GYN Toolkit & Merchandise",
+            "Speaking Opportunity",
+            "Participation Certificate",
+            "Free Sight Seeing in KL",
+            "Asia Pacific University Campus Tour"
+          ],
+          "cta": { "label": "CLOSED NOW", "href": null },
+          "formUrl": "https://thegyn.org/sism-fully-funded-scholarship/",
+          "status": "closed"
+        },
+        {
+          "id": "forum-access",
+          "name": "FORUM ACCESS (CONFIRMED SEAT)",
+          "price": 199,
+          "originalPrice": 249,
+          "includes": [
+            "Receive Early Invitation Letter",
+            "Welcome Dinner",
+            "Summit Fee covered",
+            "GYN Toolkit & Merchandise",
+            "Speaking opportunity",
+            "Participation Certificate",
+            "Cultural Night Ceremony",
+            "Lunch, Coffee Breaks",
+            "APU Campus Tour"
+          ],
+          "groupDiscount": { "text": "Group Discounts Available: We offer special pricing for group enrollments. Please email contact@thegyn.org", "href": "https://thegyn.org/contact-us/" },
+          "cta": { "label": "REGISTER NOW", "href": "https://thegyn.org/sism-forum-access/" },
+          "status": "open"
+        },
+        {
+          "id": "self-funded",
+          "name": "SELF FUNDED (CONFIRMED SEAT WITH ACCOMMODATION)",
+          "price": 399,
+          "originalPrice": 449,
+          "includes": [
+            "Accommodation (Twin Sharing)",
+            "Early Invitation Letter for Visa",
+            "Welcome Dinner",
+            "Summit Fee covered",
+            "GYN Toolkit & Merchandise",
+            "Speaking opportunity",
+            "Participation Certificate",
+            "Cultural Night Ceremony",
+            "Meals & Refreshments",
+            "APU Campus Tour"
+          ],
+          "groupDiscount": { "text": "Group Discounts Available: We offer special pricing for group enrollments. Please email contact@thegyn.org", "href": "https://thegyn.org/contact-us/" },
+          "cta": { "label": "REGISTER NOW", "href": "https://thegyn.org/sism-self-funded/" },
+          "status": "open"
+        },
+        {
+          "id": "invitation-letter",
+          "name": "INVITATION LETTER",
+          "price": 49,
+          "originalPrice": null,
+          "includes": [
+            "Summit Invitation Letter",
+            "Visa Support",
+            "Visa Supporting Documentation",
+            "Visa Application Process",
+            "Get Invitation Letter in 48 Hours"
+          ],
+          "cta": { "label": "GET INVITATION NOW", "href": "https://thegyn.org/sism-invitation-letter/" },
+          "status": "open"
+        },
+        {
+          "id": "forum-access-discounted",
+          "name": "Forum Access (SISM Discounted Form)",
+          "price": 170,
+          "originalPrice": null,
+          "includes": [],
+          "cta": { "label": "Submit", "href": "https://thegyn.org/sism-2026-application-form/" },
+          "status": "unlisted",
+          "note": "Page not linked anywhere on the site (found in page-sitemap.xml); form product 'Forum Access' priced $170."
+        }
+      ],
+      "guaranteedSeatsCopy": [
+        "Applicants who are not selected for a scholarship – or who prefer guaranteed participation – can apply to the Forum Access or self-funded category.",
+        "Those who require a visa to attend the conference in Malaysia can request an invitation letter.",
+        "The Invitation letter is by default available in the scholarship, forum & self-funded category."
+      ],
+      "applicationProcess": [
+        { "step": "Choose Your Category", "text": "Select Fully Funded, Partially Funded, Forum Access, or Self-Funded" },
+        { "step": "Complete Application", "text": "Double-check that you have answered every question thoroughly" },
+        { "step": "Pay Application Fee", "text": "$18.50 for scholarship categories, $199/$399 for forum access/self-funded." },
+        { "step": "Submit Application", "text": "Review and submit your application after the application fee." }
+      ],
+      "schedule": [
+        {
+          "day": "Day 1",
+          "date": "2026-11-19",
+          "dateDisplay": "November 19, 2026",
+          "items": [
+            "Arrival:Hotel Check-in",
+            "Meet & Greet: Delegate Registration & Welcome Kit Collection.",
+            "Free Time: Explore KL."
+          ]
+        },
+        {
+          "day": "Day 2",
+          "date": "2026-11-20",
+          "dateDisplay": "November 20, 2026",
+          "items": [
+            "Breakfast:Dining Hall",
+            "Event Opening: Welcome & Event Brief",
+            "Ice-Breaking Session",
+            "Delegate Introductions & Country Showcase.",
+            "Coffee Break",
+            "Workshop 1 – Understanding SDGs",
+            "Lunch",
+            "Workshop 2 – Social Ventures",
+            "Panel 1",
+            "Summit Entrepreneurship Activity – A",
+            "Free City Tour"
+          ]
+        },
+        {
+          "day": "Day 3",
+          "date": "2026-11-21",
+          "dateDisplay": "November 21, 2026",
+          "items": [
+            "Event Brief – Day 2",
+            "Ice-Breaking Session 2",
+            "Coffee Break",
+            "Workshop 3 – Policy Impact",
+            "Lunch",
+            "Workshop 4 – SDG Case Studies",
+            "Hear You Out! Youth-led Presentations",
+            "Summit Entrepreneurship Activity – B",
+            "Cultural Night & Activities.",
+            "Dinner"
+          ]
+        },
+        {
+          "day": "Day 4",
+          "date": "2026-11-22",
+          "dateDisplay": "November 22, 2026",
+          "items": [
+            "Certification Ceremony",
+            "Group Photo",
+            "Check-out"
+          ]
+        }
+      ],
+      "scheduleLabel": "EVENT TENTATIVE SCHEDULE",
+      "speakers": [
+        { "name": "Julie Victoire", "title": "International Youth Advocate | Speaker | Australian Education Leader | Founder The Rise Edit", "image": "content/images/sism-2026/speakers/julie-victoire.png" },
+        { "name": "Dr Mohd Farid bin Atan", "title": "Deputy Director (Sustainability) Universiti Malaysia Sarawak (UNIMAS)", "image": "content/images/sism-2026/speakers/dr-mohd-farid-bin-atan.png" },
+        { "name": "Ayman William Hermansson", "title": "Assistant Professor - Heriot-Watt University Malaysia", "image": "content/images/sism-2026/speakers/ayman-william-hermansson.png" },
+        { "name": "Syed Bilal Qasim", "title": "CEO Techsol Space | Project Director CEGA", "image": "content/images/sism-2026/speakers/syed-bilal-qasim.png" },
+        { "name": "Sapargulay Mahtumov", "title": "Youth Coordinator, MySDG Academy, Malaysia.", "image": "content/images/sism-2026/speakers/sapargulay-mahtumov.png" },
+        { "name": "JASMINE CANNON-IKURUSI", "title": "CEO & Founder The Sapphire Employability & Wellbeing Academy, London, UK", "image": "content/images/sism-2026/speakers/jasmine-cannon-ikurusi.png" },
+        { "name": "Ashley Blake", "title": "Head of Partnership vrCAVE Canada", "image": "content/images/sism-2026/speakers/ashley-blake.png" },
+        { "name": "Arumita Mitra", "title": "Founder - Sudhamta Foundation India | TedX Speaker | UN SDG Advocate", "image": "content/images/sism-2026/speakers/arumita-mitra.png" }
+      ],
+      "eligibility": [
+        "Applicants from worldwide.",
+        "All educational and professional fields.",
+        "17-50 years old.",
+        "IELTS/TOEFL not required.",
+        "Students, volunteers, graduates, change-makers, social entrepreneurs, and professionals at any stage of their careers.",
+        "Must be available to attend the summit in Kuala Lumpur from 19-22 Nov 2026"
+      ],
+      "scholarshipCriteria": [
+        "A strong personal statement of 250–300 words explaining why you are interested in joining the SDG Innovation Summit 2026.",
+        "Applicants should possess leadership skills, a passion for the SDGs, and a visionary mindset.",
+        "Volunteering or leadership experience preferred but not mandatory.",
+        "Applicants from all backgrounds and fields are welcome to apply."
+      ],
+      "objectives": [
+        "Promote youth leadership for sustainable development.",
+        "Foster innovation and entrepreneurship for the SDGs.",
+        "Transform ideas into real-world impact.",
+        "Strengthen global collaboration and partnerships.",
+        "Enhance leadership and problem-solving skills.",
+        "Promote cross-cultural understanding."
+      ],
+      "whyApply": [
+        { "title": "Global Recognition", "text": "Receive international certification from THEGYN." },
+        { "title": "Expert Engagement", "text": "Access to workshops on SDGs, leadership, Al, and Policymaking." },
+        { "title": "Speaking Opportunity", "text": "Speak at the global stage and present your project." },
+        { "title": "Cultural Immersion", "text": "Explore Malaysian culture, Food, and Vibrant City." },
+        { "title": "Focused SDGs", "text": "You gain deep expertise in the four most relevant goals for the 2030 agenda." },
+        { "title": "Cultural Exchange", "text": "Connect with a community of educators, innovators, and renowned speakers." },
+        { "title": "Unlock Future Goals", "text": "Participating in the program will help you secure scholarships in the future." },
+        { "title": "Cultural Fest", "text": "Enjoy cultural performance, food, dance, music, and singing at the closing ceremony." },
+        { "title": "Explore Kuala Lumpur", "text": "Discover Kuala Lumpur’s iconic landmarks, vibrant markets, rich culture, and world-famous cuisine." }
+      ],
+      "faqs": [
+        { "q": "When will the selected applicants be announced?", "a": "The result will be announced on 16th October 2026." },
+        { "q": "How Can I Apply for Fully Funded and Partially Funded Slots?", "a": "To apply for a fully or partially funded scholarship, please complete the general application form. All submissions are reviewed by our independent, international selection panel, which ensures a transparent process for final scholarship decisions." },
+        { "q": "Can I Attend the SDG Innovation Summit If Not Selected for the Scholarship?", "a": "If you aren’t selected for a scholarship, you can still join us at the summit by choosing either the Self-Funded Package or the Forum Access Package. Regardless of your funding status, you will enjoy the same full experience and privileges as all other participants." },
+        { "q": "Does GYN Provide Visa Assistance?", "a": "To help with your visa application, the GYN will provide an official invitation letter, proof of accommodation, and the program location. While we are happy to offer guidance throughout the process, please note that the final decision rests with the embassy, and we cannot guarantee visa approval." },
+        { "q": "What should I do if I do not have a passport at the time of application?", "a": "You can still apply! Simply upload a copy or enter the number of your National Identity Card (NIC), or any student ID in place of the passport details for now." },
+        { "q": "How can I pay my application fee?", "a": "You can securely pay the application fee using a debit or credit card, Google Pay through a trusted Stripe payment gateway." },
+        { "q": "Why is the application fee?", "a": "Application fees are standard for many international conferences and youth programs. The fee supports our application, review, and selection process and helps us manage applications from participants worldwide. It does not guarantee selection." },
+        { "q": "Am I required to provide proof of English language proficiency?", "a": "No, English test scores (such as IELTS or TOEFL) are not required for this application." },
+        { "q": "Need Assistance or Want to Contact Us?", "a": "You can reach us via email at contact@thegyn.org" },
+        { "q": "How will I find out about my selection and results?", "a": "All applicants will receive an email with their results. We will also post the final list of selected delegates on the GYN Facebook and Instagram pages. Follow us on Facebook and Instagram", "links": [ { "label": "Facebook", "href": "https://www.facebook.com/thegyn.org/" }, { "label": "Instagram", "href": "https://www.instagram.com/gyn_global" } ] },
+        { "q": "What is the application deadline?", "a": "The application deadline is 11th October 2026." }
+      ],
+      "media": {
+        "highlightVideo": "Aqqo3cL4W6w",
+        "testimonialShorts": ["cO1D5dJFops", "eeFq13x-_rQ", "-UwHA0DhXkA", "vcwp4HK7UeI", "T5Xrp8KcqOY", "q-nYUFwEdo4"],
+        "linkedinEmbeds": 7,
+        "ogImage": "content/images/sism-2026/og/sism-2026-og.jpg"
+      }
+    },
+    {
+      "id": "fmst-2026",
+      "name": "FutureMinds Summit Thailand",
+      "shortName": "FMST",
+      "navLabel": "FMS Thailand🇹🇭",
+      "url": "https://thegyn.org/fms-thailand/",
+      "dates": { "start": "2026-07-16", "end": "2026-07-19", "display": "July 16–19, 2026" },
+      "venue": "Le Srivaree Suvarnabhumi Hotel",
+      "city": "Bangkok",
+      "country": "Thailand",
+      "seats": null,
+      "participants": 70,
+      "participantsCopy": "over 70 participants",
+      "speakersCount": 12,
+      "organizer": "Global Youth Network",
+      "coHost": null,
+      "status": "past",
+      "statusDetail": "First and inaugural GYN event; page is a recap. No registration, tickets, deadline or FAQ on the page.",
+      "ogDescription": "Apply for the FutureMinds Summit Thailand (FMST) in Bangkok. Fully and partially funded seats available, covering airfare, visa, accommodation, and meals.",
+      "deadline": null,
+      "resultsDate": null,
+      "ticketTypes": [],
+      "summitTheme": "Exploring Sustainability through Innovative Minds",
+      "delivered": [
+        { "title": "Organizational & decision-making capability", "text": "Strategic thinking and leadership skills for real institutions." },
+        { "title": "Quantitative research for the SDGs", "text": "Data-driven approaches to global challenges." },
+        { "title": "Qualitative opportunities & gaps", "text": "Where policy and lived experience meet — and where they don’t." },
+        { "title": "Smart innovation & sustainable industry", "text": "Technology and infrastructure solutions with real reach." },
+        { "title": "Global collaboration & leadership", "text": "Cross-border networks and partnerships that outlast the summit." }
+      ],
+      "chapters": [
+        {
+          "label": "Chapter 1",
+          "title": "Global Collaboration & Leadership",
+          "text": "Global leaders discuss how collaboration and leadership drive innovation across sustainable development.",
+          "sessions": [
+            { "type": "Keynote", "title": "From Local Action to Global Impact: Leading Collaborative Solutions for the SDGs – Kehkashan Basu (Green Hope Foundation)" },
+            { "type": "Interactive Keynote", "title": "Bring Your Own Chair — 2000 to 2015 to 2030 to 2045: MDG to SDG to???? – Dr. Suman Roy (Zero Hunger Project)" },
+            { "type": "Keynote", "title": "Advancing Women’s Rights through Global Collaboration & Leadership – Dr. Methinee Wongwanich Rumpagaporn (Kasetsart University & BINA Thailand)" }
+          ]
+        },
+        {
+          "label": "Chapter 2",
+          "title": "Connecting Strategy, Policy & Social Impact",
+          "text": "Workshops and keynotes on policy formulation and strategic decision-making for sustainable futures.",
+          "sessions": [
+            { "type": "Policy Workshop", "title": "Transforming Education through Inclusive Policies and Innovation –  Dr. Mona Al Kadi. (Axxon Group, MENA)" },
+            { "type": "Entrepreneurship Workshop", "title": "Profit, People, Planet: A Lean Approach for Organizational Excellence – Sura Fitiani (Intersect Innovation Hub, Palestine)" },
+            { "type": "Keynote", "title": "Feminist Climate Governance: Gender Mainstreaming in Climate Policy Making – Sidra Riaz (Environmental Change Makers, FIU)" }
+          ]
+        },
+        {
+          "label": "Chapter 3 – Summit Theme",
+          "title": "Exploring Sustainability through Innovative Minds",
+          "text": "The delegate-led heart of the summit — see World Got a Problem below.",
+          "sessions": [
+            { "type": "Interactive Delegate Activity", "title": "World Got a Problem — Group Formation, Brainstorming, Presentations & Evaluation" }
+          ]
+        },
+        {
+          "label": "Chapter 4",
+          "title": "AI Corner: Smart Innovation, Human Rights & AI",
+          "text": "A dedicated space exploring artificial intelligence, innovation and human rights with tech leaders and sustainability experts.",
+          "sessions": [
+            { "type": "Keynote", "title": "AI as Sustainable Digital Infrastructure: Building Inclusive, Trusted, Impact-Driven Innovation Ecosystems – Wenbo Li (Poly-Gamma, Greater China)" },
+            { "type": "Interactive Workshop", "title": "Smart Innovation: AI, Gender Equality, and Human Rights Education — A Boon or a Challenge? – Dr. Shaleen Das (Youth for Human Rights International)" },
+            { "type": "AI Fireside Chat", "title": "Innovation at the Intersection of AI and Immersive Experiences. -Ashley Blake (vrCAVE Canada) Syed Bilal Qasim (Techsol Space)" },
+            { "type": "AI Panel Discussion", "title": "Future Minds and a Sustainable Future: Navigating the AI Revolution – Moderated by Sura Fitiani with Al Kadi, Roy, Li & Dr. Rishi Jain (AIT Bangkok)" }
+          ]
+        }
+      ],
+      "schedule": [
+        { "day": "Day 1 Inaugural Evening", "date": "2026-07-16", "dateDisplay": "16 July", "items": [ { "title": "Passport Bingo", "text": "An icebreaking challenge that sent delegates around the venue to find peers matching five prompts — from multilingual speakers to fellow travelers and gender-equality advocates — building the summit's first connections and a social-media trail under #FMST26." } ] },
+        { "day": "Day 2", "date": "2026-07-17", "dateDisplay": "17 July 2026", "items": [ { "title": "World Got a Problem — Phase A", "text": "Delegates chose the SDG they were most passionate about, formed teams, elected a group representative, and identified one significant global problem to solve — with guest speakers and fellows on hand as mentors. An evening sightseeing tour (6:30–9:00 PM) gave the group a chance to unwind and take in Bangkok beyond the summit halls." } ] },
+        { "day": "Day 3", "date": "2026-07-18", "dateDisplay": "18 July", "items": [ { "title": "World Got a Problem — Phase B: Present Your Solution", "text": "Each team took the stage for five to six minutes to present their proposed solution to a panel of judges, scored on innovation, relevance to their SDG, feasibility, sustainability, presentation and teamwork." } ] },
+        { "day": "Day 3 Night", "date": "2026-07-18", "dateDisplay": "18 July", "items": [ { "title": "Certificates, \"04:04\" & Cultural Night", "text": "The summit closed with Certificates of Participation and a \"04:04 — hear you out\" reflection session, followed by the optional Cultural Night: a celebration of unity in diversity with traditional attire, an open dance floor, and a Rabindra Sangeet performance in Japanese, German and English by cultural director Dr. Dipa Das. The event ended with an official group photograph of the whole FMST 26' community." } ] }
+      ],
+      "scheduleLabel": "Four Days on the Ground",
+      "speakers": [
+        { "name": "Ashley Blake", "title": "VrCave Canada", "displayAs": "Ashley Blake (VrCave Canada)", "image": null, "imageNote": "404 on live site; working photo: content/images/home/advisory-board/ashley-blake.png" },
+        { "name": "Dr. Suman Roy", "title": "CEO Zero Hunger Project Canada", "displayAs": "Dr. Suman Roy (CEO Zero Hunger Project Canada)", "image": "content/images/fms-thailand/speakers/dr-suman-roy.webp" },
+        { "name": "Wenbo Li", "title": "CEO Poly Gamma, Greater China", "displayAs": "Wenbo Li (CEO Poly Gamma, Greater China)", "image": null, "imageNote": "404 on live site; working photo: content/images/home/advisory-board/wenbo-li.png" },
+        { "name": "Sura Fitiani", "title": "Intersect Innovation Hub, Palestine", "displayAs": "Sura Fitiani (Intersect Innovation Hub, Palestine)", "image": "content/images/fms-thailand/speakers/sura-fitiani.jpg" },
+        { "name": "Dr. Mona Al Kadi", "title": "Life Transformative Coach, UAE", "displayAs": "Dr. Mona Al Kadi (Life Transformative Coach, UAE)", "image": "content/images/fms-thailand/speakers/dr-mona-al-kadi.webp" },
+        { "name": "Dr. Methinee Wongwanich", "title": null, "displayAs": "Dr. Methinee Wongwanich", "image": "content/images/fms-thailand/speakers/dr-methinee-wongwanich.png" },
+        { "name": "Kehkashan Basu", "title": "Zehnder Group North America", "displayAs": "Kehkashan Basu, Zehnder Group North America", "image": "content/images/fms-thailand/speakers/kehkashan-basu.webp" },
+        { "name": "Dr. Shaleen Das", "title": null, "displayAs": "Dr. Shaleen Das", "image": "content/images/fms-thailand/speakers/dr-shaleen-das.webp" },
+        { "name": "Dr. Rishi Jain", "title": "Program Director Global Innovation Internship AIT", "displayAs": "Dr. Rishi Jain, Program Director Global Innovation Internship AIT", "image": "content/images/fms-thailand/speakers/dr-rishi-jain.jpg" },
+        { "name": "Elam Khan", "title": "CEO Axxon group, UK", "displayAs": "Elam Khan (CEO Axxon group, UK)", "image": "content/images/fms-thailand/speakers/elam-khan.jpg" },
+        { "name": "Syed Bilal Qasim", "title": "Founder & CEO Techsol Space", "displayAs": "Syed Bilal Qasim, Founder & CEO Techsol Space", "image": "content/images/fms-thailand/speakers/syed-bilal-qasim.jpg" },
+        { "name": "Sidra Riaz", "title": "COP 29 & COP30 Fellow", "displayAs": "Sidra Riaz (COP 29 & COP30 Fellow)", "image": "content/images/fms-thailand/speakers/sidra-riaz.jpg" }
+      ],
+      "notableSpeakersCopy": "Renowned speakers — most notably H.E. Mr. Salman Pervaiz, Dr. Suman Roy, and Ms. Ashley Blake — were also part of the FutureMinds Summit.",
+      "sightseeing": "Asiatique (local shops, scenic river cruise)",
+      "faqs": [],
+      "eligibility": null,
+      "scholarshipCriteria": null,
+      "media": {
+        "highlightVideos": ["Aqqo3cL4W6w", "FwjXKiF4QJ0", "TjnrswlwX8k"],
+        "gallery": "content/images/shared/gallery/",
+        "heroImage": "content/images/fms-thailand/hero/summit-photo.jpg",
+        "ogImage": "https://thegyn.org/wp-content/uploads/elementor/thumbs/DSC01881-1-scaled-rr150858w9xl59njftbucfhfrf7os4ey7q2mgne52o.jpg"
+      }
+    }
+  ]
+}

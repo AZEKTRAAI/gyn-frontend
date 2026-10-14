@@ -1,0 +1,42 @@
+/* GYN brand tokens — source of truth: design/palette.md. Contrast-checked pairs only. */
+:root {
+  --navy-900: #0e1530; --navy-800: #16204a; --navy-700: #202f60; --navy-500: #3a4c8c; --navy-300: #8e9bcb; --navy-100: #e3e7f4;
+  --crimson-600: #c52035; --crimson-500: #e0334a; --crimson-300: #f28c9a;
+  --flame-500: #ef3f2d;
+  --ember-600: #c9501a; --ember-500: #f2692c; --ember-300: #f9a77e;
+  --leaf-600: #48783f; --leaf-500: #5e9a52; --leaf-300: #9fcb94;
+  --n-0: #fff; --n-50: #f7f7f4; --n-100: #eeeee9; --n-200: #dcdcd5; --n-300: #bdbdb5; --n-400: #9a9a93;
+  --n-500: #76766f; --n-600: #5a5a55; --n-700: #3f3f3c; --n-800: #262624; --n-900: #141413;
+  --sdg-4: #c5192d; --sdg-5: #ff3a21; --sdg-9: #fd6925; --sdg-13: #3f7e44;
+
+  /* semantic, light */
+  --bg: var(--n-50); --surface: var(--n-0); --ink: var(--navy-700); --ink-muted: var(--n-600);
+  --line: var(--n-200); --primary: var(--navy-700); --on-primary: var(--n-0);
+  --cta: var(--crimson-600); --on-cta: var(--n-0); --accent: var(--ember-600);
+  --success: var(--leaf-600); --warning: var(--ember-600); --error: var(--crimson-600); --info: var(--navy-500);
+
+  /* motion (shared curves; see emil-design-eng) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-fast: 160ms; --dur-base: 240ms; --dur-slow: 480ms;
+
+  /* radius / space */
+  --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px; --radius-pill: 999px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: var(--navy-900); --surface: var(--navy-800); --ink: var(--n-0); --ink-muted: var(--n-300);
+    --line: #2a3768; --primary: var(--n-0); --on-primary: var(--navy-900);
+    --cta: var(--ember-500); --on-cta: var(--navy-900); --accent: var(--ember-300);
+    --success: var(--leaf-300); --warning: var(--ember-300); --error: var(--crimson-300); --info: var(--navy-300);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: var(--navy-900); --surface: var(--navy-800); --ink: var(--n-0); --ink-muted: var(--n-300);
+  --line: #2a3768; --primary: var(--n-0); --on-primary: var(--navy-900);
+  --cta: var(--ember-500); --on-cta: var(--navy-900); --accent: var(--ember-300);
+  --success: var(--leaf-300); --warning: var(--ember-300); --error: var(--crimson-300); --info: var(--navy-300);
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur-base: 0ms; --dur-slow: 0ms; }
+}

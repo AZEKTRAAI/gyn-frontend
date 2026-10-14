@@ -1,0 +1,1547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GYN · Summit Stage — Direction C</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/*
+  Design Read: event landing for international youth + NGO institutional
+  partners. Dark-first immersive event spectacle. Mood: opening night at
+  the venue → clear information as you scroll.
+  DIALS: DESIGN_VARIANCE:8 / MOTION_INTENSITY:8 / VISUAL_DENSITY:5
+*/
+
+/* ── Brand tokens ──────────────────────────────────────────────────── */
+:root {
+  --navy-900:#0e1530; --navy-800:#16204a; --navy-700:#202f60;
+  --navy-500:#3a4c8c; --navy-300:#8e9bcb; --navy-100:#e3e7f4;
+  --crimson-600:#c52035; --crimson-500:#e0334a; --crimson-300:#f28c9a;
+  --flame-500:#ef3f2d;
+  --ember-600:#c9501a; --ember-500:#f2692c; --ember-300:#f9a77e;
+  --leaf-600:#48783f; --leaf-500:#5e9a52; --leaf-300:#9fcb94;
+  --n-0:#fff; --n-50:#f7f7f4; --n-100:#eeeee9; --n-200:#dcdcd5;
+  --n-300:#bdbdb5; --n-400:#9a9a93; --n-500:#76766f; --n-600:#5a5a55;
+  --n-700:#3f3f3c; --n-800:#262624; --n-900:#141413;
+  --sdg-4:#c5192d; --sdg-5:#ff3a21; --sdg-9:#fd6925; --sdg-13:#3f7e44;
+  /* dark-first semantic */
+  --bg:var(--navy-900); --surf:var(--navy-800); --ink:var(--n-0);
+  --ink-muted:var(--n-300); --line:#2a3768;
+  --cta:var(--ember-500); --on-cta:var(--navy-900);
+  /* easing */
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --ease-expo:cubic-bezier(0.16,1,0.3,1);
+  /* radius */
+  --r-sm:6px; --r-md:12px; --r-lg:20px; --r-pill:999px;
+}
+[data-theme="light"] {
+  --bg:var(--n-50); --surf:var(--n-0); --ink:var(--navy-700);
+  --ink-muted:var(--n-600); --line:var(--n-200);
+  --cta:var(--crimson-600); --on-cta:var(--n-0);
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:var(--n-50); --surf:var(--n-0); --ink:var(--navy-700);
+    --ink-muted:var(--n-600); --line:var(--n-200);
+    --cta:var(--crimson-600); --on-cta:var(--n-0);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
+
+/* ── Reset / base ─────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;color-scheme:dark}
+[data-theme="light"] html{color-scheme:light}
+body{
+  font-family:'Geist',system-ui,sans-serif;
+  background:var(--bg); color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none}
+:focus-visible{outline:2px solid var(--ember-500);outline-offset:3px;border-radius:var(--r-sm)}
+
+/* ── Typography ───────────────────────────────────────────────────── */
+.f-display{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-variation-settings:'opsz' 96,'wdth' 100}
+.f-mono{font-family:'Geist Mono',monospace}
+.f-body{font-family:'Geist',system-ui,sans-serif}
+
+/* ── Layout helpers ────────────────────────────────────────────────── */
+.container{width:100%;max-width:1200px;margin-inline:auto;padding-inline:clamp(1rem,4vw,3rem)}
+.section-pad{padding-block:clamp(4rem,8vw,7rem)}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+/* ── Section skins ────────────────────────────────────────────────── */
+.s-dark{background:var(--navy-900);color:var(--n-0)}
+.s-mid {background:var(--navy-800);color:var(--n-0)}
+/* light sections override in light theme only */
+.s-info{background:var(--navy-800);color:var(--n-0)}
+[data-theme="light"] .s-info{background:var(--n-50);color:var(--navy-700)}
+[data-theme="light"] .s-mid {background:var(--n-100);color:var(--navy-700)}
+[data-theme="light"] .s-dark{background:var(--navy-700);color:var(--n-0)}
+/* ── Light zone: about → SDGs → tickets → grant → speakers ─────────── */
+/* s-transition: gradient bridge from dark hero into the light zone */
+.s-transition{
+  background:linear-gradient(to bottom,var(--navy-900) 0%,var(--n-50) 100%);
+  color:var(--navy-700);
+}
+[data-theme="light"] .s-transition{background:var(--n-50)}
+/* s-light: solid light surface for all info sections */
+.s-light{background:var(--n-50);color:var(--navy-700)}
+/* ensure child components look right in light zone */
+.s-light .pass,.s-light .person-card,.s-light .grant-card,.s-light .apu-card{
+  background:var(--n-0);border-color:var(--n-200);
+}
+.s-light .pass-list li{border-bottom-color:var(--n-200)}
+.s-light .pass-tag--closed{background:var(--n-100);color:var(--n-500)}
+.s-light .pass-closed-stamp{border-color:var(--n-300);color:var(--n-500)}
+.s-light .scholarship-notice{background:rgba(242,105,44,.08);color:var(--navy-700)}
+.s-light .sec-h,.s-light h2,.s-light h3{color:var(--navy-900)}
+.s-light .sec-h-sup{color:var(--ember-600)}
+.s-light .sdg-card{background:var(--n-0);border-color:var(--n-200)}
+.s-light .sdg-card p{color:var(--n-600)}
+/* gradient handoff back to dark at advisory section */
+#advisory{position:relative}
+#advisory::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  height:80px;
+  background:linear-gradient(to bottom,var(--n-50),transparent);
+  pointer-events:none;z-index:0;
+}
+[data-theme="light"] #advisory::before{display:none}
+
+/* ── Buttons ──────────────────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.75rem 1.75rem;border-radius:var(--r-pill);
+  font-family:'Geist',sans-serif;font-weight:600;font-size:.9375rem;
+  letter-spacing:.01em;white-space:nowrap;
+  transition:transform 240ms var(--ease-out),box-shadow 240ms var(--ease-out),background 160ms;
+  position:relative;
+}
+.btn:active{transform:scale(.97)!important}
+.btn--primary{
+  background:var(--cta);color:var(--on-cta);
+  box-shadow:0 0 0 0 transparent;
+}
+.btn--primary:hover{
+  background:var(--ember-600);
+  box-shadow:0 4px 24px rgba(242,105,44,.35);
+}
+[data-theme="light"] .btn--primary:hover{
+  background:var(--crimson-500);
+  box-shadow:0 4px 24px rgba(197,32,53,.3);
+}
+.btn--ghost{
+  background:transparent;color:var(--ink);
+  border:1.5px solid var(--line);
+}
+.btn--ghost:hover{border-color:var(--ink-muted)}
+.btn--sm{padding:.5rem 1.25rem;font-size:.875rem}
+.btn-magnetic{will-change:transform;transition:transform 300ms var(--ease-out),box-shadow 300ms var(--ease-out),background 160ms}
+
+/* ── Nav ──────────────────────────────────────────────────────────── */
+.site-nav{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;gap:1.5rem;
+  padding:.875rem clamp(1rem,4vw,3rem);
+  background:rgba(14,21,48,.88);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  transition:background 300ms;
+}
+[data-theme="light"] .site-nav{
+  background:rgba(247,247,244,.9);
+  border-bottom-color:var(--n-200);
+}
+.nav-logo{
+  display:flex;align-items:center;gap:.625rem;flex-shrink:0;
+}
+.nav-logo-chip{
+  background:var(--n-0);border-radius:var(--r-sm);
+  padding:.25rem .375rem;display:flex;align-items:center;
+}
+.nav-logo-chip img{height:28px;width:auto}
+.nav-links{
+  display:flex;align-items:center;gap:1.25rem;flex:1;
+  list-style:none;
+}
+.nav-links a{
+  font-size:.875rem;font-weight:500;color:var(--ink-muted);
+  transition:color 160ms;position:relative;
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links .has-sub{position:relative}
+.nav-links .sub{
+  position:absolute;top:calc(100% + .5rem);left:0;
+  background:var(--surf);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:.5rem;
+  min-width:180px;display:none;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+}
+.nav-links .sub a{display:block;padding:.5rem .75rem;border-radius:var(--r-sm);font-size:.8125rem;white-space:nowrap}
+.nav-links .sub a:hover{background:rgba(255,255,255,.07)}
+[data-theme="light"] .nav-links .sub a:hover{background:var(--n-100)}
+.nav-links .has-sub:hover .sub,.nav-links .has-sub:focus-within .sub{display:block}
+.nav-cta{margin-left:auto}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;padding:.5rem;border-radius:var(--r-sm)}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:1px;transition:transform 300ms,opacity 160ms}
+@media(max-width:767px){
+  .nav-links,.nav-cta{display:none}
+  .nav-hamburger{display:flex}
+  .nav-links.open{
+    display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;
+    position:fixed;inset:0;top:57px;background:var(--navy-900);
+    padding:1.5rem;z-index:49;overflow-y:auto;
+  }
+  [data-theme="light"] .nav-links.open{background:var(--n-50)}
+  .nav-links.open a{font-size:1.125rem;padding:.5rem 0}
+  .nav-links.open .sub{position:static;background:transparent;border:none;box-shadow:none;display:block;padding-left:1rem}
+  .nav-cta.open{display:block;margin-top:1rem;margin-left:0}
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────── */
+.s-hero{
+  position:relative;min-height:100dvh;
+  display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;background:var(--navy-900);
+  padding:clamp(5rem,10vw,8rem) clamp(1rem,4vw,3rem) clamp(3rem,5vw,4rem);
+}
+#ring-canvas{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:1;opacity:0;
+  transition:opacity 1.2s var(--ease-out);
+}
+#ring-canvas.ready{opacity:1}
+.ring-poster{
+  position:absolute;
+  width:min(640px,80vmin);height:min(640px,80vmin);
+  top:50%;right:-5%;transform:translateY(-50%);
+  transition:opacity 1.4s var(--ease-out); /* fades out when WebGL ring takes over */
+  background:conic-gradient(
+    from -90deg,
+    #E5243B 0deg 19.7deg,transparent 19.7deg 21.2deg,
+    #DDA63A 21.2deg 40.9deg,transparent 40.9deg 42.4deg,
+    #4C9F38 42.4deg 62.1deg,transparent 62.1deg 63.5deg,
+    #C5192D 63.5deg 83.2deg,transparent 83.2deg 84.7deg,
+    #FF3A21 84.7deg 104.4deg,transparent 104.4deg 105.9deg,
+    #26BDE2 105.9deg 125.6deg,transparent 125.6deg 127.1deg,
+    #FCC30B 127.1deg 146.7deg,transparent 146.7deg 148.2deg,
+    #A21942 148.2deg 167.9deg,transparent 167.9deg 169.4deg,
+    #FD6925 169.4deg 189.1deg,transparent 189.1deg 190.6deg,
+    #DD1367 190.6deg 210.3deg,transparent 210.3deg 211.8deg,
+    #FD9D24 211.8deg 231.4deg,transparent 231.4deg 232.9deg,
+    #BF8B2E 232.9deg 252.6deg,transparent 252.6deg 254.1deg,
+    #3F7E44 254.1deg 273.8deg,transparent 273.8deg 275.3deg,
+    #0A97D9 275.3deg 295.0deg,transparent 295.0deg 296.5deg,
+    #56C02B 296.5deg 316.1deg,transparent 316.1deg 317.6deg,
+    #00689D 317.6deg 337.3deg,transparent 337.3deg 338.8deg,
+    #19486A 338.8deg 358.5deg,transparent 358.5deg 360deg
+  );
+  -webkit-mask:radial-gradient(circle,transparent 36%,#000 37%,#000 49%,transparent 50%);
+  mask:radial-gradient(circle,transparent 36%,#000 37%,#000 49%,transparent 50%);
+  opacity:.65;z-index:0;
+  animation:ring-spin 80s linear infinite;
+}
+@media(prefers-reduced-motion:reduce){.ring-poster{animation:none}}
+@keyframes ring-spin{to{transform:translateY(-50%) rotate(360deg)}}
+@media(min-width:900px){
+  /* pin poster to right half, matching where WebGL camera places the ring */
+  .ring-poster{right:-8%;width:min(580px,50vw);height:min(580px,50vw)}
+}
+@media(max-width:899px){
+  .ring-poster{right:-20%;opacity:.3;width:min(380px,90vw);height:min(380px,90vw)}
+}
+.hero-inner{
+  position:relative;z-index:2;
+  max-width:680px;
+}
+/* Desktop: text anchored to left half; ring (canvas + poster) occupies right */
+@media(min-width:900px){
+  .s-hero{align-items:flex-start}
+  .hero-inner{max-width:min(600px,52%);margin-inline:0}
+}
+/* Mobile: navy scrim behind text block for legibility */
+@media(max-width:899px){
+  .hero-inner{
+    background:rgba(14,21,48,.72);
+    border-radius:var(--r-lg);
+    padding:1.5rem;
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+  }
+}
+.hero-meta{
+  font-family:'Geist Mono',monospace;font-size:.75rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ember-300);margin-bottom:1.25rem;
+}
+.hero-h1{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-variation-settings:'opsz' 96,'wdth' 100,'wght' 700;
+  font-size:clamp(2.5rem,6vw,5rem);
+  line-height:1.0;letter-spacing:-0.03em;
+  color:var(--n-0);margin-bottom:1.5rem;
+  text-wrap:balance;
+}
+.hero-h1 em{
+  font-variation-settings:'opsz' 96,'wdth' 100,'wght' 300;
+  font-style:normal;color:var(--navy-300);
+}
+.hero-sub{
+  font-family:'Geist Mono',monospace;font-size:.8125rem;
+  line-height:1.7;color:var(--navy-300);margin-bottom:2.5rem;
+  letter-spacing:.02em;
+}
+/* ── Countdown ────────────────────────────────────────────────────── */
+.countdown{
+  display:flex;gap:clamp(.75rem,2vw,1.75rem);
+  align-items:flex-start;margin-bottom:2.5rem;
+  flex-wrap:wrap;
+}
+.cd-unit{display:flex;flex-direction:column;align-items:center;gap:.25rem}
+.cd-digits{
+  font-family:'Geist Mono',monospace;
+  font-size:clamp(2rem,5vw,3.5rem);font-weight:700;
+  line-height:1;color:var(--n-0);
+  letter-spacing:-.02em;overflow:hidden;
+}
+.cd-digit{
+  display:inline-block;
+  transition:none;
+}
+.cd-digit.tick{
+  animation:cd-roll .28s var(--ease-out) forwards;
+}
+@keyframes cd-roll{
+  from{transform:translateY(.4em);opacity:0}
+  to{transform:translateY(0);opacity:1}
+}
+.cd-sep{
+  font-family:'Geist Mono',monospace;
+  font-size:clamp(1.5rem,3.5vw,2.5rem);font-weight:700;
+  line-height:1;color:var(--navy-500);
+  align-self:flex-start;padding-top:.1em;
+}
+.cd-label{
+  font-family:'Geist Mono',monospace;
+  font-size:.625rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--navy-300);
+}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:1.5rem}
+.hero-notice{
+  font-family:'Geist Mono',monospace;font-size:.75rem;
+  color:var(--navy-300);letter-spacing:.03em;
+  border-left:2px solid var(--navy-500);padding-left:.875rem;
+  line-height:1.6;
+}
+.hero-notice strong{color:var(--ember-300)}
+/* transition gradient into next section */
+.s-hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:120px;
+  background:linear-gradient(to bottom,transparent,var(--navy-800));
+  z-index:3;pointer-events:none;
+}
+[data-theme="light"] .s-hero::after{
+  background:linear-gradient(to bottom,transparent,var(--n-100));
+}
+
+/* ── About / What We Do ───────────────────────────────────────────── */
+.about-grid{
+  display:grid;grid-template-columns:1fr;gap:3rem;
+}
+@media(min-width:768px){.about-grid{grid-template-columns:1fr 1fr;gap:4rem;align-items:start}}
+.about-text h2{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-variation-settings:'opsz' 72,'wdth' 100,'wght' 600;
+  font-size:clamp(1.75rem,3.5vw,2.75rem);line-height:1.1;
+  letter-spacing:-.02em;margin-bottom:1rem;
+  text-wrap:balance;
+}
+.about-text p{font-size:1rem;line-height:1.7;color:var(--ink-muted);max-width:52ch}
+.what-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:var(--r-lg);overflow:hidden;
+}
+.what-item{
+  background:var(--surf);padding:1.5rem;
+  transition:background 200ms;
+}
+[data-theme="light"] .what-item{background:var(--n-0)}
+.what-item:hover{background:var(--navy-700)}
+[data-theme="light"] .what-item:hover{background:var(--n-50)}
+.what-item h3{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-variation-settings:'opsz' 20,'wdth' 90,'wght' 600;
+  font-size:1rem;margin-bottom:.5rem;
+}
+.what-item p{font-size:.8125rem;line-height:1.6;color:var(--ink-muted)}
+
+/* ── SDG Focus ────────────────────────────────────────────────────── */
+.sdg-intro{
+  font-size:.9375rem;line-height:1.7;color:var(--ink-muted);
+  max-width:62ch;margin-bottom:2.5rem;
+}
+.sdg-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;
+}
+.sdg-card{
+  border-radius:var(--r-lg);padding:1.75rem;
+  position:relative;overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+}
+[data-theme="light"] .sdg-card{border-color:rgba(0,0,0,.08)}
+.sdg-card::before{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+}
+.sdg-card[data-sdg="4"]::before{background:var(--sdg-4)}
+.sdg-card[data-sdg="5"]::before{background:var(--sdg-5)}
+.sdg-card[data-sdg="9"]::before{background:var(--sdg-9)}
+.sdg-card[data-sdg="13"]::before{background:var(--sdg-13)}
+.sdg-number{
+  font-family:'Geist Mono',monospace;font-size:.6875rem;
+  letter-spacing:.16em;text-transform:uppercase;
+  opacity:.7;margin-bottom:.5rem;
+}
+.sdg-card h3{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-variation-settings:'opsz' 24,'wdth' 100,'wght' 700;
+  font-size:1.5rem;line-height:1.1;margin-bottom:.625rem;
+  letter-spacing:-.02em;
+}
+.sdg-card p{font-size:.875rem;line-height:1.6;color:var(--ink-muted)}
+
+/* ── Section headings ─────────────────────────────────────────────── */
+.sec-h{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-variation-settings:'opsz' 72,'wdth' 100,'wght' 700;
+  font-size:clamp(1.75rem,3.5vw,2.75rem);line-height:1.1;
+  letter-spacing:-.025em;margin-bottom:2.5rem;text-wrap:balance;
+}
+.sec-h-row{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem}
+.sec-h-row .sec-h{margin-bottom:0}
+
+/* ── Ticket passes ────────────────────────────────────────────────── */
+.scholarship-notice{
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--line);border-radius:var(--r-md);
+  padding:1rem 1.25rem;margin-bottom:2.5rem;
+  font-size:.875rem;color:var(--ink-muted);line-height:1.6;
+}
+[data-theme="light"] .scholarship-notice{background:var(--n-100)}
+.passes-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:2rem;margin-bottom:3rem;
+  align-items:start;
+}
+/* ≥1100px: closed passes compact top row (2-col), open passes 3-col row */
+@media(min-width:1100px){
+  .passes-grid{grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto}
+  /* closed scholarship passes span only 1 col each, share a compact row */
+  .passes-grid .pass--closed{
+    grid-row:1;
+    font-size:.875em;   /* compact type */
+  }
+  .passes-grid .pass--closed .pass-price{font-size:1.75rem}
+  .passes-grid .pass--closed .pass-list{display:none} /* hide details in compact row */
+  /* first closed pass: col 1, second closed pass: col 2, nothing in col 3 */
+  .passes-grid .pass--closed:first-child{grid-column:1}
+  .passes-grid .pass--closed:nth-child(2){grid-column:2}
+  /* open passes fill row 2 across all 3 columns */
+  .passes-grid .pass--open{grid-row:2}
+}
+.pass{
+  position:relative;border-radius:var(--r-lg);
+  padding:2rem;border:1px solid var(--line);
+  background:var(--surf);
+  transition:box-shadow 300ms,border-color 300ms;
+}
+[data-theme="light"] .pass{background:var(--n-0)}
+/* lanyard cord */
+.pass::before{
+  content:'';position:absolute;
+  top:-32px;left:50%;transform:translateX(-50%);
+  width:2px;height:28px;
+  background:linear-gradient(to bottom,transparent,var(--navy-300));
+}
+/* punch hole */
+.pass::after{
+  content:'';position:absolute;
+  top:-4px;left:50%;transform:translateX(-50%);
+  width:10px;height:10px;border-radius:50%;
+  border:2px solid var(--navy-300);
+  background:var(--bg);
+}
+.pass-mt{margin-top:36px}
+.pass--open{
+  border-color:var(--ember-500);
+  box-shadow:0 0 0 1px var(--ember-500),0 8px 32px rgba(242,105,44,.18);
+}
+.pass--open:hover{box-shadow:0 0 0 1px var(--ember-500),0 12px 40px rgba(242,105,44,.28)}
+.pass--closed{opacity:.55;pointer-events:none}
+.pass-tag{
+  display:inline-block;
+  font-family:'Geist Mono',monospace;font-size:.625rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:.25rem .625rem;border-radius:var(--r-pill);
+  margin-bottom:1rem;
+}
+.pass-tag--open{background:rgba(242,105,44,.18);color:var(--ember-300)}
+.pass-tag--closed{background:rgba(255,255,255,.08);color:var(--ink-muted)}
+[data-theme="light"] .pass-tag--closed{background:var(--n-100)}
+.pass-price{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-variation-settings:'opsz' 48,'wdth' 100,'wght' 700;
+  font-size:2.5rem;line-height:1;margin-bottom:.25rem;
+  letter-spacing:-.03em;
+}
+.pass-price-old{
+  font-family:'Geist Mono',monospace;font-size:.8125rem;
+  text-decoration:line-through;color:var(--ink-muted);margin-bottom:.75rem;
+}
+.pass-name{font-size:.9375rem;font-weight:600;margin-bottom:1rem}
+.pass-list{list-style:none;font-size:.8125rem;line-height:1.5;color:var(--ink-muted);margin-bottom:1.5rem}
+.pass-list li{padding:.3rem 0;border-bottom:1px solid var(--line);display:flex;gap:.5rem}
+.pass-list li::before{content:'✓';color:var(--ember-500);flex-shrink:0}
+[data-theme="light"] .pass-list li{border-bottom-color:var(--n-200)}
+.pass-closed-stamp{
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Geist Mono',monospace;font-size:.8125rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-muted);border:1px solid var(--line);
+  border-radius:var(--r-pill);padding:.5rem 1rem;text-align:center;
+}
+/* ── Co-host lockup ─────────────────────────────────────────────────── */
+.cohost-lockup{
+  display:flex;align-items:center;gap:.5rem;flex-shrink:0;
+}
+.cohost-label{
+  font-family:'Geist Mono',monospace;font-size:.625rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-muted);white-space:nowrap;
+}
+.cohost-logo{height:48px;width:auto;display:block}
+/* ── Seed grant / APU ──────────────────────────────────────────────── */
+.grant-row{
+  display:grid;grid-template-columns:1fr;gap:1.5rem;
+  margin-bottom:3rem;
+}
+@media(min-width:640px){.grant-row{grid-template-columns:1fr 1fr}}
+.grant-card,.apu-card{
+  border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:1.75rem;
+  background:var(--surf);
+}
+[data-theme="light"] .grant-card,[data-theme="light"] .apu-card{background:var(--n-0)}
+.grant-amount{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-variation-settings:'opsz' 72,'wdth' 100,'wght' 800;
+  font-size:3rem;line-height:1;color:var(--ember-300);
+  margin-bottom:.5rem;letter-spacing:-.03em;
+}
+.grant-card h3,.apu-card h3{font-weight:600;margin-bottom:.5rem}
+.grant-card p,.apu-card p{font-size:.875rem;line-height:1.6;color:var(--ink-muted)}
+.apu-img{width:100%;height:160px;object-fit:cover;border-radius:var(--r-md);margin-bottom:1rem}
+
+/* ── Speaker / advisor cards ──────────────────────────────────────── */
+.people-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:1.25rem;
+}
+.person-card{
+  border-radius:var(--r-lg);overflow:hidden;
+  background:var(--surf);border:1px solid var(--line);
+  transition:transform 300ms var(--ease-out),box-shadow 300ms;
+}
+[data-theme="light"] .person-card{background:var(--n-0)}
+.person-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 32px rgba(0,0,0,.35);
+}
+.person-img{
+  width:100%;aspect-ratio:1;object-fit:cover;
+  background:var(--navy-700);
+}
+.person-info{padding:1rem}
+.person-info h3{font-size:.9375rem;font-weight:600;margin-bottom:.25rem}
+.person-info p{font-size:.75rem;line-height:1.4;color:var(--ink-muted)}
+/* Ambassador grid (smaller cards) */
+.ambassador-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:1rem;
+}
+.amb-card{
+  text-align:center;border-radius:var(--r-md);
+  padding:1rem .5rem;
+  background:var(--surf);border:1px solid var(--line);
+  transition:transform 200ms,background 200ms;
+}
+[data-theme="light"] .amb-card{background:var(--n-0)}
+.amb-card:hover{transform:translateY(-2px);background:var(--navy-700)}
+[data-theme="light"] .amb-card:hover{background:var(--n-50)}
+.amb-img{width:64px;height:64px;border-radius:50%;object-fit:cover;margin:0 auto .5rem}
+.amb-name{font-size:.8125rem;font-weight:600;line-height:1.3;margin-bottom:.25rem}
+.amb-country{font-size:.75rem;color:var(--ink-muted)}
+
+/* ── Videos ───────────────────────────────────────────────────────── */
+.video-layout{display:grid;gap:1.5rem;grid-template-columns:1fr}
+@media(min-width:900px){.video-layout{grid-template-columns:1fr 300px}}
+.video-featured{
+  position:relative;border-radius:var(--r-lg);overflow:hidden;
+  cursor:pointer;background:var(--surf);
+  border:1px solid var(--line);
+}
+.video-featured img{
+  width:100%;aspect-ratio:16/9;object-fit:cover;
+  display:block;transition:transform 400ms var(--ease-out);
+}
+.video-featured:hover img{transform:scale(1.03)}
+.video-play-btn{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(14,21,48,.35);
+  transition:background 200ms;
+}
+.video-featured:hover .video-play-btn{background:rgba(14,21,48,.2)}
+.video-play-circle{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--ember-500);display:flex;align-items:center;justify-content:center;
+  transition:transform 300ms var(--ease-out),background 200ms;
+  box-shadow:0 0 0 12px rgba(242,105,44,.18);
+}
+.video-featured:hover .video-play-circle{transform:scale(1.1);background:var(--ember-600)}
+.play-icon{
+  width:0;height:0;
+  border-top:11px solid transparent;border-bottom:11px solid transparent;
+  border-left:18px solid var(--navy-900);margin-left:3px;
+}
+.video-meta{position:absolute;bottom:0;left:0;right:0;padding:1rem;
+  background:linear-gradient(to top,rgba(14,21,48,.85),transparent)}
+.video-meta h3{font-weight:600;font-size:.9375rem;margin-bottom:.25rem}
+.video-meta p{font-size:.75rem;color:var(--navy-300);font-family:'Geist Mono',monospace;letter-spacing:.04em}
+.video-rail{display:flex;flex-direction:column;gap:.75rem;overflow-y:auto;max-height:400px}
+@media(max-width:899px){.video-rail{flex-direction:row;overflow-x:auto;overflow-y:visible;max-height:none}}
+.video-thumb{
+  display:flex;gap:.75rem;align-items:center;
+  cursor:pointer;border-radius:var(--r-md);padding:.5rem;
+  border:1px solid transparent;
+  transition:background 160ms,border-color 160ms;
+  flex-shrink:0;
+}
+.video-thumb:hover{background:rgba(255,255,255,.07);border-color:var(--line)}
+[data-theme="light"] .video-thumb:hover{background:var(--n-100)}
+.video-thumb img{
+  width:96px;height:54px;object-fit:cover;border-radius:var(--r-sm);
+  flex-shrink:0;
+}
+@media(max-width:899px){.video-thumb img{width:120px;height:68px}}
+.vt-title{font-size:.8rem;line-height:1.4;font-weight:500}
+.vt-cat{font-size:.6875rem;color:var(--ink-muted);font-family:'Geist Mono',monospace;letter-spacing:.04em;margin-top:.25rem}
+
+/* ── Gallery ──────────────────────────────────────────────────────── */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:.75rem;
+}
+.gallery-grid img{
+  width:100%;height:180px;object-fit:cover;
+  border-radius:var(--r-md);transition:transform 300ms var(--ease-out),opacity 200ms;
+  display:block;
+}
+.gallery-grid img:hover{transform:scale(1.03);opacity:.9}
+
+/* ── Partners ─────────────────────────────────────────────────────── */
+.partner-strip{
+  display:flex;flex-wrap:wrap;gap:2rem 3rem;
+  align-items:center;justify-content:center;
+  padding:2rem 0;
+}
+.partner-strip img{
+  height:36px;width:auto;opacity:.7;filter:brightness(0) invert(1);
+  transition:opacity 200ms;
+}
+[data-theme="light"] .partner-strip img{filter:none;opacity:.55}
+.partner-strip img:hover{opacity:1}
+.cohost-block{
+  display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;
+  background:var(--surf);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:1.5rem 2rem;margin-bottom:3rem;
+}
+[data-theme="light"] .cohost-block{background:var(--n-0)}
+.cohost-block img{height:56px;width:auto;flex-shrink:0}
+.cohost-text p{font-size:.875rem;line-height:1.6;color:var(--ink-muted)}
+.cohost-text strong{color:var(--ink);font-weight:600}
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+footer{background:var(--navy-900);color:var(--n-0);padding-block:3rem 2rem;border-top:1px solid var(--line)}
+.footer-grid{
+  display:grid;grid-template-columns:1fr;gap:2rem;
+  margin-bottom:2rem;
+}
+@media(min-width:640px){.footer-grid{grid-template-columns:1.5fr 1fr 1fr 1fr}}
+.footer-brand p{font-size:.8125rem;line-height:1.7;color:var(--navy-300);margin-top:.75rem;max-width:28ch}
+.footer-nav h4{font-family:'Geist Mono',monospace;font-size:.625rem;letter-spacing:.16em;text-transform:uppercase;color:var(--navy-300);margin-bottom:.75rem}
+.footer-nav ul{list-style:none}
+.footer-nav li{margin-bottom:.4rem}
+.footer-nav a{font-size:.8125rem;color:var(--navy-300);transition:color 160ms}
+.footer-nav a:hover{color:var(--n-0)}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+  padding-top:1.5rem;border-top:1px solid var(--line);
+  font-size:.75rem;color:var(--navy-300);font-family:'Geist Mono',monospace;
+}
+.social-links{display:flex;gap:1rem;align-items:center}
+.social-links a{color:var(--navy-300);transition:color 160ms;font-size:.8125rem}
+.social-links a:hover{color:var(--n-0)}
+.contact-line{font-size:.8125rem;color:var(--navy-300)}
+.contact-line a:hover{color:var(--n-0)}
+
+/* ── Video modal ──────────────────────────────────────────────────── */
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,.85);
+  z-index:100;display:flex;align-items:center;justify-content:center;
+  padding:1rem;backdrop-filter:blur(6px);
+  opacity:0;pointer-events:none;transition:opacity 300ms;
+}
+.modal-backdrop.open{opacity:1;pointer-events:all}
+.modal-panel{
+  background:var(--navy-800);border:1px solid var(--line);
+  border-radius:var(--r-lg);overflow:hidden;
+  width:100%;max-width:800px;
+  transform:scale(.96) translateY(12px);
+  transition:transform 300ms var(--ease-expo);
+  box-shadow:0 24px 80px rgba(0,0,0,.6);
+}
+.modal-backdrop.open .modal-panel{transform:scale(1) translateY(0)}
+.modal-thumb-wrap{position:relative;aspect-ratio:16/9;background:#000}
+.modal-thumb-wrap img{width:100%;height:100%;object-fit:cover;opacity:.8}
+.modal-player-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  justify-content:flex-end;
+  background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 60%);
+  padding:1.25rem;
+}
+.modal-progress{
+  height:3px;background:rgba(255,255,255,.25);border-radius:2px;
+  margin-bottom:.875rem;
+}
+.modal-progress-fill{width:35%;height:100%;background:var(--ember-500);border-radius:2px}
+.modal-controls{display:flex;align-items:center;gap:1rem}
+.modal-ctrl-btn{
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.15);
+  border-radius:var(--r-pill);padding:.4rem .875rem;
+  color:var(--n-0);font-size:.75rem;font-family:'Geist Mono',monospace;
+  transition:background 160ms;cursor:pointer;
+}
+.modal-ctrl-btn:hover{background:rgba(255,255,255,.25)}
+.modal-time{font-family:'Geist Mono',monospace;font-size:.75rem;color:rgba(255,255,255,.7);margin-left:auto}
+.modal-info{padding:1.25rem 1.5rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.modal-info-text h3{font-size:1rem;font-weight:600;margin-bottom:.25rem}
+.modal-info-text p{font-size:.8125rem;color:var(--navy-300);font-family:'Geist Mono',monospace;letter-spacing:.04em}
+.modal-actions{display:flex;gap:.75rem;align-items:center;flex-shrink:0}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);
+  border-radius:50%;width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--n-0);font-size:1.1rem;cursor:pointer;z-index:2;
+  transition:background 160ms;
+}
+.modal-close:hover{background:rgba(0,0,0,.8)}
+.modal-thumb-wrap{position:relative}
+
+/* ── Fixed UI ─────────────────────────────────────────────────────── */
+.dir-pill{
+  position:fixed;bottom:1.25rem;left:1.25rem;z-index:60;
+  background:rgba(14,21,48,.9);border:1px solid var(--line);
+  border-radius:var(--r-pill);padding:.375rem .875rem;
+  font-family:'Geist Mono',monospace;font-size:.6875rem;
+  letter-spacing:.06em;color:var(--navy-300);
+  backdrop-filter:blur(8px);
+  display:flex;gap:.75rem;align-items:center;
+}
+.dir-pill a{color:var(--ember-300);transition:color 160ms}
+.dir-pill a:hover{color:var(--ember-500)}
+.theme-toggle{
+  position:fixed;bottom:1.25rem;right:1.25rem;z-index:60;
+  background:rgba(14,21,48,.9);border:1px solid var(--line);
+  border-radius:var(--r-pill);padding:.375rem 1rem;
+  font-family:'Geist Mono',monospace;font-size:.6875rem;
+  letter-spacing:.06em;color:var(--navy-300);
+  cursor:pointer;backdrop-filter:blur(8px);
+  transition:border-color 160ms,color 160ms;
+  display:flex;align-items:center;gap:.5rem;
+}
+.theme-toggle:hover{border-color:var(--ember-500);color:var(--n-0)}
+[data-theme="light"] .dir-pill{background:rgba(247,247,244,.9);color:var(--n-600)}
+[data-theme="light"] .theme-toggle{background:rgba(247,247,244,.9);color:var(--n-600)}
+
+/* ── Scroll reveals ───────────────────────────────────────────────── */
+.reveal{will-change:transform}
+.reveal.entered{animation:reveal-up .56s var(--ease-expo) both}
+@keyframes reveal-up{
+  from{transform:translateY(18px)}
+  to{transform:translateY(0)}
+}
+/* stagger helpers */
+.stagger-1{animation-delay:.06s}.stagger-2{animation-delay:.12s}
+.stagger-3{animation-delay:.18s}.stagger-4{animation-delay:.24s}
+
+/* ── UNU logo invert for dark ──────────────────────────────────────── */
+.unu-logo-dark{filter:brightness(0) invert(1) opacity(.85)}
+[data-theme="light"] .unu-logo-dark{filter:none}
+</style>
+</head>
+<body>
+<!-- DIRECTION PILL -->
+<div class="dir-pill" aria-label="Design direction identifier">
+  Direction C &middot; Summit Stage &nbsp;<a href="./">All directions</a>
+</div>
+
+<!-- THEME TOGGLE -->
+<button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme">
+  <span id="theme-icon">&#9788;</span> <span id="theme-label">Light</span>
+</button>
+
+<!-- NAV -->
+<header>
+<nav class="site-nav" aria-label="Main navigation">
+  <div class="nav-logo">
+    <div class="nav-logo-chip">
+      <img src="assets/logos/gyn-logo.png" alt="Global Youth Network" height="28">
+    </div>
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#about">Home</a></li>
+    <li class="has-sub"><a href="#" aria-haspopup="true">Past Events</a>
+      <ul class="sub">
+        <li><a href="https://thegyn.org/fms-thailand/">FMS Thailand &#127481;&#127469;</a></li>
+      </ul>
+    </li>
+    <li class="has-sub"><a href="#register" aria-haspopup="true">Upcoming Events</a>
+      <ul class="sub">
+        <li><a href="#register">SIS Malaysia 2026 &#127474;&#127486;</a></li>
+      </ul>
+    </li>
+    <li><a href="#advisory">About Us</a></li>
+    <li><a href="#footer-contact">Contact Us</a></li>
+  </ul>
+  <a href="https://thegyn.org/sism-forum-access/" class="btn btn--primary btn--sm nav-cta btn-magnetic" id="nav-cta">Secure Your Seat</a>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+</header>
+
+<!-- HERO -->
+<section class="s-hero" id="hero" aria-labelledby="hero-h1">
+  <canvas id="ring-canvas" aria-hidden="true"></canvas>
+  <div class="ring-poster" aria-hidden="true" role="presentation"></div>
+  <div class="container hero-inner">
+    <p class="hero-meta">GYN Presents</p>
+    <h1 class="hero-h1" id="hero-h1">SDG Innovation<br>Summit <em>Malaysia</em><br>2026</h1>
+    <p class="hero-sub">
+      19&ndash;22 November 2026 &nbsp;&middot;&nbsp; Teedo Hotel, Kuala Lumpur<br>
+      Co-hosted by United Nations University &ndash; International Institute for Global Health
+    </p>
+
+    <!-- Countdown to 19 Nov 2026 09:00 MYT = 01:00 UTC -->
+    <div class="countdown" aria-label="Countdown to summit start" role="timer">
+      <div class="cd-unit">
+        <div class="cd-digits"><span class="cd-digit" id="cd-d">35</span></div>
+        <div class="cd-label">Days</div>
+      </div>
+      <div class="cd-sep" aria-hidden="true">:</div>
+      <div class="cd-unit">
+        <div class="cd-digits"><span class="cd-digit" id="cd-h">00</span></div>
+        <div class="cd-label">Hours</div>
+      </div>
+      <div class="cd-sep" aria-hidden="true">:</div>
+      <div class="cd-unit">
+        <div class="cd-digits"><span class="cd-digit" id="cd-m">00</span></div>
+        <div class="cd-label">Mins</div>
+      </div>
+      <div class="cd-sep" aria-hidden="true">:</div>
+      <div class="cd-unit">
+        <div class="cd-digits"><span class="cd-digit" id="cd-s">00</span></div>
+        <div class="cd-label">Secs</div>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="https://thegyn.org/sism-forum-access/" class="btn btn--primary btn-magnetic">Secure Your Seat</a>
+      <a href="#videos" class="btn btn--ghost">Watch Highlights</a>
+    </div>
+    <p class="hero-notice">
+      <strong>Scholarships closed</strong> (deadline 11 Oct &middot; results 16 Oct 2026) &nbsp;&mdash;&nbsp;
+      Confirmed seats still open: Forum Access $199 &middot; Self-Funded $399 &middot; Invitation Letter $49
+    </p>
+  </div>
+</section>
+
+
+<!-- ABOUT GYN -->
+<section class="s-transition section-pad" id="about" aria-labelledby="about-h">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <h2 class="sec-h" id="about-h">Global Youth Network</h2>
+        <p>Global Youth Network (GYN) is an international organization dedicated to connecting and empowering young people worldwide. We bring together students, professionals, and innovators to collaborate across borders, develop leadership skills, and create meaningful global impact.</p>
+      </div>
+      <div class="what-grid reveal">
+        <div class="what-item"><h3>Conferences</h3><p>International forums, workshops and summits to promote dialogue on Sustainable Development Goals.</p></div>
+        <div class="what-item stagger-1"><h3>Networking</h3><p>A collaborative ecosystem of mentorship, technical support and resource sharing to address the world&#39;s most pressing challenges.</p></div>
+        <div class="what-item stagger-2"><h3>Leadership Development</h3><p>Empowering a new generation of leaders with visionary foresight, integrity and measurable global impact.</p></div>
+        <div class="what-item stagger-3"><h3>Collaborative Networks</h3><p>Cultivating a global ecosystem of cross-border dialogue and strategic partnerships for innovative solutions.</p></div>
+        <div class="what-item stagger-4"><h3>Youth Mentoring</h3><p>Providing tailor-made and hands-on mentoring to youth to become effective leaders.</p></div>
+        <div class="what-item"><h3>Workshops &amp; Trainings</h3><p>Building leadership capacities and policy expertise for future-ready governance.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SDG FOCUS AREAS -->
+<section class="s-light section-pad" id="sdgs" aria-labelledby="sdgs-h">
+  <div class="container">
+    <h2 class="sec-h" id="sdgs-h">4 SDGs &middot; 1 Sustainable Future</h2>
+    <p class="sdg-intro">At GYN, we focus on four Sustainable Development Goals&mdash;uniting young leaders worldwide to create impactful solutions and drive positive change for a sustainable future.</p>
+    <div class="sdg-grid reveal">
+      <div class="sdg-card" data-sdg="4" style="background:rgba(197,25,45,.12)"><div class="sdg-number">SDG 4</div><h3>Quality Education</h3><p>Empowering through Quality Education.</p></div>
+      <div class="sdg-card stagger-1" data-sdg="5" style="background:rgba(255,58,33,.12)"><div class="sdg-number">SDG 5</div><h3>Gender Equality</h3><p>Breaking barriers for Gender Equality.</p></div>
+      <div class="sdg-card stagger-2" data-sdg="9" style="background:rgba(253,105,37,.12)"><div class="sdg-number">SDG 9</div><h3>Industry &amp; Innovation</h3><p>Driving Innovation &amp; Resilient Infrastructure.</p></div>
+      <div class="sdg-card stagger-3" data-sdg="13" style="background:rgba(63,126,68,.15)"><div class="sdg-number">SDG 13</div><h3>Climate Action</h3><p>Taking urgent action for our Climate.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SISM + TICKETS -->
+<section class="s-light section-pad" id="register" aria-labelledby="tickets-h">
+  <div class="container">
+    <div class="sec-h-row">
+      <h2 class="sec-h" id="tickets-h">Secure Your Place at SISM 2026</h2>
+      <div class="cohost-lockup">
+        <span class="cohost-label">Co-hosted by</span>
+        <img src="assets/logos/unu-global-health-logo.png" alt="UNU Global Health" class="cohost-logo">
+      </div>
+    </div>
+    <div class="scholarship-notice" role="note">
+      <strong>30 scholarships were available</strong> (15 fully funded &middot; 15 partially funded) &mdash; Applications closed <strong>11 October 2026</strong>. Results announced <strong>16 October 2026</strong>. Confirmed seats remain open below.
+    </div>
+    <div class="passes-grid">
+      <div class="pass pass-mt pass--closed" aria-label="Fully Funded Scholarship, closed">
+        <div class="pass-tag pass-tag--closed">Applications Closed</div>
+        <div class="pass-price" style="color:var(--ink-muted)">$18.50</div>
+        <div class="pass-price-old">Application fee</div>
+        <div class="pass-name">Fully Funded Scholarship</div>
+        <ul class="pass-list"><li>Round-Trip Airfare Support</li><li>Accommodation (Twin Sharing)</li><li>Meals &amp; Refreshments</li><li>Visa Fees &amp; Invitation Letter</li><li>Summit Fee &amp; Access</li><li>GYN Toolkit &amp; Merchandise</li><li>Speaking Opportunity &amp; Certificate</li><li>Free Sightseeing in KL</li><li>APU Campus Tour</li></ul>
+        <div class="pass-closed-stamp">Applications Closed</div>
+      </div>
+      <div class="pass pass-mt pass--closed" aria-label="Partial Scholarship, closed">
+        <div class="pass-tag pass-tag--closed">Applications Closed</div>
+        <div class="pass-price" style="color:var(--ink-muted)">$18.50</div>
+        <div class="pass-price-old">Application fee</div>
+        <div class="pass-name">Partial Scholarship</div>
+        <ul class="pass-list"><li>Accommodation (Twin Sharing)</li><li>Meals &amp; Refreshments</li><li>Visa Supporting Documents</li><li>Invitation Letter for Visa</li><li>Summit Fee &amp; Access</li><li>GYN Toolkit &amp; Merchandise</li><li>Speaking Opportunity &amp; Certificate</li><li>APU Campus Tour</li></ul>
+        <div class="pass-closed-stamp">Applications Closed</div>
+      </div>
+      <div class="pass pass-mt pass--open">
+        <div class="pass-tag pass-tag--open">&#9679; Open Now</div>
+        <div class="pass-price">$199</div>
+        <div class="pass-price-old">Was $249</div>
+        <div class="pass-name">Forum Access &mdash; Confirmed Seat</div>
+        <ul class="pass-list"><li>Early Invitation Letter</li><li>Welcome Dinner</li><li>Summit Fee covered</li><li>GYN Toolkit &amp; Merchandise</li><li>Speaking Opportunity</li><li>Participation Certificate</li><li>Cultural Night Ceremony</li><li>Lunch &amp; Coffee Breaks</li><li>APU Campus Tour</li></ul>
+        <a href="https://thegyn.org/sism-forum-access/" class="btn btn--primary btn-magnetic" style="width:100%;justify-content:center">Register Now</a>
+      </div>
+      <div class="pass pass-mt pass--open">
+        <div class="pass-tag pass-tag--open">&#9679; Open Now</div>
+        <div class="pass-price">$399</div>
+        <div class="pass-price-old">Was $449</div>
+        <div class="pass-name">Self Funded &mdash; With Accommodation</div>
+        <ul class="pass-list"><li>Accommodation (Twin Sharing)</li><li>Early Invitation Letter for Visa</li><li>Welcome Dinner</li><li>Summit Fee covered</li><li>GYN Toolkit &amp; Merchandise</li><li>Speaking Opportunity</li><li>Participation Certificate</li><li>Cultural Night Ceremony</li><li>Meals &amp; Refreshments</li><li>APU Campus Tour</li></ul>
+        <a href="https://thegyn.org/sism-self-funded/" class="btn btn--primary btn-magnetic" style="width:100%;justify-content:center">Register Now</a>
+      </div>
+      <div class="pass pass-mt pass--open">
+        <div class="pass-tag pass-tag--open">&#9679; Open Now</div>
+        <div class="pass-price">$49</div>
+        <div class="pass-name">Invitation Letter</div>
+        <ul class="pass-list"><li>Official Summit Invitation Letter</li><li>Visa Support &amp; Documentation</li><li>Visa Application Process guidance</li><li>Letter delivered in 48 hours</li></ul>
+        <a href="https://thegyn.org/sism-invitation-letter/" class="btn btn--primary btn-magnetic" style="width:100%;justify-content:center">Get Invitation</a>
+      </div>
+    </div>
+    <p style="font-size:.8125rem;color:var(--ink-muted);text-align:center">Group discounts available &mdash; email <strong>contact@thegyn.org</strong></p>
+  </div>
+</section>
+
+<!-- SEED GRANT + APU -->
+<section class="s-light section-pad" id="summit-detail">
+  <div class="container">
+    <div class="grant-row">
+      <div class="grant-card reveal">
+        <div class="grant-amount">$1,000</div>
+        <h3>Seed Grant Award</h3>
+        <p>Participants compete for a $1,000 Seed Grant to support innovative projects and social impact initiatives. Conceptual, pilot-phase, or fully realized projects all welcome. Present your innovation on stage.</p>
+      </div>
+      <div class="apu-card reveal stagger-1">
+        <img src="assets/venue/apu-asia-pacific-university.webp" alt="Asia Pacific University campus" class="apu-img" loading="lazy">
+        <h3>Exclusive APU Institutional Visit</h3>
+        <p>Experience an exclusive visit to Asia Pacific University (APU), one of Malaysia&#39;s leading universities. Connect with delegates and discover Petaling Street, KLCC Park, and Petronas Twin Towers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPEAKERS -->
+<section class="s-light section-pad" id="speakers" aria-labelledby="speakers-h">
+  <div class="container">
+    <h2 class="sec-h" id="speakers-h">Esteemed Speakers</h2>
+    <div class="people-grid reveal">
+      <div class="person-card"><img src="assets/speakers/julie-victoire.webp" alt="Julie Victoire" class="person-img" loading="lazy"><div class="person-info"><h3>Julie Victoire</h3><p>International Youth Advocate | Founder, The Rise Edit | Australian Education Leader</p></div></div>
+      <div class="person-card stagger-1"><img src="assets/speakers/dr-mohd-farid-bin-atan.webp" alt="Dr Mohd Farid bin Atan" class="person-img" loading="lazy"><div class="person-info"><h3>Dr Mohd Farid bin Atan</h3><p>Deputy Director (Sustainability), Universiti Malaysia Sarawak</p></div></div>
+      <div class="person-card stagger-2"><img src="assets/speakers/ayman-william-hermansson.webp" alt="Ayman William Hermansson" class="person-img" loading="lazy"><div class="person-info"><h3>Ayman William Hermansson</h3><p>Assistant Professor, Heriot-Watt University Malaysia</p></div></div>
+      <div class="person-card stagger-3"><img src="assets/speakers/syed-bilal-qasim.webp" alt="Syed Bilal Qasim" class="person-img" loading="lazy"><div class="person-info"><h3>Syed Bilal Qasim</h3><p>CEO Techsol Space | Project Director CEGA</p></div></div>
+      <div class="person-card"><img src="assets/speakers/sapargulay-mahtumov.webp" alt="Sapargulay Mahtumov" class="person-img" loading="lazy"><div class="person-info"><h3>Sapargulay Mahtumov</h3><p>Youth Coordinator, MySDG Academy, Malaysia</p></div></div>
+      <div class="person-card stagger-1"><img src="assets/speakers/jasmine-cannon-ikurusi.webp" alt="Jasmine Cannon-Ikurusi" class="person-img" loading="lazy"><div class="person-info"><h3>Jasmine Cannon-Ikurusi</h3><p>CEO &amp; Founder, The Sapphire Employability &amp; Wellbeing Academy, London</p></div></div>
+      <div class="person-card stagger-2"><img src="assets/speakers/ashley-blake.webp" alt="Ashley Blake" class="person-img" loading="lazy"><div class="person-info"><h3>Ashley Blake</h3><p>Head of Partnership, vrCAVE Canada</p></div></div>
+      <div class="person-card stagger-3"><img src="assets/speakers/arumita-mitra.webp" alt="Arumita Mitra" class="person-img" loading="lazy"><div class="person-info"><h3>Arumita Mitra</h3><p>Founder, Sudhamta Foundation India | TEDx Speaker | UN SDG Advocate</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVISORY BOARD -->
+<section class="s-dark section-pad" id="advisory" aria-labelledby="advisory-h">
+  <div class="container">
+    <h2 class="sec-h" id="advisory-h">Global Advisory Board</h2>
+    <div class="people-grid reveal">
+      <div class="person-card"><img src="assets/advisors/wenbo-li.webp" alt="Wenbo Li" class="person-img" loading="lazy"><div class="person-info"><h3>Wenbo Li</h3><p>CEO, Poly-Gamma, China</p></div></div>
+      <div class="person-card stagger-1"><img src="assets/advisors/sura-fitiani.webp" alt="Sura Fitiani" class="person-img" loading="lazy"><div class="person-info"><h3>Sura Fitiani</h3><p>Intersect Innovation Hub, Palestine</p></div></div>
+      <div class="person-card stagger-2"><img src="assets/advisors/dr-salah.webp" alt="Dr. Salah" class="person-img" loading="lazy"><div class="person-info"><h3>Dr. Salah</h3><p>Senior Government Official, Oman</p></div></div>
+      <div class="person-card stagger-3"><img src="assets/advisors/sidra-riaz.webp" alt="Sidra Riaz" class="person-img" loading="lazy"><div class="person-info"><h3>Sidra Riaz</h3><p>Presidential Doctoral Fellow, Florida University | COP29 &amp; COP30 Fellow | UN Youth Delegate</p></div></div>
+      <div class="person-card"><img src="assets/advisors/dr-mona-al-kadi.webp" alt="Dr. Mona Al Kadi" class="person-img" loading="lazy"><div class="person-info"><h3>Dr. Mona Al Kadi</h3><p>Life Transformative Coach, UAE</p></div></div>
+      <div class="person-card stagger-1"><img src="assets/advisors/mr-elam.webp" alt="Mr. Elam" class="person-img" loading="lazy"><div class="person-info"><h3>Mr. Elam</h3><p>CEO, Axxon Group, UK</p></div></div>
+      <div class="person-card stagger-2"><img src="assets/advisors/dr-suman-roy.webp" alt="Dr. Suman Roy" class="person-img" loading="lazy"><div class="person-info"><h3>Dr. Suman Roy</h3><p>UN SDG Advocate</p></div></div>
+      <div class="person-card stagger-3"><img src="assets/advisors/ashley-blake.webp" alt="Ashley Blake" class="person-img" loading="lazy"><div class="person-info"><h3>Ashley Blake</h3><p>Head of Partnership, vrCAVE Canada</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AMBASSADORS -->
+<section class="s-mid section-pad" id="ambassadors" aria-labelledby="amb-h">
+  <div class="container">
+    <h2 class="sec-h" id="amb-h">GYN Global Ambassadors</h2>
+    <div class="ambassador-grid reveal">
+      <div class="amb-card"><img src="assets/ambassadors/helga-tongi.webp" alt="Helga Tongi" class="amb-img" loading="lazy"><div class="amb-name">Helga Tongi</div><div class="amb-country">USA</div></div>
+      <div class="amb-card"><img src="assets/ambassadors/yara-shamas.webp" alt="Yara Shamas" class="amb-img" loading="lazy"><div class="amb-name">Yara Shamas</div><div class="amb-country">Lebanon</div></div>
+      <div class="amb-card"><img src="assets/ambassadors/patee.webp" alt="Patee" class="amb-img" loading="lazy"><div class="amb-name">Patee</div><div class="amb-country">Thailand</div></div>
+      <div class="amb-card"><img src="assets/ambassadors/kritika-ghimire.webp" alt="Kritika Ghimire" class="amb-img" loading="lazy"><div class="amb-name">Kritika Ghimire</div><div class="amb-country">Nepal</div></div>
+      <div class="amb-card"><img src="assets/ambassadors/lim-pei-en.webp" alt="Lim Pei En" class="amb-img" loading="lazy"><div class="amb-name">Lim Pei En</div><div class="amb-country">Malaysia</div></div>
+      <div class="amb-card"><img src="assets/ambassadors/dr-righteous.webp" alt="Dr Righteous" class="amb-img" loading="lazy"><div class="amb-name">Dr Righteous</div><div class="amb-country">Nigeria</div></div>
+      <div class="amb-card"><img src="assets/ambassadors/md-nafi.webp" alt="Md Nafi" class="amb-img" loading="lazy"><div class="amb-name">Md Nafi</div><div class="amb-country">Bangladesh</div></div>
+      <div class="amb-card"><img src="assets/ambassadors/diba.webp" alt="Diba" class="amb-img" loading="lazy"><div class="amb-name">Diba</div><div class="amb-country">Australia</div></div>
+      <div class="amb-card"><img src="assets/ambassadors/casey.webp" alt="Casey" class="amb-img" loading="lazy"><div class="amb-name">Casey</div><div class="amb-country">USA</div></div>
+      <div class="amb-card"><img src="assets/ambassadors/ashif.webp" alt="Ashif" class="amb-img" loading="lazy"><div class="amb-name">Ashif</div><div class="amb-country">India</div></div>
+      <div class="amb-card"><img src="assets/ambassadors/boling.webp" alt="Boling" class="amb-img" loading="lazy"><div class="amb-name">Boling</div><div class="amb-country">Laos</div></div>
+      <div class="amb-card"><img src="assets/ambassadors/abdul-ahad.webp" alt="Abdul Ahad" class="amb-img" loading="lazy"><div class="amb-name">Abdul Ahad</div><div class="amb-country">Pakistan</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section class="s-dark section-pad" id="videos" aria-labelledby="videos-h">
+  <div class="container">
+    <h2 class="sec-h" id="videos-h">See What Happens</h2>
+    <div class="video-layout">
+      <!-- Featured player -->
+      <div class="video-featured" role="button" tabindex="0" aria-label="Play: Future Minds Summit 2026 - Day 1 Highlights"
+           data-vid-id="Aqqo3cL4W6w" data-vid-title="Future Minds Summit 2026 &ndash; Day 1 Highlights" data-vid-cat="Highlights">
+        <img src="assets/video/Aqqo3cL4W6w.jpg" alt="Future Minds Summit 2026 Day 1 Highlights" loading="lazy">
+        <div class="video-play-btn" aria-hidden="true">
+          <div class="video-play-circle"><div class="play-icon"></div></div>
+        </div>
+        <div class="video-meta">
+          <h3>Future Minds Summit 2026 &ndash; Day 1 Highlights</h3>
+          <p>Highlights &middot; Global Youth Network</p>
+        </div>
+      </div>
+      <!-- Thumbnail rail -->
+      <div class="video-rail" role="list">
+        <div class="video-thumb" role="listitem button" tabindex="0" aria-label="Play: Future Minds Summit 2026 Day 2 Highlights"
+             data-vid-id="FwjXKiF4QJ0" data-vid-title="Future Minds Summit 2026 &ndash; Day 2 Highlights" data-vid-cat="Highlights">
+          <img src="assets/video/FwjXKiF4QJ0.jpg" alt="" loading="lazy">
+          <div><div class="vt-title">FMS 2026 &ndash; Day 2 Highlights</div><div class="vt-cat">Highlights</div></div>
+        </div>
+        <div class="video-thumb" role="listitem button" tabindex="0" aria-label="Play: Future Minds Summit 2026 Day 3 Highlights"
+             data-vid-id="TjnrswlwX8k" data-vid-title="Future Minds Summit 2026 &ndash; Day 3 Highlights" data-vid-cat="Highlights">
+          <img src="assets/video/TjnrswlwX8k.jpg" alt="" loading="lazy">
+          <div><div class="vt-title">FMS 2026 &ndash; Day 3 Highlights</div><div class="vt-cat">Highlights</div></div>
+        </div>
+        <div class="video-thumb" role="listitem button" tabindex="0" aria-label="Play: Experience of Sura Fitiani"
+             data-vid-id="cO1D5dJFops" data-vid-title="Experience of Sura Fitiani &ndash; Speaker from Palestine" data-vid-cat="Speaker">
+          <img src="assets/video/cO1D5dJFops.jpg" alt="" loading="lazy">
+          <div><div class="vt-title">Sura Fitiani &ndash; Speaker from Palestine</div><div class="vt-cat">Speaker testimonial</div></div>
+        </div>
+        <div class="video-thumb" role="listitem button" tabindex="0" aria-label="Play: Meet Dr Suman Roy"
+             data-vid-id="eeFq13x-_rQ" data-vid-title="Meet Dr. Suman Roy &ndash; Most Inspiring Speaker" data-vid-cat="Speaker">
+          <img src="assets/video/eeFq13x-_rQ.jpg" alt="" loading="lazy">
+          <div><div class="vt-title">Meet Dr. Suman Roy</div><div class="vt-cat">Speaker testimonial</div></div>
+        </div>
+        <div class="video-thumb" role="listitem button" tabindex="0" aria-label="Play: Speaker Testimonial"
+             data-vid-id="-UwHA0DhXkA" data-vid-title="Speaker Testimonial &ndash; Future Minds Summit 2026" data-vid-cat="Testimonial">
+          <img src="assets/video/-UwHA0DhXkA.jpg" alt="" loading="lazy">
+          <div><div class="vt-title">Speaker Testimonial</div><div class="vt-cat">Testimonial</div></div>
+        </div>
+        <div class="video-thumb" role="listitem button" tabindex="0" aria-label="Play: A Voice from India"
+             data-vid-id="T5Xrp8KcqOY" data-vid-title="A Voice from India &ndash; Tejaswini at FMS 2026" data-vid-cat="Testimonial">
+          <img src="assets/video/T5Xrp8KcqOY.jpg" alt="" loading="lazy">
+          <div><div class="vt-title">A Voice from India</div><div class="vt-cat">Delegate testimonial</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="s-mid section-pad" id="gallery" aria-labelledby="gallery-h">
+  <div class="container">
+    <h2 class="sec-h" id="gallery-h">From FMS Thailand 2026</h2>
+    <div class="gallery-grid reveal">
+      <img src="assets/gallery/fmst-dsc01881-1.webp" alt="FMS Thailand delegates" loading="lazy">
+      <img src="assets/gallery/fmst-dsc03736-1.webp" alt="FMS Thailand summit session" loading="lazy">
+      <img src="assets/gallery/fmst-dsc02142-1.webp" alt="FMS Thailand workshop" loading="lazy">
+      <img src="assets/gallery/fmst-dsc01894-1.webp" alt="FMS Thailand networking" loading="lazy">
+      <img src="assets/gallery/fmst-dsc02243-1.webp" alt="FMS Thailand group activity" loading="lazy">
+      <img src="assets/gallery/fmst-dsc01945-1.webp" alt="FMS Thailand panel discussion" loading="lazy">
+      <img src="assets/gallery/fmst-dsc01976-1.webp" alt="FMS Thailand cultural night" loading="lazy">
+      <img src="assets/gallery/fmst-dsc01989-1.webp" alt="FMS Thailand delegates networking" loading="lazy">
+      <img src="assets/gallery/fmst-dsc01960-1.webp" alt="FMS Thailand workshop activity" loading="lazy">
+      <img src="assets/gallery/fmst-dsc02120-1.webp" alt="FMS Thailand keynote session" loading="lazy">
+      <img src="assets/gallery/fmst-dsc02159-1.webp" alt="FMS Thailand closing ceremony" loading="lazy">
+      <img src="assets/gallery/fmst-dsc02172-1.webp" alt="FMS Thailand group photo" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="s-dark section-pad" id="partners">
+  <div class="container">
+    <div class="cohost-block reveal">
+      <img src="assets/logos/unu-global-health-logo.png" alt="UNU Global Health" class="unu-logo-dark">
+      <div class="cohost-text">
+        <strong>Co-hosted by United Nations University &ndash; International Institute for Global Health, Malaysia</strong>
+        <p>The United Nations University (UNU) operates the UNU International Institute for Global Health in Kuala Lumpur, Malaysia, functioning as a global research think tank focusing on health equity and sustainable development. Participants will engage with UNU Global Health representatives and UNU Young Leaders during the Summit.</p>
+      </div>
+    </div>
+    <div class="partner-strip" aria-label="Our partners">
+      <img src="assets/logos/opportunities-radar.png" alt="Opportunities Radar" loading="lazy">
+      <img src="assets/logos/axxon.png" alt="Axxon Group" loading="lazy">
+      <img src="assets/logos/oc.png" alt="Partner" loading="lazy">
+      <img src="assets/logos/tehgzr.png" alt="Partner" loading="lazy">
+      <img src="assets/logos/tss.png" alt="Partner" loading="lazy">
+      <img src="assets/logos/logo-n.png" alt="Partner" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer-contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo-chip" style="display:inline-flex;margin-bottom:.5rem">
+          <img src="assets/logos/gyn-logo.png" alt="Global Youth Network" height="32">
+        </div>
+        <p>The Global Youth Network is a U.S.-based organization that hosts international Conferences to support the United Nations Sustainable Development Goals (SDGs).</p>
+      </div>
+      <nav class="footer-nav" aria-label="Quick links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#about">Home</a></li>
+          <li><a href="#advisory">About Us</a></li>
+          <li><a href="https://thegyn.org/fms-thailand/">FMS Thailand</a></li>
+          <li><a href="#register">SISM 2026</a></li>
+          <li><a href="#footer-contact">Contact Us</a></li>
+          <li><a href="https://global-youth-network.getrewardful.com/signup">Affiliate Sign Up</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-nav" aria-label="Policies">
+        <h4>Policies</h4>
+        <ul>
+          <li><a href="https://thegyn.org/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="https://thegyn.org/refund-policy/">Refund Policy</a></li>
+          <li><a href="https://thegyn.org/terms-conditions/">Terms &amp; Conditions</a></li>
+        </ul>
+      </nav>
+      <address class="footer-nav" style="font-style:normal">
+        <h4>Contact</h4>
+        <p class="contact-line" style="font-size:.8125rem;line-height:1.8;color:var(--navy-300)">
+          contact@thegyn.org<br>
+          +1 (302) 556-0064<br>
+          1001 S Main St STE 500<br>Kalispell, Montana 59901
+        </p>
+      </address>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Global Youth Network. All Rights Reserved.</span>
+      <div class="social-links" aria-label="Social media">
+        <a href="https://www.facebook.com/share/183ZmovUrB/" aria-label="Facebook" rel="noopener">Facebook</a>
+        <a href="https://www.instagram.com/gyn_global" aria-label="Instagram" rel="noopener">Instagram</a>
+        <a href="https://wa.me/message/HGC6MW4HT5YJC1" aria-label="WhatsApp" rel="noopener">WhatsApp</a>
+        <a href="https://www.youtube.com/@globalyouthnetwork/" aria-label="YouTube" rel="noopener">YouTube</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- VIDEO MODAL -->
+<div id="video-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="Video player" aria-hidden="true" hidden>
+  <div class="modal-panel">
+    <div class="modal-thumb-wrap">
+      <img id="modal-img" src="" alt="" loading="lazy">
+      <div class="modal-player-overlay">
+        <div class="modal-progress"><div class="modal-progress-fill"></div></div>
+        <div class="modal-controls">
+          <button class="modal-ctrl-btn" id="modal-mute-btn" aria-pressed="false" aria-label="Mute">Mute</button>
+          <span class="modal-time">Preview mode &mdash; full video on YouTube</span>
+        </div>
+      </div>
+      <button class="modal-close" id="modal-close-btn" aria-label="Close video player">&times;</button>
+    </div>
+    <div class="modal-info">
+      <div class="modal-info-text">
+        <h3 id="modal-title"></h3>
+        <p id="modal-cat"></p>
+      </div>
+      <div class="modal-actions">
+        <a id="modal-yt-link" href="#" target="_blank" rel="noopener" class="btn btn--primary btn--sm btn-magnetic">Watch on YouTube</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+<script>
+/* ============================================================
+   Summit Stage — Direction C — JavaScript
+   Includes: countdown, nav, theme toggle, modal, three.js ring,
+   scroll reveals, magnetic buttons
+   ============================================================ */
+
+// ── Countdown ────────────────────────────────────────────────────────
+(function initCountdown() {
+  // 2026-11-19 09:00 MYT = 2026-11-19 01:00 UTC
+  var target = new Date('2026-11-19T01:00:00Z').getTime();
+  var elD = document.getElementById('cd-d');
+  var elH = document.getElementById('cd-h');
+  var elM = document.getElementById('cd-m');
+  var elS = document.getElementById('cd-s');
+
+  function pad(n) { return String(n).padStart(2,'0'); }
+
+  function rollDigit(el, val) {
+    var v = pad(val);
+    if (el.textContent === v) return;
+    el.textContent = v;
+    el.classList.remove('tick');
+    // force reflow
+    void el.offsetWidth;
+    el.classList.add('tick');
+  }
+
+  function tick() {
+    var now = Date.now();
+    var diff = Math.max(0, target - now);
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+    rollDigit(elD, d);
+    rollDigit(elH, h);
+    rollDigit(elM, m);
+    rollDigit(elS, s);
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+// ── Theme toggle ──────────────────────────────────────────────────────
+(function initTheme() {
+  var btn = document.getElementById('theme-toggle');
+  var icon = document.getElementById('theme-icon');
+  var label = document.getElementById('theme-label');
+  var html = document.documentElement;
+  btn.addEventListener('click', function() {
+    var isLight = html.dataset.theme === 'light';
+    if (isLight) {
+      delete html.dataset.theme;
+      icon.textContent = '\u2600'; label.textContent = 'Light';
+    } else {
+      html.dataset.theme = 'light';
+      icon.textContent = '\u263D'; label.textContent = 'Dark';
+    }
+  });
+})();
+
+// ── Nav hamburger ─────────────────────────────────────────────────────
+(function initNav() {
+  var btn = document.getElementById('nav-hamburger');
+  var links = document.getElementById('nav-links');
+  var cta = document.getElementById('nav-cta');
+  btn.addEventListener('click', function() {
+    var open = links.classList.toggle('open');
+    cta.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+  });
+})();
+
+// ── Video modal ───────────────────────────────────────────────────────
+(function initModal() {
+  var modal = document.getElementById('video-modal');
+  var modalImg = document.getElementById('modal-img');
+  var modalTitle = document.getElementById('modal-title');
+  var modalCat = document.getElementById('modal-cat');
+  var modalYt = document.getElementById('modal-yt-link');
+  var closeBtn = document.getElementById('modal-close-btn');
+  var muteBtn = document.getElementById('modal-mute-btn');
+  var lastFocus = null;
+
+  function openModal(id, title, cat) {
+    lastFocus = document.activeElement;
+    modalImg.src = 'assets/video/' + id + '.jpg';
+    modalImg.alt = title;
+    modalTitle.innerHTML = title;
+    modalCat.textContent = cat;
+    // no iframe — link to YouTube
+    var ytBase = id.startsWith('-') ? 'https://youtube.com/shorts/' : 'https://youtu.be/';
+    if (cat === 'Highlights') ytBase = 'https://youtu.be/';
+    modalYt.href = ytBase + id;
+    modal.removeAttribute('hidden');
+    modal.setAttribute('aria-hidden','false');
+    requestAnimationFrame(function() { modal.classList.add('open'); });
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    setTimeout(function() { modal.setAttribute('hidden',''); }, 310);
+    if (lastFocus) lastFocus.focus();
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeModal();
+  });
+
+  muteBtn.addEventListener('click', function() {
+    var pressed = muteBtn.getAttribute('aria-pressed') === 'true';
+    muteBtn.setAttribute('aria-pressed', String(!pressed));
+    muteBtn.textContent = pressed ? 'Mute' : 'Unmute';
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
+    // focus trap
+    if (e.key === 'Tab' && !modal.hasAttribute('hidden')) {
+      var focusable = modal.querySelectorAll('button, a[href]');
+      var first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
+    }
+  });
+
+  // Attach to all video trigger elements
+  function attach(el) {
+    function handler() {
+      openModal(el.dataset.vidId, el.dataset.vidTitle, el.dataset.vidCat);
+    }
+    el.addEventListener('click', handler);
+    el.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); }
+    });
+  }
+
+  document.querySelectorAll('[data-vid-id]').forEach(attach);
+})();
+
+// ── Scroll reveals ────────────────────────────────────────────────────
+(function initReveal() {
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('entered');
+        // add stagger to children
+        entry.target.querySelectorAll('[class*="stagger-"]').forEach(function(child) {
+          child.classList.add('entered');
+        });
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
+})();
+
+// ── Magnetic buttons (desktop pointer only) ──────────────────────────
+(function initMagnetic() {
+  var mq = window.matchMedia('(hover: hover) and (pointer: fine)');
+  var rm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!mq.matches || rm.matches) return;
+  document.querySelectorAll('.btn-magnetic').forEach(function(btn) {
+    btn.addEventListener('mousemove', function(e) {
+      var r = btn.getBoundingClientRect();
+      var dx = (e.clientX - (r.left + r.width/2)) * 0.25;
+      var dy = (e.clientY - (r.top + r.height/2)) * 0.25;
+      btn.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+    });
+    btn.addEventListener('mouseleave', function() {
+      btn.style.transform = '';
+    });
+  });
+})();
+</script>
+
+<script>
+/* ── Three.js SDG particle ring ──────────────────────────────────── */
+// Pattern: slowly rotating torus of particles in 17 UN SDG colours
+// reacting gently to pointer. Initiated via requestIdleCallback after
+// window load so it never blocks first paint. Static CSS ring poster
+// shown as fallback / before init / when prefers-reduced-motion.
+
+function initRing() {
+  if (typeof THREE === 'undefined') return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var canvas = document.getElementById('ring-canvas');
+  var hero = document.getElementById('hero');
+  if (!canvas || !hero) return;
+
+  // Detect WebGL support
+  try {
+    var testCtx = document.createElement('canvas').getContext('webgl');
+    if (!testCtx) return;
+  } catch(e) { return; }
+
+  var W = hero.offsetWidth, H = hero.offsetHeight;
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(52, W/H, 0.1, 100);
+  camera.position.z = 5.5;
+  // shift camera left so ring appears on right half of viewport on desktop
+  camera.position.x = (W > 900) ? -1.4 : 0;
+
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // cap at 1.5
+  renderer.setSize(W, H);
+
+  // 17 UN SDG official colours
+  var SDG = [
+    0xE5243B, 0xDDA63A, 0x4C9F38, 0xC5192D, 0xFF3A21,
+    0x26BDE2, 0xFCC30B, 0xA21942, 0xFD6925, 0xDD1367,
+    0xFD9D24, 0xBF8B2E, 0x3F7E44, 0x0A97D9, 0x56C02B,
+    0x00689D, 0x19486A
+  ];
+
+  var N = 6000;
+  var pos = new Float32Array(N * 3);
+  var col = new Float32Array(N * 3);
+  var R = 1.9, r = 0.38; // major/minor radius
+
+  for (var i = 0; i < N; i++) {
+    // distribute uniformly along torus
+    var u = (i / N) * Math.PI * 2;
+    var v = Math.random() * Math.PI * 2;
+    pos[i*3]   = (R + r * Math.cos(v)) * Math.cos(u);
+    pos[i*3+1] = (R + r * Math.cos(v)) * Math.sin(u);
+    pos[i*3+2] = r * Math.sin(v) * 0.6; // flatten slightly
+
+    var sdgIdx = Math.floor((u / (Math.PI * 2)) * 17) % 17;
+    var hex = SDG[sdgIdx];
+    col[i*3]   = ((hex >> 16) & 0xff) / 255;
+    col[i*3+1] = ((hex >> 8)  & 0xff) / 255;
+    col[i*3+2] = ((hex)       & 0xff) / 255;
+  }
+
+  var geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute('color',    new THREE.BufferAttribute(col, 3));
+
+  var mat = new THREE.PointsMaterial({
+    size: 0.038, vertexColors: true, transparent: true, opacity: 0.88,
+    sizeAttenuation: true
+  });
+
+  var ring = new THREE.Points(geo, mat);
+  scene.add(ring);
+
+  var mouseX = 0, mouseY = 0, rotX = 0, rotY = 0;
+  var paused = false;
+
+  window.addEventListener('mousemove', function(e) {
+    mouseX = (e.clientX / window.innerWidth  - 0.5) * 0.5;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+  }, { passive: true });
+
+  // Pause when hero not in viewport
+  var io = new IntersectionObserver(function(entries) {
+    paused = !entries[0].isIntersecting;
+  });
+  io.observe(hero);
+
+  // Pause when tab hidden
+  document.addEventListener('visibilitychange', function() {
+    paused = document.hidden;
+  });
+
+  var rafId;
+  function animate() {
+    rafId = requestAnimationFrame(animate);
+    if (paused) return;
+    rotX += (mouseY - rotX) * 0.04;
+    rotY += (mouseX - rotY) * 0.04;
+    ring.rotation.x = rotX;
+    ring.rotation.y = rotY;
+    ring.rotation.z += 0.0015; // slow auto-spin
+    renderer.render(scene, camera);
+  }
+
+  // Show canvas, fade out CSS poster (it was fallback; WebGL ring takes over)
+  canvas.classList.add('ready');
+  var poster = document.querySelector('.ring-poster');
+  if (poster) poster.style.opacity = '0';
+  animate();
+
+  // Resize
+  window.addEventListener('resize', function() {
+    var W2 = hero.offsetWidth, H2 = hero.offsetHeight;
+    camera.aspect = W2 / H2;
+    camera.position.x = (W2 > 900) ? -1.4 : 0;
+    camera.updateProjectionMatrix();
+    renderer.setSize(W2, H2);
+  }, { passive: true });
+}
+
+// Init after load + idle time (never blocks first paint)
+window.addEventListener('load', function() {
+  if (window.requestIdleCallback) {
+    requestIdleCallback(initRing, { timeout: 2000 });
+  } else {
+    setTimeout(initRing, 200);
+  }
+});
+</script>
+</body>
+</html>

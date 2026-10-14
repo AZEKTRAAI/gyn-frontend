@@ -1,0 +1,1378 @@
+<!doctype html>
+<!--
+  Direction B — Amplified Youth
+  Design Read: International youth NGO event homepage for mobile-first young applicants,
+  community-first photographic language, editorial warmth, Fraunces display.
+  DESIGN_VARIANCE: 8 | MOTION_INTENSITY: 7 | VISUAL_DENSITY: 5
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Global Youth Network — SDG Innovation Summit Malaysia 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+<style>
+/* ── Tokens ─────────────────────────────────────────────── */
+:root {
+  --navy-900:#0e1530;--navy-800:#16204a;--navy-700:#202f60;--navy-500:#3a4c8c;--navy-300:#8e9bcb;--navy-100:#e3e7f4;
+  --crimson-600:#c52035;--crimson-500:#e0334a;--crimson-300:#f28c9a;
+  --flame-500:#ef3f2d;--ember-600:#c9501a;--ember-500:#f2692c;--ember-300:#f9a77e;
+  --leaf-600:#48783f;--leaf-300:#9fcb94;
+  --n-0:#fff;--n-50:#f7f7f4;--n-100:#eeeee9;--n-200:#dcdcd5;--n-300:#bdbdb5;--n-400:#9a9a93;
+  --n-500:#76766f;--n-600:#5a5a55;--n-700:#3f3f3c;--n-800:#262624;--n-900:#141413;
+  --sdg-4:#c5192d;--sdg-5:#ff3a21;--sdg-9:#fd6925;--sdg-13:#3f7e44;
+  --bg:var(--n-50);--surface:var(--n-0);--ink:var(--navy-700);--ink-muted:var(--n-600);
+  --line:var(--n-200);--cta:var(--crimson-600);--on-cta:var(--n-0);
+  --ease-out:cubic-bezier(0.23,1,0.32,1);--ease-in-out:cubic-bezier(0.77,0,0.175,1);
+  --dur-fast:160ms;--dur-base:240ms;--dur-slow:480ms;
+  --r-sm:6px;--r-md:12px;--r-lg:20px;--r-pill:999px;
+  --gap:clamp(1rem,3vw,2rem);--col:min(1320px,100%);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:var(--navy-900);--surface:var(--navy-800);--ink:var(--n-0);--ink-muted:var(--n-300);
+  --line:#2a3768;--cta:var(--ember-500);--on-cta:var(--navy-900);
+}}
+:root[data-theme="dark"]{
+  --bg:var(--navy-900);--surface:var(--navy-800);--ink:var(--n-0);--ink-muted:var(--n-300);
+  --line:#2a3768;--cta:var(--ember-500);--on-cta:var(--navy-900);
+}
+@media(prefers-reduced-motion:reduce){
+  :root{--dur-fast:0ms;--dur-base:0ms;--dur-slow:0ms;}
+  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}
+}
+
+/* ── Reset ───────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);
+  line-height:1.6;min-height:100dvh;overflow-x:hidden;}
+img{display:block;max-width:100%;height:auto;}
+a{color:inherit;text-decoration:none;}
+button{cursor:pointer;font-family:inherit;border:none;background:none;}
+ul,ol{list-style:none;}
+:focus-visible{outline:2px solid var(--cta);outline-offset:3px;border-radius:4px;}
+
+/* ── Typography ──────────────────────────────────────────── */
+.f-display{font-family:'Fraunces',Georgia,serif;font-optical-sizing:auto;
+  font-variation-settings:'SOFT' 0,'WONK' 1;line-height:1.0;}
+.f-display-soft{font-family:'Fraunces',Georgia,serif;font-optical-sizing:auto;
+  font-variation-settings:'SOFT' 60,'WONK' 0;line-height:1.05;}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-optical-sizing:auto;
+  font-variation-settings:'SOFT' 20,'WONK' 0;}
+h1{font-size:clamp(2.5rem,7vw,6rem);font-weight:800;line-height:1.0;}
+h2{font-size:clamp(1.75rem,4vw,3rem);font-weight:700;line-height:1.1;}
+h3{font-size:clamp(1.1rem,2vw,1.5rem);font-weight:600;line-height:1.2;}
+p{max-width:65ch;color:var(--ink-muted);}
+
+/* ── Layout helpers ──────────────────────────────────────── */
+.wrap{width:var(--col);margin-inline:auto;padding-inline:clamp(1rem,4vw,3rem);}
+.section{padding-block:clamp(3rem,8vw,6rem);}
+.section-label{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--crimson-600);margin-bottom:.75rem;}
+
+/* ── Pill + Toggle ───────────────────────────────────────── */
+#dir-pill{position:fixed;bottom:1.25rem;left:1.25rem;z-index:900;
+  background:var(--navy-700);color:var(--n-0);font-size:.7rem;font-weight:600;
+  letter-spacing:.06em;padding:.35rem .75rem;border-radius:var(--r-pill);
+  display:flex;gap:.5rem;align-items:center;box-shadow:0 2px 12px rgba(0,0,0,.25);}
+#dir-pill a{color:var(--ember-300);text-decoration:underline;}
+#theme-toggle{position:fixed;bottom:1.25rem;right:1.25rem;z-index:900;
+  background:var(--surface);border:1px solid var(--line);color:var(--ink);
+  width:2.25rem;height:2.25rem;border-radius:var(--r-pill);font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);transition:background var(--dur-base) var(--ease-out);}
+
+/* ── Navigation ──────────────────────────────────────────── */
+.site-nav{position:sticky;top:0;z-index:800;background:var(--bg);
+  border-bottom:1px solid var(--line);backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);}
+.nav-inner{display:flex;align-items:center;gap:1rem;height:64px;
+  width:var(--col);margin-inline:auto;padding-inline:clamp(1rem,4vw,2rem);}
+.nav-logo{height:36px;width:auto;flex-shrink:0;}
+.nav-links{display:flex;gap:.25rem;align-items:center;margin-left:auto;}
+.nav-links a,.nav-item>button{font-size:.85rem;font-weight:600;padding:.4rem .75rem;
+  border-radius:var(--r-sm);transition:background var(--dur-fast) var(--ease-out);}
+.nav-links a:hover,.nav-item>button:hover{background:var(--n-100);}
+:root[data-theme="dark"] .nav-links a:hover,:root[data-theme="dark"] .nav-item>button:hover{background:var(--navy-800);}
+.nav-item{position:relative;}
+.nav-item:hover .nav-dropdown,.nav-item:focus-within .nav-dropdown{display:block;}
+.nav-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;min-width:180px;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:.5rem;box-shadow:0 8px 24px rgba(0,0,0,.12);}
+.nav-dropdown a{display:block;padding:.45rem .75rem;border-radius:var(--r-sm);font-size:.82rem;font-weight:600;
+  transition:background var(--dur-fast) var(--ease-out);}
+.nav-dropdown a:hover{background:var(--n-100);}
+.nav-cta{background:var(--cta)!important;color:var(--on-cta)!important;
+  padding:.45rem 1.1rem!important;border-radius:var(--r-pill)!important;font-weight:700!important;
+  transition:background var(--dur-base) var(--ease-out),transform var(--dur-fast) var(--ease-out)!important;}
+.nav-cta:hover{background:var(--crimson-500)!important;transform:translateY(-1px);}
+:root[data-theme="dark"] .nav-cta:hover{background:var(--ember-600)!important;}
+.nav-hamburger{display:none;margin-left:auto;flex-direction:column;gap:5px;
+  width:28px;height:28px;align-items:center;justify-content:center;}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--ink);
+  border-radius:2px;transition:transform var(--dur-base) var(--ease-out);}
+.nav-mobile{display:none;position:fixed;inset:0;top:64px;background:var(--bg);
+  z-index:799;padding:1.5rem;overflow-y:auto;border-top:1px solid var(--line);}
+.nav-mobile.open{display:flex;flex-direction:column;gap:.5rem;}
+.nav-mobile a{font-size:1.1rem;font-weight:700;padding:.75rem 1rem;border-radius:var(--r-md);
+  display:block;border:1px solid transparent;transition:background var(--dur-fast);}
+.nav-mobile a:hover{background:var(--n-100);border-color:var(--line);}
+.nav-mobile .sub{font-size:.9rem;font-weight:600;padding-left:1.5rem;color:var(--ink-muted);}
+@media(max-width:900px){
+  .nav-links{display:none;}
+  .nav-hamburger{display:flex;}
+}
+
+/* ── Hero ────────────────────────────────────────────────── */
+.hero{position:relative;min-height:100dvh;display:grid;grid-template-columns:1fr;overflow:hidden;}
+.hero-mosaic{position:absolute;inset:0;display:grid;
+  grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:3px;}
+.hero-mosaic img{width:100%;height:100%;object-fit:cover;}
+.hero-mosaic .m1{grid-column:1/3;grid-row:1/2;}
+.hero-mosaic .m2{grid-column:3/4;grid-row:1/2;}
+.hero-mosaic .m3{grid-column:1/2;grid-row:2/3;}
+.hero-mosaic .m4{grid-column:2/3;grid-row:2/3;}
+.hero-mosaic .m5{grid-column:3/4;grid-row:2/3;}
+.hero-overlay{position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(14,21,48,.95) 0%,rgba(14,21,48,.7) 45%,rgba(14,21,48,.25) 100%);}
+.hero-content{position:relative;z-index:2;align-self:end;padding:clamp(2rem,6vw,4rem);
+  padding-bottom:clamp(3rem,8vw,5rem);max-width:900px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(255,255,255,.12);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.2);color:#fff;font-size:.72rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;padding:.35rem .9rem;
+  border-radius:var(--r-pill);margin-bottom:1.25rem;}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--ember-500);}
+.hero h1{color:#fff;font-size:clamp(2.8rem,8vw,6.5rem);
+  font-variation-settings:'SOFT' 0,'WONK' 1;margin-bottom:1rem;
+  text-shadow:0 2px 20px rgba(0,0,0,.4);}
+.hero h1 .accent{color:var(--ember-300);}
+.hero-meta{color:rgba(255,255,255,.8);font-size:.9rem;font-weight:600;
+  margin-bottom:2rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;}
+.hero-meta .sep{opacity:.4;}
+.hero-ctarow{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:2.5rem;}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.5rem;
+  border-radius:var(--r-pill);font-weight:700;font-size:.9rem;
+  transition:background var(--dur-base) var(--ease-out),transform var(--dur-fast) var(--ease-out),box-shadow var(--dur-base);}
+.btn:active{transform:scale(.98);}
+.btn-primary{background:var(--cta);color:var(--on-cta);box-shadow:0 4px 16px rgba(197,32,53,.4);}
+.btn-primary:hover{background:var(--crimson-500);transform:translateY(-2px);box-shadow:0 8px 24px rgba(197,32,53,.45);}
+.btn-ghost{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(8px);}
+.btn-ghost:hover{background:rgba(255,255,255,.25);}
+.btn-navy{background:var(--navy-700);color:#fff;}
+.btn-navy:hover{background:var(--navy-500);}
+.countdown{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.countdown-unit{text-align:center;}
+.countdown-num{font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:800;color:#fff;line-height:1;font-variation-settings:'SOFT' 0,'WONK' 1;}
+.countdown-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);font-weight:600;margin-top:.25rem;}
+.countdown-divider{font-family:'Fraunces',serif;font-size:2rem;color:var(--ember-300);
+  align-self:center;line-height:1;margin-top:-.25rem;}
+
+/* ── Status banner ───────────────────────────────────────── */
+.status-banner{background:var(--navy-700);color:#fff;padding:.6rem 1rem;text-align:center;
+  font-size:.8rem;font-weight:600;letter-spacing:.03em;}
+.status-banner .open{color:var(--ember-300);}
+.status-banner .closed{color:var(--crimson-300);}
+
+/* ── Who We Are ──────────────────────────────────────────── */
+.who-we-are{background:var(--surface);}
+.who-inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5rem);align-items:center;}
+.who-photo{border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/3;
+  box-shadow:0 20px 60px rgba(0,0,0,.15);}
+.who-photo img{width:100%;height:100%;object-fit:cover;}
+.who-text h2{margin-bottom:1.25rem;}
+.who-text p{margin-bottom:1.25rem;line-height:1.75;}
+@media(max-width:768px){.who-inner{grid-template-columns:1fr;}}
+@media(max-width:768px){.who-photo{order:-1;}}
+
+/* ── What We Do (Bento) ──────────────────────────────────── */
+.what-we-do{background:var(--bg);}
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.bento-cell{background:var(--surface);border-radius:var(--r-lg);padding:1.75rem;
+  border:1px solid var(--line);position:relative;overflow:hidden;
+  transition:transform var(--dur-base) var(--ease-out),box-shadow var(--dur-base);}
+.bento-cell:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1);}
+.bento-cell.wide{grid-column:span 2;}
+.bento-cell.tall{grid-row:span 2;}
+.bento-icon{width:2.5rem;height:2.5rem;border-radius:var(--r-md);display:flex;
+  align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:1rem;}
+.bento-cell h3{font-size:1.05rem;margin-bottom:.5rem;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;}
+.bento-cell p{font-size:.85rem;line-height:1.6;color:var(--ink-muted);max-width:none;}
+.bento-cell.accent-crimson{background:var(--crimson-600);color:#fff;border-color:transparent;}
+.bento-cell.accent-crimson p,.bento-cell.accent-crimson .bento-icon{color:rgba(255,255,255,.8);}
+.bento-cell.accent-navy{background:var(--navy-700);color:#fff;border-color:transparent;}
+.bento-cell.accent-navy p{color:rgba(255,255,255,.75);}
+.bento-cell .bento-bg-img{position:absolute;inset:0;z-index:0;opacity:.12;}
+.bento-cell .bento-bg-img img{width:100%;height:100%;object-fit:cover;}
+.bento-cell>*:not(.bento-bg-img){position:relative;z-index:1;}
+@media(max-width:900px){.bento{grid-template-columns:repeat(2,1fr);}
+  .bento-cell.wide{grid-column:span 1;}}
+@media(max-width:600px){.bento{grid-template-columns:1fr;}}
+
+/* ── SDG Focus Areas ─────────────────────────────────────── */
+.sdg-focus{background:var(--surface);}
+.sdg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.sdg-card{border-radius:var(--r-lg);padding:1.75rem 1.5rem;color:#fff;position:relative;overflow:hidden;}
+.sdg-card::before{content:'';position:absolute;inset:0;opacity:.08;
+  background:radial-gradient(circle at 80% 20%,#fff,transparent 60%);}
+.sdg-num{font-family:'Fraunces',serif;font-size:4rem;font-weight:800;opacity:.25;
+  position:absolute;bottom:-.5rem;right:.75rem;line-height:1;
+  font-variation-settings:'SOFT' 0,'WONK' 1;}
+.sdg-label{font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  opacity:.8;margin-bottom:.5rem;}
+.sdg-card h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;position:relative;}
+.sdg-card p{font-size:.82rem;opacity:.85;margin-top:.5rem;max-width:none;position:relative;color:inherit;}
+@media(max-width:900px){.sdg-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:500px){.sdg-grid{grid-template-columns:1fr;}}
+
+/* ── SISM 2026 ───────────────────────────────────────────── */
+.sism-block{background:var(--bg);}
+.sism-header{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem);
+  align-items:start;margin-bottom:clamp(2rem,5vw,4rem);}
+.sism-header img{border-radius:var(--r-lg);width:100%;}
+.sism-details h2{margin-bottom:1rem;}
+.sism-meta-list{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem;}
+.sism-meta-list li{display:flex;gap:.6rem;align-items:flex-start;font-size:.9rem;}
+.sism-meta-list li strong{color:var(--ink);min-width:80px;}
+.grant-badge{display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--ember-500);color:var(--navy-900);font-weight:800;font-size:.9rem;
+  padding:.5rem 1.25rem;border-radius:var(--r-pill);margin-top:1rem;}
+@media(max-width:768px){.sism-header{grid-template-columns:1fr;}}
+
+/* ── Ticket Tiers ────────────────────────────────────────── */
+.tickets-section{background:var(--n-100);}
+:root[data-theme="dark"] .tickets-section{background:var(--navy-800);}
+.tickets-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+.ticket-card{background:var(--surface);border-radius:var(--r-lg);padding:2rem;
+  border:1px solid var(--line);display:flex;flex-direction:column;gap:.75rem;
+  transition:transform var(--dur-base),box-shadow var(--dur-base);}
+.ticket-card.open:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.12);}
+.ticket-card.closed{opacity:.75;}
+.ticket-status{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  padding:.25rem .75rem;border-radius:var(--r-pill);display:inline-flex;width:fit-content;}
+.ticket-status.closed-status{background:var(--n-100);color:var(--n-600);}
+:root[data-theme="dark"] .ticket-status.closed-status{background:var(--navy-700);color:var(--n-300);}
+.ticket-status.open-status{background:rgba(72,120,63,.15);color:var(--leaf-600);}
+:root[data-theme="dark"] .ticket-status.open-status{background:rgba(159,203,148,.12);color:var(--leaf-300);}
+.ticket-name{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:700;line-height:1.2;
+  font-variation-settings:'SOFT' 30,'WONK' 0;}
+.ticket-price{display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap;}
+.ticket-price .amount{font-family:'Fraunces',serif;font-size:2.25rem;font-weight:800;
+  color:var(--ink);line-height:1;font-variation-settings:'SOFT' 0,'WONK' 0;}
+.ticket-price .was{text-decoration:line-through;color:var(--n-400);font-size:1rem;}
+.ticket-price .period{font-size:.8rem;color:var(--ink-muted);}
+.ticket-includes{font-size:.8rem;color:var(--ink-muted);display:flex;flex-direction:column;gap:.35rem;flex:1;}
+.ticket-includes li{display:flex;gap:.4rem;align-items:flex-start;}
+.ticket-includes li::before{content:'✓';color:var(--leaf-600);font-weight:700;flex-shrink:0;}
+.ticket-card .btn{align-self:stretch;justify-content:center;margin-top:.5rem;}
+.ticket-card.closed .btn{background:var(--n-200);color:var(--n-500);cursor:not-allowed;pointer-events:none;}
+:root[data-theme="dark"] .ticket-card.closed .btn{background:var(--navy-700);color:var(--n-400);}
+.ticket-results{font-size:.75rem;color:var(--ink-muted);margin-top:.25rem;font-style:italic;}
+@media(max-width:900px){.tickets-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.tickets-grid{grid-template-columns:1fr;}}
+
+/* ── Speakers ────────────────────────────────────────────── */
+.speakers-section{background:var(--surface);}
+.speakers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;}
+.speaker-card{text-align:center;}
+.speaker-photo{width:100%;aspect-ratio:1;border-radius:var(--r-lg);overflow:hidden;
+  margin-bottom:.75rem;border:3px solid var(--line);}
+.speaker-photo img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.speaker-name{font-weight:700;font-size:.9rem;margin-bottom:.2rem;}
+.speaker-role{font-size:.75rem;color:var(--ink-muted);line-height:1.4;}
+@media(max-width:900px){.speakers-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:600px){.speakers-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* ── Faces of GYN (cursor-tilt wall) ────────────────────── */
+.faces-section{background:var(--bg);overflow:hidden;}
+.faces-intro{max-width:600px;margin-bottom:2.5rem;}
+.faces-tabs{display:flex;gap:.5rem;margin-bottom:2rem;flex-wrap:wrap;}
+.faces-tab{font-size:.8rem;font-weight:700;padding:.4rem 1rem;border-radius:var(--r-pill);
+  border:1px solid var(--line);color:var(--ink-muted);background:transparent;
+  transition:background var(--dur-fast),color var(--dur-fast),border-color var(--dur-fast);}
+.faces-tab.active,.faces-tab:hover{background:var(--navy-700);color:#fff;border-color:transparent;}
+.faces-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1rem;}
+.face-card{position:relative;cursor:default;
+  transform-style:preserve-3d;transition:transform 80ms linear;will-change:transform;}
+.face-inner{border-radius:var(--r-lg);overflow:hidden;background:var(--surface);
+  border:1px solid var(--line);aspect-ratio:3/4;}
+.face-inner img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.face-overlay{position:absolute;inset:0;border-radius:var(--r-lg);
+  background:linear-gradient(to top,rgba(14,21,48,.95) 0%,rgba(14,21,48,.4) 55%,transparent 100%);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:.75rem;
+  opacity:0;transition:opacity var(--dur-base) var(--ease-out);}
+.face-card:hover .face-overlay,.face-card:focus .face-overlay{opacity:1;}
+.face-overlay-name{font-size:.8rem;font-weight:700;color:#fff;line-height:1.2;}
+.face-overlay-role{font-size:.7rem;color:rgba(255,255,255,.7);margin-top:.2rem;}
+.face-flag{position:absolute;top:.5rem;right:.5rem;font-size:1.1rem;line-height:1;}
+[data-faces-group]{display:none;}
+[data-faces-group].active{display:contents;}
+
+/* ── Ambassador Strip ────────────────────────────────────── */
+.amb-strip-section{background:var(--navy-700);padding-block:clamp(2rem,5vw,3.5rem);}
+.amb-strip-section .section-label{color:var(--ember-300);}
+.amb-strip-section h2{color:#fff;margin-bottom:1.5rem;}
+.amb-scroll{display:flex;gap:1rem;overflow-x:auto;
+  padding-bottom:1rem;scroll-snap-type:x mandatory;
+  scrollbar-width:thin;scrollbar-color:var(--navy-500) transparent;}
+.amb-scroll::-webkit-scrollbar{height:4px;}
+.amb-scroll::-webkit-scrollbar-thumb{background:var(--navy-500);border-radius:2px;}
+.amb-card{flex-shrink:0;scroll-snap-align:start;width:140px;text-align:center;}
+.amb-photo{width:96px;height:96px;border-radius:50%;margin:0 auto .6rem;overflow:hidden;
+  border:3px solid rgba(255,255,255,.25);}
+.amb-photo img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.amb-name{font-size:.82rem;font-weight:700;color:#fff;line-height:1.3;}
+.amb-country{font-size:.75rem;color:rgba(255,255,255,.6);margin-top:.2rem;}
+
+/* ── Videos ──────────────────────────────────────────────── */
+.videos-section{background:var(--surface);}
+.video-filters{display:flex;gap:.5rem;margin-bottom:2rem;flex-wrap:wrap;}
+.filter-chip{font-size:.8rem;font-weight:700;padding:.4rem 1.1rem;border-radius:var(--r-pill);
+  border:1px solid var(--line);color:var(--ink-muted);background:transparent;
+  transition:background var(--dur-fast),color var(--dur-fast);}
+.filter-chip.active,.filter-chip:hover{background:var(--cta);color:var(--on-cta);border-color:transparent;}
+.video-featured{border-radius:var(--r-lg);overflow:hidden;position:relative;
+  aspect-ratio:16/9;cursor:pointer;margin-bottom:1.5rem;
+  box-shadow:0 12px 40px rgba(0,0,0,.2);}
+.video-featured img{width:100%;height:100%;object-fit:cover;transition:transform var(--dur-slow) var(--ease-out);}
+.video-featured:hover img{transform:scale(1.03);}
+.video-play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.play-circle{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.95);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(0,0,0,.3);transition:transform var(--dur-base) var(--ease-out),box-shadow var(--dur-base);}
+.video-featured:hover .play-circle{transform:scale(1.1);box-shadow:0 8px 32px rgba(0,0,0,.4);}
+.play-arrow{width:0;height:0;border-style:solid;border-width:10px 0 10px 20px;
+  border-color:transparent transparent transparent var(--crimson-600);margin-left:4px;}
+.video-featured-info{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;
+  background:linear-gradient(to top,rgba(0,0,0,.85),transparent);color:#fff;}
+.video-featured-cat{font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ember-300);margin-bottom:.4rem;}
+.video-featured-title{font-family:'Fraunces',serif;font-size:clamp(1.1rem,2.5vw,1.5rem);font-weight:700;
+  line-height:1.2;font-variation-settings:'SOFT' 20,'WONK' 0;}
+.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.video-card{border-radius:var(--r-md);overflow:hidden;cursor:pointer;background:var(--n-50);
+  border:1px solid var(--line);transition:transform var(--dur-base),box-shadow var(--dur-base);}
+:root[data-theme="dark"] .video-card{background:var(--navy-800);}
+.video-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.12);}
+.video-thumb{aspect-ratio:16/9;overflow:hidden;}
+.video-thumb img{width:100%;height:100%;object-fit:cover;transition:transform var(--dur-slow) var(--ease-out);}
+.video-card:hover .video-thumb img{transform:scale(1.05);}
+.video-info{padding:.85rem;}
+.video-cat-badge{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--crimson-600);margin-bottom:.35rem;}
+:root[data-theme="dark"] .video-cat-badge{color:var(--crimson-300);}
+.video-title{font-size:.82rem;font-weight:700;line-height:1.4;color:var(--ink);}
+.video-card[data-hidden]{display:none;}
+@media(max-width:768px){.video-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.video-grid{grid-template-columns:1fr;}}
+
+/* ── Gallery Carousel ────────────────────────────────────── */
+.gallery-section{background:var(--bg);overflow:hidden;}
+.gallery-track-wrap{position:relative;margin-inline:calc(-1 * clamp(1rem,4vw,3rem));overflow:hidden;}
+.gallery-track{display:flex;gap:1rem;padding-inline:clamp(1rem,4vw,3rem);
+  overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;cursor:grab;user-select:none;-webkit-overflow-scrolling:touch;}
+.gallery-track::-webkit-scrollbar{display:none;}
+.gallery-track.dragging{cursor:grabbing;scroll-snap-type:none;}
+.gallery-item{flex-shrink:0;width:clamp(240px,35vw,400px);aspect-ratio:3/2;
+  border-radius:var(--r-lg);overflow:hidden;scroll-snap-align:start;}
+.gallery-item img{width:100%;height:100%;object-fit:cover;pointer-events:none;
+  transition:transform var(--dur-slow) var(--ease-out);}
+.gallery-item:hover img{transform:scale(1.04);}
+.gallery-nav{display:flex;gap:.75rem;margin-top:1.25rem;justify-content:flex-end;}
+.gallery-nav button{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);font-size:1.1rem;display:flex;
+  align-items:center;justify-content:center;
+  transition:background var(--dur-fast),border-color var(--dur-fast);}
+.gallery-nav button:hover{background:var(--navy-700);color:#fff;border-color:transparent;}
+.gallery-kbd-hint{font-size:.72rem;color:var(--ink-muted);margin-top:.5rem;text-align:right;}
+
+/* ── Partners ────────────────────────────────────────────── */
+.partners-section{background:var(--surface);border-top:1px solid var(--line);}
+.partners-inner{display:flex;flex-wrap:wrap;gap:2rem;align-items:center;justify-content:center;}
+.partners-inner img{height:36px;width:auto;opacity:.6;filter:grayscale(1);
+  transition:opacity var(--dur-base),filter var(--dur-base);}
+.partners-inner img:hover{opacity:1;filter:none;}
+.cohost-block{background:var(--navy-100);border-radius:var(--r-lg);padding:1.75rem;
+  display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin-top:2rem;}
+:root[data-theme="dark"] .cohost-block{background:var(--navy-800);}
+.cohost-block img{height:48px;width:auto;}
+.cohost-text h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:.25rem;}
+.cohost-text p{font-size:.82rem;color:var(--ink-muted);max-width:60ch;}
+
+/* ── Footer ──────────────────────────────────────────────── */
+.site-footer{background:var(--navy-900);color:#fff;padding-top:3.5rem;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:2.5rem;
+  margin-bottom:2.5rem;}
+.footer-about p{font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.7;margin-top:.85rem;max-width:30ch;}
+.footer-logo{height:40px;width:auto;filter:brightness(0) invert(1);}
+.footer-col h4{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:.75rem;}
+.footer-col a,.footer-col address{font-size:.85rem;color:rgba(255,255,255,.75);
+  display:block;margin-bottom:.4rem;font-style:normal;
+  transition:color var(--dur-fast);}
+.footer-col a:hover{color:#fff;}
+.socials{display:flex;gap:.75rem;margin-top:.85rem;}
+.socials a{width:2rem;height:2rem;border-radius:50%;background:rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;
+  transition:background var(--dur-fast);}
+.socials a:hover{background:var(--cta);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-block:1.25rem;
+  display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;
+  font-size:.78rem;color:rgba(255,255,255,.4);}
+.footer-bottom a{color:rgba(255,255,255,.5);}
+.footer-bottom a:hover{color:#fff;}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.footer-grid{grid-template-columns:1fr;}}
+
+/* ── Video Modal ─────────────────────────────────────────── */
+.modal-backdrop{position:fixed;inset:0;z-index:9999;background:rgba(10,14,32,.9);
+  backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;
+  padding:1.5rem;}
+.modal-backdrop.open{display:flex;}
+.modal-box{background:var(--navy-800);border-radius:var(--r-lg);overflow:hidden;
+  width:100%;max-width:720px;box-shadow:0 32px 80px rgba(0,0,0,.6);
+  animation:modal-in var(--dur-slow) var(--ease-out);}
+@keyframes modal-in{from{opacity:0;transform:scale(.94) translateY(16px);}to{opacity:1;transform:none;}}
+.modal-thumb{aspect-ratio:16/9;overflow:hidden;position:relative;}
+.modal-thumb img{width:100%;height:100%;object-fit:cover;}
+.modal-thumb-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.35);}
+.modal-body{padding:1.5rem 2rem 2rem;}
+.modal-cat{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ember-300);margin-bottom:.5rem;}
+.modal-title{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:700;color:#fff;
+  margin-bottom:1.25rem;line-height:1.3;font-variation-settings:'SOFT' 20,'WONK' 0;}
+.modal-actions{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;}
+.modal-close-btn{margin-left:auto;background:rgba(255,255,255,.12);color:#fff;
+  width:2.25rem;height:2.25rem;border-radius:50%;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;}
+.modal-close-btn:hover{background:rgba(255,255,255,.25);}
+.modal-header{display:flex;align-items:center;justify-content:flex-end;padding:.75rem 1rem .25rem;}
+.modal-watch-btn{background:var(--crimson-600);color:#fff;padding:.6rem 1.25rem;
+  border-radius:var(--r-pill);font-weight:700;font-size:.85rem;
+  display:inline-flex;align-items:center;gap:.4rem;
+  transition:background var(--dur-base);}
+.modal-watch-btn:hover{background:var(--crimson-500);}
+
+/* ── Scroll reveal ───────────────────────────────────────── */
+.reveal{transition:opacity var(--dur-slow) var(--ease-out),transform var(--dur-slow) var(--ease-out);}
+.reveal.hidden{opacity:0;transform:translateY(20px);}
+</style>
+</head>
+<body>
+<!-- Direction pill -->
+<div id="dir-pill" aria-label="Design direction label">Direction B · Amplified Youth <a href="./">All directions</a></div>
+<button id="theme-toggle" aria-label="Toggle colour theme" title="Toggle theme">☀</button>
+
+<!-- Status banner -->
+<div class="status-banner" role="banner">
+  <span class="closed">Scholarship applications closed.</span>
+  Results announced <strong>16 Oct 2026</strong>.
+  <span class="open">Confirmed seats still open — Forum Access, Self Funded &amp; Invitation Letter.</span>
+</div>
+
+<!-- Navigation -->
+<header>
+<nav class="site-nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="https://thegyn.org/" aria-label="GYN — Global Youth Network home">
+      <img src="assets/logos/gyn-logo.png" alt="Global Youth Network" class="nav-logo">
+    </a>
+    <div class="nav-links" role="list">
+      <a href="https://thegyn.org/" role="listitem">Home</a>
+      <div class="nav-item" role="listitem">
+        <button aria-haspopup="true" aria-expanded="false">Past Events ▾</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="https://thegyn.org/fms-thailand/" role="menuitem">FMS Thailand 🇹🇭</a>
+        </div>
+      </div>
+      <div class="nav-item" role="listitem">
+        <button aria-haspopup="true" aria-expanded="false">Upcoming Events ▾</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="https://thegyn.org/sism-2026/" role="menuitem">SIS Malaysia 2026 🇲🇾</a>
+        </div>
+      </div>
+      <a href="https://thegyn.org/about-us/" role="listitem">About Us</a>
+      <a href="https://thegyn.org/contact-us/" role="listitem">Contact Us</a>
+      <a href="https://thegyn.org/sism-2026/" class="btn nav-cta" role="listitem">Register Now</a>
+    </div>
+    <button class="nav-hamburger" id="nav-ham" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<nav id="nav-mobile" class="nav-mobile" aria-label="Mobile navigation">
+  <a href="https://thegyn.org/">Home</a>
+  <a href="https://thegyn.org/fms-thailand/" class="sub">FMS Thailand 🇹🇭</a>
+  <a href="https://thegyn.org/sism-2026/" class="sub">SIS Malaysia 2026 🇲🇾</a>
+  <a href="https://thegyn.org/about-us/">About Us</a>
+  <a href="https://thegyn.org/contact-us/">Contact Us</a>
+  <a href="https://thegyn.org/sism-2026/" class="btn btn-primary" style="text-align:center;margin-top:.5rem;">Register Now</a>
+</nav>
+</header>
+
+<main>
+
+<!-- ①  HERO ─────────────────────────────────────────────── -->
+<section class="hero" aria-labelledby="hero-h1">
+  <div class="hero-mosaic" aria-hidden="true">
+    <img class="m1" src="assets/gallery/fmst-dsc01881-1.webp" alt="">
+    <img class="m2" src="assets/gallery/fmst-dsc02142-1.webp" alt="">
+    <img class="m3" src="assets/gallery/fmst-dsc01894-1.webp" alt="">
+    <img class="m4" src="assets/gallery/fmst-dsc01945-1.webp" alt="">
+    <img class="m5" src="assets/gallery/fmst-dsc03736-1.webp" alt="">
+  </div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-content wrap">
+    <div class="hero-eyebrow"><span class="dot"></span>Co-hosted with UNU Global Health</div>
+    <h1 id="hero-h1" class="f-display">SDG Innovation<br>Summit<br><span class="accent">Malaysia 2026</span></h1>
+    <p class="hero-meta">
+      <span>19–22 November 2026</span>
+      <span class="sep">·</span>
+      <span>Teedo Hotel, Kuala Lumpur</span>
+      <span class="sep">·</span>
+      <span>100 Seats</span>
+    </p>
+    <div class="hero-ctarow">
+      <a href="https://thegyn.org/sism-forum-access/" class="btn btn-primary">Register — Forum Access $199</a>
+      <a href="https://thegyn.org/sism-2026/" class="btn btn-ghost">Learn More</a>
+    </div>
+    <div class="countdown" id="countdown" aria-label="Time until the summit begins">
+      <div class="countdown-unit"><div class="countdown-num" id="cd-d">35</div><div class="countdown-label">Days</div></div>
+      <div class="countdown-divider" aria-hidden="true">:</div>
+      <div class="countdown-unit"><div class="countdown-num" id="cd-h">00</div><div class="countdown-label">Hours</div></div>
+      <div class="countdown-divider" aria-hidden="true">:</div>
+      <div class="countdown-unit"><div class="countdown-num" id="cd-m">00</div><div class="countdown-label">Min</div></div>
+      <div class="countdown-divider" aria-hidden="true">:</div>
+      <div class="countdown-unit"><div class="countdown-num" id="cd-s">00</div><div class="countdown-label">Sec</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ②  WHO WE ARE ──────────────────────────────────────── -->
+<section class="who-we-are section" aria-labelledby="who-h2">
+  <div class="wrap who-inner">
+    <div class="who-text reveal">
+      <p class="section-label">Who We Are</p>
+      <h2 id="who-h2">Connecting Young Leaders Across Borders</h2>
+      <p>Global Youth Network (GYN) is an international organization dedicated to connecting and empowering young people worldwide. We bring together students, professionals, and innovators to collaborate across borders, develop leadership skills, and create meaningful global impact.</p>
+      <p>Following the remarkable success of our inaugural summit in Bangkok, Thailand, the journey continues in Kuala Lumpur, Malaysia — a vibrant hub of innovation, education, and sustainable development.</p>
+      <a href="https://thegyn.org/about-us/" class="btn btn-navy" style="margin-top:1rem;">About GYN</a>
+    </div>
+    <div class="who-photo reveal">
+      <img src="assets/about/mission-photo.webp" alt="GYN delegates collaborating at the FutureMinds Summit Thailand 2026" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ③  WHAT WE DO (Bento) ──────────────────────────────── -->
+<section class="what-we-do section" aria-labelledby="wwd-h2">
+  <div class="wrap">
+    <p class="section-label reveal">What We Do</p>
+    <h2 id="wwd-h2" class="reveal" style="margin-bottom:1.5rem;">Six Ways We Create Impact</h2>
+    <div class="bento">
+      <div class="bento-cell wide reveal">
+        <div class="bento-bg-img" aria-hidden="true"><img src="assets/gallery/fmst-dsc02243-1.webp" alt=""></div>
+        <div class="bento-icon" style="background:rgba(197,32,53,.12);">🌐</div>
+        <h3>Conferences &amp; Summits</h3>
+        <p>GYN hosts international forums, workshops and summits to promote dialogue on Sustainable Development Goals — bringing 100+ young leaders to one room.</p>
+      </div>
+      <div class="bento-cell reveal">
+        <div class="bento-icon" style="background:rgba(242,105,44,.12);">🤝</div>
+        <h3>Networking</h3>
+        <p>A collaborative ecosystem of mentorship, technical support and resource sharing to address the world's most pressing challenges.</p>
+      </div>
+      <div class="bento-cell accent-crimson reveal">
+        <div class="bento-icon">⚡</div>
+        <h3>Leadership Development</h3>
+        <p>Empowering a new generation of leaders to navigate complexity with visionary foresight, unwavering integrity and measurable global impact.</p>
+      </div>
+      <div class="bento-cell accent-navy reveal">
+        <div class="bento-icon">🌍</div>
+        <h3>Collaborative Networks</h3>
+        <p>Cultivating a global ecosystem of cross-border dialogue and strategic partnerships to unlock innovative solutions.</p>
+      </div>
+      <div class="bento-cell reveal">
+        <div class="bento-icon" style="background:rgba(72,120,63,.12);">💡</div>
+        <h3>Youth Mentoring</h3>
+        <p>Providing tailor-made and hands-on mentoring to youth to become effective leaders.</p>
+      </div>
+      <div class="bento-cell reveal">
+        <div class="bento-icon" style="background:rgba(58,76,140,.12);">📚</div>
+        <h3>Workshops &amp; Trainings</h3>
+        <p>Building leadership capacities and policy expertise for future-ready governance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ④  SDG FOCUS AREAS ─────────────────────────────────── -->
+<section class="sdg-focus section" aria-labelledby="sdg-h2">
+  <div class="wrap">
+    <p class="section-label reveal">Our Focus</p>
+    <h2 id="sdg-h2" class="reveal" style="margin-bottom:.5rem;">4 SDGs · 1 Sustainable Future</h2>
+    <p class="reveal" style="margin-bottom:2rem;">At GYN, we focus on four Sustainable Development Goals, uniting young leaders worldwide to create impactful solutions and drive positive change.</p>
+    <div class="sdg-grid">
+      <div class="sdg-card reveal" style="background:var(--sdg-4);">
+        <div class="sdg-label">SDG 4</div>
+        <h3>Quality Education</h3>
+        <p>Empowering through Quality Education.</p>
+        <div class="sdg-num" aria-hidden="true">4</div>
+      </div>
+      <div class="sdg-card reveal" style="background:var(--sdg-5);">
+        <div class="sdg-label">SDG 5</div>
+        <h3>Gender Equality</h3>
+        <p>Breaking barriers for Gender Equality.</p>
+        <div class="sdg-num" aria-hidden="true">5</div>
+      </div>
+      <div class="sdg-card reveal" style="background:var(--sdg-9);">
+        <div class="sdg-label">SDG 9</div>
+        <h3>Innovation &amp; Infrastructure</h3>
+        <p>Driving Innovation &amp; Resilient Infrastructure.</p>
+        <div class="sdg-num" aria-hidden="true">9</div>
+      </div>
+      <div class="sdg-card reveal" style="background:var(--sdg-13);">
+        <div class="sdg-label">SDG 13</div>
+        <h3>Climate Action</h3>
+        <p>Taking urgent action for our Climate.</p>
+        <div class="sdg-num" aria-hidden="true">13</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤  SISM 2026 ────────────────────────────────────────── -->
+<section class="sism-block section" aria-labelledby="sism-h2">
+  <div class="wrap">
+    <div class="sism-header">
+      <div>
+        <img src="assets/events/web-banner-sism.webp" alt="SDG Innovation Summit Malaysia 2026 banner" loading="lazy" style="border-radius:var(--r-lg);width:100%;">
+      </div>
+      <div class="sism-details reveal">
+        <p class="section-label">Upcoming Event</p>
+        <h2 id="sism-h2">SDG Innovation Summit Malaysia 2026</h2>
+        <p style="margin-bottom:1.25rem;">Organized by GYN and co-hosted by the United Nations University – International Institute for Global Health, Malaysia (UNU Global Health). Join 100+ young leaders, changemakers, students, and professionals in Kuala Lumpur for a global youth leadership summit.</p>
+        <ul class="sism-meta-list">
+          <li><strong>Dates</strong> 19–22 November 2026</li>
+          <li><strong>Venue</strong> Teedo Hotel, Kuala Lumpur</li>
+          <li><strong>Seats</strong> 100 total</li>
+          <li><strong>Theme</strong> Innovative Ideas for Social Impact</li>
+          <li><strong>Co-host</strong> UNU Global Health, Malaysia</li>
+        </ul>
+        <div class="grant-badge">🏆 $1,000 Seed Grant Award</div>
+        <p style="margin-top:1rem;font-size:.82rem;">Delegates will also visit Asia Pacific University (APU) and explore Kuala Lumpur's iconic landmarks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑥  TICKET TIERS ─────────────────────────────────────── -->
+<section class="tickets-section section" aria-labelledby="tickets-h2">
+  <div class="wrap">
+    <p class="section-label reveal">Join the Summit</p>
+    <h2 id="tickets-h2" class="reveal" style="margin-bottom:1.5rem;">Choose Your Path</h2>
+    <div class="tickets-grid">
+      <!-- Fully Funded (CLOSED) -->
+      <div class="ticket-card closed reveal" aria-label="Fully Funded Scholarship — Closed">
+        <span class="ticket-status closed-status">Closed</span>
+        <div class="ticket-name">Fully Funded Scholarship</div>
+        <div class="ticket-price"><span class="amount">$18.50</span><span class="period">application fee</span></div>
+        <ul class="ticket-includes">
+          <li>Round-Trip Airfare Support (15 seats)</li>
+          <li>Accommodation (Twin Sharing)</li>
+          <li>Meals &amp; Refreshments</li>
+          <li>Visa Fees covered</li>
+          <li>Summit Fee &amp; Access</li>
+          <li>GYN Toolkit &amp; Merchandise</li>
+          <li>Speaking Opportunity</li>
+        </ul>
+        <p class="ticket-results">Results announced 16 Oct 2026</p>
+        <button class="btn" disabled aria-disabled="true">Closed — Applications Ended</button>
+      </div>
+      <!-- Partially Funded (CLOSED) -->
+      <div class="ticket-card closed reveal" aria-label="Partial Scholarship — Closed">
+        <span class="ticket-status closed-status">Closed</span>
+        <div class="ticket-name">Partial Scholarship</div>
+        <div class="ticket-price"><span class="amount">$18.50</span><span class="period">application fee</span></div>
+        <ul class="ticket-includes">
+          <li>Accommodation (Twin Sharing)</li>
+          <li>Meals &amp; Refreshments</li>
+          <li>Visa Supporting Documents</li>
+          <li>Invitation Letter for Visa</li>
+          <li>Summit Fee &amp; Access</li>
+          <li>GYN Toolkit &amp; Merchandise</li>
+          <li>Speaking Opportunity</li>
+        </ul>
+        <p class="ticket-results">Results announced 16 Oct 2026</p>
+        <button class="btn" disabled aria-disabled="true">Closed — Applications Ended</button>
+      </div>
+      <!-- Forum Access (OPEN) -->
+      <div class="ticket-card open reveal" aria-label="Forum Access — Confirmed Seat, open for registration">
+        <span class="ticket-status open-status">Open · Confirmed Seat</span>
+        <div class="ticket-name">Forum Access</div>
+        <div class="ticket-price">
+          <span class="was">$249</span>
+          <span class="amount">$199</span>
+        </div>
+        <ul class="ticket-includes">
+          <li>Early Invitation Letter</li>
+          <li>Welcome Dinner</li>
+          <li>Summit Fee covered</li>
+          <li>GYN Toolkit &amp; Merchandise</li>
+          <li>Speaking Opportunity</li>
+          <li>Participation Certificate</li>
+          <li>Cultural Night Ceremony</li>
+          <li>Lunch &amp; Coffee Breaks</li>
+          <li>APU Campus Tour</li>
+        </ul>
+        <a href="https://thegyn.org/sism-forum-access/" class="btn btn-primary">Register Now</a>
+      </div>
+      <!-- Self Funded (OPEN) -->
+      <div class="ticket-card open reveal" aria-label="Self Funded — Confirmed Seat with Accommodation, open">
+        <span class="ticket-status open-status">Open · With Accommodation</span>
+        <div class="ticket-name">Self Funded</div>
+        <div class="ticket-price">
+          <span class="was">$449</span>
+          <span class="amount">$399</span>
+        </div>
+        <ul class="ticket-includes">
+          <li>Accommodation (Twin Sharing)</li>
+          <li>Early Invitation Letter for Visa</li>
+          <li>Welcome Dinner</li>
+          <li>Summit Fee covered</li>
+          <li>GYN Toolkit &amp; Merchandise</li>
+          <li>Meals &amp; Refreshments</li>
+          <li>APU Campus Tour</li>
+        </ul>
+        <a href="https://thegyn.org/sism-self-funded/" class="btn btn-primary">Register Now</a>
+      </div>
+      <!-- Invitation Letter (OPEN) -->
+      <div class="ticket-card open reveal" aria-label="Invitation Letter — open">
+        <span class="ticket-status open-status">Open</span>
+        <div class="ticket-name">Invitation Letter</div>
+        <div class="ticket-price"><span class="amount">$49</span></div>
+        <ul class="ticket-includes">
+          <li>Summit Invitation Letter</li>
+          <li>Visa Support</li>
+          <li>Visa Supporting Documentation</li>
+          <li>Visa Application Process guidance</li>
+          <li>Delivered within 48 Hours</li>
+        </ul>
+        <a href="https://thegyn.org/sism-invitation-letter/" class="btn btn-navy">Get Invitation Letter</a>
+      </div>
+    </div>
+    <p style="font-size:.82rem;color:var(--ink-muted);margin-top:1.25rem;">Group discounts available. Email <strong>contact@thegyn.org</strong> for group pricing.</p>
+  </div>
+</section>
+
+<!-- ⑦  SPEAKERS ──────────────────────────────────────────── -->
+<section class="speakers-section section" aria-labelledby="spk-h2">
+  <div class="wrap">
+    <p class="section-label reveal">Esteemed Speakers</p>
+    <h2 id="spk-h2" class="reveal" style="margin-bottom:1.5rem;">Voices Shaping SISM 2026</h2>
+    <div class="speakers-grid">
+      <div class="speaker-card reveal">
+        <div class="speaker-photo"><img src="assets/speakers/julie-victoire.webp" alt="Julie Victoire, International Youth Advocate" loading="lazy"></div>
+        <div class="speaker-name">Julie Victoire</div>
+        <div class="speaker-role">International Youth Advocate &amp; Australian Education Leader · Founder, The Rise Edit</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-photo"><img src="assets/speakers/dr-mohd-farid-bin-atan.webp" alt="Dr Mohd Farid bin Atan, Deputy Director at UNIMAS" loading="lazy"></div>
+        <div class="speaker-name">Dr Mohd Farid bin Atan</div>
+        <div class="speaker-role">Deputy Director (Sustainability), Universiti Malaysia Sarawak (UNIMAS)</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-photo"><img src="assets/speakers/ayman-william-hermansson.webp" alt="Ayman William Hermansson, Assistant Professor at Heriot-Watt University Malaysia" loading="lazy"></div>
+        <div class="speaker-name">Ayman William Hermansson</div>
+        <div class="speaker-role">Assistant Professor, Heriot-Watt University Malaysia</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-photo"><img src="assets/speakers/syed-bilal-qasim.webp" alt="Syed Bilal Qasim, CEO Techsol Space" loading="lazy"></div>
+        <div class="speaker-name">Syed Bilal Qasim</div>
+        <div class="speaker-role">CEO Techsol Space · Project Director CEGA</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-photo"><img src="assets/speakers/sapargulay-mahtumov.webp" alt="Sapargulay Mahtumov, Youth Coordinator MySDG Academy" loading="lazy"></div>
+        <div class="speaker-name">Sapargulay Mahtumov</div>
+        <div class="speaker-role">Youth Coordinator, MySDG Academy, Malaysia</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-photo"><img src="assets/speakers/jasmine-cannon-ikurusi.webp" alt="Jasmine Cannon-Ikurusi, CEO and Founder The Sapphire Academy" loading="lazy"></div>
+        <div class="speaker-name">Jasmine Cannon-Ikurusi</div>
+        <div class="speaker-role">CEO &amp; Founder, The Sapphire Employability &amp; Wellbeing Academy, London UK</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-photo"><img src="assets/speakers/ashley-blake.webp" alt="Ashley Blake, Head of Partnership vrCAVE Canada" loading="lazy"></div>
+        <div class="speaker-name">Ashley Blake</div>
+        <div class="speaker-role">Head of Partnership, vrCAVE Canada</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-photo"><img src="assets/speakers/arumita-mitra.webp" alt="Arumita Mitra, Founder Sudhamta Foundation India and TedX Speaker" loading="lazy"></div>
+        <div class="speaker-name">Arumita Mitra</div>
+        <div class="speaker-role">Founder, Sudhamta Foundation India · TedX Speaker · UN SDG Advocate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑧  FACES OF GYN (cursor-tilt wall) ─────────────────── -->
+<section class="faces-section section" aria-labelledby="faces-h2">
+  <div class="wrap">
+    <p class="section-label reveal">The People</p>
+    <h2 id="faces-h2" class="reveal">Faces of GYN</h2>
+    <div class="faces-intro reveal">
+      <p>Our advisors, ambassadors and speakers come from 17 countries. Hover any face to learn more.</p>
+    </div>
+    <div class="faces-tabs" role="tablist" aria-label="Filter faces by group">
+      <button class="faces-tab active" role="tab" aria-selected="true" data-group="all">All</button>
+      <button class="faces-tab" role="tab" aria-selected="false" data-group="advisors">Advisory Board</button>
+      <button class="faces-tab" role="tab" aria-selected="false" data-group="ambassadors">Ambassadors</button>
+    </div>
+    <div class="faces-wall" id="faces-wall" aria-live="polite">
+      <!-- ADVISORS -->
+      <div data-faces-group="advisors" class="active" style="display:contents;">
+        <div class="face-card" tabindex="0" aria-label="Wenbo Li, CEO Poly-Gamma, China">
+          <div class="face-inner"><img src="assets/advisors/wenbo-li.webp" alt="Wenbo Li" loading="lazy"></div>
+          <div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Wenbo Li</div><div class="face-overlay-role">CEO Poly-Gamma · China 🇨🇳</div></div>
+        </div>
+        <div class="face-card" tabindex="0" aria-label="Sura Fitiani, Intersect Innovation Hub, Palestine">
+          <div class="face-inner"><img src="assets/advisors/sura-fitiani.webp" alt="Sura Fitiani" loading="lazy"></div>
+          <div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Sura Fitiani</div><div class="face-overlay-role">Intersect Innovation Hub · Palestine 🇵🇸</div></div>
+        </div>
+        <div class="face-card" tabindex="0" aria-label="Dr. Salah, Senior Government Official, Oman">
+          <div class="face-inner"><img src="assets/advisors/dr-salah.webp" alt="Dr. Salah" loading="lazy"></div>
+          <div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Dr. Salah</div><div class="face-overlay-role">Senior Government Official · Oman 🇴🇲</div></div>
+        </div>
+        <div class="face-card" tabindex="0" aria-label="Sidra Riaz, Presidential Doctoral Fellow at Florida University, United States">
+          <div class="face-inner"><img src="assets/advisors/sidra-riaz.webp" alt="Sidra Riaz" loading="lazy"></div>
+          <div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Sidra Riaz</div><div class="face-overlay-role">Presidential Doctoral Fellow · USA 🇺🇸</div></div>
+        </div>
+        <div class="face-card" tabindex="0" aria-label="Dr. Mona Al Kadi, Life Transformative Coach, UAE">
+          <div class="face-inner"><img src="assets/advisors/dr-mona-al-kadi.webp" alt="Dr. Mona Al Kadi" loading="lazy"></div>
+          <div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Dr. Mona Al Kadi</div><div class="face-overlay-role">Life Transformative Coach · UAE 🇦🇪</div></div>
+        </div>
+        <div class="face-card" tabindex="0" aria-label="Elam Khan, CEO Axxon Group, UK">
+          <div class="face-inner"><img src="assets/advisors/mr-elam.webp" alt="Elam Khan" loading="lazy"></div>
+          <div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Elam Khan</div><div class="face-overlay-role">CEO Axxon Group · UK 🇬🇧</div></div>
+        </div>
+        <div class="face-card" tabindex="0" aria-label="Dr. Suman Roy, UN SDG Advocate">
+          <div class="face-inner"><img src="assets/advisors/dr-suman-roy.webp" alt="Dr. Suman Roy" loading="lazy"></div>
+          <div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Dr. Suman Roy</div><div class="face-overlay-role">UN SDG Advocate 🌍</div></div>
+        </div>
+        <div class="face-card" tabindex="0" aria-label="Ashley Blake, Head of Partnership vrCAVE, Canada">
+          <div class="face-inner"><img src="assets/advisors/ashley-blake.webp" alt="Ashley Blake" loading="lazy"></div>
+          <div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Ashley Blake</div><div class="face-overlay-role">Head of Partnership vrCAVE · Canada 🇨🇦</div></div>
+        </div>
+      </div>
+      <!-- AMBASSADORS -->
+      <div data-faces-group="ambassadors" class="active" style="display:contents;">
+        <div class="face-card" tabindex="0" aria-label="Helga Tongi, GYN Ambassador from USA"><div class="face-inner"><img src="assets/ambassadors/helga-tongi.webp" alt="Helga Tongi" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Helga Tongi</div><div class="face-overlay-role">Ambassador · USA 🇺🇸</div></div><span class="face-flag" aria-hidden="true">🇺🇸</span></div>
+        <div class="face-card" tabindex="0" aria-label="Yara Shamas, GYN Ambassador from Lebanon"><div class="face-inner"><img src="assets/ambassadors/yara-shamas.webp" alt="Yara Shamas" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Yara Shamas</div><div class="face-overlay-role">Ambassador · Lebanon 🇱🇧</div></div><span class="face-flag" aria-hidden="true">🇱🇧</span></div>
+        <div class="face-card" tabindex="0" aria-label="Patee, GYN Ambassador from Thailand"><div class="face-inner"><img src="assets/ambassadors/patee.webp" alt="Patee" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Patee</div><div class="face-overlay-role">Ambassador · Thailand 🇹🇭</div></div><span class="face-flag" aria-hidden="true">🇹🇭</span></div>
+        <div class="face-card" tabindex="0" aria-label="Kritika Ghimire, GYN Ambassador from Nepal"><div class="face-inner"><img src="assets/ambassadors/kritika-ghimire.webp" alt="Kritika Ghimire" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Kritika Ghimire</div><div class="face-overlay-role">Ambassador · Nepal 🇳🇵</div></div><span class="face-flag" aria-hidden="true">🇳🇵</span></div>
+        <div class="face-card" tabindex="0" aria-label="Lim Pei En, GYN Ambassador from Malaysia"><div class="face-inner"><img src="assets/ambassadors/lim-pei-en.webp" alt="Lim Pei En" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Lim Pei En</div><div class="face-overlay-role">Ambassador · Malaysia 🇲🇾</div></div><span class="face-flag" aria-hidden="true">🇲🇾</span></div>
+        <div class="face-card" tabindex="0" aria-label="Dr Righteous, GYN Ambassador from Nigeria"><div class="face-inner"><img src="assets/ambassadors/dr-righteous.webp" alt="Dr Righteous" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Dr Righteous</div><div class="face-overlay-role">Ambassador · Nigeria 🇳🇬</div></div><span class="face-flag" aria-hidden="true">🇳🇬</span></div>
+        <div class="face-card" tabindex="0" aria-label="Md Nafi, GYN Ambassador from Bangladesh"><div class="face-inner"><img src="assets/ambassadors/md-nafi.webp" alt="Md Nafi" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Md Nafi</div><div class="face-overlay-role">Ambassador · Bangladesh 🇧🇩</div></div><span class="face-flag" aria-hidden="true">🇧🇩</span></div>
+        <div class="face-card" tabindex="0" aria-label="Diba, GYN Ambassador from Australia"><div class="face-inner"><img src="assets/ambassadors/diba.webp" alt="Diba" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Diba</div><div class="face-overlay-role">Ambassador · Australia 🇦🇺</div></div><span class="face-flag" aria-hidden="true">🇦🇺</span></div>
+        <div class="face-card" tabindex="0" aria-label="Casey, GYN Ambassador from USA"><div class="face-inner"><img src="assets/ambassadors/casey.webp" alt="Casey" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Casey</div><div class="face-overlay-role">Ambassador · USA 🇺🇸</div></div><span class="face-flag" aria-hidden="true">🇺🇸</span></div>
+        <div class="face-card" tabindex="0" aria-label="Ashif, GYN Ambassador from India"><div class="face-inner"><img src="assets/ambassadors/ashif.webp" alt="Ashif" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Ashif</div><div class="face-overlay-role">Ambassador · India 🇮🇳</div></div><span class="face-flag" aria-hidden="true">🇮🇳</span></div>
+        <div class="face-card" tabindex="0" aria-label="Boling, GYN Ambassador from Laos"><div class="face-inner"><img src="assets/ambassadors/boling.webp" alt="Boling" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Boling</div><div class="face-overlay-role">Ambassador · Laos 🇱🇦</div></div><span class="face-flag" aria-hidden="true">🇱🇦</span></div>
+        <div class="face-card" tabindex="0" aria-label="Abdul Ahad, GYN Ambassador from Pakistan"><div class="face-inner"><img src="assets/ambassadors/abdul-ahad.webp" alt="Abdul Ahad" loading="lazy"></div><div class="face-overlay" aria-hidden="true"><div class="face-overlay-name">Abdul Ahad</div><div class="face-overlay-role">Ambassador · Pakistan 🇵🇰</div></div><span class="face-flag" aria-hidden="true">🇵🇰</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑨  AMBASSADOR STRIP (horizontal scroll) ─────────────── -->
+<section class="amb-strip-section" aria-labelledby="amb-h2">
+  <div class="wrap">
+    <p class="section-label">Global Ambassadors</p>
+    <h2 id="amb-h2" style="color:#fff;margin-bottom:1.5rem;">12 ambassadors, 11 countries</h2>
+    <div class="amb-scroll" role="list" tabindex="0" aria-label="Scroll to see all ambassadors">
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/helga-tongi.webp" alt="Helga Tongi" loading="lazy"></div><div class="amb-name">Helga Tongi</div><div class="amb-country">🇺🇸 USA</div></div>
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/yara-shamas.webp" alt="Yara Shamas" loading="lazy"></div><div class="amb-name">Yara Shamas</div><div class="amb-country">🇱🇧 Lebanon</div></div>
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/patee.webp" alt="Patee" loading="lazy"></div><div class="amb-name">Patee</div><div class="amb-country">🇹🇭 Thailand</div></div>
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/kritika-ghimire.webp" alt="Kritika Ghimire" loading="lazy"></div><div class="amb-name">Kritika Ghimire</div><div class="amb-country">🇳🇵 Nepal</div></div>
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/lim-pei-en.webp" alt="Lim Pei En" loading="lazy"></div><div class="amb-name">Lim Pei En</div><div class="amb-country">🇲🇾 Malaysia</div></div>
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/dr-righteous.webp" alt="Dr Righteous" loading="lazy"></div><div class="amb-name">Dr Righteous</div><div class="amb-country">🇳🇬 Nigeria</div></div>
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/md-nafi.webp" alt="Md Nafi" loading="lazy"></div><div class="amb-name">Md Nafi</div><div class="amb-country">🇧🇩 Bangladesh</div></div>
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/diba.webp" alt="Diba" loading="lazy"></div><div class="amb-name">Diba</div><div class="amb-country">🇦🇺 Australia</div></div>
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/casey.webp" alt="Casey" loading="lazy"></div><div class="amb-name">Casey</div><div class="amb-country">🇺🇸 USA</div></div>
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/ashif.webp" alt="Ashif" loading="lazy"></div><div class="amb-name">Ashif</div><div class="amb-country">🇮🇳 India</div></div>
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/boling.webp" alt="Boling" loading="lazy"></div><div class="amb-name">Boling</div><div class="amb-country">🇱🇦 Laos</div></div>
+      <div class="amb-card" role="listitem"><div class="amb-photo"><img src="assets/ambassadors/abdul-ahad.webp" alt="Abdul Ahad" loading="lazy"></div><div class="amb-name">Abdul Ahad</div><div class="amb-country">🇵🇰 Pakistan</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑩  VIDEOS + FILTER ──────────────────────────────────── -->
+<section class="videos-section section" aria-labelledby="vid-h2">
+  <div class="wrap">
+    <p class="section-label reveal">Watch &amp; Share</p>
+    <h2 id="vid-h2" class="reveal" style="margin-bottom:1.5rem;">See It. Feel It.</h2>
+    <!-- Filter chips -->
+    <div class="video-filters" role="group" aria-label="Filter videos by category">
+      <button class="filter-chip active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="highlights">Highlights</button>
+      <button class="filter-chip" data-filter="speakers">Speakers</button>
+      <button class="filter-chip" data-filter="testimonials">Testimonials</button>
+    </div>
+    <!-- Featured card (always visible) -->
+    <div class="video-featured reveal" data-category="highlights" role="button" tabindex="0"
+      aria-label="Play: Future Minds Summit 2026 Bangkok Thailand — watch on YouTube"
+      data-vid-id="q-nYUFwEdo4"
+      data-vid-title="Future Minds Summit 2026 | Bangkok, Thailand"
+      data-vid-cat="Highlights">
+      <img src="assets/video/q-nYUFwEdo4.jpg" alt="Future Minds Summit 2026 Bangkok highlight reel thumbnail" loading="lazy">
+      <div class="video-play-btn" aria-hidden="true"><div class="play-circle"><div class="play-arrow"></div></div></div>
+      <div class="video-featured-info">
+        <div class="video-featured-cat">Highlights · Bangkok Summit</div>
+        <div class="video-featured-title">Future Minds Summit 2026 | Bangkok, Thailand</div>
+      </div>
+    </div>
+    <!-- Video grid -->
+    <div class="video-grid" role="list">
+      <div class="video-card" role="listitem" tabindex="0" data-category="highlights"
+        data-vid-id="Aqqo3cL4W6w" data-vid-title="Future Minds Summit 2026 – Day 1 Highlights" data-vid-cat="Highlights"
+        aria-label="Play: Future Minds Summit 2026 Day 1 Highlights">
+        <div class="video-thumb"><img src="assets/video/Aqqo3cL4W6w.jpg" alt="Day 1 Highlights thumbnail" loading="lazy"></div>
+        <div class="video-info"><div class="video-cat-badge">Highlights</div><div class="video-title">Future Minds Summit 2026 – Day 1 Highlights</div></div>
+      </div>
+      <div class="video-card" role="listitem" tabindex="0" data-category="highlights"
+        data-vid-id="FwjXKiF4QJ0" data-vid-title="Future Minds Summit 2026 – Day 2 Highlights" data-vid-cat="Highlights"
+        aria-label="Play: Future Minds Summit 2026 Day 2 Highlights">
+        <div class="video-thumb"><img src="assets/video/FwjXKiF4QJ0.jpg" alt="Day 2 Highlights thumbnail" loading="lazy"></div>
+        <div class="video-info"><div class="video-cat-badge">Highlights</div><div class="video-title">Future Minds Summit 2026 – Day 2 Highlights</div></div>
+      </div>
+      <div class="video-card" role="listitem" tabindex="0" data-category="highlights"
+        data-vid-id="TjnrswlwX8k" data-vid-title="Future Minds Summit 2026 – Day 3 Highlights" data-vid-cat="Highlights"
+        aria-label="Play: Future Minds Summit 2026 Day 3 Highlights">
+        <div class="video-thumb"><img src="assets/video/TjnrswlwX8k.jpg" alt="Day 3 Highlights thumbnail" loading="lazy"></div>
+        <div class="video-info"><div class="video-cat-badge">Highlights</div><div class="video-title">Future Minds Summit 2026 – Day 3 Highlights</div></div>
+      </div>
+      <div class="video-card" role="listitem" tabindex="0" data-category="speakers"
+        data-vid-id="cO1D5dJFops" data-vid-title="Experience of Sura Fitiani — Esteemed Speaker from Palestine" data-vid-cat="Speakers"
+        aria-label="Play: Sura Fitiani speaker testimonial">
+        <div class="video-thumb"><img src="assets/video/cO1D5dJFops.jpg" alt="Sura Fitiani speaker testimonial thumbnail" loading="lazy"></div>
+        <div class="video-info"><div class="video-cat-badge">Speakers</div><div class="video-title">Experience of Sura Fitiani — Speaker, Palestine</div></div>
+      </div>
+      <div class="video-card" role="listitem" tabindex="0" data-category="speakers"
+        data-vid-id="eeFq13x-_rQ" data-vid-title="Meet Dr. Suman Roy – Most Energetic Speaker at the FutureMinds Summit Thailand" data-vid-cat="Speakers"
+        aria-label="Play: Dr Suman Roy speaker profile">
+        <div class="video-thumb"><img src="assets/video/eeFq13x-_rQ.jpg" alt="Dr Suman Roy speaker profile thumbnail" loading="lazy"></div>
+        <div class="video-info"><div class="video-cat-badge">Speakers</div><div class="video-title">Meet Dr. Suman Roy — FutureMinds Summit Thailand</div></div>
+      </div>
+      <div class="video-card" role="listitem" tabindex="0" data-category="testimonials"
+        data-vid-id="vcwp4HK7UeI" data-vid-title="Special Guest Testimonial | Future Minds Summit 2026" data-vid-cat="Testimonials"
+        aria-label="Play: Special Guest Testimonial">
+        <div class="video-thumb"><img src="assets/video/vcwp4HK7UeI.jpg" alt="Special Guest Testimonial thumbnail" loading="lazy"></div>
+        <div class="video-info"><div class="video-cat-badge">Testimonials</div><div class="video-title">Special Guest Testimonial — Future Minds Summit 2026</div></div>
+      </div>
+      <div class="video-card" role="listitem" tabindex="0" data-category="testimonials"
+        data-vid-id="T5Xrp8KcqOY" data-vid-title="A Voice from India — Tejaswini's Experience at Future Minds Summit 2026" data-vid-cat="Testimonials"
+        aria-label="Play: Tejaswini from India testimonial">
+        <div class="video-thumb"><img src="assets/video/T5Xrp8KcqOY.jpg" alt="Tejaswini India testimonial thumbnail" loading="lazy"></div>
+        <div class="video-info"><div class="video-cat-badge">Testimonials</div><div class="video-title">A Voice from India — Tejaswini's Experience</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑪  GALLERY CAROUSEL ──────────────────────────────────── -->
+<section class="gallery-section section" aria-labelledby="gal-h2">
+  <div class="wrap">
+    <p class="section-label reveal">FMS Thailand 2026</p>
+    <h2 id="gal-h2" class="reveal" style="margin-bottom:1.25rem;">From Bangkok, with Energy</h2>
+  </div>
+  <div class="gallery-track-wrap">
+    <div class="gallery-track" id="gallery-track" role="list" tabindex="0"
+      aria-label="Photo gallery from FutureMinds Summit Thailand — use arrow keys to scroll">
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01881-1.webp" alt="FMS Thailand delegates in session" loading="lazy"></div>
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc02142-1.webp" alt="FMS Thailand workshop activity" loading="lazy"></div>
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01894-1.webp" alt="FMS Thailand group presentation" loading="lazy"></div>
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc03736-1.webp" alt="FMS Thailand keynote session" loading="lazy"></div>
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01945-1.webp" alt="FMS Thailand networking" loading="lazy"></div>
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01976-1.webp" alt="FMS Thailand cultural night" loading="lazy"></div>
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01989-1.webp" alt="FMS Thailand delegate activity" loading="lazy"></div>
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc02120-1.webp" alt="FMS Thailand group collaboration" loading="lazy"></div>
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc02159-1.webp" alt="FMS Thailand team discussion" loading="lazy"></div>
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc02172-1.webp" alt="FMS Thailand ceremony" loading="lazy"></div>
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc02243-1.webp" alt="FMS Thailand closing group photo" loading="lazy"></div>
+      <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01960-1.webp" alt="FMS Thailand community moment" loading="lazy"></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="gallery-nav" aria-label="Gallery navigation">
+      <button id="gal-prev" aria-label="Previous photos">&#8592;</button>
+      <button id="gal-next" aria-label="Next photos">&#8594;</button>
+    </div>
+    <p class="gallery-kbd-hint" aria-hidden="true">← → arrow keys · drag to scroll</p>
+  </div>
+</section>
+
+<!-- ⑫  PARTNERS ──────────────────────────────────────────── -->
+<section class="partners-section section" aria-labelledby="partners-h2">
+  <div class="wrap">
+    <p class="section-label reveal" style="text-align:center;">Partners &amp; Co-host</p>
+    <h2 id="partners-h2" class="reveal" style="text-align:center;margin-bottom:2rem;">Who We Work With</h2>
+    <div class="partners-inner reveal" aria-label="Partner logos">
+      <img src="assets/logos/opportunities-radar.png" alt="Opportunities Radar" loading="lazy">
+      <img src="assets/logos/axxon.png" alt="Axxon Group" loading="lazy">
+      <img src="assets/logos/oc.png" alt="Partner organisation" loading="lazy">
+      <img src="assets/logos/tehgzr.png" alt="Partner organisation" loading="lazy">
+      <img src="assets/logos/tss.png" alt="Partner organisation" loading="lazy">
+      <img src="assets/logos/logo-n.png" alt="Partner organisation" loading="lazy">
+    </div>
+    <div class="cohost-block reveal">
+      <img src="assets/logos/unu-global-health-logo.png" alt="United Nations University International Institute for Global Health Malaysia" loading="lazy">
+      <div class="cohost-text">
+        <h3>Co-hosted by UNU Global Health</h3>
+        <p>The SDG Innovation Summit Malaysia 2026 is co-hosted by the United Nations University – International Institute for Global Health, Malaysia (UNU Global Health), a global research think tank focusing on health equity and sustainable development.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER ──────────────────────────────────────────────── -->
+<footer class="site-footer" aria-labelledby="footer-label">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <img src="assets/logos/gyn-logo.png" alt="Global Youth Network" class="footer-logo">
+        <p>The Global Youth Network is a U.S. based organization that hosts international Conferences to support the United Nations Sustainable Development Goals (SDGs).</p>
+        <div class="socials" aria-label="Social media links">
+          <a href="https://www.facebook.com/share/183ZmovUrB/" aria-label="GYN on Facebook">f</a>
+          <a href="https://www.instagram.com/gyn_global?igsh=emFic2tlcHlyZ2Fj" aria-label="GYN on Instagram">in</a>
+          <a href="https://wa.me/message/HGC6MW4HT5YJC1" aria-label="Contact GYN on WhatsApp">w</a>
+          <a href="https://www.youtube.com/@globalyouthnetwork/" aria-label="GYN on YouTube">yt</a>
+          <a href="http://linkedin.com/company/thegyn" aria-label="GYN on LinkedIn">li</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 id="footer-label">Useful Links</h4>
+        <a href="https://thegyn.org/">Home</a>
+        <a href="https://thegyn.org/about-us/">About Us</a>
+        <a href="https://thegyn.org/fms-thailand/">FMS Thailand</a>
+        <a href="https://thegyn.org/sism-2026/">SISM 2026</a>
+        <a href="https://thegyn.org/contact-us/">Contact Us</a>
+        <a href="https://global-youth-network.getrewardful.com/login">Affiliate Login</a>
+        <a href="https://global-youth-network.getrewardful.com/signup">Affiliate Sign Up</a>
+      </div>
+      <div class="footer-col">
+        <h4>Policies</h4>
+        <a href="https://thegyn.org/privacy-policy/">Privacy Policy</a>
+        <a href="https://thegyn.org/refund-policy/">Refund Policy</a>
+        <a href="https://thegyn.org/terms-conditions/">Terms &amp; Conditions</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <address>
+          <span>+1 (302) 556-0064</span><br>
+          contact@thegyn.org<br>
+          1001 S Main St STE 500<br>Kalispell, Montana 59901
+        </address>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Global Youth Network. All Rights Reserved.</span>
+      <span>contact@thegyn.org</span>
+    </div>
+  </div>
+</footer>
+
+<!-- VIDEO MODAL ─────────────────────────────────────────── -->
+<div id="video-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-header">
+      <button id="modal-close" class="modal-close-btn" aria-label="Close video modal">✕</button>
+    </div>
+    <div class="modal-thumb">
+      <img id="modal-img" src="" alt="" loading="lazy">
+      <div class="modal-thumb-overlay" aria-hidden="true"><div class="play-circle" style="width:72px;height:72px;"><div class="play-arrow" style="border-width:12px 0 12px 24px;"></div></div></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-cat" id="modal-cat"></div>
+      <div class="modal-title" id="modal-title" tabindex="-1"></div>
+      <div class="modal-actions">
+        <a id="modal-watch-link" href="#" target="_blank" rel="noopener noreferrer" class="btn modal-watch-btn">
+          ▶ Watch on YouTube
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ── Theme toggle ────────────────────────────────────────── */
+const root = document.documentElement;
+const toggleBtn = document.getElementById('theme-toggle');
+const saved = localStorage.getItem('gyn-theme-b');
+if(saved) root.setAttribute('data-theme', saved);
+function updateToggleIcon(){
+  const dark = root.getAttribute('data-theme') === 'dark' ||
+    (!root.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme:dark)').matches);
+  toggleBtn.textContent = dark ? '☀' : '☾';
+}
+updateToggleIcon();
+toggleBtn.addEventListener('click', function(){
+  const isDark = root.getAttribute('data-theme') === 'dark' ||
+    (!root.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme:dark)').matches);
+  const next = isDark ? 'light' : 'dark';
+  root.setAttribute('data-theme', next);
+  localStorage.setItem('gyn-theme-b', next);
+  updateToggleIcon();
+});
+
+/* ── Mobile nav ──────────────────────────────────────────── */
+const ham = document.getElementById('nav-ham');
+const mobileNav = document.getElementById('nav-mobile');
+ham && ham.addEventListener('click', function(){
+  const open = mobileNav.classList.toggle('open');
+  ham.setAttribute('aria-expanded', open);
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape' && mobileNav.classList.contains('open')){
+    mobileNav.classList.remove('open');
+    ham.setAttribute('aria-expanded', 'false');
+    ham.focus();
+  }
+});
+
+/* ── Countdown to 19 Nov 2026 (KL time, UTC+8) ──────────── */
+const TARGET = new Date('2026-11-19T00:00:00+08:00').getTime();
+const cdD = document.getElementById('cd-d');
+const cdH = document.getElementById('cd-h');
+const cdM = document.getElementById('cd-m');
+const cdS = document.getElementById('cd-s');
+function pad(n){ return String(Math.max(0,n)).padStart(2,'0'); }
+function tickCd(){
+  const diff = TARGET - Date.now();
+  if(diff <= 0){
+    cdD.textContent = '00'; cdH.textContent = '00';
+    cdM.textContent = '00'; cdS.textContent = '00';
+    return;
+  }
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  cdD.textContent = pad(d);
+  cdH.textContent = pad(h);
+  cdM.textContent = pad(m);
+  cdS.textContent = pad(s);
+}
+tickCd();
+setInterval(tickCd, 1000);
+
+/* ── Scroll reveals ──────────────────────────────────────── */
+const revealEls = document.querySelectorAll('.reveal');
+revealEls.forEach(el => el.classList.add('hidden'));
+const ro = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.classList.remove('hidden');
+      ro.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+revealEls.forEach(function(el){ ro.observe(el); });
+
+/* ── Cursor-tilt face cards ──────────────────────────────── */
+const faceCards = document.querySelectorAll('.face-card');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(!reduceMotion){
+  faceCards.forEach(function(card){
+    card.addEventListener('mousemove', function(e){
+      const r = card.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const dx = (e.clientX - cx) / (r.width / 2);
+      const dy = (e.clientY - cy) / (r.height / 2);
+      card.style.transform = 'perspective(500px) rotateX(' + (-dy * 10) + 'deg) rotateY(' + (dx * 10) + 'deg) scale(1.04)';
+    });
+    card.addEventListener('mouseleave', function(){
+      card.style.transform = '';
+    });
+    card.addEventListener('focus', function(){
+      card.style.transform = 'perspective(500px) scale(1.04)';
+    });
+    card.addEventListener('blur', function(){
+      card.style.transform = '';
+    });
+  });
+}
+
+/* ── Faces wall tabs ─────────────────────────────────────── */
+const facesTabs = document.querySelectorAll('.faces-tab');
+const facesGroups = document.querySelectorAll('[data-faces-group]');
+facesTabs.forEach(function(tab){
+  tab.addEventListener('click', function(){
+    const grp = tab.dataset.group;
+    facesTabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+    facesGroups.forEach(function(g){
+      if(grp === 'all' || g.dataset.facesGroup === grp){
+        g.style.display = 'contents';
+      } else {
+        g.style.display = 'none';
+      }
+    });
+  });
+});
+
+/* ── Video filter chips ──────────────────────────────────── */
+const filterChips = document.querySelectorAll('.filter-chip');
+const videoCards = document.querySelectorAll('.video-grid .video-card');
+filterChips.forEach(function(chip){
+  chip.addEventListener('click', function(){
+    const filter = chip.dataset.filter;
+    filterChips.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    videoCards.forEach(function(card){
+      if(filter === 'all' || card.dataset.category === filter){
+        card.removeAttribute('data-hidden');
+        card.style.display = '';
+      } else {
+        card.setAttribute('data-hidden','');
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+/* ── Video modal ─────────────────────────────────────────── */
+const modal = document.getElementById('video-modal');
+const modalImg = document.getElementById('modal-img');
+const modalCat = document.getElementById('modal-cat');
+const modalTitle = document.getElementById('modal-title');
+const modalLink = document.getElementById('modal-watch-link');
+const modalClose = document.getElementById('modal-close');
+let lastFocus = null;
+
+function openModal(id, title, cat){
+  lastFocus = document.activeElement;
+  modalImg.src = 'assets/video/' + id + '.jpg';
+  modalImg.alt = title + ' thumbnail';
+  modalCat.textContent = cat;
+  modalTitle.textContent = title;
+  const url = id.startsWith('-') || id.length < 11
+    ? 'https://youtube.com/shorts/' + id
+    : 'https://youtu.be/' + id;
+  modalLink.href = url;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  modalTitle.focus();
+}
+function closeModal(){
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+  if(lastFocus) lastFocus.focus();
+}
+
+// Open triggers: featured + grid cards
+document.querySelectorAll('[data-vid-id]').forEach(function(el){
+  el.addEventListener('click', function(){
+    openModal(el.dataset.vidId, el.dataset.vidTitle, el.dataset.vidCat);
+  });
+  el.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openModal(el.dataset.vidId, el.dataset.vidTitle, el.dataset.vidCat); }
+  });
+});
+modalClose.addEventListener('click', closeModal);
+modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+});
+// Focus trap
+modal.addEventListener('keydown', function(e){
+  if(!modal.classList.contains('open') || e.key !== 'Tab') return;
+  const focusable = modal.querySelectorAll('button,a,[tabindex]:not([tabindex="-1"])');
+  const first = focusable[0], last = focusable[focusable.length-1];
+  if(e.shiftKey){ if(document.activeElement === first){ e.preventDefault(); last.focus(); }}
+  else { if(document.activeElement === last){ e.preventDefault(); first.focus(); }}
+});
+
+/* ── Gallery drag carousel ───────────────────────────────── */
+const track = document.getElementById('gallery-track');
+let isDragging = false, startX = 0, scrollStart = 0, velX = 0, lastX = 0, lastT = 0;
+
+track.addEventListener('mousedown', function(e){
+  isDragging = true;
+  startX = e.pageX;
+  scrollStart = track.scrollLeft;
+  velX = 0; lastX = e.pageX; lastT = Date.now();
+  track.classList.add('dragging');
+  e.preventDefault();
+});
+window.addEventListener('mousemove', function(e){
+  if(!isDragging) return;
+  const dx = e.pageX - startX;
+  track.scrollLeft = scrollStart - dx;
+  const now = Date.now();
+  velX = (e.pageX - lastX) / Math.max(1, now - lastT);
+  lastX = e.pageX; lastT = now;
+});
+window.addEventListener('mouseup', function(){
+  if(!isDragging) return;
+  isDragging = false;
+  track.classList.remove('dragging');
+  // momentum
+  let vel = -velX * 8;
+  function momentum(){
+    if(Math.abs(vel) < 0.5) return;
+    track.scrollLeft += vel;
+    vel *= 0.92;
+    requestAnimationFrame(momentum);
+  }
+  requestAnimationFrame(momentum);
+});
+// Touch support
+track.addEventListener('touchstart', function(e){
+  startX = e.touches[0].pageX;
+  scrollStart = track.scrollLeft;
+  velX = 0; lastX = startX; lastT = Date.now();
+}, {passive:true});
+track.addEventListener('touchmove', function(e){
+  const dx = e.touches[0].pageX - startX;
+  track.scrollLeft = scrollStart - dx;
+  const now = Date.now();
+  velX = (e.touches[0].pageX - lastX) / Math.max(1, now - lastT);
+  lastX = e.touches[0].pageX; lastT = now;
+}, {passive:true});
+track.addEventListener('touchend', function(){
+  let vel = -velX * 8;
+  function momentum(){
+    if(Math.abs(vel) < 0.5) return;
+    track.scrollLeft += vel;
+    vel *= 0.92;
+    requestAnimationFrame(momentum);
+  }
+  requestAnimationFrame(momentum);
+});
+// Keyboard arrows
+track.addEventListener('keydown', function(e){
+  const step = 320;
+  if(e.key === 'ArrowRight'){ track.scrollBy({left:step,behavior:'smooth'}); e.preventDefault(); }
+  if(e.key === 'ArrowLeft'){ track.scrollBy({left:-step,behavior:'smooth'}); e.preventDefault(); }
+});
+// Prev/next buttons
+document.getElementById('gal-prev').addEventListener('click', function(){
+  track.scrollBy({left:-320,behavior:'smooth'});
+});
+document.getElementById('gal-next').addEventListener('click', function(){
+  track.scrollBy({left:320,behavior:'smooth'});
+});
+
+})();
+</script>
+</body>
+</body>
+</html>

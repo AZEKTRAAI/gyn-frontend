@@ -1,0 +1,1983 @@
+<!doctype html>
+<!-- Direction D · Open Atlas
+  Design Read: Geographic/atlas event landing for UN-adjacent youth summit; editorial/document language; Archivo variable (wide+condensed) + Source Serif 4 + Archivo Narrow; white canvas; navy ink.
+  DESIGN_VARIANCE:7  MOTION_INTENSITY:4  VISUAL_DENSITY:4
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>GYN · Open Atlas — Direction D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62.5..125,100..900;1,62.5..125,100..900&family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+<style>
+/* ── tokens ─────────────────────────────────────────────── */
+:root{
+  --navy-900:#0e1530;--navy-800:#16204a;--navy-700:#202f60;
+  --navy-500:#3a4c8c;--navy-300:#8e9bcb;--navy-100:#e3e7f4;
+  --crimson-600:#c52035;--crimson-500:#e0334a;--crimson-300:#f28c9a;
+  --flame-500:#ef3f2d;
+  --ember-600:#c9501a;--ember-500:#f2692c;--ember-300:#f9a77e;
+  --leaf-600:#48783f;--leaf-500:#5e9a52;--leaf-300:#9fcb94;
+  --n-0:#fff;--n-50:#f7f7f4;--n-100:#eeeee9;--n-200:#dcdcd5;
+  --n-300:#bdbdb5;--n-400:#9a9a93;--n-500:#76766f;--n-600:#5a5a55;
+  --n-700:#3f3f3c;--n-800:#262624;--n-900:#141413;
+  --sdg-4:#c5192d;--sdg-5:#ff3a21;--sdg-9:#fd6925;--sdg-13:#3f7e44;
+  /* semantic */
+  --bg:var(--n-50);--surface:var(--n-0);--ink:var(--navy-700);
+  --ink-muted:var(--n-600);--line:var(--n-200);
+  --cta:var(--crimson-600);--on-cta:var(--n-0);
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --ease-io:cubic-bezier(0.77,0,0.175,1);
+  --dur-fast:160ms;--dur-base:240ms;--dur-slow:480ms;
+  --radius-sm:6px;--radius-md:12px;--radius-lg:20px;--radius-pill:999px;
+  /* edition accents */
+  --ed1:var(--leaf-600);--ed1-bg:#f0f5ee;
+  --ed2:var(--crimson-600);--ed2-bg:#fdf0f2;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:var(--navy-900);--surface:var(--navy-800);
+  --ink:var(--n-0);--ink-muted:var(--n-300);--line:#2a3768;
+  --cta:var(--ember-500);--on-cta:var(--navy-900);
+  --ed1-bg:#0e1f10;--ed2-bg:#1a0a0d;
+}}
+:root[data-theme="dark"]{
+  --bg:var(--navy-900);--surface:var(--navy-800);
+  --ink:var(--n-0);--ink-muted:var(--n-300);--line:#2a3768;
+  --cta:var(--ember-500);--on-cta:var(--navy-900);
+  --ed1-bg:#0e1f10;--ed2-bg:#1a0a0d;
+}
+@media(prefers-reduced-motion:reduce){
+  :root{--dur-fast:0ms;--dur-base:0ms;--dur-slow:0ms}
+  *{animation:none!important;transition:none!important}
+}
+/* ── base ─────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Source Serif 4',Georgia,serif;
+  line-height:1.6;min-height:100dvh;
+  transition:background var(--dur-base) var(--ease-out),color var(--dur-base) var(--ease-out);
+}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none}
+button{background:none;border:none;cursor:pointer;font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--cta);outline-offset:3px;border-radius:2px}
+/* ── typography ─────────────────────────────────────────── */
+.t-archivo{font-family:'Archivo','Arial',sans-serif}
+.t-narrow{font-family:'Archivo Narrow','Arial Narrow',sans-serif}
+.t-serif{font-family:'Source Serif 4',Georgia,serif}
+/* Archivo width axis: 62.5 condensed → 125 extra-wide */
+.city-wide{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 125,'wght' 800;
+  text-transform:uppercase;letter-spacing:0.04em;line-height:0.9;
+}
+.city-cond{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 72,'wght' 600;
+  text-transform:uppercase;letter-spacing:0.14em;
+}
+.coords{
+  font-family:'Archivo Narrow',sans-serif;
+  font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--ink-muted);
+}
+.eyebrow{
+  font-family:'Archivo Narrow',sans-serif;
+  font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--ink-muted);font-weight:600;
+}
+h1,h2,h3,h4{font-family:'Archivo',sans-serif;line-height:1.1}
+/* ── layout utilities ───────────────────────────────────── */
+.container{max-width:1280px;margin:0 auto;padding:0 clamp(16px,4vw,64px)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+/* ── direction pill ─────────────────────────────────────── */
+.dir-pill{
+  position:fixed;bottom:1.25rem;right:1.25rem;z-index:9999;
+  background:var(--navy-700);color:#fff;border-radius:var(--radius-pill);
+  padding:0.4em 0.9em;font-family:'Archivo Narrow',sans-serif;
+  font-size:0.7rem;letter-spacing:0.1em;
+  display:flex;gap:0.75em;align-items:center;
+  box-shadow:0 2px 12px rgba(0,0,0,.18);
+}
+.dir-pill a{color:var(--ember-300);text-decoration:underline}
+/* ── nav ─────────────────────────────────────────────────── */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:var(--surface);border-bottom:1px solid var(--line);
+  height:64px;display:flex;align-items:center;
+}
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;gap:1rem;
+}
+.nav-logo img{height:40px;width:auto;display:block}
+.nav-links{display:flex;gap:0;list-style:none;position:relative}
+.nav-links>li{position:relative}
+.nav-links>li>a{
+  display:block;padding:0 1rem;height:64px;line-height:64px;
+  font-family:'Archivo Narrow',sans-serif;font-size:0.85rem;
+  letter-spacing:0.06em;font-weight:600;color:var(--ink);
+  transition:color var(--dur-fast) var(--ease-out);white-space:nowrap;
+}
+.nav-links>li>a:hover{color:var(--cta)}
+.nav-links>li:hover .nav-sub{display:block}
+.nav-sub{
+  display:none;position:absolute;top:100%;left:0;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius-md);padding:0.5rem 0;
+  min-width:200px;box-shadow:0 8px 24px rgba(0,0,0,.1);
+}
+.nav-sub a{
+  display:block;padding:0.6rem 1rem;
+  font-family:'Archivo Narrow',sans-serif;font-size:0.82rem;
+  letter-spacing:0.04em;color:var(--ink);
+  transition:background var(--dur-fast) var(--ease-out);
+}
+.nav-sub a:hover{background:var(--n-100)}
+.nav-cta{
+  display:inline-flex;align-items:center;
+  background:var(--cta);color:var(--on-cta);
+  padding:0.6em 1.4em;border-radius:var(--radius-pill);
+  font-family:'Archivo Narrow',sans-serif;font-size:0.82rem;
+  font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  transition:background var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-out);
+  white-space:nowrap;flex-shrink:0;
+}
+.nav-cta:hover{background:var(--crimson-500)}
+.nav-cta:active{transform:scale(0.97)}
+.nav-hamburger{
+  display:none;flex-direction:column;gap:5px;padding:4px;
+}
+.nav-hamburger span{
+  display:block;width:22px;height:2px;
+  background:var(--ink);border-radius:2px;
+  transition:transform var(--dur-base) var(--ease-out),opacity var(--dur-base);
+}
+.nav-hamburger[aria-expanded="true"] span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-hamburger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.nav-hamburger[aria-expanded="true"] span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.nav-mobile{
+  display:none;position:fixed;top:64px;left:0;right:0;bottom:0;
+  background:var(--surface);z-index:99;padding:1.5rem;
+  overflow-y:auto;
+}
+.nav-mobile.open{display:block}
+.nav-mobile ul{list-style:none}
+.nav-mobile ul li a{
+  display:block;padding:0.9rem 0;border-bottom:1px solid var(--line);
+  font-family:'Archivo Narrow',sans-serif;font-size:1rem;
+  font-weight:600;letter-spacing:0.06em;color:var(--ink);
+}
+.nav-mobile ul li ul li a{
+  padding-left:1.5rem;font-size:0.9rem;font-weight:400;color:var(--ink-muted);
+}
+.theme-toggle{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--n-100);color:var(--ink);flex-shrink:0;
+  transition:background var(--dur-fast) var(--ease-out);font-size:1rem;
+}
+.theme-toggle:hover{background:var(--n-200)}
+/* ── hero ─────────────────────────────────────────────────── */
+.hero{
+  padding:clamp(3rem,8vw,6rem) 0 clamp(3rem,6vw,5rem);
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+}
+.hero-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:3rem;align-items:start;
+}
+.hero-meta{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.5rem}
+.hero-edition{
+  display:inline-flex;align-items:center;gap:0.75rem;
+  font-family:'Archivo Narrow',sans-serif;
+  font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;
+  font-weight:700;color:var(--ed2);
+}
+.hero-edition::before{
+  content:'';display:inline-block;width:24px;height:2px;
+  background:var(--ed2);flex-shrink:0;
+}
+.hero-city{
+  font-size:clamp(3.5rem,8vw,7.5rem);
+  color:var(--ink);
+}
+.hero-summit-name{
+  font-family:'Source Serif 4',Georgia,serif;
+  font-size:clamp(1rem,2.2vw,1.3rem);font-style:italic;
+  color:var(--ink-muted);margin-top:0.5rem;line-height:1.4;
+}
+.hero-details{
+  display:flex;flex-direction:column;gap:0.35rem;margin-top:1.25rem;
+}
+.hero-detail-row{
+  display:flex;align-items:baseline;gap:0.6rem;
+  font-family:'Archivo Narrow',sans-serif;font-size:0.82rem;
+  letter-spacing:0.04em;color:var(--ink);
+}
+.hero-detail-row .label{color:var(--ink-muted);font-weight:400}
+.hero-detail-row .val{font-weight:700}
+.hero-status{
+  display:inline-flex;gap:0.5rem;align-items:center;
+  margin-top:1.5rem;padding:0.5rem 0.9rem;
+  background:var(--ed2-bg);border-left:3px solid var(--ed2);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  font-family:'Archivo Narrow',sans-serif;font-size:0.78rem;
+  letter-spacing:0.05em;color:var(--ed2);font-weight:700;
+}
+.hero-ctas{display:flex;gap:0.75rem;margin-top:1.75rem;flex-wrap:wrap}
+.btn-primary{
+  display:inline-flex;align-items:center;
+  background:var(--cta);color:var(--on-cta);
+  padding:0.75em 1.75em;border-radius:var(--radius-pill);
+  font-family:'Archivo Narrow',sans-serif;font-size:0.85rem;
+  font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  transition:background var(--dur-fast) var(--ease-out);
+}
+.btn-primary:hover{background:var(--crimson-500)}
+.btn-ghost{
+  display:inline-flex;align-items:center;
+  border:1.5px solid var(--line);color:var(--ink);
+  padding:0.75em 1.5em;border-radius:var(--radius-pill);
+  font-family:'Archivo Narrow',sans-serif;font-size:0.85rem;
+  font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  transition:border-color var(--dur-fast) var(--ease-out);
+}
+.btn-ghost:hover{border-color:var(--ink)}
+/* countdown */
+.countdown{
+  margin-top:2rem;padding:1.5rem;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius-md);display:inline-flex;gap:0;
+}
+.cd-unit{
+  display:flex;flex-direction:column;align-items:center;
+  padding:0 1.25rem;border-right:1px solid var(--line);
+}
+.cd-unit:last-child{border-right:none}
+.cd-num{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 75,'wght' 700;
+  font-size:clamp(1.8rem,4vw,2.8rem);line-height:1;color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.cd-label{font-family:'Archivo Narrow',sans-serif;font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-muted);margin-top:0.25rem}
+/* hero right */
+.hero-right{display:flex;flex-direction:column;gap:1.5rem}
+.hero-image-wrap{
+  position:relative;border-radius:var(--radius-lg);overflow:hidden;
+  aspect-ratio:4/3;
+}
+.hero-image-wrap img{width:100%;height:100%;object-fit:cover}
+.hero-cohost{
+  display:flex;align-items:center;gap:1rem;padding:1rem;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius-md);
+}
+.hero-cohost img{height:44px;width:auto;object-fit:contain;flex-shrink:0}
+.hero-cohost p{font-family:'Archivo Narrow',sans-serif;font-size:0.78rem;color:var(--ink-muted);line-height:1.4}
+.hero-cohost strong{display:block;color:var(--ink);font-size:0.82rem;letter-spacing:0.02em}
+/* ── SDG strip ───────────────────────────────────────────── */
+.sdg-strip{
+  padding:1.25rem 0;border-bottom:1px solid var(--line);
+  background:var(--surface);
+}
+.sdg-strip-inner{
+  display:flex;align-items:center;gap:1.25rem;flex-wrap:nowrap;overflow-x:auto;
+  scrollbar-width:none;
+}
+.sdg-strip-inner::-webkit-scrollbar{display:none}
+.sdg-strip-label{
+  font-family:'Archivo Narrow',sans-serif;font-size:0.68rem;
+  letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-muted);
+  white-space:nowrap;flex-shrink:0;
+}
+.sdg-dots{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.sdg-dot{
+  width:14px;height:14px;border-radius:50%;flex-shrink:0;
+  position:relative;cursor:default;
+}
+.sdg-dot.inactive{opacity:0.2}
+.sdg-dot.active{box-shadow:0 0 0 2px var(--surface),0 0 0 4px currentColor}
+.sdg-focus-labels{
+  display:flex;gap:1.25rem;align-items:center;flex-shrink:0;flex-wrap:wrap;
+}
+.sdg-focus-item{
+  display:flex;align-items:center;gap:0.4rem;
+  font-family:'Archivo Narrow',sans-serif;font-size:0.72rem;
+  letter-spacing:0.06em;font-weight:600;white-space:nowrap;
+}
+.sdg-focus-item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+/* ── section headers ─────────────────────────────────────── */
+.section-head{margin-bottom:clamp(2rem,4vw,3rem)}
+.section-head .eyebrow{margin-bottom:0.75rem;display:block}
+.section-head h2{
+  font-size:clamp(1.8rem,4vw,3rem);
+  font-variation-settings:'wdth' 110,'wght' 700;color:var(--ink);
+}
+.section-head p{
+  font-family:'Source Serif 4',serif;font-size:1.05rem;
+  color:var(--ink-muted);max-width:60ch;margin-top:0.75rem;line-height:1.65;
+}
+/* ── atlas map ───────────────────────────────────────────── */
+.atlas-section{padding:clamp(3rem,6vw,5rem) 0;border-bottom:1px solid var(--line)}
+.atlas-grid{display:grid;grid-template-columns:1fr;gap:2rem}
+.atlas-canvas-wrap{
+  position:relative;border-radius:var(--radius-lg);overflow:hidden;
+  background:var(--surface);border:1px solid var(--line);
+}
+#worldmap{display:block;width:100%;height:auto;cursor:crosshair}
+.atlas-tooltip{
+  display:none;position:absolute;
+  background:var(--navy-800);color:#fff;
+  border-radius:var(--radius-md);padding:0.75rem 1rem;
+  font-family:'Archivo Narrow',sans-serif;font-size:0.8rem;
+  pointer-events:none;z-index:10;min-width:160px;max-width:220px;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+.atlas-tooltip.visible{display:block}
+.atlas-tooltip-country{font-weight:700;font-size:0.85rem;letter-spacing:0.06em;margin-bottom:0.4rem}
+.atlas-tooltip-person{display:flex;align-items:center;gap:0.4rem;margin-top:0.3rem}
+.atlas-tooltip-person img{width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.atlas-legend{
+  display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;
+  padding:0.75rem 1rem;background:var(--n-100);
+  font-family:'Archivo Narrow',sans-serif;font-size:0.72rem;
+  letter-spacing:0.06em;
+}
+.atlas-legend-item{display:flex;align-items:center;gap:0.4rem}
+.atlas-legend-swatch{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+/* accessible country list */
+.atlas-country-list{
+  padding:clamp(1.5rem,3vw,2rem);
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+}
+.atlas-country-list h3{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 100,'wght' 700;
+  font-size:1.1rem;color:var(--ink);margin-bottom:1.25rem;
+}
+.country-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:0.75rem;
+}
+.country-entry{
+  display:flex;align-items:center;gap:0.75rem;padding:0.6rem;
+  border-radius:var(--radius-sm);border:1px solid var(--line);
+  background:var(--bg);
+  transition:border-color var(--dur-fast) var(--ease-out);
+}
+.country-entry:focus-within,.country-entry:hover{border-color:var(--navy-500)}
+.country-entry .flag{font-size:1.1rem;flex-shrink:0;line-height:1}
+.country-entry-text{font-family:'Archivo Narrow',sans-serif;font-size:0.78rem}
+.country-entry-name{font-weight:700;color:var(--ink);letter-spacing:0.04em}
+.country-entry-people{color:var(--ink-muted);margin-top:0.1rem;font-size:0.73rem}
+/* ── editions ────────────────────────────────────────────── */
+.editions-intro{
+  padding:clamp(3rem,6vw,5rem) 0 0;
+  text-align:center;max-width:640px;margin:0 auto;
+}
+.editions-intro h2{
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-variation-settings:'wdth' 110,'wght' 800;color:var(--ink);
+}
+.edition-section{padding:clamp(3rem,6vw,5rem) 0;border-top:1px solid var(--line)}
+.edition-header{
+  display:grid;grid-template-columns:auto 1fr;gap:1.5rem 2.5rem;
+  align-items:start;margin-bottom:clamp(2rem,4vw,3rem);
+}
+.edition-number{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 72,'wght' 700;
+  font-size:clamp(4rem,10vw,8rem);line-height:0.85;
+  color:var(--line);letter-spacing:-0.02em;
+  user-select:none;
+}
+.edition-info{}
+.edition-tag{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  font-family:'Archivo Narrow',sans-serif;font-size:0.7rem;
+  letter-spacing:0.2em;text-transform:uppercase;font-weight:700;
+  padding:0.25em 0.7em;border-radius:var(--radius-pill);
+  margin-bottom:0.75rem;
+}
+.edition-tag.past{background:var(--ed1-bg);color:var(--ed1)}
+.edition-tag.upcoming{background:var(--ed2-bg);color:var(--ed2)}
+.edition-city{
+  font-size:clamp(2.5rem,6vw,5rem);color:var(--ink);
+}
+.edition-meta{
+  font-family:'Archivo Narrow',sans-serif;font-size:0.8rem;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);
+  margin-top:0.3rem;
+}
+.edition-summary{
+  font-family:'Source Serif 4',serif;font-size:1rem;
+  color:var(--ink-muted);max-width:55ch;margin-top:0.75rem;
+  line-height:1.65;
+}
+/* chapters */
+.chapter-list{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:1rem;margin-bottom:clamp(2rem,4vw,3rem);
+}
+.chapter-card{
+  padding:1.25rem;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius-md);border-top:3px solid var(--ed1);
+}
+.chapter-num{
+  font-family:'Archivo Narrow',sans-serif;font-size:0.68rem;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--ed1);
+  font-weight:700;margin-bottom:0.5rem;display:block;
+}
+.chapter-title{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 100,'wght' 700;
+  font-size:0.95rem;color:var(--ink);margin-bottom:0.5rem;
+}
+.chapter-body{font-family:'Source Serif 4',serif;font-size:0.85rem;color:var(--ink-muted);line-height:1.55}
+.chapter-sessions{margin-top:0.75rem;display:flex;flex-direction:column;gap:0.4rem}
+.chapter-session{
+  font-family:'Archivo Narrow',sans-serif;font-size:0.75rem;
+  color:var(--ink-muted);padding-left:0.75rem;border-left:2px solid var(--line);
+  line-height:1.4;
+}
+.chapter-session .sess-type{font-weight:700;color:var(--ink)}
+/* gallery */
+.gallery-section{margin-bottom:clamp(2rem,4vw,3rem)}
+.gallery-head{font-family:'Archivo Narrow',sans-serif;font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:1rem}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:0.5rem;
+}
+.gallery-item{
+  aspect-ratio:3/2;border-radius:var(--radius-sm);overflow:hidden;
+  background:var(--n-100);
+}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform var(--dur-slow) var(--ease-out)}
+.gallery-item:hover img{transform:scale(1.04)}
+/* ── video cards ─────────────────────────────────────────── */
+.video-section{margin-bottom:clamp(2rem,4vw,3rem)}
+.video-section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1rem;
+}
+.video-section-head h3{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 100,'wght' 700;
+  font-size:1rem;color:var(--ink);
+}
+.video-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:1rem;
+}
+.video-card{
+  border-radius:var(--radius-md);overflow:hidden;
+  background:var(--surface);border:1px solid var(--line);cursor:pointer;
+  transition:transform var(--dur-base) var(--ease-out),box-shadow var(--dur-base) var(--ease-out);
+}
+.video-card:hover,.video-card:focus{
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.video-card:focus{outline:2px solid var(--cta);outline-offset:2px}
+.video-thumb{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--n-200)}
+.video-thumb img{width:100%;height:100%;object-fit:cover;transition:transform var(--dur-slow) var(--ease-out)}
+.video-card:hover .video-thumb img{transform:scale(1.04)}
+.video-play-btn{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(14,21,48,.35);transition:background var(--dur-fast) var(--ease-out);
+}
+.video-card:hover .video-play-btn{background:rgba(14,21,48,.55)}
+.video-play-icon{
+  width:44px;height:44px;border-radius:50%;background:var(--cta);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform var(--dur-base) var(--ease-out),background var(--dur-fast) var(--ease-out);
+}
+.video-card:hover .video-play-icon{transform:scale(1.1)}
+.video-play-icon svg{width:16px;height:16px;fill:#fff;margin-left:2px}
+.video-cat{
+  font-family:'Archivo Narrow',sans-serif;font-size:0.62rem;
+  letter-spacing:0.14em;text-transform:uppercase;
+  padding:0.35rem 0.7rem;font-weight:700;
+}
+.video-cat.highlights{color:var(--ed1);background:var(--ed1-bg)}
+.video-cat.speakers{color:var(--navy-700);background:var(--navy-100)}
+.video-cat.testimonials{color:var(--ed2);background:var(--ed2-bg)}
+.video-title{
+  font-family:'Archivo Narrow',sans-serif;font-size:0.82rem;
+  font-weight:600;color:var(--ink);padding:0.6rem 0.75rem 0.75rem;
+  line-height:1.35;
+}
+/* ── modal ───────────────────────────────────────────────── */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:9000;
+  background:rgba(14,21,48,.82);
+  display:flex;align-items:center;justify-content:center;padding:1rem;
+  opacity:0;pointer-events:none;transition:opacity var(--dur-base) var(--ease-out);
+}
+.modal-backdrop.open{opacity:1;pointer-events:all}
+.modal-box{
+  background:var(--surface);border-radius:var(--radius-lg);
+  width:100%;max-width:640px;max-height:90dvh;overflow:auto;
+  transform:translateY(16px);transition:transform var(--dur-base) var(--ease-out);
+}
+.modal-backdrop.open .modal-box{transform:translateY(0)}
+.modal-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  padding:1.25rem 1.5rem 1rem;border-bottom:1px solid var(--line);gap:1rem;
+}
+.modal-header-text{}
+.modal-cat{font-family:'Archivo Narrow',sans-serif;font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.3rem}
+.modal-title{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 100,'wght' 700;font-size:1rem;color:var(--ink);line-height:1.3}
+.modal-close{
+  width:36px;height:36px;flex-shrink:0;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--n-100);font-size:1.1rem;color:var(--ink);
+  transition:background var(--dur-fast) var(--ease-out);
+}
+.modal-close:hover{background:var(--n-200)}
+.modal-thumb{aspect-ratio:16/9;overflow:hidden;background:var(--n-200)}
+.modal-thumb img{width:100%;height:100%;object-fit:cover}
+.modal-footer{
+  padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid var(--line);flex-wrap:wrap;gap:0.75rem;
+}
+.modal-footer p{font-family:'Archivo Narrow',sans-serif;font-size:0.78rem;color:var(--ink-muted)}
+.modal-watch-btn{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  background:var(--cta);color:var(--on-cta);
+  padding:0.6em 1.2em;border-radius:var(--radius-pill);
+  font-family:'Archivo Narrow',sans-serif;font-size:0.8rem;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
+  transition:background var(--dur-fast) var(--ease-out);
+}
+.modal-watch-btn:hover{background:var(--crimson-500)}
+/* ── boarding passes ─────────────────────────────────────── */
+.tickets-section{padding:clamp(2rem,4vw,3.5rem) 0}
+.tickets-intro{margin-bottom:2rem}
+.tickets-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1.25rem;
+}
+.boarding-pass{
+  position:relative;border-radius:var(--radius-md);overflow:hidden;
+  background:var(--surface);border:1px solid var(--line);
+  display:flex;flex-direction:column;
+  transition:box-shadow var(--dur-base) var(--ease-out);
+}
+.boarding-pass:not(.closed):hover{box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.boarding-pass.closed{opacity:0.8}
+.bp-accent{height:4px;flex-shrink:0}
+.bp-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.75rem 1rem 0.5rem;
+  background:var(--navy-700);color:#fff;
+}
+.bp-airline{
+  font-family:'Archivo Narrow',sans-serif;font-size:0.62rem;
+  letter-spacing:0.22em;text-transform:uppercase;font-weight:700;
+}
+.bp-logo-small{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 125,'wght' 800;
+  font-size:0.85rem;letter-spacing:0.06em;color:#fff;
+}
+.bp-route{
+  display:grid;grid-template-columns:1fr auto 1fr;
+  align-items:center;gap:0.5rem;padding:1rem 1rem 0.75rem;
+}
+.bp-city-block .bp-code{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 125,'wght' 800;
+  font-size:2rem;letter-spacing:0.04em;color:var(--ink);line-height:1;
+}
+.bp-city-block .bp-city-name{
+  font-family:'Archivo Narrow',sans-serif;font-size:0.68rem;
+  letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-muted);
+  margin-top:0.1rem;
+}
+.bp-arrow{font-size:1.2rem;color:var(--ink-muted);text-align:center}
+.bp-details{
+  padding:0 1rem;display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1rem;
+  font-family:'Archivo Narrow',sans-serif;font-size:0.73rem;
+}
+.bp-field .bp-field-label{
+  display:block;font-size:0.6rem;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--ink-muted);font-weight:600;
+}
+.bp-field .bp-field-val{font-weight:700;color:var(--ink);margin-top:0.1rem}
+.bp-field .bp-field-val s{color:var(--ink-muted);font-weight:400;margin-right:0.3rem}
+.bp-includes{
+  margin:0.75rem 1rem 0;
+  font-family:'Archivo Narrow',sans-serif;font-size:0.73rem;
+  color:var(--ink-muted);line-height:1.5;
+}
+.bp-includes li::before{content:'✓ ';color:var(--leaf-600);font-weight:700}
+.bp-perforated{
+  margin:0.75rem 0;border:none;border-top:2px dashed var(--line);
+}
+.bp-stub{padding:0.75rem 1rem 1rem}
+.bp-cta{
+  display:block;text-align:center;padding:0.7em 1em;
+  border-radius:var(--radius-sm);
+  font-family:'Archivo Narrow',sans-serif;font-size:0.8rem;
+  font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  transition:background var(--dur-fast) var(--ease-out);
+}
+.bp-cta.open{background:var(--cta);color:var(--on-cta)}
+.bp-cta.open:hover{background:var(--crimson-500)}
+.bp-cta.closed-btn{background:var(--n-200);color:var(--n-500);cursor:not-allowed}
+.bp-stamp{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%) rotate(-18deg);
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 125,'wght' 900;
+  font-size:1.6rem;color:var(--crimson-600);
+  border:2.5px solid var(--crimson-600);
+  padding:0.25em 0.6em;letter-spacing:0.12em;
+  opacity:0.75;pointer-events:none;text-transform:uppercase;
+  border-radius:var(--radius-sm);
+}
+/* ── seed grant ──────────────────────────────────────────── */
+.seed-grant{
+  margin:clamp(2rem,4vw,3rem) 0;padding:2rem;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:center;
+}
+.seed-amount{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 125,'wght' 900;
+  font-size:clamp(2.5rem,6vw,4rem);color:var(--ed2);
+  line-height:0.9;
+}
+.seed-label{font-family:'Archivo Narrow',sans-serif;font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-muted);margin-top:0.25rem}
+.seed-body h3{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 100,'wght' 700;
+  font-size:1.1rem;color:var(--ink);margin-bottom:0.5rem;
+}
+.seed-body p{font-family:'Source Serif 4',serif;font-size:0.9rem;color:var(--ink-muted);line-height:1.6}
+/* ── speakers ────────────────────────────────────────────── */
+.speakers-section{padding:clamp(3rem,5vw,4.5rem) 0;border-top:1px solid var(--line)}
+.people-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:1.25rem;margin-top:clamp(1.5rem,3vw,2rem);
+}
+.person-card{text-align:center}
+.person-photo{
+  width:100%;aspect-ratio:1;border-radius:var(--radius-md);
+  overflow:hidden;background:var(--n-100);margin-bottom:0.75rem;
+}
+.person-photo img{width:100%;height:100%;object-fit:cover}
+.person-name{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 100,'wght' 700;
+  font-size:0.85rem;color:var(--ink);line-height:1.3;
+}
+.person-role{
+  font-family:'Archivo Narrow',sans-serif;font-size:0.73rem;
+  color:var(--ink-muted);margin-top:0.25rem;line-height:1.35;
+}
+/* ── who we are ──────────────────────────────────────────── */
+.who-section{padding:clamp(3rem,6vw,5rem) 0;border-top:1px solid var(--line)}
+.who-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.who-text{}
+.who-text h2{font-size:clamp(1.8rem,4vw,2.8rem);font-variation-settings:'wdth' 110,'wght' 700;color:var(--ink);margin-bottom:1rem}
+.who-text p{font-family:'Source Serif 4',serif;font-size:1rem;color:var(--ink-muted);line-height:1.7;margin-bottom:1.25rem}
+.what-we-do{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:2rem}
+.wwd-item{padding:1rem;border-left:3px solid var(--ed2);background:var(--surface);border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.wwd-title{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 100,'wght' 700;font-size:0.9rem;color:var(--ink);margin-bottom:0.3rem}
+.wwd-body{font-family:'Source Serif 4',serif;font-size:0.82rem;color:var(--ink-muted);line-height:1.55}
+.who-image{border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:3/4}
+.who-image img{width:100%;height:100%;object-fit:cover}
+/* ── advisors ────────────────────────────────────────────── */
+.advisors-section{padding:clamp(3rem,5vw,4.5rem) 0;border-top:1px solid var(--line);background:var(--surface)}
+/* ── ambassadors ─────────────────────────────────────────── */
+.ambassadors-section{padding:clamp(3rem,5vw,4.5rem) 0;border-top:1px solid var(--line)}
+.ambassador-card{text-align:center}
+.ambassador-photo{width:100%;aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--n-100);margin-bottom:0.6rem}
+.ambassador-photo img{width:100%;height:100%;object-fit:cover}
+.ambassador-name{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 100,'wght' 700;font-size:0.82rem;color:var(--ink)}
+.ambassador-country{font-family:'Archivo Narrow',sans-serif;font-size:0.72rem;letter-spacing:0.08em;color:var(--ink-muted);margin-top:0.2rem}
+/* ── partners ────────────────────────────────────────────── */
+.partners-section{
+  padding:clamp(2rem,4vw,3rem) 0;border-top:1px solid var(--line);
+  background:var(--navy-800);
+}
+.partners-label{font-family:'Archivo Narrow',sans-serif;font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--navy-300);margin-bottom:1.5rem;text-align:center}
+.partners-row{display:flex;gap:2.5rem;align-items:center;justify-content:center;flex-wrap:wrap}
+.partners-row img{height:36px;width:auto;object-fit:contain;opacity:0.8;filter:brightness(0) invert(1);transition:opacity var(--dur-fast) var(--ease-out)}
+.partners-row img:hover{opacity:1}
+/* ── footer ──────────────────────────────────────────────── */
+.site-footer{
+  background:var(--navy-900);color:var(--navy-300);
+  padding:clamp(3rem,6vw,4.5rem) 0 2rem;
+  border-top:1px solid #2a3768;
+}
+.footer-grid{
+  display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:2.5rem;margin-bottom:3rem;
+}
+.footer-brand{}
+.footer-brand img{height:40px;width:auto;margin-bottom:1rem;opacity:0.85}
+.footer-brand p{font-family:'Source Serif 4',serif;font-size:0.85rem;color:var(--navy-300);line-height:1.6;max-width:28ch}
+.footer-socials{display:flex;gap:0.75rem;margin-top:1rem;flex-wrap:wrap}
+.footer-social{
+  display:flex;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.08);color:var(--navy-300);font-size:0.75rem;
+  font-family:'Archivo Narrow',sans-serif;letter-spacing:0.06em;font-weight:600;
+  transition:background var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out);
+  font-size:0.72rem;
+}
+.footer-social:hover{background:rgba(255,255,255,.18);color:#fff}
+.footer-col h4{
+  font-family:'Archivo Narrow',sans-serif;font-size:0.68rem;
+  letter-spacing:0.22em;text-transform:uppercase;color:#fff;
+  font-weight:700;margin-bottom:1rem;
+}
+.footer-col ul{display:flex;flex-direction:column;gap:0.5rem}
+.footer-col ul li a{
+  font-family:'Archivo Narrow',sans-serif;font-size:0.82rem;
+  color:var(--navy-300);letter-spacing:0.02em;
+  transition:color var(--dur-fast) var(--ease-out);
+}
+.footer-col ul li a:hover{color:#fff}
+.footer-contact address{font-style:normal;display:flex;flex-direction:column;gap:0.5rem}
+.footer-contact p,.footer-contact a{font-family:'Archivo Narrow',sans-serif;font-size:0.82rem;color:var(--navy-300)}
+.footer-contact a{transition:color var(--dur-fast) var(--ease-out)}
+.footer-contact a:hover{color:#fff}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid #2a3768;padding-top:1.5rem;flex-wrap:wrap;gap:0.75rem;
+}
+.footer-bottom p{font-family:'Archivo Narrow',sans-serif;font-size:0.75rem;color:var(--navy-300)}
+/* ── APU visit ───────────────────────────────────────────── */
+.apu-section{
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;
+  padding:1.5rem;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius-lg);margin-bottom:clamp(2rem,4vw,3rem);
+  align-items:center;
+}
+.apu-image{border-radius:var(--radius-md);overflow:hidden;aspect-ratio:4/3}
+.apu-image img{width:100%;height:100%;object-fit:cover}
+.apu-text h3{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 100,'wght' 700;font-size:1.2rem;color:var(--ink);margin-bottom:0.75rem}
+.apu-text p{font-family:'Source Serif 4',serif;font-size:0.92rem;color:var(--ink-muted);line-height:1.65}
+/* ── objectives ──────────────────────────────────────────── */
+.objectives-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:1rem;margin-top:2rem;
+}
+.objective-item{
+  padding:1rem;border-radius:var(--radius-md);
+  background:var(--surface);border:1px solid var(--line);
+}
+.objective-num{font-family:'Archivo Narrow',sans-serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.4rem}
+.objective-title{font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 100,'wght' 700;font-size:0.88rem;color:var(--ink);margin-bottom:0.3rem}
+.objective-body{font-family:'Source Serif 4',serif;font-size:0.8rem;color:var(--ink-muted);line-height:1.5}
+/* ── reveal animations ───────────────────────────────────── */
+.reveal{opacity:1;transform:none;transition:opacity var(--dur-slow) var(--ease-out),transform var(--dur-slow) var(--ease-out)}
+.js-ready .reveal{opacity:0;transform:translateY(20px)}
+.js-ready .reveal.in-view{opacity:1;transform:translateY(0)}
+/* ── responsive ──────────────────────────────────────────── */
+@media(max-width:1024px){
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .hero-inner,.who-grid,.apu-section{grid-template-columns:1fr}
+  .hero-right{order:-1}
+  .who-image{aspect-ratio:16/9;max-height:280px}
+  .edition-header{grid-template-columns:auto 1fr;gap:1rem 1.5rem}
+  .edition-number{font-size:clamp(3rem,12vw,5rem)}
+  .nav-links,.nav-cta,.theme-toggle{display:none}
+  .nav-hamburger{display:flex}
+  .footer-grid{grid-template-columns:1fr}
+  .seed-grant{grid-template-columns:1fr}
+  .what-we-do{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .countdown{gap:0;padding:1rem}
+  .cd-unit{padding:0 0.75rem}
+  .cd-num{font-size:1.6rem}
+  .boarding-pass{min-width:0}
+}
+</style>
+</head>
+<body>
+<!-- Direction pill -->
+<div class="dir-pill" role="complementary" aria-label="Concept identifier">
+  Direction D &middot; Open Atlas
+  <a href="./">All directions</a>
+</div>
+
+<!-- NAV -->
+<header class="site-header" role="banner">
+  <nav class="nav container" aria-label="Primary navigation">
+    <a href="./" class="nav-logo" aria-label="GYN Global Youth Network home">
+      <img src="assets/logos/gyn-logo.png" alt="Global Youth Network (GYN) logo">
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#">Home</a></li>
+      <li>
+        <a href="#edition-01" aria-haspopup="true">Past Events</a>
+        <ul class="nav-sub" role="list">
+          <li><a href="#edition-01">FMS Thailand</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#edition-02" aria-haspopup="true">Upcoming Events</a>
+        <ul class="nav-sub" role="list">
+          <li><a href="#edition-02">SIS Malaysia 2026</a></li>
+        </ul>
+      </li>
+      <li><a href="#who-we-are">About Us</a></li>
+      <li><a href="#footer">Contact Us</a></li>
+    </ul>
+    <div style="display:flex;gap:0.6rem;align-items:center">
+      <button class="theme-toggle" id="themeBtn" aria-label="Toggle dark/light mode" title="Toggle theme">&#9790;</button>
+      <a href="https://thegyn.org/sism-2026/" class="nav-cta">Register Now</a>
+      <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- Mobile nav -->
+<div class="nav-mobile" id="mobileMenu" aria-label="Mobile navigation">
+  <ul role="list">
+    <li><a href="#">Home</a></li>
+    <li><a href="#edition-01">Past Events</a>
+      <ul><li><a href="#edition-01">FMS Thailand</a></li></ul>
+    </li>
+    <li><a href="#edition-02">Upcoming Events</a>
+      <ul><li><a href="#edition-02">SIS Malaysia 2026</a></li></ul>
+    </li>
+    <li><a href="#who-we-are">About Us</a></li>
+    <li><a href="#footer">Contact Us</a></li>
+    <li style="margin-top:1rem"><a href="https://thegyn.org/sism-2026/" style="color:var(--cta);font-weight:700">Register Now &rarr;</a></li>
+  </ul>
+</div>
+
+<main id="main" role="main">
+
+<!-- HERO ─────────────────────────────────────────────────── -->
+<section class="hero" aria-labelledby="hero-h1">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-meta">
+          <span class="coords" aria-label="Coordinates: 3.1390 degrees North, 101.6869 degrees East">3.1390&deg; N &nbsp;101.6869&deg; E</span>
+          <span class="hero-edition" aria-label="Edition 02">EDITION 02</span>
+        </div>
+
+        <h1 id="hero-h1" class="city-wide hero-city">Kuala<br>Lumpur</h1>
+
+        <p class="hero-summit-name">SDG Innovation Summit Malaysia 2026</p>
+
+        <div class="hero-details">
+          <div class="hero-detail-row">
+            <span class="label">Dates</span>
+            <span class="val">19&ndash;22 November 2026</span>
+          </div>
+          <div class="hero-detail-row">
+            <span class="label">Venue</span>
+            <span class="val">Teedo Hotel, Kuala Lumpur</span>
+          </div>
+          <div class="hero-detail-row">
+            <span class="label">Seats</span>
+            <span class="val">100 delegates</span>
+          </div>
+          <div class="hero-detail-row">
+            <span class="label">Theme</span>
+            <span class="val">Innovative Ideas for Social Impact</span>
+          </div>
+        </div>
+
+        <div class="hero-status" role="status" aria-live="polite">
+          <span>Scholarship applications closed &mdash; Confirmed seats open</span>
+        </div>
+
+        <div id="countdown" class="countdown" aria-label="Time until summit starts" role="timer">
+          <div class="cd-unit"><span class="cd-num" id="cd-d">--</span><span class="cd-label">Days</span></div>
+          <div class="cd-unit"><span class="cd-num" id="cd-h">--</span><span class="cd-label">Hours</span></div>
+          <div class="cd-unit"><span class="cd-num" id="cd-m">--</span><span class="cd-label">Mins</span></div>
+          <div class="cd-unit"><span class="cd-num" id="cd-s">--</span><span class="cd-label">Secs</span></div>
+        </div>
+
+        <div class="hero-ctas">
+          <a href="https://thegyn.org/sism-forum-access/" class="btn-primary">Reserve Your Seat</a>
+          <a href="#edition-02" class="btn-ghost">View Ticket Tiers</a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-image-wrap">
+          <img src="assets/hero/sism-2026-hero-visual.webp" alt="SISM 2026 event visual showing delegates at the SDG Innovation Summit Malaysia" loading="eager">
+        </div>
+        <div class="hero-cohost" aria-label="Co-hosted by UNU Global Health">
+          <img src="assets/logos/unu-global-health-logo.png" alt="UNU Global Health logo">
+          <div>
+            <strong>Co-hosted by</strong>
+            <p>United Nations University &ndash; International Institute for Global Health, Malaysia</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SDG STRIP -->
+<div class="sdg-strip" role="complementary" aria-label="GYN focus SDGs">
+  <div class="container sdg-strip-inner">
+    <span class="sdg-strip-label">Focus SDGs</span>
+    <div class="sdg-dots" role="list" aria-label="17 Sustainable Development Goals">
+      <span class="sdg-dot inactive" role="listitem" style="background:#e5243b" title="SDG 1: No Poverty"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#dda63a" title="SDG 2: Zero Hunger"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#4c9f38" title="SDG 3: Good Health"></span>
+      <span class="sdg-dot active" role="listitem" style="background:var(--sdg-4);color:var(--sdg-4)" aria-label="SDG 4 Quality Education (GYN Focus)" title="SDG 4: Quality Education - GYN Focus"></span>
+      <span class="sdg-dot active" role="listitem" style="background:var(--sdg-5);color:var(--sdg-5)" aria-label="SDG 5 Gender Equality (GYN Focus)" title="SDG 5: Gender Equality - GYN Focus"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#26bde2" title="SDG 6: Clean Water"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#fcc30b" title="SDG 7: Affordable Energy"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#a21942" title="SDG 8: Decent Work"></span>
+      <span class="sdg-dot active" role="listitem" style="background:var(--sdg-9);color:var(--sdg-9)" aria-label="SDG 9 Industry Innovation (GYN Focus)" title="SDG 9: Industry, Innovation - GYN Focus"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#dd1367" title="SDG 10: Reduced Inequalities"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#fd9d24" title="SDG 11: Sustainable Cities"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#bf8b2e" title="SDG 12: Responsible Consumption"></span>
+      <span class="sdg-dot active" role="listitem" style="background:var(--sdg-13);color:var(--sdg-13)" aria-label="SDG 13 Climate Action (GYN Focus)" title="SDG 13: Climate Action - GYN Focus"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#0a97d9" title="SDG 14: Life Below Water"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#56c02b" title="SDG 15: Life on Land"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#00689d" title="SDG 16: Peace and Justice"></span>
+      <span class="sdg-dot inactive" role="listitem" style="background:#19486a" title="SDG 17: Partnerships"></span>
+    </div>
+    <div class="sdg-focus-labels" aria-label="GYN four focus SDGs">
+      <span class="sdg-focus-item"><span class="dot" style="background:var(--sdg-4)"></span>SDG 4 Education</span>
+      <span class="sdg-focus-item"><span class="dot" style="background:var(--sdg-5)"></span>SDG 5 Equality</span>
+      <span class="sdg-focus-item"><span class="dot" style="background:var(--sdg-9)"></span>SDG 9 Innovation</span>
+      <span class="sdg-focus-item"><span class="dot" style="background:var(--sdg-13)"></span>SDG 13 Climate</span>
+    </div>
+  </div>
+</div>
+
+<!-- ATLAS MAP -->
+<section class="atlas-section" id="atlas" aria-labelledby="atlas-heading">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="atlas-heading">A Global Community</h2>
+      <p>GYN connects delegates, ambassadors and advisors across continents. Every lit country represents someone from our network.</p>
+    </div>
+    <div class="atlas-grid">
+      <div class="atlas-canvas-wrap" role="img" aria-label="Interactive world map showing GYN network countries">
+        <canvas id="worldmap" width="720" height="360" aria-hidden="true"></canvas>
+        <div class="atlas-tooltip" id="mapTooltip" role="tooltip" aria-live="polite"></div>
+        <div class="atlas-legend" aria-label="Map legend">
+          <span class="atlas-legend-item"><span class="atlas-legend-swatch" style="background:var(--crimson-600)"></span>Edition 02 Malaysia</span>
+          <span class="atlas-legend-item"><span class="atlas-legend-swatch" style="background:var(--leaf-600)"></span>Edition 01 Thailand</span>
+          <span class="atlas-legend-item"><span class="atlas-legend-swatch" style="background:var(--navy-500)"></span>Ambassadors &amp; Advisors</span>
+        </div>
+      </div>
+      <div class="atlas-country-list" role="region" aria-labelledby="country-list-heading">
+        <h3 id="country-list-heading">Countries in Our Network</h3>
+        <div class="country-grid" role="list">
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127474;&#127486;</span><div class="country-entry-text"><div class="country-entry-name">Malaysia <small style="color:var(--ed2)">Ed. 02</small></div><div class="country-entry-people">Lim Pei En</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127481;&#127469;</span><div class="country-entry-text"><div class="country-entry-name">Thailand <small style="color:var(--ed1)">Ed. 01</small></div><div class="country-entry-people">Patee</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127482;&#127480;</span><div class="country-entry-text"><div class="country-entry-name">United States</div><div class="country-entry-people">Helga Tongi &middot; Casey &middot; Sidra Riaz</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127470;&#127475;</span><div class="country-entry-text"><div class="country-entry-name">India</div><div class="country-entry-people">Ashif &middot; Arumita Mitra</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127464;&#127475;</span><div class="country-entry-text"><div class="country-entry-name">China</div><div class="country-entry-people">Wenbo Li</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127462;&#127482;</span><div class="country-entry-text"><div class="country-entry-name">Australia</div><div class="country-entry-people">Diba &middot; Julie Victoire</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127464;&#127462;</span><div class="country-entry-text"><div class="country-entry-name">Canada</div><div class="country-entry-people">Ashley Blake</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127468;&#127463;</span><div class="country-entry-text"><div class="country-entry-name">United Kingdom</div><div class="country-entry-people">Elam Khan</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127475;&#127468;</span><div class="country-entry-text"><div class="country-entry-name">Nigeria</div><div class="country-entry-people">Dr Righteous</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127477;&#127472;</span><div class="country-entry-text"><div class="country-entry-name">Pakistan</div><div class="country-entry-people">Abdul Ahad</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127463;&#127465;</span><div class="country-entry-text"><div class="country-entry-name">Bangladesh</div><div class="country-entry-people">Md Nafi</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127475;&#127477;</span><div class="country-entry-text"><div class="country-entry-name">Nepal</div><div class="country-entry-people">Kritika Ghimire</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127473;&#127463;</span><div class="country-entry-text"><div class="country-entry-name">Lebanon</div><div class="country-entry-people">Yara Shamas</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127473;&#127462;</span><div class="country-entry-text"><div class="country-entry-name">Laos</div><div class="country-entry-people">Boling</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127477;&#127480;</span><div class="country-entry-text"><div class="country-entry-name">Palestine</div><div class="country-entry-people">Sura Fitiani</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127476;&#127474;</span><div class="country-entry-text"><div class="country-entry-name">Oman</div><div class="country-entry-people">Dr. Salah</div></div></div>
+          <div class="country-entry" role="listitem" tabindex="0"><span class="flag">&#127462;&#127466;</span><div class="country-entry-text"><div class="country-entry-name">UAE</div><div class="country-entry-people">Dr. Mona Al Kadi</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDITIONS INTRO -->
+<div style="padding:clamp(3rem,6vw,5rem) 0 0;border-top:1px solid var(--line)">
+  <div class="container">
+    <div style="max-width:640px;margin:0 auto;text-align:center">
+      <span class="eyebrow" style="display:block;margin-bottom:0.75rem">The GYN Journey</span>
+      <h2 style="font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 110,'wght' 800;font-size:clamp(2rem,5vw,3.5rem);color:var(--ink);line-height:1.05">From Bangkok to Kuala Lumpur</h2>
+      <p style="font-family:'Source Serif 4',serif;font-size:1.05rem;color:var(--ink-muted);margin-top:0.75rem;line-height:1.65">Each GYN summit is a chapter in a longer story. Edition 01 planted the flag in Southeast Asia. Edition 02 raises it higher.</p>
+    </div>
+  </div>
+</div>
+
+<!-- EDITION 01: BANGKOK -->
+<section class="edition-section" id="edition-01" aria-labelledby="ed01-heading">
+  <div class="container">
+    <div class="edition-header">
+      <div class="edition-number" aria-hidden="true">01</div>
+      <div class="edition-info">
+        <span class="edition-tag past">Past Edition</span>
+        <h2 id="ed01-heading" class="city-wide edition-city">Bangkok</h2>
+        <p class="edition-meta">
+          <span class="coords">13.7563&deg; N, 100.5018&deg; E</span>
+          &nbsp;&nbsp;|&nbsp;&nbsp;July 16&ndash;19, 2026 &nbsp;&nbsp;|&nbsp;&nbsp; Le Srivaree Suvarnabhumi Hotel
+        </p>
+        <p class="edition-summary">The inaugural GYN summit. Over 70 participants from across the world gathered in Bangkok under the theme <em>Exploring Sustainability through Innovative Minds</em>. Four chapters of dialogue, workshops and policy roundtables.</p>
+      </div>
+    </div>
+
+    <!-- Chapters -->
+    <div class="chapter-list reveal" role="list" aria-label="FutureMinds Summit chapters">
+      <article class="chapter-card" role="listitem">
+        <span class="chapter-num">Chapter 1</span>
+        <h3 class="chapter-title">Global Collaboration &amp; Leadership</h3>
+        <p class="chapter-body">Global leaders discuss how collaboration and leadership drive innovation across sustainable development.</p>
+        <ul class="chapter-sessions" aria-label="Sessions">
+          <li class="chapter-session"><span class="sess-type">Keynote</span> From Local Action to Global Impact &mdash; Kehkashan Basu</li>
+          <li class="chapter-session"><span class="sess-type">Interactive Keynote</span> MDGs to SDGs to 2045 &mdash; Dr. Suman Roy</li>
+          <li class="chapter-session"><span class="sess-type">Keynote</span> Advancing Women's Rights &mdash; Dr. Methinee Wongwanich</li>
+        </ul>
+      </article>
+      <article class="chapter-card" role="listitem">
+        <span class="chapter-num">Chapter 2</span>
+        <h3 class="chapter-title">Connecting Strategy, Policy &amp; Social Impact</h3>
+        <p class="chapter-body">Workshops and keynotes on policy formulation and strategic decision-making for sustainable futures.</p>
+        <ul class="chapter-sessions" aria-label="Sessions">
+          <li class="chapter-session"><span class="sess-type">Policy Workshop</span> Transforming Education through Inclusive Policies &mdash; Dr. Mona Al Kadi</li>
+          <li class="chapter-session"><span class="sess-type">Entrepreneurship Workshop</span> Profit, People, Planet &mdash; Sura Fitiani</li>
+          <li class="chapter-session"><span class="sess-type">Keynote</span> Feminist Climate Governance &mdash; Sidra Riaz</li>
+        </ul>
+      </article>
+      <article class="chapter-card" role="listitem">
+        <span class="chapter-num">Chapter 3 &mdash; Summit Theme</span>
+        <h3 class="chapter-title">Exploring Sustainability through Innovative Minds</h3>
+        <p class="chapter-body">The delegate-led heart of the summit. Teams formed, brainstormed and presented solutions to a panel of judges.</p>
+        <ul class="chapter-sessions" aria-label="Sessions">
+          <li class="chapter-session"><span class="sess-type">Delegate Activity</span> World Got a Problem &mdash; Group Formation, Brainstorming &amp; Presentations</li>
+        </ul>
+      </article>
+      <article class="chapter-card" role="listitem">
+        <span class="chapter-num">Chapter 4</span>
+        <h3 class="chapter-title">AI Corner: Smart Innovation, Human Rights &amp; AI</h3>
+        <p class="chapter-body">A dedicated space exploring artificial intelligence, innovation and human rights with tech leaders and sustainability experts.</p>
+        <ul class="chapter-sessions" aria-label="Sessions">
+          <li class="chapter-session"><span class="sess-type">Keynote</span> AI as Sustainable Digital Infrastructure &mdash; Wenbo Li</li>
+          <li class="chapter-session"><span class="sess-type">Workshop</span> Smart Innovation: AI &amp; Gender Equality &mdash; Dr. Shaleen Das</li>
+          <li class="chapter-session"><span class="sess-type">AI Panel</span> Future Minds &amp; a Sustainable Future &mdash; moderated by Sura Fitiani</li>
+        </ul>
+      </article>
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery-section reveal">
+      <p class="gallery-head">From the Ground &mdash; Bangkok, July 2026</p>
+      <div class="gallery-grid" role="list" aria-label="Photo gallery from FutureMinds Summit Thailand">
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01881-1.webp" alt="Delegates at FutureMinds Summit Thailand" loading="lazy"></div>
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01894-1.webp" alt="Workshop session at FutureMinds Summit" loading="lazy"></div>
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01945-1.webp" alt="Panel discussion at FutureMinds Summit Thailand" loading="lazy"></div>
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01960-1.webp" alt="Delegates networking at FutureMinds Summit" loading="lazy"></div>
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01976-1.webp" alt="Keynote presentation at FutureMinds Summit" loading="lazy"></div>
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc01989-1.webp" alt="Group activity at FutureMinds Summit Thailand" loading="lazy"></div>
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc02120-1.webp" alt="Cultural night at FutureMinds Summit Thailand" loading="lazy"></div>
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc02142-1.webp" alt="Delegates at FutureMinds Summit Bangkok" loading="lazy"></div>
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc02159-1.webp" alt="Workshop participants at FutureMinds Summit" loading="lazy"></div>
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc02172-1.webp" alt="Summit session at FutureMinds Thailand" loading="lazy"></div>
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc02243-1.webp" alt="Group photo at FutureMinds Summit Thailand" loading="lazy"></div>
+        <div class="gallery-item" role="listitem"><img src="assets/gallery/fmst-dsc03736-1.webp" alt="Closing ceremony FutureMinds Summit Thailand" loading="lazy"></div>
+      </div>
+    </div>
+
+    <!-- Edition 01 Videos -->
+    <div class="video-section reveal">
+      <div class="video-section-head">
+        <h3>Highlights &mdash; Edition 01</h3>
+      </div>
+      <div class="video-grid" role="list" aria-label="FutureMinds Summit highlight videos">
+        <div class="video-card" role="listitem" tabindex="0" data-vid="Aqqo3cL4W6w" data-title="Future Minds Summit 2026 - Day 1 Highlights" data-cat="highlights" aria-label="Play: Future Minds Summit 2026 Day 1 Highlights">
+          <div class="video-thumb"><img src="assets/video/Aqqo3cL4W6w.jpg" alt="Future Minds Summit 2026 Day 1 Highlights thumbnail" loading="lazy"><div class="video-play-btn"><div class="video-play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+          <span class="video-cat highlights">Highlights</span>
+          <p class="video-title">Future Minds Summit 2026 &mdash; Day 1 Highlights</p>
+        </div>
+        <div class="video-card" role="listitem" tabindex="0" data-vid="FwjXKiF4QJ0" data-title="Future Minds Summit 2026 - Day 2 Highlights" data-cat="highlights" aria-label="Play: Future Minds Summit 2026 Day 2 Highlights">
+          <div class="video-thumb"><img src="assets/video/FwjXKiF4QJ0.jpg" alt="Future Minds Summit 2026 Day 2 Highlights thumbnail" loading="lazy"><div class="video-play-btn"><div class="video-play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+          <span class="video-cat highlights">Highlights</span>
+          <p class="video-title">Future Minds Summit 2026 &mdash; Day 2 Highlights</p>
+        </div>
+        <div class="video-card" role="listitem" tabindex="0" data-vid="TjnrswlwX8k" data-title="Future Minds Summit 2026 - Day 3 Highlights" data-cat="highlights" aria-label="Play: Future Minds Summit 2026 Day 3 Highlights">
+          <div class="video-thumb"><img src="assets/video/TjnrswlwX8k.jpg" alt="Future Minds Summit 2026 Day 3 Highlights thumbnail" loading="lazy"><div class="video-play-btn"><div class="video-play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+          <span class="video-cat highlights">Highlights</span>
+          <p class="video-title">Future Minds Summit 2026 &mdash; Day 3 Highlights</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDITION 02: KUALA LUMPUR -->
+<section class="edition-section" id="edition-02" aria-labelledby="ed02-heading" style="border-top:2px solid var(--ed2)">
+  <div class="container">
+    <div class="edition-header">
+      <div class="edition-number" aria-hidden="true" style="color:var(--ed2-bg)">02</div>
+      <div class="edition-info">
+        <span class="edition-tag upcoming">Upcoming Edition</span>
+        <h2 id="ed02-heading" class="city-wide edition-city">Kuala<br>Lumpur</h2>
+        <p class="edition-meta">
+          <span class="coords">3.1390&deg; N, 101.6869&deg; E</span>
+          &nbsp;&nbsp;|&nbsp;&nbsp;Nov 19&ndash;22, 2026 &nbsp;&nbsp;|&nbsp;&nbsp; Teedo Hotel &nbsp;&nbsp;|&nbsp;&nbsp; 100 seats
+        </p>
+        <p class="edition-summary">The SDG Innovation Summit Malaysia 2026 (SISM) co-hosted with the United Nations University. Join 100 young leaders in Kuala Lumpur for workshops, policy roundtables, innovation labs and the $1,000 Seed Grant competition.</p>
+      </div>
+    </div>
+
+    <!-- Ticket tiers as boarding passes -->
+    <div class="tickets-section">
+      <div class="tickets-intro">
+        <span class="eyebrow" style="display:block;margin-bottom:0.5rem">Participation Tiers</span>
+        <h3 style="font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 110,'wght' 700;font-size:clamp(1.5rem,3vw,2rem);color:var(--ink)">Choose Your Journey to KUL</h3>
+        <p style="font-family:'Source Serif 4',serif;font-size:0.95rem;color:var(--ink-muted);margin-top:0.5rem">Scholarship applications are now closed. Confirmed-seat registrations remain open.</p>
+      </div>
+
+      <div class="tickets-grid" role="list" aria-label="Ticket tiers for SISM 2026">
+
+        <!-- FULLY FUNDED - CLOSED -->
+        <article class="boarding-pass closed" role="listitem" aria-label="Fully Funded Scholarship - Closed">
+          <div class="bp-accent" style="background:var(--leaf-600)"></div>
+          <div class="bp-header"><span class="bp-airline">GYN SISM 2026</span><span class="bp-logo-small">GYN</span></div>
+          <div class="bp-route">
+            <div class="bp-city-block"><div class="bp-code">WLD</div><div class="bp-city-name">Worldwide</div></div>
+            <div class="bp-arrow">&#8594;</div>
+            <div class="bp-city-block"><div class="bp-code">KUL</div><div class="bp-city-name">Kuala Lumpur</div></div>
+          </div>
+          <div class="bp-details">
+            <div class="bp-field"><span class="bp-field-label">Date</span><div class="bp-field-val">19&ndash;22 Nov 2026</div></div>
+            <div class="bp-field"><span class="bp-field-label">Class</span><div class="bp-field-val">Fully Funded</div></div>
+            <div class="bp-field"><span class="bp-field-label">Seats</span><div class="bp-field-val">15 of 30</div></div>
+            <div class="bp-field"><span class="bp-field-label">App. Fee</span><div class="bp-field-val">$18.50</div></div>
+          </div>
+          <ul class="bp-includes" aria-label="What is included">
+            <li>Round-Trip Airfare Support</li>
+            <li>Accommodation (Twin Sharing)</li>
+            <li>Meals, Visa Fees &amp; Invitation Letter</li>
+            <li>Summit Access &amp; Certificate</li>
+            <li>APU Campus Tour</li>
+          </ul>
+          <hr class="bp-perforated" aria-hidden="true">
+          <div class="bp-stub">
+            <div class="bp-cta closed-btn" role="status" aria-label="Applications closed">Applications Closed</div>
+          </div>
+          <div class="bp-stamp" aria-hidden="true">CLOSED</div>
+        </article>
+
+        <!-- PARTIAL SCHOLARSHIP - CLOSED -->
+        <article class="boarding-pass closed" role="listitem" aria-label="Partial Scholarship - Closed">
+          <div class="bp-accent" style="background:var(--leaf-500)"></div>
+          <div class="bp-header"><span class="bp-airline">GYN SISM 2026</span><span class="bp-logo-small">GYN</span></div>
+          <div class="bp-route">
+            <div class="bp-city-block"><div class="bp-code">WLD</div><div class="bp-city-name">Worldwide</div></div>
+            <div class="bp-arrow">&#8594;</div>
+            <div class="bp-city-block"><div class="bp-code">KUL</div><div class="bp-city-name">Kuala Lumpur</div></div>
+          </div>
+          <div class="bp-details">
+            <div class="bp-field"><span class="bp-field-label">Date</span><div class="bp-field-val">19&ndash;22 Nov 2026</div></div>
+            <div class="bp-field"><span class="bp-field-label">Class</span><div class="bp-field-val">Partial Scholarship</div></div>
+            <div class="bp-field"><span class="bp-field-label">Seats</span><div class="bp-field-val">15 of 30</div></div>
+            <div class="bp-field"><span class="bp-field-label">App. Fee</span><div class="bp-field-val">$18.50</div></div>
+          </div>
+          <ul class="bp-includes" aria-label="What is included">
+            <li>Accommodation (Twin Sharing)</li>
+            <li>Meals &amp; Refreshments</li>
+            <li>Invitation Letter for Visa</li>
+            <li>Summit Access &amp; Certificate</li>
+            <li>APU Campus Tour</li>
+          </ul>
+          <hr class="bp-perforated" aria-hidden="true">
+          <div class="bp-stub">
+            <div class="bp-cta closed-btn" role="status" aria-label="Applications closed">Applications Closed</div>
+          </div>
+          <div class="bp-stamp" aria-hidden="true">CLOSED</div>
+        </article>
+
+        <!-- FORUM ACCESS - OPEN -->
+        <article class="boarding-pass" role="listitem" aria-label="Forum Access confirmed seat, $199">
+          <div class="bp-accent" style="background:var(--ed2)"></div>
+          <div class="bp-header" style="background:var(--crimson-600)"><span class="bp-airline">GYN SISM 2026</span><span class="bp-logo-small">GYN</span></div>
+          <div class="bp-route">
+            <div class="bp-city-block"><div class="bp-code">WLD</div><div class="bp-city-name">Worldwide</div></div>
+            <div class="bp-arrow">&#8594;</div>
+            <div class="bp-city-block"><div class="bp-code">KUL</div><div class="bp-city-name">Kuala Lumpur</div></div>
+          </div>
+          <div class="bp-details">
+            <div class="bp-field"><span class="bp-field-label">Date</span><div class="bp-field-val">19&ndash;22 Nov 2026</div></div>
+            <div class="bp-field"><span class="bp-field-label">Class</span><div class="bp-field-val">Forum Access</div></div>
+            <div class="bp-field"><span class="bp-field-label">Fare</span><div class="bp-field-val"><s>$249</s> $199</div></div>
+            <div class="bp-field"><span class="bp-field-label">Status</span><div class="bp-field-val" style="color:var(--leaf-600)">CONFIRMED</div></div>
+          </div>
+          <ul class="bp-includes" aria-label="What is included">
+            <li>Early Invitation Letter</li>
+            <li>Welcome Dinner</li>
+            <li>Summit Access &amp; GYN Merchandise</li>
+            <li>Speaking Opportunity</li>
+            <li>Cultural Night &amp; APU Campus Tour</li>
+          </ul>
+          <hr class="bp-perforated" aria-hidden="true">
+          <div class="bp-stub">
+            <a href="https://thegyn.org/sism-forum-access/" class="bp-cta open">Register Now &rarr;</a>
+          </div>
+        </article>
+
+        <!-- SELF FUNDED - OPEN -->
+        <article class="boarding-pass" role="listitem" aria-label="Self Funded confirmed seat with accommodation, $399">
+          <div class="bp-accent" style="background:var(--navy-700)"></div>
+          <div class="bp-header" style="background:var(--navy-700)"><span class="bp-airline">GYN SISM 2026</span><span class="bp-logo-small">GYN</span></div>
+          <div class="bp-route">
+            <div class="bp-city-block"><div class="bp-code">WLD</div><div class="bp-city-name">Worldwide</div></div>
+            <div class="bp-arrow">&#8594;</div>
+            <div class="bp-city-block"><div class="bp-code">KUL</div><div class="bp-city-name">Kuala Lumpur</div></div>
+          </div>
+          <div class="bp-details">
+            <div class="bp-field"><span class="bp-field-label">Date</span><div class="bp-field-val">19&ndash;22 Nov 2026</div></div>
+            <div class="bp-field"><span class="bp-field-label">Class</span><div class="bp-field-val">Self Funded + Accom.</div></div>
+            <div class="bp-field"><span class="bp-field-label">Fare</span><div class="bp-field-val"><s>$449</s> $399</div></div>
+            <div class="bp-field"><span class="bp-field-label">Status</span><div class="bp-field-val" style="color:var(--leaf-600)">CONFIRMED</div></div>
+          </div>
+          <ul class="bp-includes" aria-label="What is included">
+            <li>Accommodation (Twin Sharing)</li>
+            <li>Meals &amp; Refreshments</li>
+            <li>Early Invitation Letter for Visa</li>
+            <li>Summit Access &amp; GYN Merchandise</li>
+            <li>Cultural Night &amp; APU Campus Tour</li>
+          </ul>
+          <hr class="bp-perforated" aria-hidden="true">
+          <div class="bp-stub">
+            <a href="https://thegyn.org/sism-self-funded/" class="bp-cta open">Register Now &rarr;</a>
+          </div>
+        </article>
+
+        <!-- INVITATION LETTER - OPEN -->
+        <article class="boarding-pass" role="listitem" aria-label="Invitation Letter only, $49">
+          <div class="bp-accent" style="background:var(--ember-600)"></div>
+          <div class="bp-header" style="background:var(--ember-600)"><span class="bp-airline">GYN SISM 2026</span><span class="bp-logo-small">GYN</span></div>
+          <div class="bp-route">
+            <div class="bp-city-block"><div class="bp-code">VISA</div><div class="bp-city-name">Visa Support</div></div>
+            <div class="bp-arrow">&#8594;</div>
+            <div class="bp-city-block"><div class="bp-code">KUL</div><div class="bp-city-name">Kuala Lumpur</div></div>
+          </div>
+          <div class="bp-details">
+            <div class="bp-field"><span class="bp-field-label">Delivery</span><div class="bp-field-val">48 Hours</div></div>
+            <div class="bp-field"><span class="bp-field-label">Type</span><div class="bp-field-val">Invitation Letter</div></div>
+            <div class="bp-field"><span class="bp-field-label">Fare</span><div class="bp-field-val">$49</div></div>
+            <div class="bp-field"><span class="bp-field-label">Status</span><div class="bp-field-val" style="color:var(--leaf-600)">OPEN</div></div>
+          </div>
+          <ul class="bp-includes" aria-label="What is included">
+            <li>Official Summit Invitation Letter</li>
+            <li>Visa Supporting Documentation</li>
+            <li>Visa Application Guidance</li>
+          </ul>
+          <hr class="bp-perforated" aria-hidden="true">
+          <div class="bp-stub">
+            <a href="https://thegyn.org/sism-invitation-letter/" class="bp-cta open" style="background:var(--ember-600)">Get Invitation &rarr;</a>
+          </div>
+        </article>
+
+      </div>
+
+      <p style="font-family:'Archivo Narrow',sans-serif;font-size:0.8rem;color:var(--ink-muted);margin-top:1rem">
+        Group discounts available. Email <strong>contact@thegyn.org</strong> for details.
+      </p>
+    </div>
+
+    <!-- Seed Grant -->
+    <div class="seed-grant reveal" role="complementary" aria-label="Seed Grant Award">
+      <div>
+        <div class="seed-amount">$1,000</div>
+        <div class="seed-label">Seed Grant Award</div>
+      </div>
+      <div class="seed-body">
+        <h3>Compete for the Seed Grant</h3>
+        <p>Present your innovation project on stage at SISM 2026. Whether conceptual, pilot-phase or fully realized, compete for a $1,000 seed grant to support social impact initiatives aligned with SDGs 4, 5, 9 and 13.</p>
+      </div>
+    </div>
+
+    <!-- APU Visit -->
+    <div class="apu-section reveal" aria-label="Exclusive APU institutional visit">
+      <div class="apu-image">
+        <img src="assets/venue/apu-asia-pacific-university.webp" alt="Asia Pacific University (APU) campus in Malaysia" loading="lazy">
+      </div>
+      <div class="apu-text">
+        <span class="eyebrow" style="display:block;margin-bottom:0.5rem">Exclusive Campus Visit</span>
+        <h3>Asia Pacific University (APU)</h3>
+        <p>An exclusive institutional visit to one of Malaysia's leading universities. Explore APU's innovation ecosystem, connect with international delegates, and discover new perspectives. Delegates will also visit Petaling Street (Chinatown), GMBB KL, Petronas Twin Towers and KLCC Park.</p>
+      </div>
+    </div>
+
+    <!-- Edition 02 Speakers -->
+    <div class="speakers-section">
+      <span class="eyebrow" style="display:block;margin-bottom:0.75rem">Esteemed Speakers</span>
+      <h3 style="font-family:'Archivo',sans-serif;font-variation-settings:'wdth' 100,'wght' 700;font-size:clamp(1.5rem,3vw,2.2rem);color:var(--ink)">SISM 2026 Speakers</h3>
+      <div class="people-grid reveal" role="list" aria-label="SISM 2026 speakers">
+        <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/speakers/julie-victoire.webp" alt="Julie Victoire" loading="lazy"></div><div class="person-name">Julie Victoire</div><div class="person-role">International Youth Advocate | Founder The Rise Edit, Australia</div></div>
+        <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/speakers/dr-mohd-farid-bin-atan.webp" alt="Dr Mohd Farid bin Atan" loading="lazy"></div><div class="person-name">Dr Mohd Farid bin Atan</div><div class="person-role">Deputy Director (Sustainability), UNIMAS</div></div>
+        <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/speakers/ayman-william-hermansson.webp" alt="Ayman William Hermansson" loading="lazy"></div><div class="person-name">Ayman William Hermansson</div><div class="person-role">Assistant Professor, Heriot-Watt University Malaysia</div></div>
+        <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/speakers/syed-bilal-qasim.webp" alt="Syed Bilal Qasim" loading="lazy"></div><div class="person-name">Syed Bilal Qasim</div><div class="person-role">CEO Techsol Space | Project Director CEGA</div></div>
+        <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/speakers/sapargulay-mahtumov.webp" alt="Sapargulay Mahtumov" loading="lazy"></div><div class="person-name">Sapargulay Mahtumov</div><div class="person-role">Youth Coordinator, MySDG Academy, Malaysia</div></div>
+        <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/speakers/jasmine-cannon-ikurusi.webp" alt="Jasmine Cannon-Ikurusi" loading="lazy"></div><div class="person-name">Jasmine Cannon-Ikurusi</div><div class="person-role">CEO &amp; Founder, Sapphire Employability Academy, London</div></div>
+        <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/speakers/ashley-blake.webp" alt="Ashley Blake" loading="lazy"></div><div class="person-name">Ashley Blake</div><div class="person-role">Head of Partnership, vrCAVE Canada</div></div>
+        <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/speakers/arumita-mitra.webp" alt="Arumita Mitra" loading="lazy"></div><div class="person-name">Arumita Mitra</div><div class="person-role">Founder, Sudhamta Foundation India | TedX Speaker | UN SDG Advocate</div></div>
+      </div>
+    </div>
+
+    <!-- Edition 02 Videos (testimonials) -->
+    <div class="video-section reveal" style="margin-top:2.5rem">
+      <div class="video-section-head">
+        <h3>Hear from Our Delegates</h3>
+      </div>
+      <div class="video-grid" role="list" aria-label="Delegate testimonial videos">
+        <div class="video-card" role="listitem" tabindex="0" data-vid="cO1D5dJFops" data-title="Experience of Sura Fitiani from Palestine" data-cat="speakers" aria-label="Play: Experience of Sura Fitiani"><div class="video-thumb"><img src="assets/video/cO1D5dJFops.jpg" alt="" loading="lazy"><div class="video-play-btn"><div class="video-play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div></div><span class="video-cat speakers">Speaker</span><p class="video-title">Experience of Sura Fitiani, Speaker from Palestine</p></div>
+        <div class="video-card" role="listitem" tabindex="0" data-vid="eeFq13x-_rQ" data-title="Meet Dr. Suman Roy - Most Energetic Speaker at FutureMinds Summit" data-cat="speakers" aria-label="Play: Meet Dr. Suman Roy"><div class="video-thumb"><img src="assets/video/eeFq13x-_rQ.jpg" alt="" loading="lazy"><div class="video-play-btn"><div class="video-play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div></div><span class="video-cat speakers">Speaker</span><p class="video-title">Meet Dr. Suman Roy &mdash; Most Energetic Speaker</p></div>
+        <div class="video-card" role="listitem" tabindex="0" data-vid="-UwHA0DhXkA" data-title="Speaker Testimonial - Future Minds Summit 2026" data-cat="speakers" aria-label="Play: Speaker Testimonial"><div class="video-thumb"><img src="assets/video/-UwHA0DhXkA.jpg" alt="" loading="lazy"><div class="video-play-btn"><div class="video-play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div></div><span class="video-cat speakers">Speaker</span><p class="video-title">Speaker Testimonial &mdash; Future Minds Summit 2026</p></div>
+        <div class="video-card" role="listitem" tabindex="0" data-vid="vcwp4HK7UeI" data-title="Special Guest Testimonial - Future Minds Summit 2026" data-cat="testimonials" aria-label="Play: Special Guest Testimonial"><div class="video-thumb"><img src="assets/video/vcwp4HK7UeI.jpg" alt="" loading="lazy"><div class="video-play-btn"><div class="video-play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div></div><span class="video-cat testimonials">Testimonial</span><p class="video-title">Special Guest Testimonial &mdash; Future Minds Summit</p></div>
+        <div class="video-card" role="listitem" tabindex="0" data-vid="T5Xrp8KcqOY" data-title="A Voice from India - Tejaswini at Future Minds Summit 2026" data-cat="testimonials" aria-label="Play: A Voice from India"><div class="video-thumb"><img src="assets/video/T5Xrp8KcqOY.jpg" alt="" loading="lazy"><div class="video-play-btn"><div class="video-play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div></div><span class="video-cat testimonials">Testimonial</span><p class="video-title">A Voice from India &mdash; Tejaswini at Future Minds Summit</p></div>
+        <div class="video-card" role="listitem" tabindex="0" data-vid="q-nYUFwEdo4" data-title="Future Minds Summit 2026 - Bangkok, Thailand" data-cat="highlights" aria-label="Play: Future Minds Summit 2026 Bangkok"><div class="video-thumb"><img src="assets/video/q-nYUFwEdo4.jpg" alt="" loading="lazy"><div class="video-play-btn"><div class="video-play-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div></div><span class="video-cat highlights">Highlights</span><p class="video-title">Future Minds Summit 2026 &mdash; Bangkok, Thailand</p></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHO WE ARE -->
+<section class="who-section" id="who-we-are" aria-labelledby="who-heading">
+  <div class="container">
+    <div class="who-grid">
+      <div class="who-text">
+        <span class="eyebrow" style="display:block;margin-bottom:0.75rem">Who We Are</span>
+        <h2 id="who-heading">Global Youth Network</h2>
+        <p>Global Youth Network (GYN) is an international organization dedicated to connecting and empowering young people worldwide. We bring together students, professionals, and innovators to collaborate across borders, develop leadership skills, and create meaningful global impact.</p>
+
+        <div class="what-we-do" role="list" aria-label="What GYN does">
+          <div class="wwd-item" role="listitem">
+            <div class="wwd-title">Conferences</div>
+            <div class="wwd-body">GYN hosts international forums, workshops and summits to promote dialogue on Sustainable Development Goals.</div>
+          </div>
+          <div class="wwd-item" role="listitem">
+            <div class="wwd-title">Networking</div>
+            <div class="wwd-body">A collaborative ecosystem of mentorship, technical support and resource sharing to address the world's most pressing challenges.</div>
+          </div>
+          <div class="wwd-item" role="listitem">
+            <div class="wwd-title">Leadership Development</div>
+            <div class="wwd-body">Empowering a new generation of leaders to navigate complexity with visionary foresight and measurable global impact.</div>
+          </div>
+          <div class="wwd-item" role="listitem">
+            <div class="wwd-title">Collaborative Networks</div>
+            <div class="wwd-body">Cultivating a global ecosystem of cross-border dialogue and strategic partnerships for innovative solutions.</div>
+          </div>
+          <div class="wwd-item" role="listitem">
+            <div class="wwd-title">Youth Mentoring</div>
+            <div class="wwd-body">Providing tailor-made and hands-on mentoring to youth to become effective leaders.</div>
+          </div>
+          <div class="wwd-item" role="listitem">
+            <div class="wwd-title">Workshops &amp; Trainings</div>
+            <div class="wwd-body">Building leadership capacities and policy expertise for future-ready governance.</div>
+          </div>
+        </div>
+      </div>
+      <div class="who-image" aria-hidden="true">
+        <img src="assets/about/mission-photo.webp" alt="GYN delegates collaborating at a summit" loading="lazy">
+      </div>
+    </div>
+
+    <!-- Objectives -->
+    <div style="margin-top:clamp(2.5rem,5vw,4rem)">
+      <span class="eyebrow" style="display:block;margin-bottom:0.75rem">Our Objectives</span>
+      <div class="objectives-grid reveal" role="list" aria-label="GYN objectives">
+        <div class="objective-item" role="listitem"><div class="objective-num">01</div><div class="objective-title">Empowerment</div><div class="objective-body">Priming young leaders with skills, mindset, and confidence to drive systemic change.</div></div>
+        <div class="objective-item" role="listitem"><div class="objective-num">02</div><div class="objective-title">Data Unification</div><div class="objective-body">Collect and unify data and research related to SDGs 4, 5, 9 and 13 from across the globe.</div></div>
+        <div class="objective-item" role="listitem"><div class="objective-num">03</div><div class="objective-title">Research Exploration</div><div class="objective-body">Exploring fields, sharing research, and volunteer work across borders.</div></div>
+        <div class="objective-item" role="listitem"><div class="objective-num">04</div><div class="objective-title">Capacity Building</div><div class="objective-body">Bringing scientists, students, NGOs and legal professionals together through sessions and trainings.</div></div>
+        <div class="objective-item" role="listitem"><div class="objective-num">05</div><div class="objective-title">Policy Round-ups</div><div class="objective-body">Bridging gaps between AI experts, businesses, NGOs and volunteers through policy and ideas.</div></div>
+        <div class="objective-item" role="listitem"><div class="objective-num">06</div><div class="objective-title">Sustainable Impact</div><div class="objective-body">Advancing SDGs 4, 5, 9 and 13 through youth-led innovation and leadership skills.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVISORY BOARD -->
+<section class="advisors-section" id="advisory-board" aria-labelledby="advisors-heading">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="advisors-heading">Global Advisory Board</h2>
+      <p>Eight internationally recognized leaders guiding GYN's strategic direction and programme quality.</p>
+    </div>
+    <div class="people-grid reveal" role="list" aria-label="GYN Global Advisory Board members">
+      <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/advisors/wenbo-li.webp" alt="Wenbo Li" loading="lazy"></div><div class="person-name">Wenbo Li</div><div class="person-role">CEO Poly-Gamma, China</div></div>
+      <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/advisors/sura-fitiani.webp" alt="Sura Fitiani" loading="lazy"></div><div class="person-name">Sura Fitiani</div><div class="person-role">Intersect Innovation Hub, Palestine</div></div>
+      <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/advisors/dr-salah.webp" alt="Dr. Salah" loading="lazy"></div><div class="person-name">Dr. Salah</div><div class="person-role">Senior Government Official, Oman</div></div>
+      <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/advisors/sidra-riaz.webp" alt="Sidra Riaz" loading="lazy"></div><div class="person-name">Sidra Riaz</div><div class="person-role">Presidential Doctoral Fellow, Florida University | COP 29 &amp; COP30 Fellow | UN Youth Delegate</div></div>
+      <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/advisors/dr-mona-al-kadi.webp" alt="Dr. Mona Al Kadi" loading="lazy"></div><div class="person-name">Dr. Mona Al Kadi</div><div class="person-role">Life Transformative Coach, UAE</div></div>
+      <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/advisors/mr-elam.webp" alt="Elam Khan" loading="lazy"></div><div class="person-name">Elam Khan</div><div class="person-role">CEO Axxon Group, UK</div></div>
+      <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/advisors/dr-suman-roy.webp" alt="Dr. Suman Roy" loading="lazy"></div><div class="person-name">Dr. Suman Roy</div><div class="person-role">UN SDG Advocate</div></div>
+      <div class="person-card" role="listitem"><div class="person-photo"><img src="assets/advisors/ashley-blake.webp" alt="Ashley Blake" loading="lazy"></div><div class="person-name">Ashley Blake</div><div class="person-role">Head of Partnership vrCAVE, Canada</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AMBASSADORS -->
+<section class="ambassadors-section" id="ambassadors" aria-labelledby="amb-heading">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="amb-heading">GYN Global Ambassadors</h2>
+      <p>Representing GYN in their communities, our ambassadors connect youth across 11 countries.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:1.25rem" class="reveal" role="list" aria-label="GYN Global Ambassadors">
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/helga-tongi.webp" alt="Helga Tongi" loading="lazy"></div><div class="ambassador-name">Helga Tongi</div><div class="ambassador-country">USA</div></div>
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/yara-shamas.webp" alt="Yara Shamas" loading="lazy"></div><div class="ambassador-name">Yara Shamas</div><div class="ambassador-country">Lebanon</div></div>
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/patee.webp" alt="Patee" loading="lazy"></div><div class="ambassador-name">Patee</div><div class="ambassador-country">Thailand</div></div>
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/kritika-ghimire.webp" alt="Kritika Ghimire" loading="lazy"></div><div class="ambassador-name">Kritika Ghimire</div><div class="ambassador-country">Nepal</div></div>
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/lim-pei-en.webp" alt="Lim Pei En" loading="lazy"></div><div class="ambassador-name">Lim Pei En</div><div class="ambassador-country">Malaysia</div></div>
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/dr-righteous.webp" alt="Dr Righteous" loading="lazy"></div><div class="ambassador-name">Dr Righteous</div><div class="ambassador-country">Nigeria</div></div>
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/md-nafi.webp" alt="Md Nafi" loading="lazy"></div><div class="ambassador-name">Md Nafi</div><div class="ambassador-country">Bangladesh</div></div>
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/diba.webp" alt="Diba" loading="lazy"></div><div class="ambassador-name">Diba</div><div class="ambassador-country">Australia</div></div>
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/casey.webp" alt="Casey" loading="lazy"></div><div class="ambassador-name">Casey</div><div class="ambassador-country">USA</div></div>
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/ashif.webp" alt="Ashif" loading="lazy"></div><div class="ambassador-name">Ashif</div><div class="ambassador-country">India</div></div>
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/boling.webp" alt="Boling" loading="lazy"></div><div class="ambassador-name">Boling</div><div class="ambassador-country">Laos</div></div>
+      <div class="ambassador-card" role="listitem"><div class="ambassador-photo"><img src="assets/ambassadors/abdul-ahad.webp" alt="Abdul Ahad" loading="lazy"></div><div class="ambassador-name">Abdul Ahad</div><div class="ambassador-country">Pakistan</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="partners-section" aria-labelledby="partners-heading">
+  <div class="container">
+    <p class="partners-label" id="partners-heading">Our Partners &amp; Co-Host</p>
+    <div class="partners-row" role="list" aria-label="GYN partners">
+      <img src="assets/logos/unu-global-health-logo.png" alt="UNU Global Health (United Nations University International Institute for Global Health)" loading="lazy" role="listitem">
+      <img src="assets/logos/opportunities-radar.png" alt="Opportunities Radar" loading="lazy" role="listitem">
+      <img src="assets/logos/axxon.png" alt="Axxon Group" loading="lazy" role="listitem">
+      <img src="assets/logos/oc.png" alt="Partner" loading="lazy" role="listitem" aria-label="Partner organization">
+      <img src="assets/logos/tehgzr.png" alt="Partner" loading="lazy" role="listitem" aria-label="Partner organization">
+      <img src="assets/logos/tss.png" alt="Partner" loading="lazy" role="listitem" aria-label="Partner organization">
+      <img src="assets/logos/logo-n.png" alt="Partner" loading="lazy" role="listitem" aria-label="Partner organization">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer" id="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="assets/logos/gyn-logo.png" alt="Global Youth Network (GYN) logo" loading="lazy">
+        <p>The Global Youth Network is a U.S. based organization that hosts international Conferences to support the United Nations Sustainable Development Goals (SDGs).</p>
+        <div class="footer-socials" role="list" aria-label="GYN social media">
+          <a href="https://www.facebook.com/share/183ZmovUrB/" class="footer-social" aria-label="GYN on Facebook" role="listitem">Fb</a>
+          <a href="https://www.instagram.com/gyn_global" class="footer-social" aria-label="GYN on Instagram" role="listitem">Ig</a>
+          <a href="https://wa.me/message/HGC6MW4HT5YJC1" class="footer-social" aria-label="GYN on WhatsApp" role="listitem">Wa</a>
+          <a href="https://www.youtube.com/@globalyouthnetwork/" class="footer-social" aria-label="GYN on YouTube" role="listitem">Yt</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Useful Links</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#who-we-are">About Us</a></li>
+          <li><a href="#edition-01">FMS Thailand</a></li>
+          <li><a href="#edition-02">SIS Malaysia 2026</a></li>
+          <li><a href="#footer">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Policies</h4>
+        <ul>
+          <li><a href="https://thegyn.org/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="https://thegyn.org/refund-policy/">Refund Policy</a></li>
+          <li><a href="https://thegyn.org/terms-conditions/">Terms &amp; Conditions</a></li>
+          <li><a href="https://global-youth-network.getrewardful.com/login">Affiliate Login</a></li>
+          <li><a href="https://global-youth-network.getrewardful.com/signup">Affiliate Sign Up</a></li>
+        </ul>
+      </div>
+      <address class="footer-col footer-contact" aria-label="Contact information">
+        <h4>Contact</h4>
+        <p>+1 (302) 556-0064</p>
+        <a href="https://thegyn.org/contact-us/">contact@thegyn.org</a>
+        <p>1001 S Main St STE 500<br>Kalispell, Montana 59901</p>
+      </address>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Global Youth Network. All Rights Reserved.</p>
+      <p style="font-family:'Archivo Narrow',sans-serif;font-size:0.68rem;letter-spacing:0.08em">EDITION 01 &mdash; BANGKOK &nbsp;&middot;&nbsp; EDITION 02 &mdash; KUALA LUMPUR</p>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<!-- VIDEO MODAL -->
+<div class="modal-backdrop" id="videoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal-box" role="document">
+    <div class="modal-header">
+      <div class="modal-header-text">
+        <div class="modal-cat" id="modalCat"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Close video">&#215;</button>
+    </div>
+    <div class="modal-thumb">
+      <img id="modalThumb" src="" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover">
+    </div>
+    <div class="modal-footer">
+      <p>Iframes are not available in this preview. Watch the full video on YouTube.</p>
+      <a id="modalWatchBtn" href="#" target="_blank" rel="noopener noreferrer" class="modal-watch-btn">
+        Watch on YouTube &#8599;
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+// World-map dot-grid data generated from world-atlas 110m TopoJSON (cdn.jsdelivr.net).
+// Land mask: base64 bitset, 180x90 cells, 2deg each.
+// shortcut: 2-degree resolution; Palestine and Lebanon centroids are approximate, upgrade to 0.5deg for next version.
+const MAP_DATA = {"cols":180,"rows":90,"land":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf8Af/gAAAAAAAAAAAAAAAAAAAAAAA///////AAAAAAAADgAAAAAAAAAAAAYf8f///4AB+AAAAAB+AAAAAAAAAABwBn8////4AAYAAAAAAPAAAAAAAAAAAHn/4A///wAAAAAHgAf/4AP8AAAAAAH53/8AP//gAAAAAODD///+AAAA/////wfcA/8ABf/////78gAAABAD//Af4EAc/vcP+AB///4A//uwAAAAAAAwP4AAAAAAfD8Af///gAPAAwAAAAAAAA3gAAAAAC4P8H/h//Dh4AAAAAAAAAAABf/////4A8D4AAAH//////////////Af/////gHwB4AAAP7////////////4APwP///gP+AAAAAP5//////////GcAADwB///8H/AAAAOD7/////////8A8AAIAA////v/gAAAPDj/////////wB4AAAABf/////4AAAfv///////////AwAAAAAP/////4AAAH////////////AAAAAAAH////88AAAB////////////gAAAAAAH/////MAAAD////////////AAAAAAAD////+AAAAB//7/f//////7AAAAAAAH////gAAAAfzvwPf//////jgAAAAAAH////AAAAAfi///n/////+CAAAAAAAD///+AAAAAfCLf/v////+sGAAAAAAAD///8AAAAAfPTf///////2OAAAAAAAB///8AAAAAP/Az///////G8AAAAAAAAf//4AAAAAf/AB///////jgAAAAAAAAf//wAAAAAf/7////////gAAAAAAAAAP/gwAAAAA///////////gAAAAAAAAAP/A0AAAAB/////v/////gAAAAAAAAAH/AMAAAAD/////2H////gAAAAAAAAAD/AwAAAAH////f/D///+gAAAAABAAAAfOOAAAAH//////B/z/wAAAAAAAgAAAfOBwAAAH////v+A/j+wAAAAAAAAAAAH8AAAAAH////38A/B/AwAAAAAAAAAAAfgAAAAH/////wAeA/ggAAAAAAAAAAADgAAAAH////+AAeAfg4AAAAAAAAAAABjwAAAD////9wAcAXh4AAAAAAAAAAAA//AAAB/////wAOASDMAAAAAAAAAAAAH/gAAA/////gAGAYAcAAAAAAAAAAAAH/8AAAfP///gAABsHAAAAAAAAAAAAAH/+AAAAD///AAAA8OAAAAAAAAAAAAAP//AAAAD//+AAAAc/uAAAAAAAAAAAAf//gAAAD//8AAAAM/xwAAAAAAAAAAAf//+AAAB//4AAAAPfz/EAAAAAAAAAAf///AAAB//wAAAAGBwPmAAAAAAAAAAP///gAAA//wAAAAB4AHwgAAAAAAAAAP///gAAA//wAAAAACMDYIAAAAAAAAAH///AAAA//4AAAAAAABAAAAAAAAAAAH//+AAAA//4gAAAAAB7AAAAAAAAAAAD//+AAAA//5wAAAAAPzgBAAAAAAAAAB//+AAAB//zgAAAAAf/gABAAAAAAAAA//+AAAA//DgAAAAA//wAAAAAAAAAAA//8AAAA//HgAAAAD//4CAAAAAAAAAA//4AAAAf/HAAAAAP//8AAAAAAAAAAA//gAAAAf+DAAAAAP//+AAAAAAAAAAA//AAAAAf+AAAAAAP//+AAAAAAAAAAA//AAAAAP8AAAAAAH//+AAAAAAAAAAA/+AAAAAP8AAAAAAH//+AAAAAAAAAAA/8AAAAAHwAAAAAAH4f8AAAAAAAAAAB/wAAAAAAAAAAAAADAP8AIAAAAAAAAB/wAAAAAAAAAAAAAAAH4AEAAAAAAAAB+AAAAAAAAAAAAAAAAAQAHAAAAAAAAB+AAAAAAAAAAAAAAAAA4AOAAAAAAAAD8AAAAAAAAAAAAAAAAAwAYAAAAAAAAD8AAAAAAAAAAAAAAAAAABwAAAAAAAAD4AAAAAAAAAAAAAAAAAAAAAAAAAAAAD4AAAAAAAAAADAAAAAAAAAAAAAAAAADwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAfAAYP+//gAAAAAAAAAAA+AAAAAAADP/+H//////AAAAAAAAAAA/AAAAIf////+////////gAAAAAAOEAfAAAD///////////////wAAAP//f//+AAAH//////////////+AADH/////8AAAH///////////////8AAO//////4AD4////////////////+AAAH//////hCA////////////////4AAAf//////////////////////////AAP/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA","countries":{"USA":[1631,1632,1807,1808,1809,1810,1811,1812,1813,1814,1815,1816,1817,1818,1819,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2166,2167,2168,2169,2170,2171,2172,2173,2174,2175,2176,2177,2178,2179,2345,2347,2348,2349,2350,2351,2352,2353,2354,2355,2356,2357,2358,2359,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2708,2709,2710,2711,2712,2713,2720,2721,2722,2890,2891,2892,2893,2903,3068,3084,3628,3629,3630,3631,3632,3633,3634,3635,3636,3637,3638,3639,3640,3641,3642,3807,3808,3809,3810,3811,3812,3813,3814,3815,3816,3817,3818,3819,3820,3821,3822,3823,3824,3825,3826,3827,3835,3836,3988,3989,3990,3991,3992,3993,3994,3995,3996,3997,3998,3999,4000,4001,4002,4003,4004,4005,4006,4007,4008,4012,4013,4014,4015,4016,4167,4168,4169,4170,4171,4172,4173,4174,4175,4176,4177,4178,4179,4180,4181,4182,4183,4184,4185,4186,4187,4188,4190,4191,4192,4193,4194,4347,4348,4349,4350,4351,4352,4353,4354,4355,4356,4357,4358,4359,4360,4361,4362,4363,4364,4365,4366,4367,4368,4369,4370,4371,4372,4373,4528,4529,4530,4531,4532,4533,4534,4535,4536,4537,4538,4539,4540,4541,4542,4543,4544,4545,4546,4547,4548,4549,4550,4551,4552,4708,4709,4710,4711,4712,4713,4714,4715,4716,4717,4718,4719,4720,4721,4722,4723,4724,4725,4726,4727,4728,4729,4730,4731,4889,4890,4891,4892,4893,4894,4895,4896,4897,4898,4899,4900,4901,4902,4903,4904,4905,4906,4907,4908,4909,4910,4911,5071,5072,5073,5074,5075,5076,5077,5078,5079,5080,5081,5082,5083,5084,5085,5086,5087,5088,5089,5090,5257,5258,5259,5260,5261,5262,5263,5264,5265,5266,5267,5268,5269,5438,5439,5440,5441,5442,5448,5449,5620,5621,5628,5629,6131,6312],"LBN":[],"THA":[6438,6439,6440,6619,6620,6621,6622,6799,6800,6801,6802,6979,6980,6981,7159,7339,7519,7520],"NPL":[5530,5531,5532,5712,5713,5714],"MYS":[7700,7701,7707,7708,7709,7880,7881,7886,7887,8065],"NGA":[6931,6932,6933,6934,6935,6936,7111,7112,7113,7114,7115,7116,7291,7292,7293,7294,7295,7296,7471,7472,7473,7474,7475,7652,7653,7654],"BGD":[5894,5895,5896,6074,6075,6076,6256],"AUS":[9161,9335,9336,9337,9338,9340,9341,9512,9513,9514,9515,9516,9517,9520,9521,9522,9691,9692,9693,9694,9695,9696,9697,9698,9699,9700,9701,9702,9870,9871,9872,9873,9874,9875,9876,9877,9878,9879,9880,9881,9882,9883,10048,10049,10050,10051,10052,10053,10054,10055,10056,10057,10058,10059,10060,10061,10062,10063,10064,10226,10227,10228,10229,10230,10231,10232,10233,10234,10235,10236,10237,10238,10239,10240,10241,10242,10243,10244,10245,10406,10407,10408,10409,10410,10411,10412,10413,10414,10415,10416,10417,10418,10419,10420,10421,10422,10423,10424,10425,10426,10586,10587,10588,10589,10590,10591,10592,10593,10594,10595,10596,10597,10598,10599,10600,10601,10602,10603,10604,10605,10606,10767,10768,10769,10770,10771,10772,10773,10774,10775,10776,10777,10778,10779,10780,10781,10782,10783,10784,10785,10786,10947,10948,10949,10950,10951,10952,10953,10954,10955,10956,10957,10958,10959,10960,10961,10962,10963,10964,10965,10966,11127,11128,11129,11130,11131,11132,11137,11138,11139,11140,11141,11142,11143,11144,11145,11308,11309,11318,11319,11320,11321,11322,11323,11324,11325,11499,11500,11501,11502,11503,11504,11683,11862,11863,11864,12042,12043],"IND":[4988,4989,5167,5168,5169,5347,5348,5349,5526,5527,5528,5529,5530,5537,5538,5704,5705,5706,5707,5708,5709,5710,5711,5712,5714,5716,5717,5885,5886,5887,5888,5889,5890,5891,5892,5893,5894,5896,5897,6064,6065,6066,6067,6068,6069,6070,6071,6072,6073,6074,6075,6076,6245,6246,6247,6248,6249,6250,6251,6252,6253,6426,6427,6428,6429,6430,6431,6432,6606,6607,6608,6609,6610,6611,6787,6788,6789,6790,6967,6968,6969,6970,7147,7148,7149,7328,7329],"LAO":[6260,6261,6440,6441,6442,6622,6623,6802,6803],"PAK":[4807,4985,4986,4987,4988,5164,5165,5166,5167,5343,5344,5345,5346,5347,5520,5521,5522,5523,5524,5525,5526,5701,5702,5703,5704,5883,5884,5885],"CHN":[3390,3391,3392,3569,3570,3571,3572,3573,3733,3748,3749,3750,3751,3752,3753,3754,3755,3911,3912,3913,3914,3915,3929,3930,3931,3932,3933,3934,3935,3936,3937,4090,4091,4092,4093,4094,4095,4096,4105,4106,4107,4108,4109,4110,4111,4112,4113,4114,4115,4270,4271,4272,4273,4274,4275,4276,4277,4278,4285,4286,4287,4288,4289,4290,4291,4292,4293,4294,4295,4448,4449,4450,4451,4452,4453,4454,4455,4456,4457,4458,4459,4460,4461,4462,4463,4464,4465,4466,4467,4468,4469,4470,4471,4472,4626,4627,4628,4629,4630,4631,4632,4633,4634,4635,4636,4637,4638,4639,4640,4641,4642,4643,4644,4645,4646,4647,4648,4650,4807,4808,4809,4810,4811,4812,4813,4814,4815,4816,4817,4818,4819,4820,4821,4822,4823,4824,4825,4826,4827,4828,4829,4830,4831,4989,4990,4991,4992,4993,4994,4995,4996,4997,4998,4999,5000,5001,5002,5003,5004,5005,5006,5007,5008,5009,5169,5170,5171,5172,5173,5174,5175,5176,5177,5178,5179,5180,5181,5182,5183,5184,5185,5186,5187,5188,5189,5190,5349,5350,5351,5352,5353,5354,5355,5356,5357,5358,5359,5360,5361,5362,5363,5364,5365,5366,5367,5368,5369,5370,5532,5533,5534,5535,5536,5537,5538,5539,5540,5541,5542,5543,5544,5545,5546,5547,5548,5549,5550,5719,5720,5721,5722,5723,5724,5725,5726,5727,5728,5729,5730,5898,5899,5900,5901,5902,5903,5904,5905,5906,5907,5908,5909,6079,6080,6081,6082,6083,6084,6085,6086,6087,6088,6264,6265,6444,6445],"PSE":[],"OMN":[6057,6058,6059,6237,6238,6239,6416,6417,6418,6596,6597],"ARE":[5877,5878,6056,6057],"GBR":[2966,2967,2968,3146,3147,3148,3149,3327,3328,3329,3330,3507,3508,3509,3510],"CAN":[589,590,591,592,593,594,595,596,597,762,763,764,765,766,767,768,769,770,771,772,773,774,775,776,937,938,943,944,945,946,947,948,949,950,951,1109,1110,1111,1121,1122,1125,1126,1127,1128,1129,1130,1131,1293,1294,1295,1296,1299,1300,1301,1302,1303,1304,1305,1306,1307,1308,1309,1310,1467,1468,1469,1470,1471,1472,1475,1476,1477,1479,1480,1481,1482,1483,1484,1485,1486,1487,1488,1489,1490,1491,1648,1651,1652,1653,1654,1655,1656,1657,1661,1662,1663,1665,1666,1667,1668,1669,1670,1671,1672,1673,1674,1819,1820,1821,1822,1823,1824,1825,1826,1827,1828,1829,1830,1831,1833,1834,1835,1836,1837,1838,1840,1841,1842,1843,1844,1845,1847,1848,1849,1851,1852,1853,1854,1855,1856,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2033,2034,2035,2036,2037,2038,2179,2180,2181,2182,2183,2184,2185,2186,2187,2188,2189,2190,2191,2192,2193,2194,2195,2196,2197,2198,2199,2200,2201,2202,2203,2204,2205,2206,2207,2208,2210,2211,2212,2213,2214,2215,2216,2218,2359,2360,2361,2362,2363,2364,2365,2366,2367,2368,2369,2370,2371,2372,2373,2374,2375,2376,2377,2378,2379,2380,2381,2382,2383,2384,2394,2395,2396,2397,2539,2540,2541,2542,2543,2544,2545,2546,2547,2548,2549,2550,2551,2552,2553,2554,2555,2556,2557,2558,2559,2560,2561,2562,2571,2572,2573,2574,2575,2721,2722,2723,2724,2725,2726,2727,2728,2729,2730,2731,2732,2733,2734,2735,2736,2737,2738,2739,2740,2741,2742,2750,2751,2752,2753,2754,2755,2756,2757,2758,2903,2904,2905,2906,2907,2908,2909,2910,2911,2912,2913,2914,2915,2916,2917,2918,2919,2920,2921,2922,2923,2924,2925,2931,2932,2933,2934,2935,2936,2937,2938,2939,3084,3085,3086,3087,3088,3089,3090,3091,3092,3093,3094,3095,3096,3097,3098,3099,3100,3101,3102,3103,3104,3105,3106,3107,3108,3110,3111,3112,3113,3114,3115,3116,3117,3118,3119,3120,3263,3265,3266,3267,3268,3269,3270,3271,3272,3273,3274,3275,3276,3277,3278,3279,3280,3281,3282,3283,3284,3285,3286,3287,3288,3289,3290,3291,3292,3293,3294,3295,3296,3297,3298,3299,3300,3301,3302,3446,3447,3448,3449,3450,3451,3452,3453,3454,3455,3456,3457,3458,3459,3460,3461,3462,3463,3464,3465,3466,3467,3468,3469,3470,3471,3472,3473,3474,3475,3476,3477,3478,3479,3480,3481,3482,3627,3628,3642,3643,3644,3645,3646,3647,3648,3649,3650,3651,3652,3653,3654,3655,3656,3657,3660,3661,3662,3663,3827,3828,3829,3830,3831,3832,3833,3834,3835,3836,3837,3838,3839,3842,3843,4008,4009,4010,4011,4012,4017,4018,4188,4189,4190]}};
+</script>
+
+<script>
+function debounce(fn, ms) {
+  let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+}
+// ── Country info for map tooltip ──────────────────────────
+const COUNTRY_PEOPLE = {
+  USA: { name:"United States", people:[
+    {name:"Helga Tongi",role:"Ambassador",photo:"assets/ambassadors/helga-tongi.webp"},
+    {name:"Casey",role:"Ambassador",photo:"assets/ambassadors/casey.webp"},
+    {name:"Sidra Riaz",role:"Advisor",photo:"assets/advisors/sidra-riaz.webp"}
+  ]},
+  LBN: { name:"Lebanon", people:[{name:"Yara Shamas",role:"Ambassador",photo:"assets/ambassadors/yara-shamas.webp"}]},
+  THA: { name:"Thailand", note:"Edition 01 · Bangkok", people:[{name:"Patee",role:"Ambassador",photo:"assets/ambassadors/patee.webp"}]},
+  NPL: { name:"Nepal", people:[{name:"Kritika Ghimire",role:"Ambassador",photo:"assets/ambassadors/kritika-ghimire.webp"}]},
+  MYS: { name:"Malaysia", note:"Edition 02 · Kuala Lumpur", people:[{name:"Lim Pei En",role:"Ambassador",photo:"assets/ambassadors/lim-pei-en.webp"}]},
+  NGA: { name:"Nigeria", people:[{name:"Dr Righteous",role:"Ambassador",photo:"assets/ambassadors/dr-righteous.webp"}]},
+  BGD: { name:"Bangladesh", people:[{name:"Md Nafi",role:"Ambassador",photo:"assets/ambassadors/md-nafi.webp"}]},
+  AUS: { name:"Australia", people:[
+    {name:"Diba",role:"Ambassador",photo:"assets/ambassadors/diba.webp"},
+    {name:"Julie Victoire",role:"Speaker",photo:"assets/speakers/julie-victoire.webp"}
+  ]},
+  IND: { name:"India", people:[
+    {name:"Ashif",role:"Ambassador",photo:"assets/ambassadors/ashif.webp"},
+    {name:"Arumita Mitra",role:"Speaker",photo:"assets/speakers/arumita-mitra.webp"}
+  ]},
+  LAO: { name:"Laos", people:[{name:"Boling",role:"Ambassador",photo:"assets/ambassadors/boling.webp"}]},
+  PAK: { name:"Pakistan", people:[{name:"Abdul Ahad",role:"Ambassador",photo:"assets/ambassadors/abdul-ahad.webp"}]},
+  CHN: { name:"China", people:[{name:"Wenbo Li",role:"Advisor",photo:"assets/advisors/wenbo-li.webp"}]},
+  PSE: { name:"Palestine", people:[{name:"Sura Fitiani",role:"Advisor",photo:"assets/advisors/sura-fitiani.webp"}]},
+  OMN: { name:"Oman", people:[{name:"Dr. Salah",role:"Advisor",photo:"assets/advisors/dr-salah.webp"}]},
+  ARE: { name:"UAE", people:[{name:"Dr. Mona Al Kadi",role:"Advisor",photo:"assets/advisors/dr-mona-al-kadi.webp"}]},
+  GBR: { name:"United Kingdom", people:[{name:"Elam Khan",role:"Advisor",photo:"assets/advisors/mr-elam.webp"}]},
+  CAN: { name:"Canada", people:[{name:"Ashley Blake",role:"Advisor",photo:"assets/advisors/ashley-blake.webp"}]},
+};
+
+// Summit city markers (lon, lat, iso, edition)
+const CITIES = [
+  {iso:"THA", lon:100.5018, lat:13.7563, label:"Bangkok", edition:"01", color:"#48783f"},
+  {iso:"MYS", lon:101.6869, lat:3.1390,  label:"Kuala Lumpur", edition:"02", color:"#c52035"},
+];
+
+// Zero-cell country center overrides (lon, lat) - too small for 2deg grid
+const COUNTRY_CENTERS = {
+  LBN: {lon:35.8, lat:33.9},
+  PSE: {lon:35.3, lat:31.9},
+};
+
+// ── Canvas world map ─────────────────────────────────────
+const canvas = document.getElementById("worldmap");
+const tooltip = document.getElementById("mapTooltip");
+const COLS = MAP_DATA.cols;
+const ROWS = MAP_DATA.rows;
+
+// Build lookup structures
+const landB64 = MAP_DATA.land;
+const landBytes = Uint8Array.from(atob(landB64), c => c.charCodeAt(0));
+function isLand(idx) {
+  const b = Math.floor(idx / 8), bit = 7 - (idx % 8);
+  return (landBytes[b] >> bit) & 1;
+}
+
+// Build cell -> country mapping
+const cellCountry = new Map();
+for (const [iso, cells] of Object.entries(MAP_DATA.countries)) {
+  for (const c of cells) {
+    if (!cellCountry.has(c)) cellCountry.set(c, iso);
+  }
+}
+
+// Build country -> set of cells
+const countryLit = new Set(Object.keys(COUNTRY_PEOPLE));
+
+// Determine current theme
+function isDark() {
+  if (document.documentElement.dataset.theme === "dark") return true;
+  if (document.documentElement.dataset.theme === "light") return false;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
+// lon/lat -> canvas pixel
+function lonLatToXY(lon, lat, W, H) {
+  return [(lon + 180) / 360 * W, (90 - lat) / 180 * H];
+}
+
+// Cell index -> center lon/lat
+function cellToLonLat(idx) {
+  const cx = idx % COLS, cy = Math.floor(idx / COLS);
+  return [cx * 2 - 180 + 1, 90 - cy * 2 - 1];
+}
+
+let animFrame = null;
+let pulseT = 0;
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function drawMap() {
+  const W = canvas.width, H = canvas.height;
+  const ctx = canvas.getContext("2d");
+  const dark = isDark();
+  const cellW = W / COLS, cellH = H / ROWS;
+  const dotR = Math.min(cellW, cellH) * 0.38;
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = dark ? "#0e1530" : "#f7f7f4";
+  ctx.fillRect(0, 0, W, H);
+
+  // Draw land dots
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const idx = r * COLS + c;
+      if (!isLand(idx)) continue;
+      const iso = cellCountry.get(idx);
+      let color;
+      if (iso === "MYS") color = "#c52035";
+      else if (iso === "THA") color = "#48783f";
+      else if (iso && countryLit.has(iso)) color = dark ? "#8e9bcb" : "#3a4c8c";
+      else color = dark ? "#2a3768" : "#dcdcd5";
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc((c + 0.5) * cellW, (r + 0.5) * cellH, dotR, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // Draw small dots for zero-cell countries (LBN, PSE)
+  for (const [iso, center] of Object.entries(COUNTRY_CENTERS)) {
+    const [x, y] = lonLatToXY(center.lon, center.lat, W, H);
+    ctx.fillStyle = dark ? "#8e9bcb" : "#3a4c8c";
+    ctx.beginPath();
+    ctx.arc(x, y, dotR * 1.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Draw great-circle arc BKK -> KUL (dashed line)
+  const [bx, by] = lonLatToXY(100.5018, 13.7563, W, H);
+  const [kx, ky] = lonLatToXY(101.6869, 3.1390, W, H);
+  const cpx = (bx + kx) / 2 + W * 0.012;
+  const cpy = (by + ky) / 2;
+  ctx.beginPath();
+  ctx.moveTo(bx, by);
+  ctx.quadraticCurveTo(cpx, cpy, kx, ky);
+  ctx.strokeStyle = dark ? "rgba(197,32,53,0.6)" : "rgba(197,32,53,0.5)";
+  ctx.lineWidth = Math.max(1, W / 480);
+  ctx.setLineDash([4, 3]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Draw city pulse markers
+  const t = reducedMotion ? 0 : pulseT;
+  for (const city of CITIES) {
+    const [cx2, cy2] = lonLatToXY(city.lon, city.lat, W, H);
+    const pulse = 0.5 + 0.5 * Math.sin(t * 2 + (city.edition === "01" ? 1 : 0));
+    const pr = dotR * (2.5 + pulse * 3);
+    // Outer ring
+    ctx.beginPath();
+    ctx.arc(cx2, cy2, pr, 0, Math.PI * 2);
+    ctx.strokeStyle = city.color;
+    ctx.globalAlpha = 0.3 + 0.25 * (1 - pulse);
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+    // Inner dot
+    ctx.beginPath();
+    ctx.arc(cx2, cy2, dotR * 2, 0, Math.PI * 2);
+    ctx.fillStyle = city.color;
+    ctx.fill();
+    // City label
+    ctx.font = `700 ${Math.max(8, W / 90)}px 'Archivo Narrow', sans-serif`;
+    ctx.fillStyle = dark ? "#fff" : "#202f60";
+    ctx.fillText(city.label, cx2 + dotR * 2.5, cy2 + dotR * 0.5);
+  }
+}
+
+function animate() {
+  pulseT += 0.04;
+  drawMap();
+  animFrame = requestAnimationFrame(animate);
+}
+
+// Resize canvas to container
+function resizeCanvas() {
+  if (animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
+  const wrap = canvas.parentElement;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = wrap.clientWidth;
+  const h = Math.round(w * 0.5);
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + "px";
+  canvas.style.height = h + "px";
+  const ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+  if (reducedMotion) { drawMap(); } else { animate(); }
+}
+
+window.addEventListener("resize", debounce(resizeCanvas, 200));
+resizeCanvas();
+
+// Re-draw on theme change
+const themeObserver = new MutationObserver(drawMap);
+themeObserver.observe(document.documentElement, {attributes: true, attributeFilter: ["data-theme"]});
+
+// ── Map hover interaction ──────────────────────────────────
+canvas.addEventListener("mousemove", handleMapHover);
+canvas.addEventListener("mouseleave", () => { tooltip.classList.remove("visible"); });
+canvas.addEventListener("click", handleMapHover);
+
+function handleMapHover(e) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width / (window.devicePixelRatio || 1);
+  const scaleY = canvas.height / rect.height / (window.devicePixelRatio || 1);
+  const mx = (e.clientX - rect.left) * scaleX;
+  const my = (e.clientY - rect.top) * scaleY;
+  const W = rect.width, H = rect.height;
+  const cx = Math.min(COLS - 1, Math.max(0, Math.floor(mx / W * COLS)));
+  const cy = Math.min(ROWS - 1, Math.max(0, Math.floor(my / H * ROWS)));
+  const idx = cy * COLS + cx;
+  const iso = cellCountry.get(idx);
+
+  // Also check city markers
+  let cityHit = null;
+  for (const city of CITIES) {
+    const [px, py] = lonLatToXY(city.lon, city.lat, W, H);
+    const d = Math.hypot(mx - px, my - py);
+    if (d < W / 25) { cityHit = city; break; }
+  }
+
+  // Zero-cell country check
+  let zeroIso = null;
+  for (const [ziso, center] of Object.entries(COUNTRY_CENTERS)) {
+    const [px, py] = lonLatToXY(center.lon, center.lat, W, H);
+    const d = Math.hypot(mx - px, my - py);
+    if (d < W / 30) { zeroIso = ziso; break; }
+  }
+
+  const hitIso = (cityHit && cityHit.iso) || zeroIso || (iso && countryLit.has(iso) ? iso : null);
+  if (!hitIso) { tooltip.classList.remove("visible"); return; }
+
+  const info = COUNTRY_PEOPLE[hitIso];
+  if (!info) { tooltip.classList.remove("visible"); return; }
+
+  let html = `<div class="atlas-tooltip-country">${info.name}`;
+  if (info.note) html += ` <small style="opacity:.7;font-weight:400">${info.note}</small>`;
+  html += `</div>`;
+  for (const p of info.people.slice(0, 3)) {
+    html += `<div class="atlas-tooltip-person"><img src="${p.photo}" alt="${p.name}" width="24" height="24" loading="lazy"><span>${p.name} &bull; ${p.role}</span></div>`;
+  }
+  tooltip.innerHTML = html;
+
+  // Position tooltip
+  const tw = 220, th = 120;
+  let tx = e.offsetX + 12, ty = e.offsetY + 12;
+  if (tx + tw > rect.width) tx = e.offsetX - tw - 8;
+  if (ty + th > rect.height) ty = e.offsetY - th - 8;
+  tooltip.style.left = tx + "px";
+  tooltip.style.top = ty + "px";
+  tooltip.classList.add("visible");
+}
+</script>
+
+<script>
+// ── Utility ──────────────────────────────────────────────
+
+// ── Countdown to SISM 2026 opening 19 Nov 2026 09:00 MYT ───────
+const TARGET = new Date("2026-11-19T09:00:00+08:00");
+function pad(n) { return String(n).padStart(2, "0"); }
+function tick() {
+  const diff = TARGET - Date.now();
+  if (diff <= 0) {
+    ["cd-d","cd-h","cd-m","cd-s"].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = "00"; });
+    return;
+  }
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  const ids = ["cd-d","cd-h","cd-m","cd-s"];
+  const vals = [pad(d), pad(h), pad(m), pad(s)];
+  ids.forEach((id, i) => { const el = document.getElementById(id); if (el) el.textContent = vals[i]; });
+}
+tick();
+setInterval(tick, 1000);
+
+// ── Video modal ───────────────────────────────────────────
+const modal = document.getElementById("videoModal");
+const modalThumb = document.getElementById("modalThumb");
+const modalTitle = document.getElementById("modalTitle");
+const modalCat = document.getElementById("modalCat");
+const modalWatchBtn = document.getElementById("modalWatchBtn");
+const modalClose = document.getElementById("modalClose");
+let lastFocus = null;
+
+function openModal(vid, title, cat) {
+  lastFocus = document.activeElement;
+  modalThumb.src = "assets/video/" + vid + ".jpg";
+  modalThumb.alt = title + " thumbnail";
+  modalTitle.textContent = title;
+  modalCat.textContent = cat || "";
+  modalWatchBtn.href = "https://www.youtube.com/watch?v=" + vid;
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+  // Trap focus inside modal on next frame
+  requestAnimationFrame(() => modalClose.focus());
+}
+
+function closeModal() {
+  modal.hidden = true;
+  document.body.style.overflow = "";
+  if (lastFocus) lastFocus.focus();
+}
+
+// Trap focus within modal
+modal.addEventListener("keydown", e => {
+  if (e.key === "Escape") { closeModal(); return; }
+  if (e.key !== "Tab") return;
+  const focusable = Array.from(modal.querySelectorAll("button, a[href], [tabindex]:not([tabindex='-1'])"));
+  const first = focusable[0], last = focusable[focusable.length - 1];
+  if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+    e.preventDefault();
+    (e.shiftKey ? last : first).focus();
+  }
+});
+
+modalClose.addEventListener("click", closeModal);
+modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+
+// Video card click/keyboard
+document.querySelectorAll(".video-card").forEach(card => {
+  function activate() {
+    const vid = card.dataset.vid, title = card.dataset.title, cat = card.dataset.cat;
+    if (vid) openModal(vid, title, cat);
+  }
+  card.addEventListener("click", activate);
+  card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); } });
+});
+
+// ── Theme toggle ──────────────────────────────────────────
+const html = document.documentElement;
+const themeBtn = document.getElementById("themeToggle");
+function applyTheme(theme) {
+  html.dataset.theme = theme;
+  if (themeBtn) {
+    themeBtn.textContent = theme === "dark" ? "Light" : "Dark";
+    themeBtn.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  }
+  try { localStorage.setItem("gyn-theme", theme); } catch(_) {}
+}
+// Init from storage or system
+(function() {
+  let saved;
+  try { saved = localStorage.getItem("gyn-theme"); } catch(_) {}
+  const sys = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  applyTheme(saved || sys);
+})();
+if (themeBtn) {
+  themeBtn.addEventListener("click", () => {
+    applyTheme(html.dataset.theme === "dark" ? "light" : "dark");
+  });
+}
+// Re-draw map when system preference changes (if no override stored)
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+  let saved; try { saved = localStorage.getItem("gyn-theme"); } catch(_) {}
+  if (!saved) applyTheme(e.matches ? "dark" : "light");
+});
+
+// ── Scroll reveals ────────────────────────────────────────
+// Content starts fully visible; JS adds animation only as enhancement
+document.body.classList.add("js-ready");
+if (!reducedMotion) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in-view");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: "0px 0px -48px 0px" });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+} else {
+  // All reveals instantly visible under reduced-motion
+  document.querySelectorAll(".reveal").forEach(el => el.classList.add("in-view"));
+}
+
+// ── Mobile hamburger ──────────────────────────────────────
+const hamburger = document.getElementById("hamburger");
+const mobileMenu = document.getElementById("mobileMenu");
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener("click", () => {
+    const open = mobileMenu.classList.toggle("open");
+    hamburger.setAttribute("aria-expanded", open);
+    hamburger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  });
+  // Close on nav link click
+  mobileMenu.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", () => {
+      mobileMenu.classList.remove("open");
+      hamburger.setAttribute("aria-expanded", "false");
+      hamburger.setAttribute("aria-label", "Open menu");
+    });
+  });
+  // Close on outside click
+  document.addEventListener("click", e => {
+    if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+      mobileMenu.classList.remove("open");
+      hamburger.setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
+// ── Accessible map list toggle ────────────────────────────
+const mapListToggle = document.getElementById("mapListToggle");
+const mapListEl = document.getElementById("mapList");
+if (mapListToggle && mapListEl) {
+  mapListToggle.addEventListener("click", () => {
+    const isHidden = mapListEl.hidden;
+    mapListEl.hidden = !isHidden;
+    mapListToggle.textContent = isHidden ? "Hide accessible list" : "Show accessible list";
+    mapListToggle.setAttribute("aria-expanded", isHidden ? "true" : "false");
+  });
+}
+</script>
+</body>
+</html>

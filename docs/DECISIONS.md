@@ -17,3 +17,13 @@ Newest at the bottom. Each entry: what, why, reversible?
 **D6. Attribution.** Per Azam's instruction, no `Co-Authored-By: Claude`, `Claude-Session:` or "Generated with Claude Code" on any commit or PR.
 
 **D7. Deadline reality check.** SISM 2026 applications closed 11 Oct 2026, results on 16 Oct. Event is 19–22 Nov. The scholarship tiers say "CLOSED NOW"; Forum Access / Self-Funded / Invitation Letter still show "Register now". Prototypes reflect that state rather than pretending applications are open.
+
+**D8. Four design directions built as standalone HTML concepts** (`concepts/`), published as one private claude.ai artifact with a team vote: https://claude.ai/artifact/SeqsBcoRXk9GvDsc5YruXb. A Earned Authority, B Amplified Youth, C Summit Stage, D Open Atlas. They're throwaway prototypes for picking a direction; none of their code is meant to be carried into the Next.js app as-is.
+
+**D9. Direction C type swap.** The research proposed Space Grotesk + Inter; replaced with Bricolage Grotesque + Geist + Geist Mono because the original pairing is the default "AI look" the taste skills ban.
+
+**D10. Countdown target is the summit start (19 Nov 2026, 09:00 MYT), not the expired application deadline.** The live site's timers are stuck at zero.
+
+**D11. Facts corrected during QA.** Ambassadors cover 11 countries, not 12 (USA appears twice). Advisors and ambassadors together cover 17 countries. Shell expansion had stripped `$1`/`$3` from C's prices; fixed and re-checked in all four.
+
+**D12. three.js 0.160.0 via cdnjs UMD build in concept C.** It prints a deprecation warning (UMD builds are deprecated from r150). Fine for a throwaway concept; the real build uses React Three Fiber per the stack.

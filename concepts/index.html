@@ -1,0 +1,273 @@
+<title>GYN Design Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one review column; a 2×2 grid of direction cards; vote state lives on each card. */
+:root {
+  --bg: #f7f7f4; --surface: #ffffff; --ink: #202f60; --ink-2: #5a5a55; --line: #dcdcd5;
+  --cta: #c52035; --on-cta: #ffffff; --chip: #e3e7f4; --ok: #48783f; --warn: #c9501a;
+  --font: "Onest", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1530; --surface: #16204a; --ink: #ffffff; --ink-2: #bdbdb5; --line: #2a3768;
+    --cta: #f2692c; --on-cta: #0e1530; --chip: #202f60; --ok: #9fcb94; --warn: #f9a77e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1530; --surface: #16204a; --ink: #ffffff; --ink-2: #bdbdb5; --line: #2a3768;
+  --cta: #f2692c; --on-cta: #0e1530; --chip: #202f60; --ok: #9fcb94; --warn: #f9a77e; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.55 var(--font); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 48px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.15; }
+p { margin: 0; }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--cta); outline-offset: 3px; border-radius: 4px; }
+
+header.top { display: grid; gap: 16px; max-width: 72ch; }
+header.top h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 700; letter-spacing: -0.02em; }
+header.top p { color: var(--ink-2); font-size: 18px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; font: 400 13px/1.4 var(--mono); color: var(--ink-2); }
+
+#tally { display: grid; gap: 12px; }
+.tally { display: grid; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+.tally-row { display: grid; grid-template-columns: 15ch 1fr 3ch; gap: 12px; align-items: center; font: 500 14px/1 var(--mono); }
+.bar { height: 10px; border-radius: 99px; background: var(--chip); overflow: hidden; }
+.bar > i { display: block; height: 100%; width: 0; background: var(--cta); transition: width 480ms var(--ease); }
+.tally-row span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tally-row b { text-align: right; font-variant-numeric: tabular-nums; }
+.tally .status { font-size: 14px; color: var(--ink-2); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 24px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.card.mine { border-color: var(--cta); box-shadow: 0 0 0 1px var(--cta); }
+.shot { display: block; aspect-ratio: 16 / 10; max-width: 100%; background: var(--chip) center top / cover no-repeat; border-bottom: 1px solid var(--line); position: relative; }
+.shot span { position: absolute; left: 14px; top: 14px; font: 600 13px/1 var(--mono); background: var(--surface); color: var(--ink); padding: 7px 10px; border-radius: 99px; }
+.body { padding: 22px; display: grid; gap: 16px; align-content: start; min-width: 0; }
+.body h2 { font-size: 26px; letter-spacing: -0.01em; }
+.mood { color: var(--ink-2); }
+dl { display: grid; grid-template-columns: 11ch 1fr; gap: 8px 14px; margin: 0; font-size: 14.5px; }
+dt { font: 500 12px/1.9 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); }
+dd { margin: 0; min-width: 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn { appearance: none; border: 1px solid var(--line); background: transparent; color: var(--ink); font: 600 15px/1 var(--font); padding: 12px 16px; border-radius: 10px; cursor: pointer; text-decoration: none; transition: transform 160ms var(--ease), background-color 160ms var(--ease); }
+.btn:active { transform: scale(0.97); }
+.btn.primary { background: var(--cta); color: var(--on-cta); border-color: var(--cta); }
+.btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.voters { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+.voters img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--surface); }
+
+.note { display: grid; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+.note label { font-weight: 600; }
+.note textarea { width: 100%; min-height: 84px; resize: vertical; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.note .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-size: 14px; color: var(--ink-2); }
+.notes-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.notes-list li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; font-size: 15px; }
+.notes-list img { width: 28px; height: 28px; border-radius: 50%; }
+.notes-list small { display: block; font: 500 12px/1.4 var(--mono); color: var(--ink-2); }
+
+section.issues { display: grid; gap: 20px; }
+section.issues h2, section.next h2 { font-size: 28px; letter-spacing: -0.01em; }
+.issue-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.issue-list li { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 6px; align-content: start; font-size: 15px; }
+.issue-list strong { font-size: 15.5px; }
+.sev { font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.sev.high { color: var(--cta); } .sev.med { color: var(--warn); }
+section.next { display: grid; gap: 12px; max-width: 72ch; }
+section.next p { color: var(--ink-2); }
+code { font-family: var(--mono); font-size: .92em; }
+.theme { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (max-width: 480px) { dl { grid-template-columns: 1fr; gap: 2px; } dd { margin-bottom: 8px; } .tally-row { grid-template-columns: 12ch 1fr 3ch; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">thegyn.org redesign · pitch on Sun 19 Oct 2026</span>
+    <h1>Four directions for GYN. Pick one.</h1>
+    <p>Each one is a working homepage built on GYN's real content, logo palette and photos. Open them on your phone as well as your laptop, then vote. The build starts on whichever direction wins, and the other three get archived.</p>
+    <div class="meta"><span>Content: 14 pages crawled</span><span>Palette: from the logo, contrast-checked</span><span>Prototypes: static HTML, no backend yet</span></div>
+  </header>
+
+  <div class="tally" aria-live="polite">
+    <span class="eyebrow">Team vote</span>
+    <div id="tally"></div>
+    <p class="status" id="vote-status">Loading votes…</p>
+  </div>
+
+  <div class="grid" id="cards"></div>
+
+  <div class="note" id="note-box">
+    <label for="note">Why that one? (optional, shows next to your vote)</label>
+    <textarea id="note" maxlength="280" placeholder="e.g. B for the applicants, but steal A's ticket table"></textarea>
+    <div class="row"><button class="btn" id="save-note" type="button">Save note</button><span id="note-status"></span></div>
+    <ul class="notes-list" id="notes"></ul>
+  </div>
+
+  <section class="issues" aria-labelledby="issues-h">
+    <h2 id="issues-h">What's broken on the live site right now</h2>
+    <p class="mood">From the crawl on 15 Oct. Each of these is fixed in all four directions, so it's useful ammunition for the pitch regardless of which one wins.</p>
+    <ul class="issue-list">
+      <li><span class="sev high">Accessibility</span><strong>The brand yellow fails contrast</strong><p>Yellow <code>#FEFF00</code> on white is 1.08:1 (WCAG needs 4.5:1). It isn't in the logo either.</p></li>
+      <li><span class="sev high">Conversion</span><strong>Countdowns stuck at 00:00:00:00</strong><p>The deadline passed on 11 Oct and both timers on home and SISM show zeros, while the button still says "Apply now".</p></li>
+      <li><span class="sev high">Trust</span><strong>Closed tiers still say Apply</strong><p>Both scholarship cards say "CLOSED NOW", and the Apply buttons are still live next to them.</p></li>
+      <li><span class="sev high">Revenue</span><strong>Three different prices for Forum Access</strong><p>$199 on the page, $249 in the Meta Pixel, and $170 on a hidden "discounted" form with no CAPTCHA.</p></li>
+      <li><span class="sev med">Content</span><strong>Results date conflicts</strong><p>The FAQ says 16 Oct and the thank-you page says 15 Oct.</p></li>
+      <li><span class="sev med">Quality</span><strong>Dead links and broken images</strong><p>5 benefit items link to <code>http://i%20class=fa-solid…</code>, all 4 contact-page backgrounds 404, and two speaker photos 404.</p></li>
+      <li><span class="sev med">Media</span><strong>Bare YouTube embeds</strong><p>9 videos sit in default iframes with no filtering, deep links or shared player.</p></li>
+      <li><span class="sev med">Copy</span><strong>Typos on the money pages</strong><p>"PARTIALLY SCHOLARSHIP", "Patronas Twin Tower", "Al" for AI, and a gender field with a misspelled orientation option.</p></li>
+    </ul>
+  </section>
+
+  <section class="next" aria-labelledby="next-h">
+    <h2 id="next-h">After the vote</h2>
+    <p>The winning direction becomes the Next.js build: every page in the sitemap, the custom video gallery, multi-step registration with save-and-resume, Cloudinary for all images, and a <code>/pitch</code> route for Sunday's demo. If the team likes one direction but wants a piece from another (say B's photo wall with A's ticket table), say so in your note and I'll merge them.</p>
+  </section>
+</div>
+<button class="btn theme" id="theme" type="button" aria-label="Toggle colour theme">◐</button>
+
+<script>
+const DIRECTIONS = [
+  { id: "a", name: "Earned Authority", href: "a-earned-authority.html",
+    mood: "UN chamber meets design-forward youth NGO. Structured and confident, built to be credible next to a UN co-host.",
+    type: "Instrument Serif + Hanken Grotesk",
+    signature: "Sticky chapter nav after the hero, with an indicator that slides between sections as you scroll",
+    persona: "Dr. Farah (partners, institutions)",
+    risk: "Can feel formal to a 20-year-old applicant" },
+  { id: "b", name: "Amplified Youth", href: "b-amplified-youth.html",
+    mood: "Photo-led and community-first. The people are the proof that it's real.",
+    type: "Fraunces + Plus Jakarta Sans",
+    signature: "A wall of ambassador, speaker and advisor faces that tilt toward the cursor, plus a drag-to-scroll gallery",
+    persona: "Amina (first-time applicant on mobile)",
+    risk: "Only as good as the photography we get for SISM" },
+  { id: "c", name: "Summit Stage", href: "c-summit-stage.html",
+    mood: "Opening night at the venue. A dark 3D hero that turns into clear information as you scroll.",
+    type: "Bricolage Grotesque + Geist",
+    signature: "3D particle ring in the 17 SDG colours (three.js), with a live countdown to 19 Nov",
+    persona: "Daniel (returning delegate, shares links)",
+    risk: "Heaviest on mobile data, and could read as a tech conference" },
+  { id: "d", name: "Open Atlas", href: "d-open-atlas.html",
+    mood: "The world is the stage. Each summit is an edition in a city, and the people come from everywhere.",
+    type: "Archivo (wide) + Source Serif 4",
+    signature: "Dotted world map showing where GYN people are from, with an arc from Bangkok to Kuala Lumpur",
+    persona: "All three, strongest on the \"global\" claim",
+    risk: "Most build effort, and the map needs a solid list fallback" },
+];
+
+const $ = (s) => document.querySelector(s);
+const cards = $("#cards");
+for (const d of DIRECTIONS) {
+  const el = document.createElement("article");
+  el.className = "card"; el.id = "card-" + d.id;
+  el.innerHTML = `
+    <a class="shot" href="${d.href}" style="background-image:url('assets/shots/${d.id}.webp')" aria-label="Open direction ${d.id.toUpperCase()} prototype"><span>Direction ${d.id.toUpperCase()}</span></a>
+    <div class="body">
+      <h2>${d.name}</h2>
+      <p class="mood">${d.mood}</p>
+      <dl>
+        <dt>Type</dt><dd>${d.type}</dd>
+        <dt>Signature</dt><dd>${d.signature}</dd>
+        <dt>Best for</dt><dd>${d.persona}</dd>
+        <dt>Risk</dt><dd>${d.risk}</dd>
+      </dl>
+      <div class="actions">
+        <a class="btn primary" href="${d.href}">Open prototype</a>
+        <button class="btn vote" type="button" data-pick="${d.id}" aria-pressed="false">Vote ${d.id.toUpperCase()}</button>
+      </div>
+      <div class="voters" id="voters-${d.id}"></div>
+    </div>`;
+  cards.append(el);
+}
+$("#tally").innerHTML = DIRECTIONS.map(d =>
+  `<div class="tally-row"><span>${d.id.toUpperCase()} · ${d.name.split(" ")[0]}</span><div class="bar"><i id="bar-${d.id}"></i></div><b id="n-${d.id}">0</b></div>`).join("");
+
+// theme toggle
+$("#theme").addEventListener("click", () => {
+  const r = document.documentElement;
+  const dark = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  r.dataset.theme = dark ? "light" : "dark";
+});
+
+const voteBtns = [...document.querySelectorAll(".vote")];
+const status = $("#vote-status");
+let roMsg = "";
+function readOnly(msg) {
+  roMsg = msg;
+  voteBtns.forEach(b => b.disabled = true);
+  $("#save-note").disabled = true; $("#note").disabled = true;
+  status.textContent = msg;
+}
+
+(async () => {
+  const claude = window.claude;
+  if (!claude?.use) return readOnly("Voting works when this page is opened on claude.ai while signed in.");
+  const [db, user] = await Promise.all([claude.use("db"), claude.use("user")]);
+  const uid = user ? await user.id() : null;
+  if (!db) return readOnly("Voting isn't available in this view. You can still open every prototype.");
+  let votes = []; let mine = null;
+
+  async function render() {
+    const counts = Object.fromEntries(DIRECTIONS.map(d => [d.id, []]));
+    votes.forEach(v => counts[v.pick]?.push(v));
+    const total = votes.length;
+    const ids = votes.map(v => v.id);
+    const ps = user && ids.length ? await user.profiles(ids) : {};
+    for (const d of DIRECTIONS) {
+      const n = counts[d.id].length;
+      $("#n-" + d.id).textContent = n;
+      $("#bar-" + d.id).style.width = total ? (n / total * 100) + "%" : "0";
+      const box = $("#voters-" + d.id); box.replaceChildren();
+      counts[d.id].forEach(v => {
+        const p = ps[v.id]; if (!p) return;
+        const img = document.createElement("img"); img.src = p.avatarUrl; img.alt = p.name || "Someone"; img.title = p.name || "Someone";
+        box.append(img);
+      });
+      $("#card-" + d.id).classList.toggle("mine", mine?.pick === d.id);
+    }
+    voteBtns.forEach(b => b.setAttribute("aria-pressed", String(mine?.pick === b.dataset.pick)));
+    status.textContent = (total ? `${total} vote${total === 1 ? "" : "s"} so far.` : "No votes yet.") + " " + (roMsg || (total ? "You can change yours any time." : "Open the prototypes, then vote."));
+    const list = $("#notes"); list.replaceChildren();
+    votes.filter(v => v.note).forEach(v => {
+      const p = ps[v.id]; const li = document.createElement("li");
+      const img = document.createElement("img"); img.src = p?.avatarUrl || ""; img.alt = "";
+      const div = document.createElement("div");
+      const small = document.createElement("small"); small.textContent = `${p?.name || "Someone"} · voted ${v.pick.toUpperCase()}`;
+      div.append(small, document.createTextNode(v.note));
+      li.append(img, div); list.append(li);
+    });
+  }
+
+  db.collection("votes").onSnapshot(snap => {
+    votes = snap.docs.filter(d => d.exists).map(d => ({ id: d.id, ...d.data() }))
+      .filter(v => DIRECTIONS.some(d => d.id === v.pick));
+    mine = uid ? votes.find(v => v.id === uid) || null : null;
+    if (mine && document.activeElement !== $("#note")) $("#note").value = mine.note || "";
+    render();
+  }, () => readOnly("Votes couldn't load. Refresh to try again."));
+
+  if (!uid) return readOnly("Sign in to vote. Results above are live.");
+  const canWrite = await user.can("data.write");
+  if (canWrite === false) return readOnly("You have view-only access. Ask Azam for Contributor access to vote.");
+
+  async function save(patch) {
+    const body = { pick: mine?.pick, note: mine?.note || "", at: Date.now(), ...patch };
+    if (!body.pick) { $("#note-status").textContent = "Pick a direction first."; return; }
+    try { await db.doc("votes/" + uid).set(body); return true; }
+    catch (e) {
+      if (e?.code === "invalid_argument") readOnly("You have view-only access. Ask Azam for Contributor access to vote.");
+      else status.textContent = "Couldn't save your vote. Try again in a moment.";
+    }
+  }
+  voteBtns.forEach(b => b.addEventListener("click", () => save({ pick: b.dataset.pick })));
+  $("#save-note").addEventListener("click", async () => {
+    if (await save({ note: $("#note").value.trim().slice(0, 280) })) $("#note-status").textContent = "Saved.";
+  });
+})();
+</script>

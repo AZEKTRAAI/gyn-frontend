@@ -1,0 +1,1604 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>SDG Innovation Summit Malaysia 2026 – Global Youth Network</title>
+  <!--
+    Design Read: Confident, saturated, cinematic. Ocean-depth colour blocks in
+    SDG 16 blue and SDG 14 ocean-blue. Yellow as a signal colour only.
+    Photography and the glass-globe render share the frame as equals.
+    Dials: Colour 9 | Motion 3 | Density 7 | Formality 6
+
+    Fonts:
+    Krona One: wide, authoritative display; no SaaS associations;
+    pairs with the SDG wheel's bold geometry. Uppercase written in HTML, no CSS transform.
+    Schibsted Grotesk: humanist grotesque from Schibsted Media Group;
+    warm and legible; absent from every AI-default font list.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Krona+One&family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* === TOKENS === */
+    :root {
+      --blue-deep:  #00689D;
+      --blue-ocean: #0A97D9;
+      --blue-sky:   #26BDE2;
+      --navy-900:   #0E1530;
+      --navy-800:   #16204A;
+      --navy-700:   #202F60;
+      --yellow:     #FCC30B;
+      --yellow-dk:  #D6A200;
+      --white:      #FFFFFF;
+      --paper:      #F7F7F4;
+      --n-100:      #EEEEE9;
+      --n-200:      #DCDCD5;
+      --n-400:      #9A9A93;
+      --n-600:      #5A5A55;
+      --n-700:      #3F3F3C;
+      --sdg4:  #C5192D;
+      --sdg5:  #FF3A21;
+      --sdg9:  #FD6925;
+      --sdg13: #3F7E44;
+      --fd:    'Krona One', Georgia, serif;
+      --fb:    'Schibsted Grotesk', system-ui, sans-serif;
+      --gut:   clamp(1rem,4vw,3.5rem);
+      --sp:    clamp(3rem,6vw,6rem);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--fb);
+      background: var(--white);
+      color: var(--navy-900);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+      .globe-video { display: none !important; }
+      .globe-poster { display: block !important; }
+    }
+
+    /* === LAYOUT === */
+    .wrap { width: min(100%,1280px); margin-inline: auto; padding-inline: var(--gut); }
+
+    /* === TYPE SCALE === */
+    .d1 { font-family: var(--fd); font-size: clamp(1.9rem,4.5vw,3.75rem); line-height:1.04; }
+    .d2 { font-family: var(--fd); font-size: clamp(1.4rem,3vw,2.5rem);   line-height:1.1; }
+    .d3 { font-family: var(--fd); font-size: clamp(1rem,1.8vw,1.4rem);   line-height:1.2; }
+
+    /* === BUTTONS === */
+    .btn {
+      display: inline-flex; align-items: center; gap:.5rem;
+      padding: .75rem 1.5rem;
+      font-family: var(--fb); font-size:.9375rem; font-weight:600; line-height:1;
+      border: none; cursor: pointer;
+      transition: background-color 160ms ease, color 160ms ease;
+    }
+    .btn-y  { background: var(--yellow); color: var(--navy-900); }
+    .btn-y:hover { background: var(--yellow-dk); }
+    .btn-ow { background: transparent; color: var(--white); border: 2px solid var(--white); }
+    .btn-ow:hover { background: var(--white); color: var(--navy-900); }
+    .btn-n  { background: var(--navy-900); color: var(--white); }
+    .btn-n:hover { background: var(--navy-800); }
+
+    /* === HEADER === */
+    .site-header {
+      position: fixed; inset-block-start: 0; inset-inline: 0; z-index: 100;
+      background: var(--navy-900);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 3.5rem;
+    }
+    .nav-logo img { height: 2.25rem; width: auto; }
+    .nav-menu { display: flex; align-items: center; list-style: none; }
+    .nav-menu > li { position: relative; }
+    .nav-menu > li > a {
+      display: block; padding: .5rem .75rem;
+      font-size: .875rem; font-weight: 500;
+      color: rgba(255,255,255,.8);
+      transition: color 140ms ease;
+    }
+    .nav-menu > li > a:hover { color: var(--white); }
+    .nav-drop {
+      display: none; position: absolute; top: 100%; left: 0;
+      background: var(--navy-800); min-width: 200px; list-style: none;
+      border-top: 2px solid var(--yellow); padding-block: .5rem;
+    }
+    .nav-menu > li:hover .nav-drop,
+    .nav-menu > li:focus-within .nav-drop { display: block; }
+    .nav-drop a {
+      display: block; padding: .5rem 1rem; font-size: .8125rem;
+      color: rgba(255,255,255,.75); transition: color 140ms ease, background-color 140ms ease;
+    }
+    .nav-drop a:hover { color: var(--white); background: rgba(255,255,255,.05); }
+    .nav-right { display: flex; align-items: center; gap: .75rem; }
+    .theme-toggle {
+      background: none; border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.6); padding: .3rem .5rem; cursor: pointer;
+      font-size: .8125rem; font-family: var(--fb);
+      transition: border-color 140ms ease, color 140ms ease;
+    }
+    .theme-toggle:hover { color: var(--white); border-color: rgba(255,255,255,.5); }
+    .ham {
+      display: none; background: none; border: none;
+      cursor: pointer; color: var(--white); padding: .5rem;
+    }
+    @media (max-width:768px) {
+      .nav-menu, .nav-right .btn { display: none; }
+      .ham { display: block; }
+    }
+
+    /* === MOBILE MENU PANEL === */
+    .mob-menu {
+      display: none;
+      position: fixed;
+      inset-block-start: 3.5rem;
+      inset-inline: 0;
+      background: var(--navy-800);
+      z-index: 99;
+      padding: 1.25rem var(--gut) 2rem;
+      border-top: 2px solid var(--yellow);
+    }
+    .mob-menu.open { display: block; }
+    .mob-menu ul { list-style: none; }
+    .mob-menu a {
+      display: block; padding: .75rem 0;
+      font-size: 1rem; font-weight: 500; color: rgba(255,255,255,.85);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      transition: color 140ms ease;
+    }
+    .mob-menu a:hover { color: var(--yellow); }
+    .mob-menu .mob-cta { margin-top: 1.25rem; }
+
+    /* === HERO === */
+    .hero {
+      background: var(--blue-deep);
+      padding-top: calc(3.5rem + clamp(2rem,5vw,4.5rem));
+      display: flex; flex-direction: column;
+    }
+    .hero-body {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem; align-items: center;
+      padding-block: clamp(2rem,5vw,4rem);
+      flex: 1;
+    }
+    .hero-meta { font-size: clamp(.8rem,1.3vw,.9375rem); color: rgba(255,255,255,.7); margin-bottom: 1.25rem; }
+    .hero-title { color: var(--white); margin-bottom: 1rem; }
+    .hero-sub { font-size: clamp(.875rem,1.4vw,1.0625rem); color: rgba(255,255,255,.75); line-height: 1.65; margin-bottom: 2rem; }
+
+    .countdown { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 2.5rem; }
+    .cd-unit { display: flex; flex-direction: column; align-items: center; gap: .25rem; }
+    .cd-num {
+      font-family: var(--fd); font-size: clamp(2.25rem,4.5vw,3.75rem); line-height: 1;
+      color: var(--yellow); min-width: 2ch; text-align: center;
+    }
+    .cd-lbl { font-size: .6875rem; color: rgba(255,255,255,.55); letter-spacing:.03em; }
+    .cd-sep {
+      font-family: var(--fd); font-size: clamp(1.5rem,3vw,2.75rem);
+      color: rgba(255,255,255,.25); align-self: flex-start; padding-top: .1em;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .hero-visual { display: flex; align-items: center; justify-content: center; }
+    .globe-wrap { position: relative; width: min(100%,500px); aspect-ratio: 1; }
+    .globe-poster, .globe-video { width: 100%; height: 100%; object-fit: contain; }
+    .globe-video { display: none; }
+
+    .hero-strip {
+      background: rgba(0,0,0,.28); /* scrim */
+      padding-block: 1.25rem;
+    }
+    .strip-row { display: flex; gap: 1rem; overflow-x: auto; scrollbar-width: none; }
+    .strip-row::-webkit-scrollbar { display: none; }
+    .del-photo { flex-shrink: 0; width: 110px; }
+    .del-photo img { width: 110px; height: 110px; object-fit: cover; }
+    .del-cap { font-size: .625rem; color: rgba(255,255,255,.5); margin-top: .375rem; line-height: 1.3; }
+
+    @media (max-width:768px) {
+      .hero-body { grid-template-columns: 1fr; }
+      .hero-visual { order: -1; }
+      .globe-wrap { width: min(70vw,280px); }
+    }
+
+    /* === STATS === */
+    .stats-sec { background: var(--navy-900); padding-block: var(--sp); }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 1rem;
+    }
+    .stat-tile { padding: 1.5rem 1.25rem; }
+    .stat-n { font-family: var(--fd); font-size: clamp(1.8rem,4vw,3rem); line-height:1; display: block; }
+    .stat-l { font-size: .8125rem; line-height:1.45; margin-top: .5rem; display: block; }
+    .t-y  { background: var(--yellow); }
+    .t-y .stat-n, .t-y .stat-l { color: var(--navy-900); }
+    .t-w  { background: var(--white); }
+    .t-w .stat-n, .t-w .stat-l { color: var(--navy-900); }
+    .t-c  { background: var(--blue-sky); }
+    .t-c .stat-n, .t-c .stat-l { color: var(--navy-900); }
+    .t-b  { background: var(--blue-deep); }
+    .t-b .stat-n { color: var(--yellow); }
+    .t-b .stat-l { color: rgba(255,255,255,.75); }
+    .span2 { grid-column: span 2; }
+    @media (max-width:900px) {
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .span2 { grid-column: span 1; }
+    }
+    @media (max-width:480px) { .stats-grid { grid-template-columns: 1fr; } }
+
+    /* === WHO WE ARE === */
+    .who-sec { background: var(--white); padding-block: var(--sp); }
+    .who-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,5vw,4rem); align-items: start; }
+    .who-hd { color: var(--navy-700); margin-bottom: 1.5rem; }
+    .who-p { color: var(--n-700); font-size: 1rem; line-height: 1.75; }
+    .what-list { list-style: none; }
+    .what-item { padding-block: .875rem; border-bottom: 1px solid var(--n-200); }
+    .what-item:first-child { border-top: 1px solid var(--n-200); }
+    .wt { font-family: var(--fd); font-size: .875rem; color: var(--navy-700); margin-bottom: .25rem; }
+    .wb { font-size: .8125rem; color: var(--n-600); line-height: 1.6; }
+    @media (max-width:768px) { .who-inner { grid-template-columns: 1fr; } }
+
+    /* === WHERE WE'RE FROM === */
+    .from-sec { background: var(--paper); padding-block: var(--sp); }
+    .from-hd { color: var(--navy-900); margin-bottom: .75rem; }
+    .from-intro { font-size: .9375rem; color: var(--n-600); margin-bottom: 2rem; }
+    .ctabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2rem; }
+    .ctab {
+      background: var(--white); color: var(--blue-deep);
+      border: 2px solid var(--blue-deep);
+      padding: .375rem .875rem;
+      font-family: var(--fb); font-size: .875rem; font-weight: 600;
+      cursor: pointer;
+      transition: background-color 160ms ease, color 160ms ease;
+    }
+    .ctab[aria-selected="true"], .ctab:hover {
+      background: var(--blue-deep); color: var(--white);
+    }
+    .cpanel { display: none; }
+    .cpanel.active {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 2rem; align-items: start;
+    }
+    .cp-people { display: flex; flex-wrap: wrap; gap: 1.5rem; align-content: start; }
+    .cp-person { display: grid; gap: .625rem; width: 184px; }
+    .cp-person img { width: 184px; height: 184px; object-fit: cover; }
+    .cp-name { font-family: var(--fd); font-size: .875rem; color: var(--navy-900); }
+    .cp-role { font-size: .875rem; color: var(--n-600); line-height:1.4; }
+    .cp-globe { width: min(100%,380px); aspect-ratio: 1; }
+    .cp-globe img, .cp-globe video { width:100%; height:100%; object-fit:contain; }
+    @media (max-width:768px) {
+      .cpanel.active { grid-template-columns: 1fr; }
+      .cp-person { width: calc(50% - .75rem); } .cp-person img { width: 100%; height: auto; aspect-ratio: 1; }
+      .cp-globe { display: none; }
+    }
+
+    /* navy wordmark disappears on dark grounds, so the logo sits on a white chip */
+    .logo-chip { background: #fff; padding: 6px 10px; border-radius: 6px; box-sizing: content-box; }
+
+    /* === SUMMITS === */
+    .summits-sec { background: var(--blue-deep); padding-block: var(--sp); }
+    .summits-hd { color: var(--white); margin-bottom: 2rem; }
+    .summits-lay { display: grid; grid-template-columns: 1fr 1.7fr; gap: 2rem; align-items: start; }
+    .summit-list { list-style: none; }
+    .sum-btn {
+      width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: .25rem;
+      padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+      background: rgba(255,255,255,.06); border: none;
+      box-shadow: inset 3px 0 0 transparent; /* inset accent, not border-left */
+      cursor: pointer; text-align: left;
+      transition: background-color 200ms ease, box-shadow 200ms ease;
+      margin-bottom: .5rem;
+    }
+    .sum-btn:hover, .sum-btn[aria-selected="true"] {
+      background: rgba(255,255,255,.14);
+      box-shadow: inset 3px 0 0 var(--yellow);
+    }
+    .sum-name { font-family: var(--fd); font-size: 1rem; color: var(--white); }
+    .sum-dates { font-size: .8125rem; color: rgba(255,255,255,.6); }
+    .sum-open { font-size: .75rem; color: var(--yellow); font-weight: 600; }
+    .sum-past { font-size: .75rem; color: rgba(255,255,255,.45); }
+    .sum-display {}
+    .sum-photo-wrap { position: relative; aspect-ratio: 16/10; background: rgba(0,0,0,.2); overflow: hidden; }
+    .sum-photo { width: 100%; height: 100%; object-fit: cover; display: none; }
+    .sum-photo.active { display: block; }
+    .sum-info { padding: 1.25rem; background: rgba(255,255,255,.09); }
+    .sum-info-name { font-family: var(--fd); font-size: .9375rem; color: var(--white); margin-bottom: .5rem; }
+    .sum-info-desc { font-size: .8125rem; color: rgba(255,255,255,.72); line-height: 1.65; margin-bottom: 1rem; }
+    @media (max-width:768px) { .summits-lay { grid-template-columns: 1fr; } }
+
+    /* === SDG FOCUS === */
+    .sdg-sec { background: var(--yellow); padding-block: var(--sp); }
+    .sdg-hd { color: var(--navy-900); margin-bottom: .75rem; }
+    .sdg-intro { font-size: .9375rem; color: var(--navy-800); line-height: 1.7; margin-bottom: 2.5rem; max-width: 60ch; }
+    .sdg-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 1rem; }
+    .sdg-card { background: var(--navy-900); padding: 1.75rem 1.25rem; }
+    .sdg-n { font-family: var(--fd); font-size: clamp(1.5rem,3vw,2.5rem); display: block; margin-bottom: .5rem; }
+    .sdg-t { font-size: .875rem; color: rgba(255,255,255,.8); line-height: 1.5; }
+    .s4 .sdg-n { color: var(--sdg4); }
+    .s5 .sdg-n { color: var(--sdg5); }
+    .s9 .sdg-n { color: var(--sdg9); }
+    .s13 .sdg-n { color: var(--sdg13); }
+    @media (max-width:900px) { .sdg-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width:480px) { .sdg-grid { grid-template-columns: 1fr; } }
+
+    /* === TICKETS === */
+    .tick-sec { background: var(--white); padding-block: var(--sp); }
+    .tick-hd { color: var(--navy-900); margin-bottom: .75rem; }
+    .tick-sub { font-size: .9375rem; color: var(--n-600); margin-bottom: 2.5rem; }
+    .tiers-closed {
+      display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center;
+      padding: .875rem 1.25rem; background: var(--n-100); margin-bottom: 2rem;
+    }
+    .tc-item { display: flex; align-items: center; gap: .625rem; }
+    .tc-name { font-size: .875rem; font-weight: 600; color: var(--n-600); }
+    .tc-badge {
+      font-size: .6875rem; font-weight: 700; color: var(--n-400);
+      padding: .125rem .45rem; background: var(--n-200);
+      text-transform: uppercase; /* 2 of 3 */ letter-spacing: .06em;
+    }
+    .tiers-open { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .tier { border: 1px solid var(--n-200); padding: 2rem 1.5rem; display: flex; flex-direction: column; }
+    .tier-nm { font-family: var(--fd); font-size: .875rem; color: var(--blue-deep); margin-bottom: 1rem; }
+    .tier-pw { display: flex; align-items: baseline; gap: .5rem; margin-bottom: 1rem; }
+    .tier-p { font-family: var(--fd); font-size: clamp(2rem,4vw,3rem); color: var(--navy-900); line-height:1; }
+    .tier-po { font-size: 1rem; color: var(--n-400); text-decoration: line-through; }
+    .tier-inc { list-style: none; flex:1; display: flex; flex-direction: column; gap: .375rem; margin-bottom: 1.5rem; }
+    .tier-inc li { font-size: .8125rem; color: var(--n-700); padding-left: 1rem; position: relative; line-height:1.5; }
+    .tier-inc li::before {
+      content: ''; position: absolute; left: 0; top: .45em;
+      width: 6px; height: 6px; background: var(--blue-ocean);
+    }
+    @media (max-width:768px) { .tiers-open { grid-template-columns: 1fr; } }
+
+    /* === SPEAKERS === */
+    .spk-sec { background: var(--blue-ocean); padding-block: var(--sp); }
+    .spk-hd { color: var(--white); margin-bottom: 2rem; }
+    .spk-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+    .spk-card { background: rgba(0,0,0,.18); }
+    .spk-photo { aspect-ratio: 1; width:100%; object-fit:cover; }
+    .spk-info { padding: .875rem; }
+    .spk-name { font-family: var(--fd); font-size: .875rem; color: var(--white); margin-bottom: .25rem; }
+    .spk-title { font-size: .75rem; color: rgba(255,255,255,.7); line-height:1.4; }
+    @media (max-width:900px) { .spk-grid { grid-template-columns: repeat(2,1fr); } }
+
+    /* === ADVISORY === */
+    .adv-sec { background: var(--white); padding-block: var(--sp); }
+    .adv-hd { color: var(--navy-900); margin-bottom: 2rem; }
+    .adv-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
+    .adv-card {}
+    .adv-photo { aspect-ratio:1; width:100%; object-fit:cover; margin-bottom:.75rem; }
+    .adv-name { font-family: var(--fd); font-size:.875rem; color:var(--navy-700); margin-bottom:.25rem; }
+    .adv-role { font-size:.75rem; color:var(--n-600); line-height:1.4; }
+    @media (max-width:900px) { .adv-grid { grid-template-columns: repeat(2,1fr); } }
+
+    /* === VIDEOS === */
+    .vid-sec { background: var(--navy-900); padding-block: var(--sp); }
+    .vid-hd { color: var(--white); margin-bottom: 2rem; }
+    .vid-lay { display: grid; grid-template-columns: 1.65fr 1fr; gap: 2rem; align-items: start; }
+    .feat-btn {
+      display: block; position: relative; width:100%; aspect-ratio:16/9;
+      background:#000; border:none; cursor:pointer; overflow:hidden;
+    }
+    .feat-btn img { width:100%; height:100%; object-fit:cover; transition:transform 280ms ease; }
+    .feat-btn:hover img { transform: scale(1.03); }
+    .play-ico {
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:56px; height:56px; background:var(--yellow);
+      display:flex; align-items:center; justify-content:center;
+      pointer-events:none;
+    }
+    .play-ico::after {
+      content:''; border-style:solid;
+      border-width:9px 0 9px 16px;
+      border-color:transparent transparent transparent var(--navy-900);
+      margin-left:3px;
+    }
+    .feat-title { margin-top:.75rem; font-size:.9375rem; color:var(--white); font-weight:500; }
+    .vid-rail { display:flex; flex-direction:column; gap:.75rem; }
+    .vt-btn {
+      display:flex; gap:.75rem; align-items:flex-start;
+      background:rgba(255,255,255,.06); border:none; cursor:pointer;
+      padding:.75rem; width:100%; text-align:left;
+      transition:background-color 160ms ease;
+    }
+    .vt-btn:hover { background:rgba(255,255,255,.12); }
+    .vt-img { width:80px; height:52px; object-fit:cover; flex-shrink:0; }
+    .vt-title { font-size:.75rem; color:rgba(255,255,255,.8); line-height:1.45; }
+    @media (max-width:768px) { .vid-lay { grid-template-columns:1fr; } }
+
+    /* === MODAL === */
+    .modal-ov {
+      display:none; position:fixed; inset:0;
+      background:rgba(14,21,48,.92); z-index:200;
+      align-items:center; justify-content:center; padding:1rem;
+    }
+    .modal-ov.open { display:flex; }
+    .modal-box { background:var(--navy-800); max-width:720px; width:100%; }
+    .modal-hd {
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap:1rem; padding:1.25rem 1.5rem;
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+    .modal-t { font-family:var(--fd); font-size:1rem; color:var(--white); }
+    .modal-x {
+      background:none; border:none; color:rgba(255,255,255,.65); cursor:pointer;
+      font-size:1.25rem; padding:.25rem; flex-shrink:0;
+      transition:color 140ms ease;
+    }
+    .modal-x:hover { color:var(--white); }
+    .modal-thumb { aspect-ratio:16/9; background:#000; }
+    .modal-thumb img { width:100%; height:100%; object-fit:cover; }
+    .modal-ft { padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; }
+    .modal-cat { font-size:.75rem; color:rgba(255,255,255,.45); }
+
+    /* === GALLERY === */
+    .gal-sec { background:var(--blue-deep); padding-block:var(--sp); }
+    .gal-hd { color:var(--white); margin-bottom:2rem; }
+    .gal-grid {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:.5rem;
+    }
+    .gal-item img { width:100%; aspect-ratio:1; object-fit:cover; }
+    .gal-item:first-child { grid-column:span 2; }
+    .gal-item:first-child img { aspect-ratio:2/1; }
+    @media (max-width:768px) {
+      .gal-grid { grid-template-columns:repeat(2,1fr); }
+      .gal-item:first-child { grid-column:span 2; }
+    }
+
+    /* === PARTNERS === */
+    .par-sec { background:var(--white); padding-block:var(--sp); }
+    .par-hd { font-family:var(--fd); font-size:.875rem; color:var(--n-400); margin-bottom:2rem; }
+    .par-logos { display:flex; flex-wrap:wrap; gap:2.5rem; align-items:center; }
+    .par-logo img {
+      height:2.25rem; width:auto;
+      filter:grayscale(100%) opacity(.55);
+      transition:filter 200ms ease;
+    }
+    .par-logo:hover img { filter:none; }
+    .cohost-row { margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--n-200); }
+    .cohost-lbl { font-size:.8125rem; color:var(--n-600); margin-bottom:1rem; }
+    .cohost-row img { height:3rem; }
+
+    /* === FOOTER === */
+    .site-footer { background:var(--navy-900); padding-block:3rem; }
+    .ft-inner { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:2rem; }
+    .ft-logo img { height:2rem; margin-bottom:1rem; }
+    .ft-about { font-size:.8125rem; color:rgba(255,255,255,.5); line-height:1.65; margin-bottom:1.25rem; }
+    .ft-soc { display:flex; flex-wrap:wrap; gap:.75rem; }
+    .ft-soc a { font-size:.8125rem; color:rgba(255,255,255,.5); transition:color 140ms ease; }
+    .ft-soc a:hover { color:var(--yellow); }
+    .ft-col-hd { font-family:var(--fd); font-size:.75rem; color:rgba(255,255,255,.35); margin-bottom:1rem; }
+    .ft-links { list-style:none; display:flex; flex-direction:column; gap:.5rem; }
+    .ft-links a { font-size:.8125rem; color:rgba(255,255,255,.55); transition:color 140ms ease; }
+    .ft-links a:hover { color:var(--yellow); }
+    .ft-contact { font-size:.8125rem; color:rgba(255,255,255,.55); line-height:1.85; }
+    .ft-contact a { color:var(--yellow); }
+    .ft-bot {
+      margin-top:2rem; padding-top:1.5rem;
+      border-top:1px solid rgba(255,255,255,.08);
+      font-size:.75rem; color:rgba(255,255,255,.3);
+    }
+    @media (max-width:768px) { .ft-inner { grid-template-columns:1fr 1fr; } }
+    @media (max-width:480px) { .ft-inner { grid-template-columns:1fr; } }
+
+    /* === DIRECTION PILL (review chrome) === */
+    .dir-pill {
+      position:fixed; bottom:1.25rem; right:1.25rem; z-index:300;
+      background:var(--navy-900); color:var(--yellow);
+      font-size:.6875rem; font-weight:700;
+      padding:.375rem .75rem; border:1px solid var(--yellow);
+      text-transform:uppercase; /* 3 of 3 */ letter-spacing:.08em; white-space:nowrap;
+    }
+    .dir-pill a { color:rgba(255,255,255,.55); margin-left:.5rem; transition:color 140ms ease; }
+    .dir-pill a:hover { color:var(--white); }
+
+    .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="site-header" role="banner">
+  <div class="wrap">
+    <nav class="nav-inner" aria-label="Main navigation">
+      <a href="https://thegyn.org/" class="nav-logo">
+        <img class="logo-chip" src="assets/logos/gyn-logo.png" alt="Global Youth Network" width="120" height="36">
+      </a>
+      <ul class="nav-menu" role="list">
+        <li><a href="https://thegyn.org/">Home</a></li>
+        <li>
+          <a href="https://thegyn.org/fms-thailand/" aria-haspopup="true">Past Events</a>
+          <ul class="nav-drop" role="list">
+            <li><a href="https://thegyn.org/fms-thailand/">FMS Thailand</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://thegyn.org/sism-2026/" aria-haspopup="true">Upcoming Events</a>
+          <ul class="nav-drop" role="list">
+            <li><a href="https://thegyn.org/sism-2026/">SIS Malaysia 2026</a></li>
+          </ul>
+        </li>
+        <li><a href="https://thegyn.org/about-us/">About Us</a></li>
+        <li><a href="https://thegyn.org/contact-us/">Contact Us</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="theme-toggle" id="theme-btn" aria-label="Toggle light/dark reading">Light</button>
+        <a href="https://thegyn.org/sism-forum-access/" class="btn btn-y">Book Forum Access, $199</a>
+      </div>
+      <button class="ham" aria-label="Open menu" aria-expanded="false" id="ham-btn">
+        <svg width="22" height="18" viewBox="0 0 22 18" fill="none" aria-hidden="true">
+          <rect width="22" height="2" fill="currentColor"/>
+          <rect y="8" width="22" height="2" fill="currentColor"/>
+          <rect y="16" width="22" height="2" fill="currentColor"/>
+        </svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-body">
+
+    <div class="hero-content">
+      <p class="hero-meta">19–22 November 2026 / Teedo Hotel, Kuala Lumpur / Co-hosted by UNU Global Health</p>
+      <h1 id="hero-title" class="d1 hero-title">SDG INNOVATION SUMMIT MALAYSIA 2026</h1>
+      <p class="hero-sub">Join 100 young leaders, innovators, students and professionals from across the globe in Kuala Lumpur. Focused on SDGs 4, 5, 9 and 13.</p>
+
+      <div class="countdown" id="countdown" role="timer" aria-label="Time until summit opens on 19 November 2026">
+        <div class="cd-unit">
+          <span class="cd-num" id="cd-d">--</span>
+          <span class="cd-lbl">days</span>
+        </div>
+        <span class="cd-sep" aria-hidden="true">:</span>
+        <div class="cd-unit">
+          <span class="cd-num" id="cd-h">--</span>
+          <span class="cd-lbl">hours</span>
+        </div>
+        <span class="cd-sep" aria-hidden="true">:</span>
+        <div class="cd-unit">
+          <span class="cd-num" id="cd-m">--</span>
+          <span class="cd-lbl">minutes</span>
+        </div>
+        <span class="cd-sep" aria-hidden="true">:</span>
+        <div class="cd-unit">
+          <span class="cd-num" id="cd-s">--</span>
+          <span class="cd-lbl">seconds</span>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="https://thegyn.org/sism-forum-access/" class="btn btn-y">Book Forum Access, $199</a>
+        <a href="https://thegyn.org/sism-2026/" class="btn btn-ow">See the full programme</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="globe-wrap">
+        <!--
+          glass-globe: Blender VP9 transparent render.
+          JS will swap in the video when in view.
+          Safari cannot decode webm transparency so it keeps the poster.
+        -->
+        <img
+          class="globe-poster"
+          src="assets/r2/renders/glass-globe-poster.webp"
+          alt="A glass globe with 17 SDG-coloured planets in orbit"
+          width="500" height="500">
+        <video
+          id="globe-vid"
+          class="globe-video"
+          muted loop playsinline preload="none"
+          poster="assets/r2/renders/glass-globe-poster.webp"
+          data-webm="assets/r2/renders/glass-globe.webm"
+          data-mp4="assets/r2/renders/glass-globe.mp4"
+          aria-hidden="true">
+        </video>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 3 delegate photos from FMS Thailand -->
+  <div class="hero-strip">
+    <div class="wrap">
+      <div class="strip-row">
+        <figure class="del-photo">
+          <img src="assets/gallery/fmst-dsc01881-1.webp"
+               alt="Delegates at FutureMinds Summit Thailand, Bangkok, July 2026"
+               width="110" height="110" loading="lazy">
+          <figcaption class="del-cap">FutureMinds Summit Thailand, Bangkok 2026</figcaption>
+        </figure>
+        <figure class="del-photo">
+          <img src="assets/gallery/fmst-dsc01894-1.webp"
+               alt="Panel session at FutureMinds Summit Thailand 2026"
+               width="110" height="110" loading="lazy">
+          <figcaption class="del-cap">FutureMinds Summit Thailand, Bangkok 2026</figcaption>
+        </figure>
+        <figure class="del-photo">
+          <img src="assets/gallery/fmst-dsc01945-1.webp"
+               alt="Workshop session at FutureMinds Summit Thailand 2026"
+               width="110" height="110" loading="lazy">
+          <figcaption class="del-cap">FutureMinds Summit Thailand, Bangkok 2026</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     STATS
+     ============================================================ -->
+<section class="stats-sec" aria-label="Key numbers">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat-tile t-y span2">
+        <span class="stat-n">100</span>
+        <span class="stat-l">confirmed seats in Kuala Lumpur, 19–22 Nov 2026</span>
+      </div>
+      <div class="stat-tile t-w">
+        <span class="stat-n">17</span>
+        <span class="stat-l">countries our ambassadors and advisors come from</span>
+      </div>
+      <div class="stat-tile t-c">
+        <span class="stat-n">30</span>
+        <span class="stat-l">scholarships offered (applications closed 11 Oct)</span>
+      </div>
+      <div class="stat-tile t-b">
+        <span class="stat-n">$1,000</span>
+        <span class="stat-l">Seed Grant for the winning social impact project</span>
+      </div>
+      <div class="stat-tile t-w">
+        <span class="stat-n">4</span>
+        <span class="stat-l">UN SDGs at the core of every session</span>
+      </div>
+      <div class="stat-tile t-y">
+        <span class="stat-n">2</span>
+        <span class="stat-l">global GYN summits: Bangkok 2026, Kuala Lumpur 2026</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WHO WE ARE
+     ============================================================ -->
+<section class="who-sec" aria-labelledby="who-hd">
+  <div class="wrap">
+    <div class="who-inner">
+      <div>
+        <h2 id="who-hd" class="d2 who-hd">WHO WE ARE &amp; WHAT WE DO</h2>
+        <p class="who-p">Global Youth Network (GYN) is an international organization dedicated to connecting and empowering young people worldwide. We bring together students, professionals, and innovators to collaborate across borders, develop leadership skills, and create meaningful global impact.</p>
+      </div>
+      <ul class="what-list" aria-label="What we do">
+        <li class="what-item">
+          <p class="wt">Conferences</p>
+          <p class="wb">GYN hosts international forums, workshops and summits to promote dialogue on Sustainable Development Goals.</p>
+        </li>
+        <li class="what-item">
+          <p class="wt">Networking</p>
+          <p class="wb">Providing a collaborative platform of mentorship, technical support and resource sharing to address the world's most pressing challenges.</p>
+        </li>
+        <li class="what-item">
+          <p class="wt">Leadership Development</p>
+          <p class="wb">Building a new generation of leaders with visionary foresight, unwavering integrity and measurable global impact.</p>
+        </li>
+        <li class="what-item">
+          <p class="wt">Collaborative Networks</p>
+          <p class="wb">Cultivating cross-border dialogue and strategic partnerships for the world's most complex challenges.</p>
+        </li>
+        <li class="what-item">
+          <p class="wt">Youth Mentoring</p>
+          <p class="wb">Providing tailor-made and hands-on mentoring to youth to become effective leaders.</p>
+        </li>
+        <li class="what-item">
+          <p class="wt">Workshops &amp; Trainings</p>
+          <p class="wb">Building leadership capacities and policy expertise for future-ready governance.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WHERE WE'RE FROM
+     ============================================================ -->
+<section class="from-sec" aria-labelledby="from-hd">
+  <div class="wrap">
+    <h2 id="from-hd" class="d2 from-hd">Where we're from</h2>
+    <p class="from-intro">Our 12 global ambassadors and 8 advisory board members represent 17 countries. Select a country to meet the people behind the network.</p>
+
+    <div role="tablist" aria-label="Countries" class="ctabs" id="ctablist">
+      <!-- tabs injected by JS -->
+    </div>
+
+    <div id="cpanels">
+      <!-- panels injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     OUR SUMMITS
+     ============================================================ -->
+<section class="summits-sec" aria-labelledby="sum-hd">
+  <div class="wrap">
+    <h2 id="sum-hd" class="d2 summits-hd">Our summits</h2>
+    <div class="summits-lay">
+      <ul class="summit-list" role="list">
+        <li>
+          <button class="sum-btn" id="sum-btn-fmst" aria-selected="false"
+                  data-target="sum-fmst" aria-controls="sum-display">
+            <span class="sum-name">FutureMinds Summit Thailand</span>
+            <span class="sum-dates">July 16–19, 2026 / Bangkok</span>
+            <span class="sum-past">Past summit</span>
+          </button>
+        </li>
+        <li>
+          <button class="sum-btn" id="sum-btn-sism" aria-selected="true"
+                  data-target="sum-sism" aria-controls="sum-display">
+            <span class="sum-name">SDG Innovation Summit Malaysia 2026</span>
+            <span class="sum-dates">Nov 19–22, 2026 / Teedo Hotel, Kuala Lumpur</span>
+            <span class="sum-open">Registration open</span>
+          </button>
+        </li>
+      </ul>
+
+      <div class="sum-display" id="sum-display" aria-live="polite">
+        <div class="sum-photo-wrap">
+          <img id="sum-fmst" class="sum-photo"
+               src="assets/fms/summit-photo.webp"
+               alt="FutureMinds Summit Thailand delegates, Bangkok, July 2026"
+               loading="lazy">
+          <img id="sum-sism" class="sum-photo active"
+               src="assets/hero/sism-2026-hero-visual.webp"
+               alt="SDG Innovation Summit Malaysia 2026 promotional visual"
+               loading="lazy">
+        </div>
+        <div class="sum-info" id="sum-info">
+          <p class="sum-info-name" id="sum-disp-name">SDG Innovation Summit Malaysia 2026</p>
+          <p class="sum-info-desc" id="sum-disp-desc">Join 100 young leaders, innovators and professionals in Kuala Lumpur. Co-hosted by the United Nations University Global Health Institute.</p>
+          <a href="https://thegyn.org/sism-2026/" class="btn btn-y" id="sum-disp-link">Register for SISM 2026</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SDG FOCUS
+     ============================================================ -->
+<section class="sdg-sec" aria-labelledby="sdg-hd">
+  <div class="wrap">
+    <h2 id="sdg-hd" class="d2 sdg-hd">Four goals. One summit.</h2>
+    <p class="sdg-intro">At GYN, we focus on four Sustainable Development Goals as education, gender equality, industry, innovation and infrastructure, and climate action, uniting young leaders worldwide to create impactful solutions and drive positive change for a sustainable future.</p>
+    <div class="sdg-grid">
+      <div class="sdg-card s4">
+        <span class="sdg-n">SDG 4</span>
+        <p class="sdg-t">Empowering through Quality Education.</p>
+      </div>
+      <div class="sdg-card s5">
+        <span class="sdg-n">SDG 5</span>
+        <p class="sdg-t">Breaking barriers for Gender Equality.</p>
+      </div>
+      <div class="sdg-card s9">
+        <span class="sdg-n">SDG 9</span>
+        <p class="sdg-t">Driving Innovation &amp; Resilient Infrastructure.</p>
+      </div>
+      <div class="sdg-card s13">
+        <span class="sdg-n">SDG 13</span>
+        <p class="sdg-t">Taking urgent action for our Climate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TICKETS
+     ============================================================ -->
+<section class="tick-sec" aria-labelledby="tick-hd">
+  <div class="wrap">
+    <h2 id="tick-hd" class="d2 tick-hd">Confirmed seats</h2>
+    <p class="tick-sub">Scholarship applications closed 11 October 2026. Results announced 16 October. Confirmed-seat registration is still open.</p>
+
+    <!-- Closed tiers: compact, muted -->
+    <div class="tiers-closed" aria-label="Closed scholarship tiers">
+      <div class="tc-item">
+        <span class="tc-name">Fully Funded Scholarship</span>
+        <span class="tc-badge">Closed</span>
+      </div>
+      <div class="tc-item">
+        <span class="tc-name">Partially Funded Scholarship</span>
+        <span class="tc-badge">Closed</span>
+      </div>
+    </div>
+
+    <!-- Open tiers -->
+    <div class="tiers-open">
+      <article class="tier" aria-label="Forum Access ticket">
+        <p class="tier-nm">FORUM ACCESS</p>
+        <div class="tier-pw">
+          <span class="tier-p">$199</span>
+          <span class="tier-po">$249</span>
+        </div>
+        <ul class="tier-inc">
+          <li>Early Invitation Letter</li>
+          <li>Welcome Dinner</li>
+          <li>Summit fee covered</li>
+          <li>GYN Toolkit &amp; Merchandise</li>
+          <li>Speaking opportunity</li>
+          <li>Participation Certificate</li>
+          <li>Cultural Night Ceremony</li>
+          <li>Lunch and coffee breaks</li>
+          <li>APU Campus Tour</li>
+        </ul>
+        <a href="https://thegyn.org/sism-forum-access/" class="btn btn-n">Register, $199</a>
+      </article>
+
+      <article class="tier" aria-label="Self Funded ticket with accommodation">
+        <p class="tier-nm">SELF FUNDED + ACCOMMODATION</p>
+        <div class="tier-pw">
+          <span class="tier-p">$399</span>
+          <span class="tier-po">$449</span>
+        </div>
+        <ul class="tier-inc">
+          <li>Accommodation (twin sharing)</li>
+          <li>Early Invitation Letter for Visa</li>
+          <li>Welcome Dinner</li>
+          <li>Summit fee covered</li>
+          <li>GYN Toolkit &amp; Merchandise</li>
+          <li>Speaking opportunity</li>
+          <li>Participation Certificate</li>
+          <li>Cultural Night Ceremony</li>
+          <li>Meals &amp; Refreshments</li>
+          <li>APU Campus Tour</li>
+        </ul>
+        <a href="https://thegyn.org/sism-self-funded/" class="btn btn-n">Register, $399</a>
+      </article>
+
+      <article class="tier" aria-label="Invitation Letter only">
+        <p class="tier-nm">INVITATION LETTER</p>
+        <div class="tier-pw">
+          <span class="tier-p">$49</span>
+        </div>
+        <ul class="tier-inc">
+          <li>Summit Invitation Letter</li>
+          <li>Visa support</li>
+          <li>Visa supporting documentation</li>
+          <li>Visa application guidance</li>
+          <li>Delivered within 48 hours</li>
+        </ul>
+        <a href="https://thegyn.org/sism-invitation-letter/" class="btn btn-n">Get invitation, $49</a>
+      </article>
+    </div>
+
+    <p style="margin-top:1.5rem; font-size:.8125rem; color:var(--n-600);">
+      Group discounts available. Email
+      <a href="https://thegyn.org/contact-us/" style="color:var(--blue-deep); font-weight:600;">contact@thegyn.org</a>
+      for pricing.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SPEAKERS
+     ============================================================ -->
+<section class="spk-sec" aria-labelledby="spk-hd">
+  <div class="wrap">
+    <h2 id="spk-hd" class="d2 spk-hd">SISM 2026 SPEAKERS</h2>
+    <div class="spk-grid">
+      <div class="spk-card">
+        <img class="spk-photo" src="assets/speakers/julie-victoire.webp" alt="Julie Victoire" loading="lazy">
+        <div class="spk-info">
+          <p class="spk-name">Julie Victoire</p>
+          <p class="spk-title">International Youth Advocate, Australian Education Leader, Founder The Rise Edit</p>
+        </div>
+      </div>
+      <div class="spk-card">
+        <img class="spk-photo" src="assets/speakers/dr-mohd-farid-bin-atan.webp" alt="Dr Mohd Farid bin Atan" loading="lazy">
+        <div class="spk-info">
+          <p class="spk-name">Dr Mohd Farid bin Atan</p>
+          <p class="spk-title">Deputy Director (Sustainability), Universiti Malaysia Sarawak</p>
+        </div>
+      </div>
+      <div class="spk-card">
+        <img class="spk-photo" src="assets/speakers/ayman-william-hermansson.webp" alt="Ayman William Hermansson" loading="lazy">
+        <div class="spk-info">
+          <p class="spk-name">Ayman William Hermansson</p>
+          <p class="spk-title">Assistant Professor, Heriot-Watt University Malaysia</p>
+        </div>
+      </div>
+      <div class="spk-card">
+        <img class="spk-photo" src="assets/speakers/syed-bilal-qasim.webp" alt="Syed Bilal Qasim" loading="lazy">
+        <div class="spk-info">
+          <p class="spk-name">Syed Bilal Qasim</p>
+          <p class="spk-title">CEO Techsol Space, Project Director CEGA</p>
+        </div>
+      </div>
+      <div class="spk-card">
+        <img class="spk-photo" src="assets/speakers/sapargulay-mahtumov.webp" alt="Sapargulay Mahtumov" loading="lazy">
+        <div class="spk-info">
+          <p class="spk-name">Sapargulay Mahtumov</p>
+          <p class="spk-title">Youth Coordinator, MySDG Academy, Malaysia</p>
+        </div>
+      </div>
+      <div class="spk-card">
+        <img class="spk-photo" src="assets/speakers/jasmine-cannon-ikurusi.webp" alt="Jasmine Cannon-Ikurusi" loading="lazy">
+        <div class="spk-info">
+          <p class="spk-name">Jasmine Cannon-Ikurusi</p>
+          <p class="spk-title">CEO &amp; Founder, The Sapphire Employability &amp; Wellbeing Academy, London</p>
+        </div>
+      </div>
+      <div class="spk-card">
+        <img class="spk-photo" src="assets/speakers/ashley-blake.webp" alt="Ashley Blake" loading="lazy">
+        <div class="spk-info">
+          <p class="spk-name">Ashley Blake</p>
+          <p class="spk-title">Head of Partnership, vrCAVE Canada</p>
+        </div>
+      </div>
+      <div class="spk-card">
+        <img class="spk-photo" src="assets/speakers/arumita-mitra.webp" alt="Arumita Mitra" loading="lazy">
+        <div class="spk-info">
+          <p class="spk-name">Arumita Mitra</p>
+          <p class="spk-title">Founder, Sudhamta Foundation India. TedX Speaker, UN SDG Advocate</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ADVISORY BOARD
+     ============================================================ -->
+<section class="adv-sec" aria-labelledby="adv-hd">
+  <div class="wrap">
+    <h2 id="adv-hd" class="d2 adv-hd">OUR GLOBAL ADVISORY BOARD</h2>
+    <div class="adv-grid">
+      <div class="adv-card">
+        <img class="adv-photo" src="assets/advisors/wenbo-li.webp" alt="Wenbo Li" loading="lazy">
+        <p class="adv-name">Wenbo Li</p>
+        <p class="adv-role">CEO Poly-Gamma, China</p>
+      </div>
+      <div class="adv-card">
+        <img class="adv-photo" src="assets/advisors/sura-fitiani.webp" alt="Sura Fitiani" loading="lazy">
+        <p class="adv-name">Sura Fitiani</p>
+        <p class="adv-role">Intersect Innovation Hub, Palestine</p>
+      </div>
+      <div class="adv-card">
+        <img class="adv-photo" src="assets/advisors/dr-salah.webp" alt="Dr. Salah" loading="lazy">
+        <p class="adv-name">Dr. Salah</p>
+        <p class="adv-role">Senior Government Official, Oman</p>
+      </div>
+      <div class="adv-card">
+        <img class="adv-photo" src="assets/advisors/sidra-riaz.webp" alt="Sidra Riaz" loading="lazy">
+        <p class="adv-name">Sidra Riaz</p>
+        <p class="adv-role">Presidential Doctoral Fellow, Florida University. COP29 &amp; COP30 Fellow, UN Youth Delegate</p>
+      </div>
+      <div class="adv-card">
+        <img class="adv-photo" src="assets/advisors/dr-mona-al-kadi.webp" alt="Dr. Mona Al Kadi" loading="lazy">
+        <p class="adv-name">Dr. Mona Al Kadi</p>
+        <p class="adv-role">Life Transformative Coach, UAE</p>
+      </div>
+      <div class="adv-card">
+        <img class="adv-photo" src="assets/advisors/mr-elam.webp" alt="Mr. Elam" loading="lazy">
+        <p class="adv-name">Mr. Elam</p>
+        <p class="adv-role">CEO Axxon group, UK</p>
+      </div>
+      <div class="adv-card">
+        <img class="adv-photo" src="assets/advisors/dr-suman-roy.webp" alt="Dr. Suman Roy" loading="lazy">
+        <p class="adv-name">Dr. Suman Roy</p>
+        <p class="adv-role">UN SDG Advocate, CEO Zero Hunger Project</p>
+      </div>
+      <div class="adv-card">
+        <img class="adv-photo" src="assets/advisors/ashley-blake.webp" alt="Ashley Blake" loading="lazy">
+        <p class="adv-name">Ashley Blake</p>
+        <p class="adv-role">Head of Partnership, vrCAVE Canada</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     VIDEOS
+     ============================================================ -->
+<section class="vid-sec" aria-labelledby="vid-hd">
+  <div class="wrap">
+    <h2 id="vid-hd" class="d2 vid-hd">FROM THE SUMMITS</h2>
+    <div class="vid-lay">
+      <div>
+        <button class="feat-btn" id="feat-vid-btn"
+                aria-label="Play: Future Minds Summit 2026 Day 1 Highlights on YouTube"
+                data-id="Aqqo3cL4W6w"
+                data-title="Future Minds Summit 2026 - Day 1 Highlights"
+                data-cat="highlights">
+          <img src="assets/video/Aqqo3cL4W6w.jpg"
+               alt="Future Minds Summit 2026 Day 1 highlights video thumbnail" loading="lazy">
+          <span class="play-ico" aria-hidden="true"></span>
+        </button>
+        <p class="feat-title">Future Minds Summit 2026 – Day 1 Highlights</p>
+      </div>
+
+      <div class="vid-rail">
+        <button class="vt-btn" aria-label="Play: Future Minds Summit 2026 Day 2 Highlights"
+                data-id="FwjXKiF4QJ0"
+                data-title="Future Minds Summit 2026 - Day 2 Highlights"
+                data-cat="highlights">
+          <img class="vt-img" src="assets/video/FwjXKiF4QJ0.jpg" alt="" loading="lazy">
+          <span class="vt-title">Future Minds Summit 2026 – Day 2 Highlights</span>
+        </button>
+        <button class="vt-btn" aria-label="Play: Future Minds Summit 2026 Day 3 Highlights"
+                data-id="TjnrswlwX8k"
+                data-title="Future Minds Summit 2026 - Day 3 Highlights"
+                data-cat="highlights">
+          <img class="vt-img" src="assets/video/TjnrswlwX8k.jpg" alt="" loading="lazy">
+          <span class="vt-title">Future Minds Summit 2026 – Day 3 Highlights</span>
+        </button>
+        <button class="vt-btn" aria-label="Play: Speaker testimonial from Palestine"
+                data-id="cO1D5dJFops"
+                data-title="Experience of Sura Fitiani, Speaker from Palestine"
+                data-cat="speakers">
+          <img class="vt-img" src="assets/video/cO1D5dJFops.jpg" alt="" loading="lazy">
+          <span class="vt-title">Experience of Sura Fitiani, Speaker from Palestine</span>
+        </button>
+        <button class="vt-btn" aria-label="Play: Meet Dr Suman Roy"
+                data-id="eeFq13x-_rQ"
+                data-title="Meet Dr. Suman Roy - Most Energetic Speaker at FutureMinds Summit"
+                data-cat="speakers">
+          <img class="vt-img" src="assets/video/eeFq13x-_rQ.jpg" alt="" loading="lazy">
+          <span class="vt-title">Meet Dr. Suman Roy – Most Energetic Speaker at FutureMinds Summit</span>
+        </button>
+        <button class="vt-btn" aria-label="Play: A voice from India"
+                data-id="T5Xrp8KcqOY"
+                data-title="A Voice from India - Tejaswini at Future Minds Summit 2026"
+                data-cat="testimonials">
+          <img class="vt-img" src="assets/video/T5Xrp8KcqOY.jpg" alt="" loading="lazy">
+          <span class="vt-title">A voice from India – Tejaswini at Future Minds Summit 2026</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Video modal -->
+<div class="modal-ov" id="vid-modal" role="dialog" aria-modal="true" aria-labelledby="modal-t-txt">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-hd">
+      <p class="modal-t" id="modal-t-txt"></p>
+      <button class="modal-x" id="modal-close" aria-label="Close video modal">&#10005;</button>
+    </div>
+    <div class="modal-thumb">
+      <img id="modal-thumb-img" src="" alt="" loading="lazy">
+    </div>
+    <div class="modal-ft">
+      <span class="modal-cat" id="modal-cat"></span>
+      <a id="modal-yt-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-y">Watch on YouTube</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GALLERY
+     ============================================================ -->
+<section class="gal-sec" aria-labelledby="gal-hd">
+  <div class="wrap">
+    <h2 id="gal-hd" class="d2 gal-hd">FUTUREMINDS SUMMIT THAILAND 2026</h2>
+    <div class="gal-grid">
+      <div class="gal-item">
+        <img src="assets/gallery/fmst-dsc02142-1.webp" alt="Group session at FutureMinds Summit Thailand 2026" loading="lazy">
+      </div>
+      <div class="gal-item">
+        <img src="assets/gallery/fmst-dsc01960-1.webp" alt="Networking at FutureMinds Summit Thailand 2026" loading="lazy">
+      </div>
+      <div class="gal-item">
+        <img src="assets/gallery/fmst-dsc01976-1.webp" alt="Workshop at FutureMinds Summit Thailand 2026" loading="lazy">
+      </div>
+      <div class="gal-item">
+        <img src="assets/gallery/fmst-dsc01989-1.webp" alt="Presentation at FutureMinds Summit Thailand 2026" loading="lazy">
+      </div>
+      <div class="gal-item">
+        <img src="assets/gallery/fmst-dsc02120-1.webp" alt="Delegates at FutureMinds Summit Thailand 2026" loading="lazy">
+      </div>
+      <div class="gal-item">
+        <img src="assets/gallery/fmst-dsc02159-1.webp" alt="Cultural evening at FutureMinds Summit Thailand 2026" loading="lazy">
+      </div>
+      <div class="gal-item">
+        <img src="assets/gallery/fmst-dsc02172-1.webp" alt="Closing ceremony at FutureMinds Summit Thailand 2026" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PARTNERS
+     ============================================================ -->
+<section class="par-sec" aria-labelledby="par-hd">
+  <div class="wrap">
+    <h2 id="par-hd" class="par-hd">Our partners</h2>
+    <div class="par-logos">
+      <a href="#" class="par-logo" aria-label="Partner: Opportunities Radar">
+        <img src="assets/logos/opportunities-radar.png" alt="Opportunities Radar" loading="lazy">
+      </a>
+      <a href="#" class="par-logo" aria-label="Partner">
+        <img src="assets/logos/oc.png" alt="" loading="lazy">
+      </a>
+      <a href="#" class="par-logo" aria-label="Partner">
+        <img src="assets/logos/axxon.png" alt="" loading="lazy">
+      </a>
+      <a href="#" class="par-logo" aria-label="Partner">
+        <img src="assets/logos/tss.png" alt="" loading="lazy">
+      </a>
+      <a href="#" class="par-logo" aria-label="Partner">
+        <img src="assets/logos/tehgzr.png" alt="" loading="lazy">
+      </a>
+      <a href="#" class="par-logo" aria-label="Partner">
+        <img src="assets/logos/logo-n.png" alt="" loading="lazy">
+      </a>
+    </div>
+    <div class="cohost-row">
+      <p class="cohost-lbl">Co-hosted by</p>
+      <img src="assets/logos/unu-global-health-logo.png"
+           alt="United Nations University - International Institute for Global Health, Malaysia"
+           loading="lazy">
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer" role="contentinfo">
+  <div class="wrap">
+    <div class="ft-inner">
+      <div>
+        <div class="ft-logo">
+          <img class="logo-chip" src="assets/logos/gyn-logo.png" alt="Global Youth Network" width="100" height="30" loading="lazy">
+        </div>
+        <p class="ft-about">The Global Youth Network is a U.S. based organization that hosts international Conferences to support the United Nations Sustainable Development Goals (SDGs).</p>
+        <nav class="ft-soc" aria-label="Social media links">
+          <a href="https://www.facebook.com/share/183ZmovUrB/" rel="noopener">Facebook</a>
+          <a href="https://www.instagram.com/gyn_global" rel="noopener">Instagram</a>
+          <a href="https://wa.me/message/HGC6MW4HT5YJC1" rel="noopener">WhatsApp</a>
+          <a href="https://www.youtube.com/@globalyouthnetwork/" rel="noopener">YouTube</a>
+        </nav>
+      </div>
+      <div>
+        <p class="ft-col-hd">Quick links</p>
+        <ul class="ft-links">
+          <li><a href="https://thegyn.org/">Home</a></li>
+          <li><a href="https://thegyn.org/about-us/">About Us</a></li>
+          <li><a href="https://thegyn.org/fms-thailand/">FMS Thailand</a></li>
+          <li><a href="https://thegyn.org/contact-us/">Contact Us</a></li>
+          <li><a href="https://global-youth-network.getrewardful.com/login">Affiliate Login</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ft-col-hd">Policies</p>
+        <ul class="ft-links">
+          <li><a href="https://thegyn.org/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="https://thegyn.org/refund-policy/">Refund Policy</a></li>
+          <li><a href="https://thegyn.org/terms-conditions/">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ft-col-hd">Contact</p>
+        <p class="ft-contact">
+          contact@thegyn.org<br>
+          +1 (302) 556-0064<br>
+          1001 S Main St STE 500<br>
+          Kalispell, Montana 59901
+        </p>
+      </div>
+    </div>
+    <p class="ft-bot">&#169; 2026 Global Youth Network. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Mobile nav panel -->
+<div class="mob-menu" id="mob-menu" aria-label="Mobile navigation" hidden>
+  <ul>
+    <li><a href="https://thegyn.org/">Home</a></li>
+    <li><a href="https://thegyn.org/fms-thailand/">FMS Thailand (past)</a></li>
+    <li><a href="https://thegyn.org/sism-2026/">SIS Malaysia 2026</a></li>
+    <li><a href="https://thegyn.org/about-us/">About Us</a></li>
+    <li><a href="https://thegyn.org/contact-us/">Contact Us</a></li>
+  </ul>
+  <div class="mob-cta">
+    <a href="https://thegyn.org/sism-forum-access/" class="btn btn-y">Book Forum Access, $199</a>
+  </div>
+</div>
+
+<!-- Direction pill (team-review chrome) -->
+<div class="dir-pill" aria-hidden="true">Direction G · Deep Field <a href="./">All directions</a></div>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  /* --- COUNTDOWN --- */
+  /* Target: 19 Nov 2026 09:00 MYT (UTC+8) = 2026-11-19T01:00:00Z */
+  var target = new Date('2026-11-19T01:00:00Z').getTime();
+  var dEl = document.getElementById('cd-d');
+  var hEl = document.getElementById('cd-h');
+  var mEl = document.getElementById('cd-m');
+  var sEl = document.getElementById('cd-s');
+
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+  function tick() {
+    var diff = target - Date.now();
+    if (diff <= 0) {
+      dEl.textContent = hEl.textContent = mEl.textContent = sEl.textContent = '00';
+      return;
+    }
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+    dEl.textContent = pad(d);
+    hEl.textContent = pad(h);
+    mEl.textContent = pad(m);
+    sEl.textContent = pad(s);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* --- GLOBE VIDEO (Safari detection + IntersectionObserver) --- */
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  var globeVid = document.getElementById('globe-vid');
+  var globePoster = document.querySelector('.globe-poster');
+
+  if (!isSafari && globeVid && window.IntersectionObserver) {
+    var globeObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          if (!globeVid.src) {
+            /* load webm source */
+            var src = document.createElement('source');
+            src.src = globeVid.dataset.webm;
+            src.type = 'video/webm';
+            var src2 = document.createElement('source');
+            src2.src = globeVid.dataset.mp4;
+            src2.type = 'video/mp4';
+            globeVid.appendChild(src);
+            globeVid.appendChild(src2);
+            globeVid.load();
+          }
+          globeVid.style.display = 'block';
+          globePoster.style.display = 'none';
+          globeVid.play().catch(function () {});
+        } else {
+          globeVid.pause();
+        }
+      });
+    }, { threshold: 0.1 });
+    globeObs.observe(globeVid);
+  }
+
+  /* --- WHERE WE'RE FROM (ARIA tablist) --- */
+  var countries = [
+    { name: 'Australia', people: [
+      { name: 'Diba', role: 'Global Ambassador', photo: 'assets/ambassadors/diba.webp' }
+    ]},
+    { name: 'Bangladesh', people: [
+      { name: 'Md Nafi', role: 'Global Ambassador', photo: 'assets/ambassadors/md-nafi.webp' }
+    ]},
+    { name: 'Canada', people: [
+      { name: 'Ashley Blake', role: 'Advisory Board, Head of Partnership vrCAVE', photo: 'assets/advisors/ashley-blake.webp' }
+    ]},
+    { name: 'China', people: [
+      { name: 'Wenbo Li', role: 'Advisory Board, CEO Poly-Gamma', photo: 'assets/advisors/wenbo-li.webp' }
+    ]},
+    { name: 'India', people: [
+      { name: 'Ashif', role: 'Global Ambassador', photo: 'assets/ambassadors/ashif.webp' }
+    ]},
+    { name: 'Laos', people: [
+      { name: 'Boling', role: 'Global Ambassador', photo: 'assets/ambassadors/boling.webp' }
+    ]},
+    { name: 'Lebanon', people: [
+      { name: 'Yara Shamas', role: 'Global Ambassador', photo: 'assets/ambassadors/yara-shamas.webp' }
+    ]},
+    { name: 'Malaysia', people: [
+      { name: 'Lim Pei En', role: 'Global Ambassador', photo: 'assets/ambassadors/lim-pei-en.webp' }
+    ]},
+    { name: 'Nepal', people: [
+      { name: 'Kritika Ghimire', role: 'Global Ambassador', photo: 'assets/ambassadors/kritika-ghimire.webp' }
+    ]},
+    { name: 'Nigeria', people: [
+      { name: 'Dr Righteous', role: 'Global Ambassador', photo: 'assets/ambassadors/dr-righteous.webp' }
+    ]},
+    { name: 'Oman', people: [
+      { name: 'Dr. Salah', role: 'Advisory Board, Senior Government Official', photo: 'assets/advisors/dr-salah.webp' }
+    ]},
+    { name: 'Pakistan', people: [
+      { name: 'Abdul Ahad', role: 'Global Ambassador', photo: 'assets/ambassadors/abdul-ahad.webp' }
+    ]},
+    { name: 'Palestine', people: [
+      { name: 'Sura Fitiani', role: 'Advisory Board, Intersect Innovation Hub', photo: 'assets/advisors/sura-fitiani.webp' }
+    ]},
+    { name: 'Thailand', people: [
+      { name: 'Patee', role: 'Global Ambassador', photo: 'assets/ambassadors/patee.webp' }
+    ]},
+    { name: 'UAE', people: [
+      { name: 'Dr. Mona Al Kadi', role: 'Advisory Board, Life Transformative Coach', photo: 'assets/advisors/dr-mona-al-kadi.webp' }
+    ]},
+    { name: 'UK', people: [
+      { name: 'Mr. Elam', role: 'Advisory Board, CEO Axxon group', photo: 'assets/advisors/mr-elam.webp' }
+    ]},
+    { name: 'USA', people: [
+      { name: 'Helga Tongi', role: 'Global Ambassador', photo: 'assets/ambassadors/helga-tongi.webp' },
+      { name: 'Casey', role: 'Global Ambassador', photo: 'assets/ambassadors/casey.webp' },
+      { name: 'Sidra Riaz', role: 'Advisory Board, Presidential Doctoral Fellow, Florida University', photo: 'assets/advisors/sidra-riaz.webp' }
+    ]}
+  ];
+
+  var tablist  = document.getElementById('ctablist');
+  var panelWrap = document.getElementById('cpanels');
+
+  countries.forEach(function (c, i) {
+    /* tab button */
+    var btn = document.createElement('button');
+    btn.className = 'ctab';
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    btn.setAttribute('aria-controls', 'cpanel-' + i);
+    btn.id = 'ctab-' + i;
+    btn.textContent = c.name;
+    tablist.appendChild(btn);
+
+    /* panel */
+    var panel = document.createElement('div');
+    panel.className = 'cpanel' + (i === 0 ? ' active' : '');
+    panel.id = 'cpanel-' + i;
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', 'ctab-' + i);
+    panel.setAttribute('aria-hidden', i === 0 ? 'false' : 'true');
+
+    var peopleDiv = document.createElement('div');
+    peopleDiv.className = 'cp-people';
+
+    c.people.forEach(function (p) {
+      var person = document.createElement('div');
+      person.className = 'cp-person';
+      var img = document.createElement('img');
+      img.src = p.photo;
+      img.alt = p.name;
+      img.width = 72; img.height = 72; img.loading = 'lazy';
+      var info = document.createElement('div');
+      var nm = document.createElement('p');
+      nm.className = 'cp-name'; nm.textContent = p.name;
+      var rl = document.createElement('p');
+      rl.className = 'cp-role'; rl.textContent = p.role;
+      info.appendChild(nm); info.appendChild(rl);
+      person.appendChild(img); person.appendChild(info);
+      peopleDiv.appendChild(person);
+    });
+
+    /* Globe render beside the panel */
+    var globeDiv = document.createElement('div');
+    globeDiv.className = 'cp-globe';
+    var gi = document.createElement('img');
+    gi.src = 'assets/r2/renders/glass-globe-poster.webp';
+    gi.alt = ''; gi.setAttribute('aria-hidden', 'true'); gi.loading = 'lazy';
+    globeDiv.appendChild(gi);
+
+    panel.appendChild(peopleDiv);
+    panel.appendChild(globeDiv);
+    panelWrap.appendChild(panel);
+  });
+
+  var tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+
+  function activateTab(idx) {
+    tabs.forEach(function (t, i) {
+      var active = i === idx;
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (active) {
+        panel.classList.add('active');
+        panel.setAttribute('aria-hidden', 'false');
+      } else {
+        panel.classList.remove('active');
+        panel.setAttribute('aria-hidden', 'true');
+      }
+    });
+  }
+
+  tablist.addEventListener('click', function (e) {
+    var t = e.target.closest('[role="tab"]');
+    if (!t) return;
+    activateTab(tabs.indexOf(t));
+    t.focus();
+  });
+
+  tablist.addEventListener('keydown', function (e) {
+    var cur = tabs.indexOf(document.activeElement);
+    if (cur < 0) return;
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      var next = (cur + 1) % tabs.length;
+      activateTab(next); tabs[next].focus();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      var prev = (cur - 1 + tabs.length) % tabs.length;
+      activateTab(prev); tabs[prev].focus();
+    } else if (e.key === 'Home') {
+      e.preventDefault(); activateTab(0); tabs[0].focus();
+    } else if (e.key === 'End') {
+      e.preventDefault(); var last = tabs.length - 1; activateTab(last); tabs[last].focus();
+    }
+  });
+
+  /* --- SUMMITS SWAPPER --- */
+  var sumData = {
+    'sum-btn-fmst': {
+      photoId: 'sum-fmst',
+      name: 'FutureMinds Summit Thailand',
+      desc: 'Our inaugural summit in Bangkok brought together over 70 participants for sessions on global collaboration, policy impact and AI.',
+      link: 'https://thegyn.org/fms-thailand/',
+      cta: 'See FMS Thailand recap'
+    },
+    'sum-btn-sism': {
+      photoId: 'sum-sism',
+      name: 'SDG Innovation Summit Malaysia 2026',
+      desc: 'Join 100 young leaders, innovators and professionals in Kuala Lumpur. Co-hosted by the United Nations University Global Health Institute.',
+      link: 'https://thegyn.org/sism-2026/',
+      cta: 'Register for SISM 2026'
+    }
+  };
+
+  var sumBtns = document.querySelectorAll('.sum-btn');
+  var sumPhotos = document.querySelectorAll('.sum-photo');
+  var sumName = document.getElementById('sum-disp-name');
+  var sumDesc = document.getElementById('sum-disp-desc');
+  var sumLink = document.getElementById('sum-disp-link');
+
+  function activateSummit(btnId) {
+    var d = sumData[btnId];
+    if (!d) return;
+    sumPhotos.forEach(function (p) {
+      p.classList.toggle('active', p.id === d.photoId);
+    });
+    sumBtns.forEach(function (b) {
+      b.setAttribute('aria-selected', b.id === btnId ? 'true' : 'false');
+    });
+    sumName.textContent = d.name;
+    sumDesc.textContent = d.desc;
+    sumLink.textContent = d.cta;
+    sumLink.href = d.link;
+  }
+
+  sumBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () { activateSummit(btn.id); btn.focus(); });
+    btn.addEventListener('mouseenter', function () { activateSummit(btn.id); });
+    btn.addEventListener('focus', function () { activateSummit(btn.id); });
+  });
+
+  /* --- VIDEO MODAL --- */
+  var overlay   = document.getElementById('vid-modal');
+  var modalT    = document.getElementById('modal-t-txt');
+  var modalImg  = document.getElementById('modal-thumb-img');
+  var modalCat  = document.getElementById('modal-cat');
+  var modalLink = document.getElementById('modal-yt-link');
+  var closeBtn  = document.getElementById('modal-close');
+  var lastFocus = null;
+
+  function openModal(id, title, cat) {
+    lastFocus = document.activeElement;
+    modalT.textContent = title;
+    modalImg.src = 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg';
+    modalImg.alt = title + ' thumbnail';
+    modalCat.textContent = cat;
+    modalLink.href = 'https://www.youtube.com/watch?v=' + id;
+    overlay.classList.add('open');
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    if (lastFocus) lastFocus.focus();
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeModal();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+  });
+
+  /* focus trap */
+  document.getElementById('modal-box').addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab') return;
+    var focusable = Array.from(this.querySelectorAll('button, a, [tabindex="0"]'));
+    var first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  function attachVideoBtn(btn) {
+    btn.addEventListener('click', function () {
+      openModal(btn.dataset.id, btn.dataset.title, btn.dataset.cat);
+    });
+  }
+
+  attachVideoBtn(document.getElementById('feat-vid-btn'));
+  document.querySelectorAll('.vt-btn').forEach(attachVideoBtn);
+
+  /* --- MOBILE MENU --- */
+  var hamBtn  = document.getElementById('ham-btn');
+  var mobMenu = document.getElementById('mob-menu');
+
+  function openMob() {
+    mobMenu.removeAttribute('hidden');
+    mobMenu.classList.add('open');
+    hamBtn.setAttribute('aria-expanded', 'true');
+    /* move focus to first link */
+    var first = mobMenu.querySelector('a');
+    if (first) first.focus();
+  }
+
+  function closeMob() {
+    mobMenu.setAttribute('hidden', '');
+    mobMenu.classList.remove('open');
+    hamBtn.setAttribute('aria-expanded', 'false');
+    hamBtn.focus();
+  }
+
+  hamBtn.addEventListener('click', function () {
+    if (mobMenu.classList.contains('open')) { closeMob(); } else { openMob(); }
+  });
+
+  /* Esc closes */
+  mobMenu.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMob();
+  });
+
+  /* link-click closes */
+  mobMenu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closeMob);
+  });
+
+  /* --- THEME TOGGLE --- */
+  var themeBtn = document.getElementById('theme-btn');
+  var root = document.documentElement;
+  var dark = false;
+
+  themeBtn.addEventListener('click', function () {
+    dark = !dark;
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    themeBtn.textContent = dark ? 'Light' : 'Dark';
+    /* update footer + nav which use navy-900 always; no change needed */
+  });
+
+}());
+</script>
+</body>
+</html>

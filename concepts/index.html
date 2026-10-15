@@ -1,103 +1,110 @@
 <title>GYN Design Directions</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<!-- Gabarito for headings (round, sturdy, not one of the AI-default faces); Familjen Grotesk for text (narrow, reads well in dense review notes). -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600;800&family=Familjen+Grotesk:wght@400;500;600&display=swap">
 <style>
-/* Layout: one review column; a 2×2 grid of direction cards; vote state lives on each card. */
+/* Layout: one review column; round 2 cards in a 2x2 grid with votes; round 1 shrinks to an archive strip at the bottom. */
 :root {
-  --bg: #f7f7f4; --surface: #ffffff; --ink: #202f60; --ink-2: #5a5a55; --line: #dcdcd5;
-  --cta: #c52035; --on-cta: #ffffff; --chip: #e3e7f4; --ok: #48783f; --warn: #c9501a;
-  --font: "Onest", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --bg: #f4f6f9; --surface: #ffffff; --ink: #0e1530; --ink-2: #4e5568; --line: #d9dee8;
+  --cta: #c52035; --on-cta: #ffffff; --chip: #e3e7f4; --sun: #fcc30b; --warn: #c9501a;
+  --display: "Gabarito", "Trebuchet MS", system-ui, sans-serif;
+  --font: "Familjen Grotesk", "Segoe UI", system-ui, sans-serif;
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0e1530; --surface: #16204a; --ink: #ffffff; --ink-2: #bdbdb5; --line: #2a3768;
-    --cta: #f2692c; --on-cta: #0e1530; --chip: #202f60; --ok: #9fcb94; --warn: #f9a77e; color-scheme: dark;
+    --bg: #0e1530; --surface: #16204a; --ink: #ffffff; --ink-2: #bdc3d4; --line: #2a3768;
+    --cta: #f2692c; --on-cta: #0e1530; --chip: #202f60; --warn: #f9a77e; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0e1530; --surface: #16204a; --ink: #ffffff; --ink-2: #bdbdb5; --line: #2a3768;
-  --cta: #f2692c; --on-cta: #0e1530; --chip: #202f60; --ok: #9fcb94; --warn: #f9a77e; color-scheme: dark;
+  --bg: #0e1530; --surface: #16204a; --ink: #ffffff; --ink-2: #bdc3d4; --line: #2a3768;
+  --cta: #f2692c; --on-cta: #0e1530; --chip: #202f60; --warn: #f9a77e; color-scheme: dark;
 }
 * { box-sizing: border-box; }
-body { background: var(--bg); color: var(--ink); font: 400 16px/1.55 var(--font); }
-.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 48px; }
-h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.15; }
+body { background: var(--bg); color: var(--ink); font: 400 16.5px/1.55 var(--font); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 72px; display: grid; gap: 52px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.08; }
 p { margin: 0; }
-.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--cta); outline-offset: 3px; border-radius: 4px; }
+.muted { color: var(--ink-2); }
 
-header.top { display: grid; gap: 16px; max-width: 72ch; }
-header.top h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 700; letter-spacing: -0.02em; }
-header.top p { color: var(--ink-2); font-size: 18px; }
-.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; font: 400 13px/1.4 var(--mono); color: var(--ink-2); }
+header.top { display: grid; gap: 16px; max-width: 74ch; }
+header.top h1 { font-size: clamp(34px, 5.4vw, 60px); font-weight: 800; letter-spacing: -0.015em; }
+header.top p { color: var(--ink-2); font-size: 18.5px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; }
+.facts span { background: var(--chip); border-radius: 8px; padding: 6px 10px; font-size: 14px; }
 
+.tally { display: grid; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+.tally h2 { font-size: 20px; }
 #tally { display: grid; gap: 12px; }
-.tally { display: grid; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
-.tally-row { display: grid; grid-template-columns: 15ch 1fr 3ch; gap: 12px; align-items: center; font: 500 14px/1 var(--mono); }
+.tally-row { display: grid; grid-template-columns: 17ch 1fr 3ch; gap: 12px; align-items: center; font-weight: 500; font-size: 15px; }
+.tally-row span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .bar { height: 10px; border-radius: 99px; background: var(--chip); overflow: hidden; }
 .bar > i { display: block; height: 100%; width: 0; background: var(--cta); transition: width 480ms var(--ease); }
-.tally-row span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tally-row b { text-align: right; font-variant-numeric: tabular-nums; }
-.tally .status { font-size: 14px; color: var(--ink-2); }
+.tally .status { font-size: 14.5px; color: var(--ink-2); }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 24px; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
 .card.mine { border-color: var(--cta); box-shadow: 0 0 0 1px var(--cta); }
 .shot { display: block; aspect-ratio: 16 / 10; max-width: 100%; background: var(--chip) center top / cover no-repeat; border-bottom: 1px solid var(--line); position: relative; }
-.shot span { position: absolute; left: 14px; top: 14px; font: 600 13px/1 var(--mono); background: var(--surface); color: var(--ink); padding: 7px 10px; border-radius: 99px; }
+.shot span { position: absolute; left: 14px; top: 14px; font-weight: 600; font-size: 14px; background: var(--surface); color: var(--ink); padding: 7px 11px; border-radius: 99px; }
 .body { padding: 22px; display: grid; gap: 16px; align-content: start; min-width: 0; }
-.body h2 { font-size: 26px; letter-spacing: -0.01em; }
-.mood { color: var(--ink-2); }
-dl { display: grid; grid-template-columns: 11ch 1fr; gap: 8px 14px; margin: 0; font-size: 14.5px; }
-dt { font: 500 12px/1.9 var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); }
+.body h2 { font-size: 28px; font-weight: 800; }
+dl { display: grid; grid-template-columns: 10ch 1fr; gap: 8px 14px; margin: 0; font-size: 15px; }
+dt { font-weight: 600; color: var(--ink-2); }
 dd { margin: 0; min-width: 0; }
+.swatches { display: flex; gap: 4px; }
+.swatches i { width: 22px; height: 22px; border-radius: 5px; display: block; border: 1px solid var(--line); }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.btn { appearance: none; border: 1px solid var(--line); background: transparent; color: var(--ink); font: 600 15px/1 var(--font); padding: 12px 16px; border-radius: 10px; cursor: pointer; text-decoration: none; transition: transform 160ms var(--ease), background-color 160ms var(--ease); }
+.btn { appearance: none; border: 1px solid var(--line); background: transparent; color: var(--ink); font: 600 15.5px/1 var(--font); padding: 12px 16px; border-radius: 10px; cursor: pointer; text-decoration: none; transition: transform 160ms var(--ease); }
 .btn:active { transform: scale(0.97); }
 .btn.primary { background: var(--cta); color: var(--on-cta); border-color: var(--cta); }
 .btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
-.voters { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+.voters { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .voters img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--surface); }
 
 .note { display: grid; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
 .note label { font-weight: 600; }
 .note textarea { width: 100%; min-height: 84px; resize: vertical; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
-.note .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-size: 14px; color: var(--ink-2); }
+.note .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-size: 14.5px; color: var(--ink-2); }
 .notes-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.notes-list li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; font-size: 15px; }
+.notes-list li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; }
 .notes-list img { width: 28px; height: 28px; border-radius: 50%; }
-.notes-list small { display: block; font: 500 12px/1.4 var(--mono); color: var(--ink-2); }
+.notes-list small { display: block; font-size: 13px; color: var(--ink-2); }
 
-section.issues { display: grid; gap: 20px; }
-section.issues h2, section.next h2 { font-size: 28px; letter-spacing: -0.01em; }
+section.block { display: grid; gap: 18px; }
+section.block h2 { font-size: 30px; font-weight: 800; }
+.changes { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; max-width: 78ch; }
 .issue-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
-.issue-list li { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 6px; align-content: start; font-size: 15px; }
-.issue-list strong { font-size: 15.5px; }
-.sev { font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.issue-list li { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 6px; align-content: start; font-size: 15.5px; }
+.issue-list strong { font-size: 16px; }
+.sev { font-size: 13px; font-weight: 600; }
 .sev.high { color: var(--cta); } .sev.med { color: var(--warn); }
-section.next { display: grid; gap: 12px; max-width: 72ch; }
-section.next p { color: var(--ink-2); }
-code { font-family: var(--mono); font-size: .92em; }
+code { font-size: .92em; background: var(--chip); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+
+.archive { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 14px; }
+.archive a { display: grid; gap: 8px; text-decoration: none; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px; }
+.archive img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: 8px; }
+.archive span { font-weight: 600; padding-inline: 4px; }
 .theme { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-@media (max-width: 480px) { dl { grid-template-columns: 1fr; gap: 2px; } dd { margin-bottom: 8px; } .tally-row { grid-template-columns: 12ch 1fr 3ch; } }
+@media (max-width: 480px) { dl { grid-template-columns: 1fr; gap: 2px; } dd { margin-bottom: 8px; } .tally-row { grid-template-columns: 13ch 1fr 3ch; } }
 </style>
 
 <div class="wrap">
   <header class="top">
-    <span class="eyebrow">thegyn.org redesign · pitch on Sun 19 Oct 2026</span>
-    <h1>Four directions for GYN. Pick one.</h1>
-    <p>Each one is a working homepage built on GYN's real content, logo palette and photos. Open them on your phone as well as your laptop, then vote. The build starts on whichever direction wins, and the other three get archived.</p>
-    <div class="meta"><span>Content: 14 pages crawled</span><span>Palette: from the logo, contrast-checked</span><span>Prototypes: static HTML, no backend yet</span></div>
+    <h1>Round 2: four new directions for GYN</h1>
+    <p>The client pointed us at echochange.org, so this round goes louder: solid colour blocks, the 17 SDG colours as the palette, real delegate photos up front, and 3D animation rendered in Blender (actual renders, not CSS effects). We also checked round 1 against a published list of what makes a site look AI-made, and built these four to avoid every item on it.</p>
+    <div class="facts"><span>Same content as the live site</span><span>Blender renders, 4 of them</span><span>No purple, no gradients, no glass</span><span>Pitch on Sunday 19 Oct</span></div>
   </header>
 
   <div class="tally" aria-live="polite">
-    <span class="eyebrow">Team vote</span>
+    <h2>Team vote</h2>
     <div id="tally"></div>
     <p class="status" id="vote-status">Loading votes…</p>
   </div>
@@ -106,59 +113,75 @@ code { font-family: var(--mono); font-size: .92em; }
 
   <div class="note" id="note-box">
     <label for="note">Why that one? (optional, shows next to your vote)</label>
-    <textarea id="note" maxlength="280" placeholder="e.g. B for the applicants, but steal A's ticket table"></textarea>
+    <textarea id="note" maxlength="280" placeholder="e.g. G for the globe, with F's ticket tags"></textarea>
     <div class="row"><button class="btn" id="save-note" type="button">Save note</button><span id="note-status"></span></div>
     <ul class="notes-list" id="notes"></ul>
   </div>
 
-  <section class="issues" aria-labelledby="issues-h">
-    <h2 id="issues-h">What's broken on the live site right now</h2>
-    <p class="mood">From the crawl on 15 Oct. Each of these is fixed in all four directions, so it's useful ammunition for the pitch regardless of which one wins.</p>
-    <ul class="issue-list">
-      <li><span class="sev high">Accessibility</span><strong>The brand yellow fails contrast</strong><p>Yellow <code>#FEFF00</code> on white is 1.08:1 (WCAG needs 4.5:1). It isn't in the logo either.</p></li>
-      <li><span class="sev high">Conversion</span><strong>Countdowns stuck at 00:00:00:00</strong><p>The deadline passed on 11 Oct and both timers on home and SISM show zeros, while the button still says "Apply now".</p></li>
-      <li><span class="sev high">Trust</span><strong>Closed tiers still say Apply</strong><p>Both scholarship cards say "CLOSED NOW", and the Apply buttons are still live next to them.</p></li>
-      <li><span class="sev high">Revenue</span><strong>Three different prices for Forum Access</strong><p>$199 on the page, $249 in the Meta Pixel, and $170 on a hidden "discounted" form with no CAPTCHA.</p></li>
-      <li><span class="sev med">Content</span><strong>Results date conflicts</strong><p>The FAQ says 16 Oct and the thank-you page says 15 Oct.</p></li>
-      <li><span class="sev med">Quality</span><strong>Dead links and broken images</strong><p>5 benefit items link to <code>http://i%20class=fa-solid…</code>, all 4 contact-page backgrounds 404, and two speaker photos 404.</p></li>
-      <li><span class="sev med">Media</span><strong>Bare YouTube embeds</strong><p>9 videos sit in default iframes with no filtering, deep links or shared player.</p></li>
-      <li><span class="sev med">Copy</span><strong>Typos on the money pages</strong><p>"PARTIALLY SCHOLARSHIP", "Patronas Twin Tower", "Al" for AI, and a gender field with a misspelled orientation option.</p></li>
+  <section class="block" aria-labelledby="changed-h">
+    <h2 id="changed-h">What changed from round 1</h2>
+    <ul class="changes">
+      <li>The palette moved from navy and cream to full SDG colour: solid crimson, cyan, sun yellow, magenta, ocean blue and green blocks, with the logo's four hand colours at the centre.</li>
+      <li>Each concept has a Blender render that means something for GYN: the SDG wheel, the four hands from the logo, a glass globe with 17 goal colours, and the GYN letters with stickers. On Safari and for anyone who turns motion off, they show as still images.</li>
+      <li>We removed the patterns that mark a site as AI-made: purple, gradients, frosted glass, the badge above the headline, numbered section labels, identical card grids, fade-in on every element, and stock phrases like "empower" and "elevate". The full list with sources is in <code>docs/ai-tells.md</code>.</li>
+      <li>None of the round 1 typefaces are used again, because those were on the list too.</li>
     </ul>
   </section>
 
-  <section class="next" aria-labelledby="next-h">
-    <h2 id="next-h">After the vote</h2>
-    <p>The winning direction becomes the Next.js build: every page in the sitemap, the custom video gallery, multi-step registration with save-and-resume, Cloudinary for all images, and a <code>/pitch</code> route for Sunday's demo. If the team likes one direction but wants a piece from another (say B's photo wall with A's ticket table), say so in your note and I'll merge them.</p>
+  <section class="block" aria-labelledby="issues-h">
+    <h2 id="issues-h">What's broken on the live site right now</h2>
+    <p class="muted">From the crawl on 15 Oct. All four concepts fix these, so they're useful in the pitch whichever one wins.</p>
+    <ul class="issue-list">
+      <li><span class="sev high">Accessibility</span><strong>The brand yellow fails contrast</strong><p>Yellow <code>#FEFF00</code> on white is 1.08:1, and WCAG needs 4.5:1. It isn't in the logo either.</p></li>
+      <li><span class="sev high">Conversion</span><strong>Countdowns stuck at zero</strong><p>The deadline passed on 11 Oct. Both timers show 00:00:00:00 and the button still says "Apply now".</p></li>
+      <li><span class="sev high">Trust</span><strong>Closed tiers still say Apply</strong><p>Both scholarship cards say "CLOSED NOW" with live Apply buttons next to them.</p></li>
+      <li><span class="sev high">Revenue</span><strong>Three prices for Forum Access</strong><p>$199 on the page, $249 in the Meta Pixel, and $170 on a hidden "discounted" form with no CAPTCHA.</p></li>
+      <li><span class="sev med">Content</span><strong>Two results dates</strong><p>The FAQ says 16 Oct and the thank-you page says 15 Oct.</p></li>
+      <li><span class="sev med">Quality</span><strong>Dead links and broken images</strong><p>Five benefit items link to <code>http://i%20class=fa-solid…</code>, all four contact-page backgrounds return 404, and so do two speaker photos.</p></li>
+      <li><span class="sev med">Media</span><strong>Bare YouTube embeds</strong><p>Nine videos sit in default iframes with no filtering, deep links or shared player.</p></li>
+      <li><span class="sev med">Copy</span><strong>Typos on the pages that take money</strong><p>"PARTIALLY SCHOLARSHIP", "Patronas Twin Tower", "Al" for AI, and a gender field with a misspelled option.</p></li>
+    </ul>
+  </section>
+
+  <section class="block" aria-labelledby="r1-h">
+    <h2 id="r1-h">Round 1, archived</h2>
+    <p class="muted">Kept for reference. These read as AI-made, which is why round 2 exists. Votes from round 1 no longer count.</p>
+    <div class="archive">
+      <a href="a-earned-authority.html"><img src="assets/shots/a.webp" alt="Round 1 direction A, Earned Authority" loading="lazy"><span>A, Earned Authority</span></a>
+      <a href="b-amplified-youth.html"><img src="assets/shots/b.webp" alt="Round 1 direction B, Amplified Youth" loading="lazy"><span>B, Amplified Youth</span></a>
+      <a href="c-summit-stage.html"><img src="assets/shots/c.webp" alt="Round 1 direction C, Summit Stage" loading="lazy"><span>C, Summit Stage</span></a>
+      <a href="d-open-atlas.html"><img src="assets/shots/d.webp" alt="Round 1 direction D, Open Atlas" loading="lazy"><span>D, Open Atlas</span></a>
+    </div>
   </section>
 </div>
 <button class="btn theme" id="theme" type="button" aria-label="Toggle colour theme">◐</button>
 
 <script>
 const DIRECTIONS = [
-  { id: "a", name: "Earned Authority", href: "a-earned-authority.html",
-    mood: "UN chamber meets design-forward youth NGO. Structured and confident, built to be credible next to a UN co-host.",
-    type: "Instrument Serif + Hanken Grotesk",
-    signature: "Sticky chapter nav after the hero, with an indicator that slides between sections as you scroll",
-    persona: "Dr. Farah (partners, institutions)",
-    risk: "Can feel formal to a 20-year-old applicant" },
-  { id: "b", name: "Amplified Youth", href: "b-amplified-youth.html",
-    mood: "Photo-led and community-first. The people are the proof that it's real.",
-    type: "Fraunces + Plus Jakarta Sans",
-    signature: "A wall of ambassador, speaker and advisor faces that tilt toward the cursor, plus a drag-to-scroll gallery",
-    persona: "Amina (first-time applicant on mobile)",
-    risk: "Only as good as the photography we get for SISM" },
-  { id: "c", name: "Summit Stage", href: "c-summit-stage.html",
-    mood: "Opening night at the venue. A dark 3D hero that turns into clear information as you scroll.",
-    type: "Bricolage Grotesque + Geist",
-    signature: "3D particle ring in the 17 SDG colours (three.js), with a live countdown to 19 Nov",
-    persona: "Daniel (returning delegate, shares links)",
-    risk: "Heaviest on mobile data, and could read as a tech conference" },
-  { id: "d", name: "Open Atlas", href: "d-open-atlas.html",
-    mood: "The world is the stage. Each summit is an edition in a city, and the people come from everywhere.",
-    type: "Archivo (wide) + Source Serif 4",
-    signature: "Dotted world map showing where GYN people are from, with an arc from Bangkok to Kuala Lumpur",
-    persona: "All three, strongest on the \"global\" claim",
-    risk: "Most build effort, and the map needs a solid list fallback" },
+  { id: "e", name: "Full Spectrum", href: "e-full-spectrum.html", swatch: ["#ffffff", "#c52035", "#26bde2", "#fcc30b", "#4c9f38"],
+    mood: "The page walks round the SDG wheel. Every section is a solid block in the next goal colour, and the headlines are huge and wide.",
+    type: "Anybody (extra wide) and Atkinson Hyperlegible Next",
+    render: "The SDG wheel as glossy 3D blocks. Scroll and it assembles itself, piece by piece.",
+    persona: "Amina, the first-time applicant on her phone",
+    risk: "The loudest of the four. Needs restraint in the long text sections." },
+  { id: "f", name: "Hand in Hand", href: "f-hand-in-hand.html", swatch: ["#f7f2ea", "#c52035", "#ef3f2d", "#f2692c", "#48783f"],
+    mood: "Warm and handmade. Delegate photos cut out like paper and taped down, in the four hand colours from the logo.",
+    type: "Tilt Warp and Figtree",
+    render: "Four glossy ribbons in the hand colours, weaving round each other like joined hands.",
+    persona: "Daniel, the returning delegate who shares it",
+    risk: "Closest in spirit to echochange, so we need to keep it clearly ours." },
+  { id: "g", name: "Deep Field", href: "g-deep-field.html", swatch: ["#00689d", "#0a97d9", "#fcc30b", "#ffffff", "#0e1530"],
+    mood: "Big ocean-blue blocks with sun-yellow buttons. Global and a bit cinematic, with the people right under the headline.",
+    type: "Krona One (wide) and Schibsted Grotesk",
+    render: "A glass globe with 17 planets in the SDG colours orbiting it.",
+    persona: "Dr. Farah, the partner deciding if GYN is serious",
+    risk: "Blue and yellow are close to the client's reference. The globe carries the difference." },
+  { id: "h", name: "Poster Club", href: "h-poster-club.html", swatch: ["#eef1f4", "#0e1530", "#dd1367", "#fcc30b", "#26bde2"],
+    mood: "A gig poster for a youth summit. Heavy type, stickers you can drag around, tickets you could tear off.",
+    type: "Dela Gothic One and Rethink Sans",
+    render: "Chunky 3D GYN letters with SDG-coloured stickers floating round them.",
+    persona: "Amina and Daniel; the most shareable",
+    risk: "Playful enough that a UN co-host might find it too casual." },
 ];
 
 const $ = (s) => document.querySelector(s);
@@ -170,10 +193,11 @@ for (const d of DIRECTIONS) {
     <a class="shot" href="${d.href}" style="background-image:url('assets/shots/${d.id}.webp')" aria-label="Open direction ${d.id.toUpperCase()} prototype"><span>Direction ${d.id.toUpperCase()}</span></a>
     <div class="body">
       <h2>${d.name}</h2>
-      <p class="mood">${d.mood}</p>
+      <p class="muted">${d.mood}</p>
       <dl>
+        <dt>Colour</dt><dd><span class="swatches">${d.swatch.map(c => `<i style="background:${c}"></i>`).join("")}</span></dd>
         <dt>Type</dt><dd>${d.type}</dd>
-        <dt>Signature</dt><dd>${d.signature}</dd>
+        <dt>3D</dt><dd>${d.render}</dd>
         <dt>Best for</dt><dd>${d.persona}</dd>
         <dt>Risk</dt><dd>${d.risk}</dd>
       </dl>
@@ -186,9 +210,8 @@ for (const d of DIRECTIONS) {
   cards.append(el);
 }
 $("#tally").innerHTML = DIRECTIONS.map(d =>
-  `<div class="tally-row"><span>${d.id.toUpperCase()} · ${d.name.split(" ")[0]}</span><div class="bar"><i id="bar-${d.id}"></i></div><b id="n-${d.id}">0</b></div>`).join("");
+  `<div class="tally-row"><span>${d.id.toUpperCase()}, ${d.name}</span><div class="bar"><i id="bar-${d.id}"></i></div><b id="n-${d.id}">0</b></div>`).join("");
 
-// theme toggle
 $("#theme").addEventListener("click", () => {
   const r = document.documentElement;
   const dark = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
@@ -238,12 +261,13 @@ function readOnly(msg) {
       const p = ps[v.id]; const li = document.createElement("li");
       const img = document.createElement("img"); img.src = p?.avatarUrl || ""; img.alt = "";
       const div = document.createElement("div");
-      const small = document.createElement("small"); small.textContent = `${p?.name || "Someone"} · voted ${v.pick.toUpperCase()}`;
+      const small = document.createElement("small"); small.textContent = `${p?.name || "Someone"}, voted ${v.pick.toUpperCase()}`;
       div.append(small, document.createTextNode(v.note));
       li.append(img, div); list.append(li);
     });
   }
 
+  // Round 1 votes (picks a to d) stay in the store but no longer count.
   db.collection("votes").onSnapshot(snap => {
     votes = snap.docs.filter(d => d.exists).map(d => ({ id: d.id, ...d.data() }))
       .filter(v => DIRECTIONS.some(d => d.id === v.pick));

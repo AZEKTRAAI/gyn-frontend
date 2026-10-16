@@ -55,7 +55,8 @@ export function SismVideos() {
           inset: 0,
           zIndex: 200,
           background: 'rgba(14,21,48,.92)',
-          display: 'flex',
+          // an inline display overrides the closed dialog's display:none, so only set it while open
+          display: open ? 'flex' : 'none',
           alignItems: 'center',
           justifyContent: 'center',
           border: 'none',

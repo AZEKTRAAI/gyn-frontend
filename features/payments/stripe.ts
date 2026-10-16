@@ -130,7 +130,7 @@ export function createStripeProvider(config?: {
   const webhookSecret = config?.webhookSecret ?? process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!secretKey) throw new Error("STRIPE_SECRET_KEY is not set");
-  if (!webhookSecret) throw new Error("STRIPE_WEBHOOK_SECRET is not set");
+  // webhookSecret checked lazily inside parseWebhook so checkout-only callers don't need it
 
   return {
     name: "stripe",
@@ -166,6 +166,7 @@ export function createStripeProvider(config?: {
     },
 
     async parseWebhook(rawBody: Buffer, signature: string): Promise<WebhookParseResult> {
+      if (!webhookSecret) throw new Error("STRIPE_WEBHOOK_SECRET is not set");
       verifyStripeSignature(rawBody, signature, webhookSecret);
       const event = JSON.parse(rawBody.toString("utf8")) as {
         id: string;

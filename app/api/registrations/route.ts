@@ -9,14 +9,7 @@ import { verifyTurnstile, TurnstileError } from "@/lib/server/turnstile.ts";
 import { handleRegistration } from "@/features/registration/server/register.ts";
 import { createStripeProvider } from "@/features/payments/stripe.ts";
 import { money } from "@/features/payments/types.ts";
-
-function getClientIp(req: NextRequest): string {
-  return (
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    req.headers.get("x-real-ip") ??
-    "unknown"
-  );
-}
+import { getClientIp } from "@/lib/server/ip.ts";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const ip = getClientIp(req);

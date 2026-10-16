@@ -7,7 +7,11 @@ const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 export async function verifyTurnstile(token: string | undefined): Promise<void> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
   if (!secret) {
-    // Demo mode: Turnstile is not configured; skip verification.
+    if (process.env.NODE_ENV === "production") {
+      // Fail-closed: a production deployment without a CAPTCHA key is a misconfiguration.
+      throw new TurnstileError("CAPTCHA is not configured. Please contact support.");
+    }
+    // Demo/dev mode: skip with a warning.
     console.warn({ msg: "turnstile: TURNSTILE_SECRET_KEY not set; skipping verification (demo mode)" });
     return;
   }

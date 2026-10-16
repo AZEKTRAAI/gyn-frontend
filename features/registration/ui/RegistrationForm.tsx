@@ -201,6 +201,14 @@ export function RegistrationForm({ ticket, includes }: RegistrationFormProps) {
       })
       if (res.ok) {
         const { checkoutUrl } = (await res.json()) as { checkoutUrl: string }
+        // Validate before redirect: only allow Stripe Checkout or same-origin URLs (SEC-008)
+        const isSafe =
+          checkoutUrl.startsWith('https://checkout.stripe.com/') ||
+          checkoutUrl.startsWith(window.location.origin + '/')
+        if (!isSafe) {
+          console.error('registration: unexpected redirect URL rejected', checkoutUrl)
+          return
+        }
         lsClear(ticket)
         window.location.href = checkoutUrl
         return

@@ -48,16 +48,23 @@ async function checkUpstash(key: string): Promise<{ allowed: boolean; remaining:
     ["EXPIRE", rkey, String(Math.ceil(WINDOW_MS / 1000))],
   ];
 
-  const res = await fetch(`${base}/pipeline`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-    body: JSON.stringify(pipeline),
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${base}/pipeline`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify(pipeline),
+    });
+  } catch (err) {
+    // Network error (Upstash unreachable): degrade to in-memory rather than fail-open.
+    console.error({ msg: "rate-limit: Upstash unreachable; falling back to in-memory", error: String(err) });
+    return checkInMemory(key);
+  }
 
   if (!res.ok) {
-    // Fail open: if Redis is unreachable, allow the request (log the error).
-    console.error({ msg: "rate-limit: Upstash error", status: res.status });
-    return { allowed: true, remaining: MAX_REQUESTS };
+    // Fail to in-memory (degraded) rather than fail-open: Redis outage must not disable rate limiting.
+    console.error({ msg: "rate-limit: Upstash error; falling back to in-memory", status: res.status });
+    return checkInMemory(key);
   }
 
   const results = (await res.json()) as Array<{ result: unknown }>;

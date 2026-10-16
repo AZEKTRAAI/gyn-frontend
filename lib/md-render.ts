@@ -40,11 +40,19 @@ export function renderMd(markdown: string): RenderResult {
       .replace(/>/g, '&gt;')
   }
 
+  /** Allow only safe URL schemes; drop anything else (e.g. javascript:, data:). */
+  function safeHref(raw: string): string {
+    // raw has already been HTML-escaped by escape(); unescape for scheme check
+    const url = raw.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+    if (/^(https?:\/\/|mailto:|tel:|\/|#)/i.test(url)) return raw;
+    return '#'; // unsupported scheme → harmless anchor
+  }
+
   /** Inline: bold + links */
   function inline(s: string): string {
     return escape(s)
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>')
+      .replace(/\[(.+?)\]\((.+?)\)/g, (_, text, href) => `<a href="${safeHref(href)}">${text}</a>`)
   }
 
   while (i < lines.length) {

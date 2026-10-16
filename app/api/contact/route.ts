@@ -7,14 +7,7 @@ import { getRepo } from "@/lib/db.ts";
 import { checkRateLimit } from "@/lib/server/rate-limit.ts";
 import { verifyTurnstile, TurnstileError } from "@/lib/server/turnstile.ts";
 import { handleContact } from "@/features/contact/server/contact.ts";
-
-function getClientIp(req: NextRequest): string {
-  return (
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    req.headers.get("x-real-ip") ??
-    "unknown"
-  );
-}
+import { getClientIp } from "@/lib/server/ip.ts";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const ip = getClientIp(req);

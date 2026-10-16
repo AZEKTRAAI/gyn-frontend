@@ -13,7 +13,7 @@ export const TICKET_IDS = Object.keys(TICKETS) as TicketId[];
 export const GENDERS = ["Female", "Male", "Another gender", "Prefer not to say"] as const;
 export const HEARD_FROM = ["Social Media", "Google", "Word of Mouth", "Refer a Friend", "Past Participant", "Other"] as const;
 
-const name = z.string().trim().min(2, "Enter your full name").max(120);
+const name = z.string().trim().min(2, "Enter your full name").max(120).regex(/^[^<>]*$/, "Name must not contain < or >");
 const email = z.email("Enter a valid email address").trim().max(254);
 const country = z.string().trim().min(2, "Choose a country").max(80);
 const phone = z.string().trim().regex(/^\+?[0-9 ()-]{7,20}$/, "Enter the number with country code, e.g. +60 12 345 6789");

@@ -238,7 +238,7 @@ const LIVE_ISSUES = [
   },
   {
     sev: 'Trust',
-    text: 'Both scholarship cards display a "CLOSED NOW" stamp alongside a live "Apply now" button. Opposite signals on the same card.',
+    text: `The summit page's "Apply now" button jumps to the scholarship section, where both cards now say "CLOSED NOW". The call to action leads into a dead end.`,
     source: 'Crawl, thegyn.org/sism-2026',
   },
   {

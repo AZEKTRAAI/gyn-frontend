@@ -55,9 +55,11 @@ exists, return HTTP 200 without re-processing. This is the standard approach for
 idempotency on the receiver side.
 
 **Outbound idempotency:** Set the `Idempotency-Key` header on every mutating API call
-(`POST /v1/checkout/sessions`, `POST /v1/refunds`). Use the internal `Registration.idempotencyKey`
-or `Refund.idempotencyKey`. Stripe saves the first response and replays it on retry; keys can be
-pruned once they are at least 24 hours old, after which a reused key creates a new request.
+(`POST /v1/checkout/sessions`, `POST /v1/refunds`). The key is generated server-side:
+for checkout sessions it is `reg-<reference>` (deterministic — same reference replays the same
+session on retry without creating a duplicate); for refunds it is stored in `Refund.idempotencyKey`.
+Stripe saves the first response and replays it on retry; keys can be pruned once they are at least
+24 hours old, after which a reused key creates a new request.
 
 ### Test mode
 
@@ -345,9 +347,9 @@ Pakistan or Bangladesh).
 See `.env.example` for the full list. Stripe-specific:
 
 ```
-STRIPE_SECRET_KEY          # sk_live_... / sk_test_...
-STRIPE_PUBLISHABLE_KEY     # pk_live_... / pk_test_... (frontend)
-STRIPE_WEBHOOK_SECRET      # whsec_... from Stripe Dashboard > Webhooks
+STRIPE_SECRET_KEY                    # sk_live_... / sk_test_...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY   # pk_live_... / pk_test_... (not used yet; Checkout is a redirect)
+STRIPE_WEBHOOK_SECRET                # whsec_... from Stripe Dashboard > Webhooks
 ```
 
 ---

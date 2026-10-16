@@ -6,6 +6,15 @@ import { registrationInput, TICKETS, type RegistrationInput } from "../schema.ts
 import { generateReference } from "../../../lib/server/reference.ts";
 import { type Repo } from "../../../lib/server/repo.ts";
 import { formatMoney, money } from "../../payments/types.ts";
+import eventsJson from "../../../content/events.json" with { type: "json" };
+
+// Build a lookup of ticket slug → status from events.json at module load time
+const TICKET_STATUS_MAP: Record<string, string> = {};
+for (const event of eventsJson.events) {
+  for (const t of event.ticketTypes) {
+    TICKET_STATUS_MAP[t.id] = t.status;
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Response types
@@ -65,6 +74,17 @@ export async function handleRegistration(
   const honeypot = honeypotSchema.safeParse(rawBody);
   if (!honeypot.success || (honeypot.data.website && honeypot.data.website.length > 0)) {
     return { ok: false, status: 400, fieldErrors: { form: ["Invalid submission."] } };
+  }
+
+  // 2b. Pre-check closed/unlisted tiers against events.json before Zod so they get 409 not 400
+  const rawTicket = (rawBody as Record<string, unknown>)["ticket"];
+  if (typeof rawTicket === "string" && !(rawTicket in TICKETS)) {
+    const evStatus = TICKET_STATUS_MAP[rawTicket];
+    if (evStatus === "closed") {
+      return { ok: false, status: 409, error: "Scholarship applications closed on 11 October 2026." };
+    }
+    // unlisted or unknown slug
+    return { ok: false, status: 409, error: "This ticket type is not available." };
   }
 
   // 3. Parse + validate

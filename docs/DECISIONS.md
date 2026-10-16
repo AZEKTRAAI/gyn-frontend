@@ -80,7 +80,7 @@ Newest at the bottom. Each entry: what, why, reversible?
 
 **D36. `lib/server/tests.ts` excluded from tsconfig.** Follows the same pattern as `features/payments/stripe.test.ts` and `features/registration/schema.test.ts`. Test files use `.ts` extensions in imports for bare-Node compatibility; excluding them from tsconfig avoids TS5097 errors while keeping production code type-checked.
 
-**D37. Webhook confirmation email is a stub.** The `sendConfirmation` helper in the Stripe webhook handler uses placeholder values (email "unknown@example.com", reference "SISM-XXXXX") because the webhook doesn't yet look up the attendee from the DB. In production, add a `getRegistrationDetails(registrationId)` method to the Repo interface and replace the stubs. The demo path never hits this code.
+**D37. Webhook confirmation email uses real attendee data.** `getRegistrationDetails(registrationId)` added to the `Repo` interface (DemoStore + PrismaRepo). The `sendConfirmation` helper in the Stripe webhook route now calls it to get the real email, name, reference and ticket before sending. Previously a stub with placeholders; resolved in feat(db): prisma repo with pg adapter.
 
 **D38. Sticky mobile "Book a seat" bar shows Forum Access $199, not Invitation Letter $49.** The bar is labelled "Book a seat" and an invitation letter does not grant summit access. The cheapest confirmed seat is Forum Access at $199. Invitation Letter link is available in the application-process CTA block below. Reversible if definition of "cheapest open tier" expands.
 
@@ -89,3 +89,5 @@ Newest at the bottom. Each entry: what, why, reversible?
 **D40. Hydration warning from motion components on sism-2026 page is not fixed.** DeckSlider and CoverflowVideos (from components/premium/) use motion.div with initial transforms that differ between SSR and client. React 18 logs a "tree hydrated" warning. The warning is benign (the app functions correctly), and the components are owned by Pages A. Noted here; Pages A can add suppressHydrationWarning or an isServer guard if needed.
 
 **D41. Dev server port corrected to 3000.** The coordinator noted mid-build that the shared dev server is at localhost:3000, not 3200 as written in api-contract.md. All Playwright tests use 3000. api-contract.md was not edited (coordinator owns it per file ownership).
+
+**D42. @electric-sql/pglite skipped.** Investigated whether pglite + Prisma adapter could give a real in-process Postgres for CI tests. pglite does not yet publish a Prisma 7 adapter; the @electric-sql/prisma-generator requires a Prisma 5 client shape and its types are incompatible with Prisma 7's new adapter contract. Skip time exceeded 20 min; not installed permanently. Revisit when electric-sql publishes prisma-7 adapter support.

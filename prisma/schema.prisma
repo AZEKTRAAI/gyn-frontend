@@ -210,6 +210,8 @@ model Registration {
   finalAmountCents Int
   currency        String             @default("usd")
   status          RegistrationStatus @default(PENDING)
+  // Human-readable reference shown to the delegate and used in emails (e.g. "SISM-7K3QX")
+  reference       String             @unique
   // Client-supplied key prevents duplicate submissions on retry
   idempotencyKey  String             @unique
   notes           String?

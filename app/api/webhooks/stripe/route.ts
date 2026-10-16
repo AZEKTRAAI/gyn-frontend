@@ -104,23 +104,19 @@ async function processEvent(
 
     case "charge.refunded": {
       const chargeId = obj["id"] as string;
-      const refundObj = (obj["refunds"] as Obj | undefined);
       const amountRefunded = Number(obj["amount_refunded"] ?? 0);
       const chargeAmount = Number(obj["amount"] ?? 0);
       const isFull = amountRefunded >= chargeAmount;
-      const providerRefundId = chargeId; // use charge ID as refund reference
+      // Use the first refund's provider ID if available, otherwise fall back to charge ID
+      const refunds = obj["refunds"] as { data?: { id?: string }[] } | undefined;
+      const providerRefundId = refunds?.data?.[0]?.id ?? chargeId;
 
-      // Find payment by charge ID (stored as providerPaymentId) — DemoStore: try by session as fallback
-      // In production, Payment.providerPaymentId = Stripe charge id; needs a findPaymentByCharge method.
-      // For now, log and skip in demo mode.
-      console.log({
-        msg: "webhook/stripe: charge.refunded",
-        chargeId,
-        amountRefunded,
-        isFull,
-        refundObj: JSON.stringify(refundObj),
-        providerRefundId,
-      });
+      const payment = await repo.findPaymentByCharge(chargeId);
+      if (!payment) {
+        console.warn({ msg: "webhook/stripe: charge not found for refund", chargeId });
+        break;
+      }
+      await repo.processRefund(payment.id, payment.registrationId, amountRefunded, providerRefundId, isFull);
       break;
     }
 
@@ -131,19 +127,23 @@ async function processEvent(
 }
 
 async function sendConfirmation(
-  _repo: ReturnType<typeof getRepo>,
-  _registrationId: string,
+  repo: ReturnType<typeof getRepo>,
+  registrationId: string,
   amountCents: number
 ): Promise<void> {
-  // In production, look up attendee email + reference from the registration.
-  // In demo mode, the webhook won't be called so this path is logged only.
+  void amountCents; // amountCents comes from details; param kept for call-site symmetry
+  const details = await repo.getRegistrationDetails(registrationId);
+  if (!details) {
+    console.warn({ msg: "webhook/stripe: registration not found for confirmation email", registrationId });
+    return;
+  }
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://thegyn.org";
   await sendRegistrationConfirmation({
-    to: "unknown@example.com", // replaced with real lookup in production
-    recipientName: "Delegate",
-    reference: "SISM-XXXXX",   // replaced with real lookup in production
-    ticketName: "Ticket",
-    amountUsd: formatMoney({ amountCents, currency: "usd" }),
+    to: details.email,
+    recipientName: details.recipientName,
+    reference: details.reference,
+    ticketName: details.ticketName,
+    amountUsd: formatMoney({ amountCents: details.amountCents, currency: "usd" }),
     eventDates: "19–22 November 2026",
     venue: "Teedo Hotel, Kuala Lumpur, Malaysia",
     refundPolicyUrl: `${baseUrl}/refund-policy`,

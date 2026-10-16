@@ -228,4 +228,69 @@ describe("registration handler", () => {
       );
     }
   });
+
+  it("fully-funded (closed in events.json) → 409 before Zod", async () => {
+    const [handleRegistration, repo] = await Promise.all([getHandler(), makeDemoStore("OPEN")]);
+    const result = await handleRegistration(
+      { ...validAttendeeBody, ticket: "fully-funded" },
+      { repo, rateLimitAllowed: true, createCheckout: null, baseUrl: "http://localhost:3000" }
+    );
+    assert.equal(result.ok, false);
+    if (!result.ok) {
+      assert.equal(result.status, 409);
+      assert.ok("error" in result && (result as { error: string }).error.includes("closed"), "Should mention closed");
+    }
+  });
+
+  it("forum-access-discounted (unlisted) → 409 before Zod", async () => {
+    const [handleRegistration, repo] = await Promise.all([getHandler(), makeDemoStore("OPEN")]);
+    const result = await handleRegistration(
+      { ...validAttendeeBody, ticket: "forum-access-discounted" },
+      { repo, rateLimitAllowed: true, createCheckout: null, baseUrl: "http://localhost:3000" }
+    );
+    assert.equal(result.ok, false);
+    if (!result.ok) assert.equal(result.status, 409);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// 5. DemoStore: findPaymentByCharge + getRegistrationDetails
+// ---------------------------------------------------------------------------
+
+describe("DemoStore repo methods", () => {
+  it("findPaymentByCharge returns null (no charge IDs in demo mode)", async () => {
+    const { DemoStore } = await import("./repo.ts");
+    const store = new DemoStore();
+    const result = await store.findPaymentByCharge("ch_demo_123");
+    assert.equal(result, null);
+  });
+
+  it("getRegistrationDetails returns null for unknown id", async () => {
+    const { DemoStore } = await import("./repo.ts");
+    const store = new DemoStore();
+    const result = await store.getRegistrationDetails("nonexistent");
+    assert.equal(result, null);
+  });
+
+  it("getRegistrationDetails returns real data after createRegistration", async () => {
+    const { DemoStore } = await import("./repo.ts");
+    const { generateReference } = await import("./reference.ts");
+    const store = new DemoStore();
+    const ref = await generateReference("SISM", async () => false);
+    const reg = await store.createRegistration({
+      eventId: "sism-2026",
+      ticketId: "demo-ticket-forum-access",
+      ticketName: "Forum Access",
+      attendeeData: { email: "test@example.com", fullName: "Alice Smith" },
+      finalAmountCents: 19900,
+      reference: ref,
+      idempotencyKey: `test-${Date.now()}`,
+    });
+    const details = await store.getRegistrationDetails(reg.id);
+    assert.ok(details !== null);
+    assert.equal(details!.email, "test@example.com");
+    assert.equal(details!.recipientName, "Alice Smith");
+    assert.equal(details!.reference, ref);
+    assert.equal(details!.amountCents, 19900);
+  });
 });

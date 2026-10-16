@@ -75,6 +75,18 @@ export interface Repo {
   /** Find a payment by Stripe Checkout Session ID. */
   findPaymentBySession(sessionId: string): Promise<PaymentRecord | null>;
 
+  /** Find a payment by Stripe Charge ID (providerPaymentId). */
+  findPaymentByCharge(chargeId: string): Promise<PaymentRecord | null>;
+
+  /** Look up the email, name, reference and ticket for a confirmed registration. */
+  getRegistrationDetails(registrationId: string): Promise<{
+    email: string;
+    recipientName: string;
+    reference: string;
+    ticketName: string;
+    amountCents: number;
+  } | null>;
+
   /** Mark registration CONFIRMED + payment SUCCEEDED. */
   confirmRegistration(registrationId: string, paymentId: string): Promise<void>;
 
@@ -134,6 +146,8 @@ export class DemoStore implements Repo {
   private webhookEvents = new Set<string>();
   private references = new Set<string>();
   private contactSubmissions: unknown[] = [];
+  // sparse attendee info for getRegistrationDetails (demo only)
+  private attendeeIndex = new Map<string, { email: string; recipientName: string }>();
 
   async getTicket(eventSlug: string, ticketSlug: string): Promise<TicketRecord | null> {
     return this.tickets.get(`${eventSlug}:${ticketSlug}`) ?? null;
@@ -167,6 +181,10 @@ export class DemoStore implements Repo {
     this.registrations.set(regId, { ...reg, paymentId: payId });
     this.payments.set(payId, { ...payment, registrationId: regId });
     this.references.add(input.reference);
+    this.attendeeIndex.set(regId, {
+      email: (input.attendeeData["email"] as string | undefined) ?? "",
+      recipientName: (input.attendeeData["fullName"] as string | undefined) ?? "Delegate",
+    });
     return reg;
   }
 
@@ -191,6 +209,30 @@ export class DemoStore implements Repo {
       if (p.providerSessionId === sessionId) return p;
     }
     return null;
+  }
+
+  async findPaymentByCharge(chargeId: string): Promise<PaymentRecord | null> {
+    void chargeId; // DemoStore: no charge IDs in demo mode; webhooks aren't called without Stripe keys
+    return null;
+  }
+
+  async getRegistrationDetails(registrationId: string): Promise<{
+    email: string;
+    recipientName: string;
+    reference: string;
+    ticketName: string;
+    amountCents: number;
+  } | null> {
+    const reg = this.registrations.get(registrationId);
+    if (!reg) return null;
+    const att = this.attendeeIndex.get(registrationId);
+    return {
+      email: att?.email ?? "",
+      recipientName: att?.recipientName ?? "Delegate",
+      reference: reg.reference,
+      ticketName: reg.ticketName,
+      amountCents: reg.amountCents,
+    };
   }
 
   async confirmRegistration(registrationId: string, paymentId: string): Promise<void> {

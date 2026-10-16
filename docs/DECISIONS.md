@@ -95,3 +95,7 @@ Newest at the bottom. Each entry: what, why, reversible?
 **D43. New /videos page, linked from the footer.** The live site has no video page; the nine videos were scattered as bare iframes. /videos collects them with category filters and deep links (`?v=<youtubeId>`). It's an addition to the sitemap, not a change to existing URLs.
 
 **D44. Home videos use their own dialog player** (`components/HomeVideosSection.tsx`) instead of wrapping VideoModal, so the coverflow carousel and the player share state without prop drilling.
+
+## 2026-10-16 (infrastructure)
+
+**D45. Production database is Neon Launch in Singapore, not Supabase.** Supersedes the Supabase assumption in D21, `.env.example` and the `lib/db.ts` comment. Neon Launch gives a 7-day point-in-time restore window for cents a month (Supabase charges $100/month for PITR plus a Small compute), branches for preview deployments, and costs about $19/month at 0.25 CU always on. Free tiers of both are out because this site takes payments: Supabase Free pauses after a week idle and has no backups, Neon Free suspends compute when its 100 CU-hours run out. Vercel functions move to `sin1` next to the database. Prisma Accelerate is not used (retires 1 Dec 2026). The code needs only env changes. Numbers, sources and upgrade triggers in docs/infrastructure.md. Reversible: switching to Supabase Pro is a `pg_dump`/`pg_restore` and two env vars.

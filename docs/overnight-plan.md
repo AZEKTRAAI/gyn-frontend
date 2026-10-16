@@ -10,7 +10,8 @@ Built while Azam sleeps. Each line is ticked when it's done and checked.
 - [ ] Motion: signature sliders, carousels and transitions in `components/premium/` (summit wipe, swipe deck, scroll gallery, coverflow videos, ticket rail, headline reveal, page curtain, magnetic CTA)
 - [ ] Pages: home, SISM 2026, the 3 registration pages, FMS Thailand, about, contact, videos, 3 policy pages, /pitch, /admin preview
 - [ ] Registration: multi-step form, Zod, save-and-resume, route handler, Stripe checkout (test mode, stubbed without keys)
-- [ ] Red team: review after each milestone, findings in `docs/redteam.md`, every high-severity finding fixed or explained
+- [~] Red team: review after each milestone, findings in `docs/redteam.md`, every high-severity finding fixed or explained
+  - Pass 1 (round 2 concepts): 44 findings, 6 blocker / 12 high. Fixes in progress (E+G, F+H agents); G fixes also fed into the app build
 - [ ] QA: Playwright screenshots at 375/768/1024/1440, console errors, overflow, accessibility, Lighthouse
 
 ## Needs Azam in the morning

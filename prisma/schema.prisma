@@ -1,0 +1,530 @@
+// GYN website — PostgreSQL schema
+// Retention: registrations, payments, refunds, audit logs kept >= 3 years (legal + dispute window).
+// PII note: passport/NIC numbers appear on live forms; see docs/schema.md for recommendation.
+// Soft-delete: models that must not be hard-deleted have deletedAt; query layer must filter WHERE deletedAt IS NULL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")    // pooler URL (PgBouncer / Supabase pooler)
+  directUrl = env("DIRECT_URL")      // direct connection for migrations
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum EventStatus {
+  DRAFT
+  OPEN
+  CLOSED
+  PAST
+}
+
+enum TicketCategory {
+  SCHOLARSHIP          // $18.50 application fee; covers both fully & partially funded
+  CONFIRMED_SEAT       // forum-access ($199) and self-funded ($399)
+  INVITATION_LETTER    // $49
+  DISCOUNTED           // unlisted/group-discount variants
+}
+
+enum TicketStatus {
+  DRAFT
+  OPEN
+  CLOSED
+}
+
+enum RegistrationStatus {
+  PENDING              // payment not yet confirmed
+  CONFIRMED            // payment succeeded
+  CANCELLED            // cancelled by attendee or admin
+  REFUNDED             // full refund issued
+}
+
+enum PaymentProvider {
+  STRIPE
+  PAYONEER
+  CRYPTO               // legacy QR path on live site; kept for historical records only
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum RefundType {
+  GYN_CREDIT_VOUCHER   // all approved refunds are GCVs per refund policy
+  CASH_ORIGINAL        // exception path (natural disaster clause); requires admin override
+}
+
+enum RefundStatus {
+  PENDING
+  ISSUED
+  FAILED
+}
+
+enum DiscountType {
+  PERCENTAGE           // value = integer basis points (500 = 5%)
+  FIXED_CENTS          // value = cents off
+}
+
+enum ScholarshipCategory {
+  FULLY_FUNDED
+  PARTIALLY_FUNDED
+  BOTH                 // single application covers both tiers
+}
+
+enum ReviewStatus {
+  PENDING
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+  WAITLISTED
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  REVIEWER             // scholarship panel; can only read/score applications
+  CONTENT_EDITOR       // can manage pages, media, videos
+}
+
+enum MediaResourceType {
+  IMAGE
+  VIDEO
+  RAW
+}
+
+enum WebhookProvider {
+  STRIPE
+  PAYONEER
+}
+
+// ---------------------------------------------------------------------------
+// Core event models
+// ---------------------------------------------------------------------------
+
+model Event {
+  id          String      @id @default(cuid())
+  slug        String      @unique                // matches URL: "sism-2026"
+  name        String
+  shortName   String
+  startDate   DateTime
+  endDate     DateTime
+  venue       String?
+  city        String?
+  country     String?
+  totalSeats  Int?
+  status      EventStatus @default(DRAFT)
+  deletedAt   DateTime?                          // soft-delete
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  ticketTypes         TicketType[]
+  registrations       Registration[]
+  scholarshipApplications ScholarshipApplication[]
+  discountCodes       DiscountCode[]
+  mediaAssets         MediaAsset[]
+  videos              Video[]
+  formDefinitions     FormDefinition[]
+
+  @@index([slug])
+  @@index([status])
+}
+
+model TicketType {
+  id                  String          @id @default(cuid())
+  eventId             String
+  event               Event           @relation(fields: [eventId], references: [id])
+  slug                String                                 // "forum-access", "self-funded", etc.
+  name                String
+  category            TicketCategory
+  priceCents          Int                                    // USD minor units; $199.00 → 19900
+  originalPriceCents  Int?                                   // struck-through display price
+  currency            String          @default("usd")
+  totalSeats          Int?
+  status              TicketStatus    @default(OPEN)
+  deletedAt           DateTime?
+
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  registrations       Registration[]
+
+  @@unique([eventId, slug])
+  @@index([eventId, status])
+}
+
+// ---------------------------------------------------------------------------
+// Attendee (PII bucket — minimum necessary fields)
+// ---------------------------------------------------------------------------
+
+// Passport / NIC numbers are NOT stored here; see docs/schema.md §PII.
+// For invitation-letter workflow, document reference is stored encrypted in
+// InvitationLetterRequest (future model) or as an encrypted field.
+
+model Attendee {
+  id                String    @id @default(cuid())
+  email             String                          // not unique; same person may use different emails per event
+  firstName         String
+  lastName          String
+  whatsappNumber    String?
+  nationality       String?
+  countryOfResidence String?
+  gender            String?                         // stored as submitted; UI validation is frontend concern
+  howHeardAboutUs   String?
+  deletedAt         DateTime?                       // soft-delete; PII purge path post-retention
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  registrations           Registration[]
+  scholarshipApplications ScholarshipApplication[]
+  formSubmissions         FormSubmission[]
+
+  @@index([email])
+}
+
+// ---------------------------------------------------------------------------
+// Registration → Payment → Confirmation state machine
+// ---------------------------------------------------------------------------
+
+model Registration {
+  id              String             @id @default(cuid())
+  eventId         String
+  event           Event              @relation(fields: [eventId], references: [id])
+  ticketTypeId    String
+  ticketType      TicketType         @relation(fields: [ticketTypeId], references: [id])
+  attendeeId      String
+  attendee        Attendee           @relation(fields: [attendeeId], references: [id])
+  // Applied discount (optional)
+  discountCodeId  String?
+  discountCode    DiscountCode?      @relation(fields: [discountCodeId], references: [id])
+  // Pricing snapshot at time of purchase (discount may change later)
+  finalAmountCents Int
+  currency        String             @default("usd")
+  status          RegistrationStatus @default(PENDING)
+  // Client-supplied key prevents duplicate submissions on retry
+  idempotencyKey  String             @unique
+  notes           String?
+
+  // Retention: keep >= 3 years from event date for legal/dispute purposes.
+  deletedAt       DateTime?
+
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  payments        Payment[]
+  refunds         Refund[]
+  scholarshipApplication ScholarshipApplication?
+
+  @@index([eventId, status])
+  @@index([attendeeId])
+  @@index([ticketTypeId])
+}
+
+model Payment {
+  id                  String          @id @default(cuid())
+  registrationId      String
+  registration        Registration    @relation(fields: [registrationId], references: [id])
+  provider            PaymentProvider
+  // Provider-assigned IDs (e.g. Stripe pi_xxx / cs_xxx)
+  providerPaymentId   String?
+  providerSessionId   String?         // Stripe Checkout Session id
+  providerCustomerId  String?
+  amountCents         Int
+  currency            String          @default("usd")
+  status              PaymentStatus   @default(PENDING)
+  // Idempotency key sent to provider; prevents double-charge on retry
+  idempotencyKey      String          @unique
+  // Raw provider metadata for audit (no PII in this JSON blob)
+  metadata            Json?
+
+  // Retention: keep >= 3 years.
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  refunds             Refund[]
+
+  @@index([registrationId])
+  @@index([providerPaymentId])
+  @@index([status])
+}
+
+model Refund {
+  id                String          @id @default(cuid())
+  paymentId         String
+  payment           Payment         @relation(fields: [paymentId], references: [id])
+  registrationId    String
+  registration      Registration    @relation(fields: [registrationId], references: [id])
+  providerRefundId  String?         // Stripe re_xxx
+  amountCents       Int
+  type              RefundType      @default(GYN_CREDIT_VOUCHER)
+  status            RefundStatus    @default(PENDING)
+  voucherCode       String?         @unique  // GYN Credit Voucher code
+  voucherExpiresAt  DateTime?
+  reason            String?
+  requestedAt       DateTime        @default(now())
+  processedAt       DateTime?
+
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@index([paymentId])
+  @@index([registrationId])
+  @@index([voucherCode])
+}
+
+// ---------------------------------------------------------------------------
+// Discount codes (group discounts; currently handled by email, future self-serve)
+// ---------------------------------------------------------------------------
+
+model DiscountCode {
+  id              String        @id @default(cuid())
+  code            String        @unique
+  eventId         String?
+  event           Event?        @relation(fields: [eventId], references: [id])
+  discountType    DiscountType
+  discountValue   Int           // basis points for PERCENTAGE, cents for FIXED_CENTS
+  maxUses         Int?          // null = unlimited
+  usedCount       Int           @default(0)
+  validFrom       DateTime?
+  validUntil      DateTime?
+  createdByAdminId String?
+  createdByAdmin  AdminUser?    @relation(fields: [createdByAdminId], references: [id])
+  deletedAt       DateTime?
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  registrations   Registration[]
+
+  @@index([code])
+  @@index([eventId])
+}
+
+// ---------------------------------------------------------------------------
+// Scholarship application (the $18.50 reviewed track)
+// ---------------------------------------------------------------------------
+
+model ScholarshipApplication {
+  id                String              @id @default(cuid())
+  // One application per registration (the $18.50 payment)
+  registrationId    String              @unique
+  registration      Registration        @relation(fields: [registrationId], references: [id])
+  attendeeId        String
+  attendee          Attendee            @relation(fields: [attendeeId], references: [id])
+  eventId           String
+  event             Event               @relation(fields: [eventId], references: [id])
+  category          ScholarshipCategory @default(BOTH)
+  // 250-300 words enforced at API layer (Pydantic/Zod); stored verbatim
+  personalStatement String
+  reviewStatus      ReviewStatus        @default(PENDING)
+  reviewerId        String?
+  reviewer          AdminUser?          @relation(fields: [reviewerId], references: [id])
+  score             Float?              // 0–100
+  reviewerNotes     String?
+  reviewedAt        DateTime?
+
+  // Retention: keep >= 3 years.
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  @@index([eventId, reviewStatus])
+  @@index([attendeeId])
+  @@index([reviewerId])
+}
+
+// ---------------------------------------------------------------------------
+// Media: videos and Cloudinary assets
+// ---------------------------------------------------------------------------
+
+model VideoCategory {
+  id     String  @id @default(cuid())
+  name   String
+  slug   String  @unique
+  order  Int     @default(0)
+
+  videos Video[]
+}
+
+model Video {
+  id          String         @id @default(cuid())
+  youtubeId   String         @unique
+  title       String?
+  description String?
+  categoryId  String?
+  category    VideoCategory? @relation(fields: [categoryId], references: [id])
+  eventId     String?
+  event       Event?         @relation(fields: [eventId], references: [id])
+  order       Int            @default(0)
+  publishedAt DateTime?
+  deletedAt   DateTime?
+
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([categoryId])
+  @@index([eventId])
+}
+
+model MediaAsset {
+  id                String            @id @default(cuid())
+  cloudinaryPublicId String           @unique
+  resourceType      MediaResourceType @default(IMAGE)
+  format            String?           // "webp", "jpg", "mp4"
+  width             Int?
+  height            Int?
+  bytes             Int?
+  altText           String?
+  caption           String?
+  eventId           String?
+  event             Event?            @relation(fields: [eventId], references: [id])
+  uploadedById      String?
+  uploadedBy        AdminUser?        @relation(fields: [uploadedById], references: [id])
+  deletedAt         DateTime?
+
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([eventId])
+}
+
+// ---------------------------------------------------------------------------
+// CMS: pages and content blocks
+// ---------------------------------------------------------------------------
+
+model Page {
+  id              String    @id @default(cuid())
+  slug            String    @unique
+  title           String
+  metaTitle       String?
+  metaDescription String?
+  ogImageUrl      String?
+  publishedAt     DateTime?
+  deletedAt       DateTime?
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  contentBlocks   ContentBlock[]
+
+  @@index([slug])
+}
+
+model ContentBlock {
+  id          String   @id @default(cuid())
+  pageId      String
+  page        Page     @relation(fields: [pageId], references: [id])
+  blockType   String   // "hero", "faq", "schedule", "speakers", etc.
+  order       Int
+  data        Json     // block-specific payload; schema defined in FormDefinition or in-code
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([pageId, order])
+}
+
+// ---------------------------------------------------------------------------
+// Dynamic forms
+// ---------------------------------------------------------------------------
+
+model FormDefinition {
+  id        String   @id @default(cuid())
+  slug      String   @unique   // "sism-2026-forum-access"
+  name      String
+  schema    Json     // JSON Schema (draft-07) describing fields and validation
+  eventId   String?
+  event     Event?   @relation(fields: [eventId], references: [id])
+  active    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  submissions FormSubmission[]
+
+  @@index([eventId])
+}
+
+model FormSubmission {
+  id               String         @id @default(cuid())
+  formDefinitionId String
+  formDefinition   FormDefinition @relation(fields: [formDefinitionId], references: [id])
+  attendeeId       String?
+  attendee         Attendee?      @relation(fields: [attendeeId], references: [id])
+  data             Json           // sanitised field values
+  ipAddress        String?
+  userAgent        String?
+  submittedAt      DateTime       @default(now())
+
+  @@index([formDefinitionId])
+  @@index([attendeeId])
+}
+
+// ---------------------------------------------------------------------------
+// Admin and audit
+// ---------------------------------------------------------------------------
+
+model AdminUser {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String
+  role           AdminRole
+  hashedPassword String
+  active         Boolean   @default(true)
+  lastLoginAt    DateTime?
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  auditLogs              AuditLog[]
+  scholarshipReviews     ScholarshipApplication[]
+  discountCodesCreated   DiscountCode[]
+  mediaUploads           MediaAsset[]
+}
+
+model AuditLog {
+  id           String     @id @default(cuid())
+  adminUserId  String?
+  adminUser    AdminUser? @relation(fields: [adminUserId], references: [id])
+  action       String     // "REGISTRATION_CANCELLED", "REFUND_ISSUED", etc.
+  entityType   String     // "Registration", "Payment", "ScholarshipApplication"
+  entityId     String
+  oldValue     Json?
+  newValue     Json?
+  ipAddress    String?
+  // Retention: keep >= 3 years.
+  createdAt    DateTime   @default(now())
+
+  @@index([entityType, entityId])
+  @@index([adminUserId])
+  @@index([createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Webhook idempotency store
+// ---------------------------------------------------------------------------
+
+// providerEventId is unique: duplicate deliveries from Stripe are no-ops.
+model WebhookEvent {
+  id              String          @id @default(cuid())
+  provider        WebhookProvider
+  providerEventId String          @unique   // Stripe evt_xxx; prevents double-processing
+  eventType       String          // "checkout.session.completed", etc.
+  payload         Json            // raw verified body
+  processedAt     DateTime?
+  failureReason   String?
+
+  createdAt       DateTime        @default(now())
+
+  @@index([provider, eventType])
+  @@index([createdAt])
+}

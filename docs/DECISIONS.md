@@ -35,3 +35,15 @@ Newest at the bottom. Each entry: what, why, reversible?
 **D14. URLs match the live site** (`/sism-2026`, `/fms-thailand`, `/about-us`, `/contact-us`, policy pages, `/sism-forum-access` etc.) so existing links and search rankings survive the switch.
 
 **D15. No external accounts were created overnight.** No `.env.local` exists (no Cloudinary, Stripe, Resend, database or Vercel credentials) and there is no Vercel or GitHub CLI on this machine. Everything is built to run locally with stubs and test-mode code paths; deploy and real keys need Azam in the morning.
+
+**D16. Passport / NIC numbers not stored in the database.** The live site collects document numbers on the invitation-letter form; the new schema does not persist them. The letter is generated immediately and the number discarded (Option 1 in docs/schema.md §PII). If visa-support workflows require retention, switch to encrypted storage (Option 2) before launch — not a silent schema change.
+
+**D17. Stripe Checkout Sessions chosen over Payment Element for launch.** SAQ A PCI scope, no JS SDK dependency, auto-surfaces Google Pay / Apple Pay / UPI for international delegates. Revisit if brand team needs fully embedded UX.
+
+**D18. Payoneer not pursued.** It is a B2B payout platform, not a consumer checkout; merchant approval is manual and slow; no self-serve test mode. Fallback for South Asia / Africa is Stripe Payment Element local methods (UPI, bank transfer) triggered by conversion data, not a second gateway up front.
+
+**D19. Crypto QR removed from launch scope.** Risk assessment in docs/payments.md: irreversible transactions, no webhook integration, AML exposure for a US org, price volatility, reputational mismatch with UN co-host. If crypto is required post-launch, use Coinbase Commerce or equivalent managed processor with auto-conversion and webhooks.
+
+**D20. Stripe adapter uses raw fetch, not the stripe npm SDK.** The frontend agent is scaffolding the app; no installs were made. The shortcut is documented in features/payments/stripe.ts with a `// shortcut:` comment. Replace with the official SDK when package.json is unfrozen.
+
+**D21. Prisma 6.19.3 (latest stable) used for schema validation.** Schema validated clean. `directUrl` requires a separate env var from `DATABASE_URL` to support Supabase's PgBouncer pooler alongside direct migration connections.

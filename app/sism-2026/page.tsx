@@ -1,12 +1,23 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import { cms } from '@/lib/cms'
 import { Countdown } from '@/components/Countdown'
-import { DeckSlider, type Speaker } from '@/components/premium/DeckSlider'
-import { TicketRail, type Tier } from '@/components/premium/TicketRail'
-import { SismVideos } from '@/features/events/SismVideos'
+import { type Speaker } from '@/components/premium/DeckSlider'
+import type { Tier } from '@/components/premium/TicketRail'
 import { SPEAKERS, LOGOS } from '@/features/media/media'
+
+// Below-fold: code-split to reduce initial JS parse time
+const TicketRail = dynamic(() =>
+  import('@/components/premium/TicketRail').then((m) => ({ default: m.TicketRail })),
+)
+const DeckSlider = dynamic(() =>
+  import('@/components/premium/DeckSlider').then((m) => ({ default: m.DeckSlider })),
+)
+const SismVideos = dynamic(() =>
+  import('@/features/events/SismVideos').then((m) => ({ default: m.SismVideos })),
+)
 
 export const metadata: Metadata = {
   title: 'SDG Innovation Summit Malaysia 2026 | Fully Funded Conference',
@@ -123,13 +134,14 @@ export default async function Sism2026Page() {
                 <Link href="#tickets" className="btn btn-ow">See all tickets</Link>
               </div>
             </div>
-            <figure style={{ margin: 0 }}>
+            <figure className="hero-right" style={{ margin: 0 }}>
               <Image
                 src="/media/hero/sism-2026-hero-visual.webp"
                 alt="SDG Innovation Summit Malaysia 2026 promotional visual"
                 width={720}
                 height={540}
                 priority
+                fetchPriority="high"
                 sizes="(max-width: 768px) 100vw, 45vw"
                 style={{ width: '100%', height: 'auto', display: 'block' }}
               />
@@ -214,12 +226,13 @@ export default async function Sism2026Page() {
             </p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {/* width: 6.2rem = 3.5rem × (620/350) — correct aspect ratio */}
             <Image
               src={LOGOS['logo.unu-global-health'].src}
               alt={LOGOS['logo.unu-global-health'].alt}
-              width={LOGOS['logo.unu-global-health'].width}
-              height={LOGOS['logo.unu-global-health'].height}
-              style={{ height: '3.5rem', width: 'auto' }}
+              width={620}
+              height={350}
+              style={{ height: '3.5rem', width: '6.2rem' }}
             />
           </div>
         </div>
@@ -291,7 +304,7 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── SPEAKERS ─── */}
-      <section aria-labelledby="spk-hd" style={{ background: 'var(--blue-ocean)', paddingBlock: 'var(--sp)' }}>
+      <section aria-labelledby="spk-hd" style={{ background: 'var(--blue-deep)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
           <h2 id="spk-hd" className="d2" style={{ color: 'var(--white)', marginBottom: '2rem' }}>Speakers at SISM 2026</h2>
           <DeckSlider items={deckSpeakers} heading="SISM 2026 speakers" />
@@ -372,7 +385,7 @@ export default async function Sism2026Page() {
       <section aria-labelledby="faq-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap" style={{ maxWidth: '860px' }}>
           <h2 id="faq-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '2rem' }}>Frequently asked questions</h2>
-          <dl>
+          <div>
             {sism.faqs.map((faq, i) => (
               <details
                 key={i}
@@ -407,7 +420,7 @@ export default async function Sism2026Page() {
                 </div>
               </details>
             ))}
-          </dl>
+          </div>
         </div>
       </section>
 

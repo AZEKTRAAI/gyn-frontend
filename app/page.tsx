@@ -1,16 +1,31 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { cms } from '@/lib/cms'
 import { Countdown } from '@/components/Countdown'
 import { GlobeVideo } from '@/components/GlobeVideo'
-import { CountryTablist } from '@/components/CountryTablist'
-import { HomeVideosSection } from '@/components/HomeVideosSection'
-import { SplitReveal } from '@/components/premium/SplitReveal'
 import { MagneticButton } from '@/components/premium/MagneticButton'
-import { SummitSwitcher, type Summit } from '@/components/premium/SummitSwitcher'
-import { TicketRail, type Tier } from '@/components/premium/TicketRail'
 import { TransitionLink } from '@/components/premium/PageTransition'
+import type { Summit } from '@/components/premium/SummitSwitcher'
+import type { Tier } from '@/components/premium/TicketRail'
 import { type VideoItem } from '@/components/premium/CoverflowVideos'
+
+// Below-fold: code-split to cut initial JS parse time
+const SplitReveal = dynamic(() =>
+  import('@/components/premium/SplitReveal').then((m) => ({ default: m.SplitReveal })),
+)
+const SummitSwitcher = dynamic(() =>
+  import('@/components/premium/SummitSwitcher').then((m) => ({ default: m.SummitSwitcher })),
+)
+const TicketRail = dynamic(() =>
+  import('@/components/premium/TicketRail').then((m) => ({ default: m.TicketRail })),
+)
+const CountryTablist = dynamic(() =>
+  import('@/components/CountryTablist').then((m) => ({ default: m.CountryTablist })),
+)
+const HomeVideosSection = dynamic(() =>
+  import('@/components/HomeVideosSection').then((m) => ({ default: m.HomeVideosSection })),
+)
 import {
   SPEAKERS,
   ADVISORY,
@@ -137,9 +152,22 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Right: large globe (≥520px) with delegate photo overlapping at bottom-left (task 1a) */}
-          <div style={{ position: 'relative', minWidth: 0 }}>
-            <GlobeVideo />
+          {/* Right: globe poster (server Image = LCP hint) + client video overlay */}
+          <div className="hero-right" style={{ position: 'relative', minWidth: 0 }}>
+            {/* Server-rendered poster so Next.js emits a fetchpriority=high preload */}
+            <div style={{ position: 'relative', width: 'min(100%, 600px)', aspectRatio: '1' }}>
+              <Image
+                src="/renders/glass-globe-poster.webp"
+                alt="A glass globe with 17 SDG-coloured planets in orbit"
+                width={500}
+                height={500}
+                priority
+                fetchPriority="high"
+                sizes="(max-width: 768px) 70vw, 500px"
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
+              <GlobeVideo />
+            </div>
             <figure
               style={{
                 position: 'absolute',
@@ -155,11 +183,10 @@ export default async function HomePage() {
                 alt="Delegates at Future Minds Summit, Bangkok, July 2026"
                 width={768}
                 height={512}
-                priority
                 sizes="(max-width: 768px) 80vw, 260px"
                 style={{ width: '100%', height: '160px', objectFit: 'cover', display: 'block' }}
               />
-              <figcaption style={{ fontSize: '0.625rem', color: 'rgba(255,255,255,.7)', marginTop: '0.25rem', lineHeight: 1.3 }}>
+              <figcaption style={{ fontSize: '0.625rem', color: 'rgba(255,255,255,.9)', marginTop: '0.25rem', lineHeight: 1.3 }}>
                 Future Minds Summit, Bangkok, July 2026
               </figcaption>
             </figure>
@@ -181,7 +208,7 @@ export default async function HomePage() {
                     style={{ width: '110px', height: '110px', objectFit: 'cover' }}
                     loading="lazy"
                   />
-                  <figcaption style={{ fontSize: '0.625rem', color: 'rgba(255,255,255,.5)', marginTop: '0.375rem', lineHeight: 1.3 }}>
+                  <figcaption style={{ fontSize: '0.625rem', color: 'rgba(255,255,255,.85)', marginTop: '0.375rem', lineHeight: 1.3 }}>
                     FutureMinds Summit, Bangkok, July 2026
                   </figcaption>
                 </figure>
@@ -349,7 +376,7 @@ export default async function HomePage() {
       </section>
 
       {/* SPEAKERS */}
-      <section aria-labelledby="spk-hd" style={{ background: 'var(--blue-ocean)', paddingBlock: 'var(--sp)' }}>
+      <section aria-labelledby="spk-hd" style={{ background: 'var(--blue-deep)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
           <SplitReveal id="spk-hd" lines={['Speakers at SISM 2026']} className="d2" as="h2"
             style={{ color: 'var(--white)' }}
@@ -473,7 +500,7 @@ export default async function HomePage() {
       {/* PARTNERS */}
       <section aria-labelledby="par-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
-          <p id="par-hd" style={{ fontFamily: 'var(--fd)', fontSize: '0.875rem', color: 'var(--n-400)', marginBottom: '2rem' }}>
+          <p id="par-hd" style={{ fontFamily: 'var(--fd)', fontSize: '0.875rem', color: 'var(--n-600)', marginBottom: '2rem' }}>
             Our partners
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2.5rem', alignItems: 'center' }}>
@@ -492,12 +519,13 @@ export default async function HomePage() {
           </div>
           <div style={{ marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--n-200)' }}>
             <p style={{ fontSize: '0.8125rem', color: 'var(--n-600)', marginBottom: '1rem' }}>Co-hosted with</p>
+            {/* width: 5.3rem = 3rem × (620/350) — correct aspect ratio */}
             <Image
               src={LOGOS['logo.unu-global-health'].src}
               alt={LOGOS['logo.unu-global-health'].alt}
-              width={LOGOS['logo.unu-global-health'].width}
-              height={LOGOS['logo.unu-global-health'].height}
-              style={{ height: '3rem', width: 'auto' }}
+              width={620}
+              height={350}
+              style={{ height: '3rem', width: '5.3rem' }}
             />
           </div>
         </div>

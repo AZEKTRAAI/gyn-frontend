@@ -1,11 +1,16 @@
 import type { Metadata } from 'next'
 import { Krona_One, Schibsted_Grotesk } from 'next/font/google'
+import dynamic from 'next/dynamic'
 import './globals.css'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { ViewTransitionStyles } from '@/components/premium/PageTransition'
-import { LenisScroll } from '@/components/LenisScroll'
 import { cms } from '@/lib/cms'
+
+// Lenis smooth scroll code-split: renders null on server, runs effect on client
+const LenisScroll = dynamic(() =>
+  import('@/components/LenisScroll').then((m) => ({ default: m.LenisScroll })),
+)
 
 /*
   Krona One: wide, authoritative display face; no SaaS associations;

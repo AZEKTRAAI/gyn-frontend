@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 import { useMediaQuery } from '@/components/premium/useMediaQuery'
 
@@ -10,6 +9,11 @@ function detectSafari() {
   return /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 }
 
+/**
+ * GlobeVideo — client component for the animated globe video only.
+ * The poster image is rendered server-side in page.tsx (priority Image)
+ * so the LCP resource gets a fetchpriority=high preload hint.
+ */
 export function GlobeVideo() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -17,7 +21,6 @@ export function GlobeVideo() {
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
   // Below 768px: poster only, no video element, no download (brief task 1c)
   const isMobile = !useMediaQuery('(min-width: 768px)')
-  // Server and first client render agree on "poster only"; the video mounts once the real viewport is known
   const posterOnly = reducedMotion || isMobile
 
   useEffect(() => {
@@ -25,7 +28,6 @@ export function GlobeVideo() {
     const wrapper = wrapperRef.current
     if (!video || !wrapper || detectSafari()) return
 
-    // Set sources now so preload="none" was honoured before this point
     const webm = document.createElement('source')
     webm.src = '/renders/glass-globe.webm'
     webm.type = 'video/webm'
@@ -35,7 +37,6 @@ export function GlobeVideo() {
     video.appendChild(webm)
     video.appendChild(mp4)
 
-    // Observe the *visible wrapper*, not the video element (which starts display:none)
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -50,41 +51,29 @@ export function GlobeVideo() {
     )
     obs.observe(wrapper)
     return () => obs.disconnect()
-  }, [posterOnly]) // re-run when the video element mounts after hydration
+  }, [posterOnly])
+
+  if (posterOnly) return null
 
   return (
-    <div ref={wrapperRef} style={{ position: 'relative', width: 'min(100%, 600px)', aspectRatio: '1' }}>
-      {/* Real delegate photo behind / beside the globe (red team fix #4) */}
-      {/* The poster image of the globe sits over the delegate photo */}
-      <Image
-        src="/renders/glass-globe-poster.webp"
-        alt="A glass globe with 17 SDG-coloured planets in orbit"
-        width={500}
-        height={500}
-        priority
-        sizes="(max-width: 768px) 70vw, 500px"
-        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+    <div ref={wrapperRef} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+      <video
+        ref={videoRef}
+        muted
+        loop
+        playsInline
+        preload="none"
+        poster="/renders/glass-globe-poster.webp"
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          display: 'none',
+        }}
       />
-      {!posterOnly && (
-        <video
-          ref={videoRef}
-          muted
-          loop
-          playsInline
-          preload="none"
-          poster="/renders/glass-globe-poster.webp"
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-            display: 'none',
-          }}
-        />
-      )}
-      {/* On mobile below 768px: never download the video (poster is shown by default) */}
     </div>
   )
 }

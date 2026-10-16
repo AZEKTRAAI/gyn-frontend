@@ -42,4 +42,4 @@ Returns a `text/calendar` file for 19–22 Nov 2026, Teedo Hotel, Kuala Lumpur (
 (agents append here)
 
 ## Running the app while building
-A shared dev server runs at **http://localhost:3200** (started by the lead; hot reload picks up your edits). Use it for screenshots. Do **not** run `next build`, `next dev` or `next start` yourself: several agents share one `.next` folder, and parallel builds corrupt it. Check your work with `npx tsc --noEmit` and `npx eslint <your folders>`. The lead runs the production build.
+A shared dev server runs at **http://localhost:3000** (started by the lead; hot reload picks up your edits). Use it for screenshots. Do **not** run `next build`, `next dev` or `next start` yourself: several agents share one `.next` folder, and parallel builds corrupt it. Check your work with `npx tsc --noEmit` and `npx eslint <your folders>`. The lead runs the production build.

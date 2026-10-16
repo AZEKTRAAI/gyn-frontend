@@ -10,7 +10,6 @@ import math
 import os
 import sys
 
-import bmesh
 import bpy
 from mathutils import Matrix, Quaternion, Vector
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -18,7 +17,7 @@ import common as C  # noqa: E402
 
 a = C.args(out=os.path.join(C.HERE, "_frames", "hands-wheel"), w=1600, still=0, samples=64, test=0)
 FRAMES, BG = 96, "#0E1530"
-R_IN, R_OUT, DEPTH, GAP = 0.50, 1.0, 0.26, 0.05
+R_IN, R_OUT, DEPTH, GAP = 0.55, 1.0, 0.3, 0.015  # same inflated wedges as the hero
 STEP = 2 * math.pi / 17
 ZC = 0.0  # wheel centre
 
@@ -31,9 +30,7 @@ C.tarka_lights(BG, target=(0, 0, ZC), key=700, dist=5.0, key_dir=(-0.7, -1.0, 1.
 wheel = C.empty("Wheel", (0, 0, ZC))
 wheel.rotation_euler.x = math.pi / 2  # face the camera
 for i, hex_ in enumerate(C.SDG):
-    bm = C.extrude_outline(bmesh.new(), C.wedge_outline(R_IN, R_OUT, STEP, GAP), DEPTH)
-    o = C.mesh_object(f"SDG{i + 1:02d}", bm, C.satin(f"sdg{i + 1}", hex_))
-    C.bevel(o, width=0.085, segments=8)
+    o = C.soft_wedge(f"SDG{i + 1:02d}", C.satin(f"sdg{i + 1}", hex_), R_IN, R_OUT, STEP, GAP, DEPTH)
     th = math.pi / 2 - (i + 0.5) * STEP
     o.location = ((R_IN + R_OUT) / 2 * math.cos(th), (R_IN + R_OUT) / 2 * math.sin(th), 0)
     o.rotation_euler.z = th
@@ -86,7 +83,7 @@ for k, (phi, hex_) in enumerate(((198, C.CRIMSON), (244, C.FLAME), (296, C.EMBER
     ph = math.radians(phi)
     radial = Vector((math.cos(ph), 0, math.sin(ph)))
     up_tangent = Vector((math.sin(ph), 0, -math.cos(ph))) if phi < 270 else Vector((-math.sin(ph), 0, math.cos(ph)))
-    wrist = Vector((0, -0.45, ZC)) + radial * 1.3 - up_tangent * 0.35  # just in front of the rim: thumbs overlap it, nothing intersects
+    wrist = Vector((0, -0.52, ZC)) + radial * 1.3 - up_tangent * 0.35  # just in front of the rim: thumbs overlap it, nothing intersects
     arm = (radial * 0.35 + Vector((0, 0, -1)) - up_tangent * 0.3).normalized()
     h = hand(f"Hand{k}", hex_, wrist, up_tangent, -radial + Vector((0, -0.25, 0)), arm)
     h["home"] = tuple(h.location)

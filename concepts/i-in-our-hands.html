@@ -15,8 +15,8 @@
 <style>
 /*
 DEVIATIONS:
-1. sdg9-gears, sdg13-leaf, hands-wheel, kl-towers not yet rendered – chapters 9/13
-   show color-field only; closing uses #0E1530 with type. Graceful img.onerror hides box.
+1. Renders present: sdg9-gears, sdg13-leaf, sdg4-books, sdg5-balance, hands-wheel,
+   kl-towers, hero-wheel-seq (72fr). All SDG chapters use video loops.
 2. ai-tells rule 15 (hero must have a real photo) is overridden by design-plan-final.md §2
    (canvas sequence + live text). Real photos arrive in People section immediately below.
 3. Reveal animations start from visible state (opacity:1, transform:none); GSAP adds the
@@ -39,7 +39,7 @@ DEVIATIONS:
   --sv:      clamp(80px,9vw,144px);
   --sv-sm:   clamp(56px,7vw,112px);
   --t-hero:  clamp(2.625rem,5.5vw,5rem);
-  --t-claim: clamp(2.25rem,4.5vw,4rem);
+  --t-claim: clamp(2.25rem,5.5vw,5rem);
   --t-h2:    clamp(1.875rem,3.5vw,3rem);
   --t-lead:  clamp(1.1875rem,1.8vw,1.5rem);
   --t-body:  clamp(1.0625rem,1.15vw,1.125rem);
@@ -74,8 +74,8 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   transition:background 240ms var(--ease-s),box-shadow 240ms var(--ease-s)}
 .nav[data-s]{background:rgba(238,242,246,.96);box-shadow:0 1px 0 rgba(14,21,48,.08)}
 .nav-logo img{height:38px;width:auto}
-.nav-links{display:flex;align-items:center;gap:28px;font-size:var(--t-lbl);font-weight:500}
-.nav-links a{color:var(--navy);opacity:.72;transition:opacity 150ms}
+.nav-links{display:flex;align-items:center;gap:28px;font-size:15px;font-weight:500}
+.nav-links a{color:var(--navy);opacity:.72;transition:opacity 150ms;padding:12px 0;display:inline-flex;align-items:center;min-height:44px}
 .nav-links a:hover,.nav-links a:focus{opacity:1}
 .nav-links a:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:2px}
 .nav-book{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--ink);
@@ -102,16 +102,17 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   .nav-m-book,.nav-ham{display:flex}
 }
 
-/* hero */
-.hero{min-height:100svh;background:var(--field);display:grid;
-  grid-template-columns:1fr 1fr;align-items:center;padding-top:68px}
-.hero-text{padding:clamp(32px,5vw,72px) clamp(16px,4vw,56px);
-  display:flex;flex-direction:column;gap:24px;max-width:620px}
-.hero-h1{font-size:var(--t-hero);letter-spacing:-0.015em;line-height:1.05;
+/* hero — centred Apple composition */
+.hero{min-height:100svh;background:var(--field);display:flex;flex-direction:column;
+  align-items:center;padding-top:76px;overflow:hidden;position:relative}
+.hero-text{display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:20px;max-width:1100px;width:100%;padding:clamp(28px,4vw,56px) clamp(16px,4vw,40px) 0}
+.hero-h1{font-size:clamp(4.5rem,6.5vw,5.5rem);letter-spacing:-0.022em;line-height:1.03;
   font-weight:600;color:var(--ink);text-wrap:balance}
-.hero-lead{font-size:var(--t-lead);color:var(--navy);line-height:1.38;font-weight:400}
+.hero-lead{font-size:var(--t-lead);color:var(--navy);line-height:1.38;font-weight:400;
+  max-width:560px;text-align:center}
 .hero-lead strong{font-weight:600;color:var(--ink)}
-.hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.hero-actions{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px}
 .btn-p{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--ink);
   font-size:1rem;font-weight:600;padding:14px 28px;border-radius:999px;
   transition:transform 160ms var(--ease-s)}
@@ -124,24 +125,26 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .btn-g:hover{border-color:var(--navy)}
 .btn-g:active{transform:scale(0.97)}
 .btn-p:focus-visible,.btn-g:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.hero-cd{font-size:var(--t-lbl);color:var(--navy);opacity:.65;
-  display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}
+.hero-cd{font-size:.8125rem;color:var(--navy);opacity:.6;
+  display:flex;align-items:flex-end;justify-content:center;gap:8px;flex-wrap:wrap}
 .cd-unit{display:flex;flex-direction:column;align-items:center;min-width:34px}
 .cd-val{font-size:1.2rem;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
 .cd-sep{font-size:1.2rem;font-weight:300;padding-bottom:2px;align-self:flex-end}
 
-/* hero canvas side */
-.hero-right{position:relative;height:100svh;display:flex;align-items:center;
-  justify-content:center;overflow:hidden}
-#hero-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+/* hero wheel canvas — centred below headline block */
+.hero-wheel{position:relative;width:clamp(260px,50vw,720px);aspect-ratio:1/1;
+  margin-top:clamp(12px,2vw,28px);flex-shrink:0}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
 .hero-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   transition:opacity 500ms}
-.hero-right.canvas-rdy .hero-poster{opacity:0;pointer-events:none}
+.hero-wheel.canvas-rdy .hero-poster{opacity:0;pointer-events:none}
 
 @media(max-width:1023px){
-  .hero{grid-template-columns:1fr}
-  .hero-right{display:none}
-  .hero-text{max-width:100%}
+  .hero-wheel{width:min(88vw,460px)}
+}
+@media(max-width:767px){
+  .hero-h1{font-size:clamp(3rem,10vw,4.5rem)}
+  .hero-wheel{width:min(96vw,380px);margin-top:12px}
 }
 
 /* sections */
@@ -157,28 +160,35 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 /* people */
 .ppl{background:#fff;padding:var(--sv) 0}
 .ppl-hl{font-size:clamp(2.5rem,6vw,5.25rem);font-weight:600;letter-spacing:-0.018em;
-  line-height:1.0;display:flex;flex-wrap:wrap;align-items:center;gap:.15em;color:var(--ink)}
-.photo-pill{display:inline-flex;width:clamp(44px,5vw,68px);height:clamp(44px,5vw,68px);
-  border-radius:999px;overflow:hidden;border:2px solid var(--field);
-  vertical-align:middle;margin:0 .08em;flex-shrink:0;
-  transform:scale(0.6);transition:transform 500ms var(--ease)}
-.photo-pill.vis{transform:scale(1)}
-.photo-pill img{width:100%;height:100%;object-fit:cover}
+  line-height:1.1;display:flex;flex-wrap:wrap;align-items:center;gap:.12em;color:var(--ink)}
+.photo-pill{display:inline-flex;width:clamp(72px,7.5vw,110px);height:clamp(52px,5.5vw,80px);
+  border-radius:12px;overflow:hidden;border:2px solid rgba(255,255,255,.8);
+  vertical-align:middle;margin:0 .1em;flex-shrink:0;
+  transform:scale(0.55) translateY(8px);transition:transform 600ms var(--ease),opacity 400ms}
+.photo-pill.vis{transform:scale(1) translateY(0)}
+.photo-pill img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
 .ppl-desc{margin-top:28px;max-width:640px;font-size:var(--t-lead);
   line-height:1.45;color:var(--navy)}
 .ppl-facts{margin-top:18px;display:flex;flex-wrap:wrap;gap:20px;
   font-size:var(--t-lbl);font-weight:600;color:var(--crimson)}
 .ppl-facts span{color:var(--ink);font-weight:400}
-.ppl-strip{margin-top:48px;display:flex;gap:12px;overflow-x:auto;
-  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px}
-.ppl-strip::-webkit-scrollbar{display:none}
-.ppl-photo{flex-shrink:0;width:clamp(110px,16vw,180px);aspect-ratio:3/4;
-  border-radius:var(--r);overflow:hidden;scroll-snap-align:start;position:relative}
-.ppl-photo img{width:100%;height:100%;object-fit:cover}
-.ppl-name{position:absolute;bottom:0;left:0;right:0;padding:10px;
-  background:linear-gradient(to top,rgba(14,21,48,.72) 0%,transparent 100%); /* scrim */
-  color:#fff;font-size:11px;font-weight:500;opacity:0;transition:opacity 200ms}
-.ppl-photo:hover .ppl-name,.ppl-photo:focus-within .ppl-name{opacity:1}
+.mosaic{margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);
+  gap:8px}
+.m-item{overflow:hidden;border-radius:var(--r);position:relative;background:var(--field)}
+.m-item img{width:100%;height:100%;object-fit:cover;display:block}
+.m-a{grid-column:span 2;grid-row:span 2;aspect-ratio:1/1}
+.m-b{grid-column:span 1;grid-row:span 2}
+.m-c{grid-column:span 2;grid-row:span 1;aspect-ratio:2/1}
+.m-d{grid-column:span 1;grid-row:span 1;aspect-ratio:1/1}
+/* country chip */
+.cc{position:absolute;bottom:8px;left:8px;background:rgba(14,21,48,.72);
+  color:#fff;font-size:11px;font-weight:500;padding:3px 9px;border-radius:999px;
+  pointer-events:none;line-height:1.4}
+@media(max-width:767px){
+  .mosaic{grid-template-columns:repeat(2,1fr)}
+  .m-a{grid-column:span 2;grid-row:span 1;aspect-ratio:2/1}
+  .m-b{grid-column:span 1;grid-row:span 1;aspect-ratio:1/1}
+}
 
 /* goals intro */
 .goals-intro{background:var(--field);padding:var(--sv-sm) 0 0}
@@ -186,8 +196,8 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 
 /* sdg chapters */
 .sdg-wrap{position:relative}
-.sdg-ch{position:sticky;top:0;min-height:100svh;display:grid;
-  grid-template-columns:1fr 1fr;align-items:center;overflow:hidden;will-change:transform}
+.sdg-ch{position:sticky;top:0;height:100svh;display:grid;
+  grid-template-columns:45% 55%;align-items:center}
 .sdg-ch[data-s="4"]{background:var(--sdg4);color:#fff}
 .sdg-ch[data-s="5"]{background:var(--sdg5);color:var(--ink)}
 .sdg-ch[data-s="9"]{background:var(--sdg9);color:var(--ink)}
@@ -200,7 +210,8 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .sdg-sub{font-size:var(--t-lead);font-weight:400;line-height:1.38;opacity:.85}
 .sdg-media{position:relative;height:100svh;display:flex;align-items:center;
   justify-content:center;overflow:hidden}
-.sdg-media video,.sdg-media img{width:100%;height:100%;object-fit:contain}
+.sdg-media video{width:100%;height:100%;object-fit:contain}
+.sdg-media img{width:100%;height:100%;object-fit:contain}
 
 /* sdg index bar (Rynzhuk, uppercase usage 1/3) */
 .sdg-idx{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:50;
@@ -218,22 +229,26 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   .sdg-idx{display:none}
 }
 
-/* what we do */
+/* what we do — Rynzhuk inline type poster */
 .wwd{background:var(--field);padding:var(--sv) 0}
-.wwd-list{margin-top:48px;max-width:780px}
-.wwd-row{padding:20px 0;border-top:1px solid rgba(14,21,48,.1);cursor:pointer}
-.wwd-row:last-child{border-bottom:1px solid rgba(14,21,48,.1)}
-.wwd-row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.wwd-nm{font-size:clamp(1.375rem,2.8vw,2.25rem);font-weight:600;letter-spacing:-0.01em;
-  color:var(--ink);display:flex;align-items:center;gap:12px;transition:color 200ms}
-.wwd-row:hover .wwd-nm,.wwd-row.on .wwd-nm{color:var(--crimson)}
-.wwd-dot{width:8px;height:8px;border-radius:50%;background:var(--crimson);flex-shrink:0;
-  opacity:0;transition:opacity 200ms;margin-top:2px}
-.wwd-row:hover .wwd-dot,.wwd-row.on .wwd-dot{opacity:1}
-.wwd-desc{max-height:0;overflow:hidden;font-size:var(--t-body);color:var(--navy);
-  line-height:1.55;transition:max-height 350ms var(--ease-s),padding-top 350ms}
-.wwd-row.on .wwd-desc{max-height:80px;padding-top:10px}
-.wwd-row:nth-child(2n) .wwd-nm{font-style:italic}
+.wwd-poster{margin-top:40px;font-size:clamp(2.625rem,4.8vw,4rem);font-weight:600;
+  letter-spacing:-0.015em;line-height:1.28;color:var(--ink)}
+.wwd-item{display:inline;cursor:pointer;transition:color 240ms;
+  text-decoration-line:underline;text-decoration-thickness:0px;
+  text-underline-offset:5px;text-decoration-color:transparent}
+.wwd-item:hover,.wwd-item.on{color:var(--crimson);
+  text-decoration-thickness:2px;text-decoration-color:var(--crimson)}
+.wwd-item:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:2px}
+.wwd-rom{font-style:normal;font-weight:600}
+.wwd-ser{font-family:'Bodoni Moda','Georgia',serif;font-style:italic;font-weight:400}
+.wwd-sep{font-style:normal;font-weight:600;margin:0 .22em;
+  display:inline-block;font-size:.55em;vertical-align:.25em;line-height:1}
+.wwd-s4{color:var(--sdg4)}.wwd-s5{color:var(--sdg5)}
+.wwd-s9{color:var(--sdg9)}.wwd-s13{color:var(--sdg13)}
+.wwd-cap{margin-top:24px;font-size:var(--t-lead);color:var(--navy);
+  min-height:3rem;line-height:1.5;max-width:680px;
+  opacity:0;transition:opacity 240ms;visibility:hidden}
+.wwd-cap.vis{opacity:1;visibility:visible}
 
 /* summit bento */
 .summit{background:#fff;padding:var(--sv) 0}
@@ -245,20 +260,21 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .bt-6{grid-column:span 6}.bt-4{grid-column:span 4}.bt-3{grid-column:span 3}.bt-2{grid-column:span 2}
 .bt-r2{grid-row:span 2}
 .bt-main{background:var(--ink);color:#fff;position:relative;min-height:260px}
-.bt-main .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.32}
+.bt-main .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7}
+.bt-main .scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,21,48,.72) 0%,rgba(14,21,48,.1) 55%,transparent 100%)} /* scrim */
 .bt-main .txt{position:relative;z-index:1}
 .bt-unu{background:var(--field)}
 .bt-grant{background:var(--accent);color:var(--ink)}
 .bt-apu{background:var(--navy);color:#fff}
 .bt-kl{background:var(--field);position:relative;overflow:hidden}
-.bt-date{background:var(--crimson);color:#fff}
+/* bt-date removed (duplicate of date info in main banner tile) */
 .bento-price{font-size:clamp(2rem,3.5vw,3.25rem);font-weight:600;letter-spacing:-0.02em;line-height:1}
 .bento-lbl{font-size:var(--t-lbl);font-weight:500;opacity:.65;margin-bottom:8px}
 .bento-h3{font-size:clamp(1.0625rem,1.8vw,1.375rem);font-weight:600;line-height:1.2;letter-spacing:-0.01em}
 .bento-body{font-size:12px;line-height:1.5;opacity:.78;margin-top:6px}
 .bento-logo{max-height:44px;width:auto;max-width:150px;margin-bottom:14px}
 .bento-apu{max-height:52px;width:auto;max-width:130px;margin-bottom:10px;
-  filter:brightness(0) invert(1)}
+  }
 .bt-kl-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
 .bt-kl-img.rdy{opacity:.55}
 
@@ -296,8 +312,9 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .spk-nm{font-size:clamp(1.25rem,2.3vw,1.875rem);font-weight:600;letter-spacing:-0.01em;
   line-height:1.1;color:var(--ink);transition:color 200ms}
 .spk-nm-ghost{font-size:clamp(1.25rem,2.3vw,1.875rem);font-weight:600;letter-spacing:-0.01em;
-  line-height:1.1;color:var(--ink);opacity:.18;
-  position:absolute;bottom:-18px;left:0;pointer-events:none}
+  line-height:1.1;color:var(--ink);opacity:0;
+  position:absolute;bottom:-18px;left:0;pointer-events:none;transition:opacity 300ms}
+.spk-row.on .spk-nm-ghost{opacity:.18}
 .spk-title{font-size:12px;color:var(--navy);opacity:.65;max-height:0;overflow:hidden;
   transition:max-height 300ms var(--ease-s),padding-top 300ms}
 .spk-row.on .spk-title{max-height:56px;padding-top:5px}
@@ -341,7 +358,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .tix-card{border:1px solid rgba(255,255,255,.11);border-radius:var(--r);padding:28px 24px;
   display:flex;flex-direction:column;gap:18px}
 .tix-price{font-size:clamp(2.5rem,4vw,3.5rem);font-weight:600;letter-spacing:-0.02em;line-height:1}
-.tix-old{font-size:var(--t-lead);font-weight:400;text-decoration:line-through;opacity:.38}
+/* tix-old removed per red-team ruling: no fake-discount strikethrough */
 .tix-nm{font-size:var(--t-lbl);font-weight:500;opacity:.55;margin-bottom:-10px}
 .tix-inc{font-size:12.5px;line-height:1.65;display:flex;flex-direction:column;gap:4px}
 .tix-inc li{color:rgba(255,255,255,.8)}
@@ -361,21 +378,23 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 @media(max-width:767px){.tix-open{grid-template-columns:1fr}}
 
 /* closing */
-.closing{background:var(--ink);color:#fff;padding:var(--sv) 0;position:relative;overflow:hidden}
-.closing-media{position:absolute;right:-4%;top:50%;transform:translateY(-50%);
-  width:48%;aspect-ratio:16/9;opacity:0;transition:opacity 600ms}
-.closing-media.rdy{opacity:.8}
-.closing-media video,.closing-media img{width:100%;height:100%;object-fit:contain}
-.closing-poster{font-size:clamp(14vw,14vw,14vw);line-height:.9;letter-spacing:-0.03em;
-  font-weight:600;color:#fff;position:relative;z-index:1;margin-bottom:36px}
-.closing-cta{position:relative;z-index:1}
+.closing{background:var(--ink);color:#fff;padding:var(--sv) 0;overflow:hidden}
+.closing-media{width:clamp(260px,48vw,640px);margin:0 auto clamp(32px,4vw,56px);
+  aspect-ratio:1/1;opacity:0;transition:opacity 700ms;display:block}
+.closing-media.rdy{opacity:1}
+.closing-media video{width:100%;height:100%;object-fit:contain;display:block}
+.closing-media img{width:100%;height:100%;object-fit:contain;display:block}
+.closing-poster{font-size:clamp(3.5rem,12vw,11rem);line-height:.92;letter-spacing:-0.03em;
+  font-weight:600;color:#fff;margin-bottom:36px;text-align:center}
+.closing-cta{text-align:center}
 
 /* footer */
 .footer{background:var(--ink);color:rgba(255,255,255,.65);
   border-top:1px solid rgba(255,255,255,.09);padding:52px 0 28px;font-size:var(--t-lbl)}
 .footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px}
 .f-brand{display:flex;flex-direction:column;gap:14px}
-.f-logo{height:34px;width:auto;filter:brightness(0) invert(1)}
+.f-logo-chip{display:inline-flex;background:#fff;border-radius:8px;padding:7px 12px;align-self:flex-start}
+.f-logo{height:28px;width:auto;display:block}
 .f-tagline{font-size:13px;line-height:1.65;max-width:264px}
 .f-contact{display:flex;flex-direction:column;gap:5px;font-size:13px;color:rgba(255,255,255,.55)}
 .f-contact a{color:rgba(255,255,255,.7)}.f-contact a:hover{color:#fff}
@@ -458,9 +477,9 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 
 <main id="main">
 
-<!-- HERO -->
-<section class="hero" aria-labelledby="hero-h1">
-  <div class="hero-text">
+<!-- HERO — centred Apple composition -->
+<section class="hero" aria-labelledby="hero-h1" id="hero">
+  <div class="hero-text" id="hero-text">
     <h1 class="hero-h1" id="hero-h1">
       Seventeen goals.<br><em class="serif-i">Four</em> in our hands.
     </h1>
@@ -476,32 +495,18 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       <a class="btn-g" href="#programme">See the programme</a>
     </div>
     <div class="hero-cd" aria-label="Countdown to summit" role="timer" aria-live="off">
-      <div class="cd-unit">
-        <span class="cd-val" id="cd-d">--</span>
-        <span>days</span>
-      </div>
+      <div class="cd-unit"><span class="cd-val" id="cd-d">--</span><span>days</span></div>
       <span class="cd-sep" aria-hidden="true">:</span>
-      <div class="cd-unit">
-        <span class="cd-val" id="cd-h">--</span>
-        <span>hrs</span>
-      </div>
+      <div class="cd-unit"><span class="cd-val" id="cd-h">--</span><span>hrs</span></div>
       <span class="cd-sep" aria-hidden="true">:</span>
-      <div class="cd-unit">
-        <span class="cd-val" id="cd-m">--</span>
-        <span>min</span>
-      </div>
+      <div class="cd-unit"><span class="cd-val" id="cd-m">--</span><span>min</span></div>
       <span class="cd-sep" aria-hidden="true">:</span>
-      <div class="cd-unit">
-        <span class="cd-val" id="cd-s">--</span>
-        <span>sec</span>
-      </div>
+      <div class="cd-unit"><span class="cd-val" id="cd-s">--</span><span>sec</span></div>
     </div>
   </div>
-
-  <!-- canvas wheel sequence (desktop ≥1024px only) -->
-  <div class="hero-right" id="hero-right" aria-hidden="true">
+  <!-- wheel canvas: centred below headline, overlaps fold to pull eye down -->
+  <div class="hero-wheel" id="hero-right" aria-hidden="true">
     <canvas id="hero-canvas" width="900" height="900"></canvas>
-    <!-- poster shows until sequence loads -->
     <img class="hero-poster"
       src="assets/r3/hero-wheel-poster.webp"
       alt=""
@@ -534,43 +539,60 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       <div role="listitem"><strong>8</strong> <span>global advisors</span></div>
       <div role="listitem"><strong>12</strong> <span>FMS Thailand speakers</span></div>
     </div>
-    <!-- delegate photo strip (FMS Bangkok, July 2026) -->
-    <div class="ppl-strip" role="list" aria-label="Delegate photos from FMS Bangkok, July 2026">
-      <div class="ppl-photo" role="listitem" tabindex="0">
-        <img src="assets/gallery/fmst-dsc01881-1.webp" alt="Delegates at FMS Bangkok, July 2026" loading="lazy">
-        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+    <!-- delegate photo mosaic — 12 photos, grid-auto-flow dense, no gaps -->
+    <!-- layout: 2×[2c,2r] rows1-2 | 4×[1c,2r]+[2c,1r] rows3-4 | 2×[1c,1r]+[2c,1r] rows5-6 -->
+    <div class="mosaic" role="list" aria-label="Delegates from FMS Bangkok, July 2026">
+      <!-- row 1-2: two 2×2 big tiles -->
+      <div class="m-item m-a" role="listitem">
+        <img src="assets/gallery/fmst-dsc01881-1.webp" alt="Delegates, FMS Bangkok 2026" loading="lazy">
+        <span class="cc">Thailand</span>
       </div>
-      <div class="ppl-photo" role="listitem" tabindex="0">
-        <img src="assets/gallery/fmst-dsc01894-1.webp" alt="Delegates at FMS Bangkok" loading="lazy">
-        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      <div class="m-item m-a" role="listitem">
+        <img src="assets/gallery/fmst-dsc02172-1.webp" alt="Delegates, FMS Bangkok 2026" loading="lazy">
+        <span class="cc">Malaysia</span>
       </div>
-      <div class="ppl-photo" role="listitem" tabindex="0">
+      <!-- row 1 remainder: two square tiles stacked in dense flow -->
+      <div class="m-item m-d" role="listitem">
         <img src="assets/gallery/fmst-dsc01945-1.webp" alt="FMS Bangkok session" loading="lazy">
-        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+        <span class="cc">Australia</span>
       </div>
-      <div class="ppl-photo" role="listitem" tabindex="0">
+      <div class="m-item m-d" role="listitem">
         <img src="assets/gallery/fmst-dsc01960-1.webp" alt="FMS Bangkok workshop" loading="lazy">
-        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+        <span class="cc">India</span>
       </div>
-      <div class="ppl-photo" role="listitem" tabindex="0">
-        <img src="assets/gallery/fmst-dsc01976-1.webp" alt="FMS Bangkok delegates" loading="lazy">
-        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      <!-- row 3: 2 tall + 2 wide  -->
+      <div class="m-item m-b" role="listitem">
+        <img src="assets/gallery/fmst-dsc01894-1.webp" alt="FMS Bangkok delegate" loading="lazy">
+        <span class="cc">Philippines</span>
       </div>
-      <div class="ppl-photo" role="listitem" tabindex="0">
-        <img src="assets/gallery/fmst-dsc01989-1.webp" alt="FMS Bangkok group" loading="lazy">
-        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      <div class="m-item m-b" role="listitem">
+        <img src="assets/gallery/fmst-dsc02243-1.webp" alt="FMS Bangkok group" loading="lazy">
+        <span class="cc">Indonesia</span>
       </div>
-      <div class="ppl-photo" role="listitem" tabindex="0">
-        <img src="assets/gallery/fmst-dsc02120-1.webp" alt="FMS Bangkok activity" loading="lazy">
-        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      <div class="m-item m-c" role="listitem">
+        <img src="assets/gallery/fmst-dsc01976-1.webp" alt="FMS Bangkok activity" loading="lazy">
+        <span class="cc">United Kingdom</span>
       </div>
-      <div class="ppl-photo" role="listitem" tabindex="0">
-        <img src="assets/gallery/fmst-dsc02142-1.webp" alt="FMS Bangkok session" loading="lazy">
-        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      <div class="m-item m-c" role="listitem">
+        <img src="assets/gallery/fmst-dsc03736-1.webp" alt="FMS Bangkok ceremony" loading="lazy">
+        <span class="cc">Canada</span>
       </div>
-      <div class="ppl-photo" role="listitem" tabindex="0">
-        <img src="assets/gallery/fmst-dsc02159-1.webp" alt="FMS Bangkok ceremony" loading="lazy">
-        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      <!-- row 5-6 -->
+      <div class="m-item m-d" role="listitem">
+        <img src="assets/gallery/fmst-dsc01989-1.webp" alt="FMS Bangkok networking" loading="lazy">
+        <span class="cc">Kenya</span>
+      </div>
+      <div class="m-item m-d" role="listitem">
+        <img src="assets/gallery/fmst-dsc02120-1.webp" alt="FMS Bangkok panel" loading="lazy">
+        <span class="cc">Singapore</span>
+      </div>
+      <div class="m-item m-c" role="listitem">
+        <img src="assets/gallery/fmst-dsc02142-1.webp" alt="FMS Bangkok, July 2026" loading="lazy">
+        <span class="cc">United States</span>
+      </div>
+      <div class="m-item m-c" role="listitem">
+        <img src="assets/gallery/fmst-dsc02159-1.webp" alt="FMS Bangkok closing" loading="lazy">
+        <span class="cc">UAE</span>
       </div>
     </div>
   </div>
@@ -642,9 +664,14 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       <p class="sdg-sub">Driving Innovation &amp; Resilient Infrastructure.</p>
     </div>
     <div class="sdg-media" aria-hidden="true">
-      <!-- sdg9-gears cove: #FD6925 — render not yet available, colour field shows -->
-      <img src="assets/r3/sdg9-gears-poster.webp" alt="Meshing gears representing innovation"
-        style="opacity:0" onerror="this.style.display='none'">
+      <video muted loop playsinline preload="none"
+        poster="assets/r3/sdg9-gears-poster.webp"
+        data-src-webm="assets/r3/sdg9-gears.webm"
+        data-src-mp4="assets/r3/sdg9-gears.mp4"
+        class="sdg-vid"
+        aria-label="Meshing gears representing innovation and infrastructure">
+        <img src="assets/r3/sdg9-gears-poster.webp" alt="">
+      </video>
     </div>
   </section>
 
@@ -656,46 +683,33 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       <p class="sdg-sub">Taking urgent action for our Climate.</p>
     </div>
     <div class="sdg-media" aria-hidden="true">
-      <!-- sdg13-leaf cove: #3F7E44 — render not yet available, colour field shows -->
-      <img src="assets/r3/sdg13-leaf-poster.webp" alt="Leaf on globe representing climate action"
-        style="opacity:0" onerror="this.style.display='none'">
+      <video muted loop playsinline preload="none"
+        poster="assets/r3/sdg13-leaf-poster.webp"
+        data-src-webm="assets/r3/sdg13-leaf.webm"
+        data-src-mp4="assets/r3/sdg13-leaf.mp4"
+        class="sdg-vid"
+        aria-label="Leaf on globe representing climate action">
+        <img src="assets/r3/sdg13-leaf-poster.webp" alt="">
+      </video>
     </div>
   </section>
 
 </div><!-- /sdg-wrap -->
 
-<!-- WHAT WE DO -->
+<!-- WHAT WE DO — Rynzhuk inline type poster -->
 <section class="wwd sec bg-field" aria-labelledby="wwd-h2">
   <div class="container">
-    <h2 class="sec-h2 split-h" id="wwd-h2">
-      Six ways we work on the world.
-    </h2>
-    <div class="wwd-list" role="list">
-      <div class="wwd-row" role="listitem" tabindex="0" data-desc="GYN hosts international forums, workshops and summits to promote dialogue on Sustainable Development Goals.">
-        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Conferences</div>
-        <div class="wwd-desc"></div>
-      </div>
-      <div class="wwd-row" role="listitem" tabindex="0" data-desc="The GYN provides a collaborative platform of mentorship, technical support and resource sharing to address the world's most pressing challenges.">
-        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Networking</div>
-        <div class="wwd-desc"></div>
-      </div>
-      <div class="wwd-row" role="listitem" tabindex="0" data-desc="Preparing a new generation of leaders to navigate complexity with foresight, integrity and measurable global impact.">
-        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Leadership Development</div>
-        <div class="wwd-desc"></div>
-      </div>
-      <div class="wwd-row" role="listitem" tabindex="0" data-desc="Building cross-border dialogue and strategic partnerships to create solutions for the world's most complex challenges.">
-        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Collaborative Networks</div>
-        <div class="wwd-desc"></div>
-      </div>
-      <div class="wwd-row" role="listitem" tabindex="0" data-desc="Providing tailor-made, hands-on mentoring to youth to become effective leaders.">
-        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Youth Mentoring</div>
-        <div class="wwd-desc"></div>
-      </div>
-      <div class="wwd-row" role="listitem" tabindex="0" data-desc="Building leadership capacities and policy expertise for future-ready governance.">
-        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Workshops &amp; Trainings</div>
-        <div class="wwd-desc"></div>
-      </div>
-    </div>
+    <h2 class="sec-h2 split-h" id="wwd-h2">Six ways we work on the world.</h2>
+    <p class="wwd-poster" role="list" aria-label="Six ways we work on the world">
+      <span class="wwd-item wwd-rom" role="listitem" tabindex="0"
+        data-desc="GYN hosts international forums, workshops and summits to promote dialogue on Sustainable Development Goals.">Conferences</span><span class="wwd-sep wwd-s4" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-ser" role="listitem" tabindex="0"
+        data-desc="A collaborative platform of mentorship, technical support and resource sharing for global challenges.">Networking</span><span class="wwd-sep wwd-s5" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-rom" role="listitem" tabindex="0"
+        data-desc="Preparing a new generation of leaders to navigate complexity with foresight and measurable global impact.">Leadership Development</span><span class="wwd-sep wwd-s9" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-ser" role="listitem" tabindex="0"
+        data-desc="Cross-border dialogue and strategic partnerships to solve the world's most complex challenges.">Collaborative Networks</span><span class="wwd-sep wwd-s13" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-rom" role="listitem" tabindex="0"
+        data-desc="Tailor-made, hands-on mentoring to help youth become effective global leaders.">Youth Mentoring</span><span class="wwd-sep wwd-s4" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-ser" role="listitem" tabindex="0"
+        data-desc="Building leadership capacities and policy expertise for future-ready governance.">Workshops &amp; Trainings</span>
+    </p>
+    <p class="wwd-cap" id="wwd-cap" aria-live="polite"></p>
   </div>
 </section>
 
@@ -711,6 +725,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       <div class="bt bt-4 bt-r2 bt-main" role="listitem">
         <img class="bg" src="assets/events/web-banner-sism.webp"
           alt="SISM 2026 banner" loading="lazy" onerror="this.style.display='none'">
+        <div class="scrim" aria-hidden="true"></div>
         <div class="txt">
           <div class="bento-lbl">SDG Innovation Summit Malaysia</div>
           <div class="bento-h3">19–22 November 2026<br>Teedo Hotel, Kuala Lumpur</div>
@@ -752,16 +767,8 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
         </div>
       </div>
 
-      <!-- dates tile -->
-      <div class="bt bt-2 bt-date" role="listitem">
-        <div class="bento-price">Nov</div>
-        <div class="bento-h3" style="font-size:clamp(2rem,3.5vw,3rem);font-weight:600;
-          letter-spacing:-0.02em;line-height:1">19–22</div>
-        <div class="bento-body">2026</div>
-      </div>
-
-      <!-- group discount tile (shared with bento) -->
-      <div class="bt bt-2 bg-field" style="background:var(--field)" role="listitem">
+      <!-- group pricing tile — full row after removing date duplicate -->
+      <div class="bt bt-6" style="background:var(--field)" role="listitem">
         <div class="bento-lbl">Group pricing</div>
         <div class="bento-h3">Bring your team.</div>
         <div class="bento-body">Group discounts available. Email contact@thegyn.org</div>
@@ -977,12 +984,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       <!-- Forum Access -->
       <div class="tix-card" role="listitem" aria-label="Forum Access ticket, $199">
         <div class="tix-nm">Forum Access</div>
-        <div>
-          <div style="display:flex;align-items:baseline;gap:10px">
-            <div class="tix-price">$199</div>
-            <div class="tix-old">$249</div>
-          </div>
-        </div>
+        <div class="tix-price">$199</div>
         <ul class="tix-inc" aria-label="Included with Forum Access">
           <li>Early invitation letter</li>
           <li>Welcome dinner</li>
@@ -999,14 +1001,9 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       </div>
 
       <!-- Self Funded -->
-      <div class="tix-card" role="listitem" aria-label="Self Funded ticket, $399, includes accommodation">
+      <div class="tix-card" role="listitem" aria-label="Self Funded with Accommodation ticket, $399">
         <div class="tix-nm">Self Funded with Accommodation</div>
-        <div>
-          <div style="display:flex;align-items:baseline;gap:10px">
-            <div class="tix-price">$399</div>
-            <div class="tix-old">$449</div>
-          </div>
-        </div>
+        <div class="tix-price">$399</div>
         <ul class="tix-inc" aria-label="Included with Self Funded">
           <li>Accommodation (twin sharing)</li>
           <li>Early invitation letter</li>
@@ -1051,8 +1048,21 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 
 <!-- CLOSING -->
 <section class="closing sec" aria-labelledby="closing-h2">
+  <!-- hands-wheel loop above the headline -->
+  <div class="closing-media" id="closing-media" aria-hidden="true">
+    <video muted loop playsinline preload="none"
+      poster="assets/r3/hands-wheel-poster.webp"
+      data-src-webm="assets/r3/hands-wheel.webm"
+      data-src-mp4="assets/r3/hands-wheel.mp4"
+      class="sdg-vid closing-vid"
+      aria-label="Four hands holding the SDG wheel">
+    </video>
+    <img src="assets/r3/hands-wheel-poster.webp" alt=""
+      onload="document.getElementById('closing-media').classList.add('rdy')"
+      onerror="document.getElementById('closing-media').style.display='none'">
+  </div>
   <div class="container">
-    <div class="closing-poster">
+    <div class="closing-poster" id="closing-h2">
       See you in <em class="serif-i">Kuala<br>Lumpur.</em>
     </div>
     <div class="closing-cta">
@@ -1061,18 +1071,6 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       </a>
     </div>
   </div>
-  <!-- hands-wheel render (not yet available — graceful hide) -->
-  <div class="closing-media" id="closing-media" aria-hidden="true">
-    <video muted loop playsinline preload="none"
-      poster="assets/r3/hands-wheel.webp"
-      data-src-webm="assets/r3/hands-wheel.webm"
-      data-src-mp4="assets/r3/hands-wheel.mp4"
-      class="sdg-vid closing-vid"
-      aria-label="Four hands holding the SDG wheel">
-    </video>
-    <img src="assets/r3/hands-wheel.webp" alt=""
-      onerror="document.getElementById('closing-media').style.display='none'">
-  </div>
 </section>
 
 <!-- FOOTER -->
@@ -1080,7 +1078,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   <div class="container">
     <div class="footer-inner">
       <div class="f-brand">
-        <img class="f-logo" src="assets/logos/gyn-logo.png" alt="Global Youth Network">
+        <div class="f-logo-chip"><img class="f-logo" src="assets/logos/gyn-logo.png" alt="Global Youth Network"></div>
         <p class="f-tagline">
           The Global Youth Network is a U.S. based organization that hosts international
           conferences to support the United Nations Sustainable Development Goals.
@@ -1202,17 +1200,23 @@ document.addEventListener('keydown', e => {
   setInterval(tick, 1000);
 })();
 
-/* ── what-we-do accordion ──────────────────────────────── */
-$$('.wwd-row').forEach(row => {
-  const desc = row.querySelector('.wwd-desc');
-  if (desc) desc.textContent = row.dataset.desc || '';
-  const activate = () => {
-    const isOn = row.classList.contains('on');
-    $$('.wwd-row.on').forEach(r => r.classList.remove('on'));
-    if (!isOn) row.classList.add('on');
+/* ── what-we-do type poster: hover/focus reveals caption ─ */
+const wwdCap = document.getElementById('wwd-cap');
+$$('.wwd-item').forEach(item => {
+  const show = () => {
+    $$('.wwd-item.on').forEach(i => i.classList.remove('on'));
+    item.classList.add('on');
+    if (wwdCap) { wwdCap.textContent = item.dataset.desc || ''; wwdCap.classList.add('vis'); }
   };
-  row.addEventListener('click', activate);
-  row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+  const hide = () => {
+    item.classList.remove('on');
+    if (wwdCap) wwdCap.classList.remove('vis');
+  };
+  item.addEventListener('mouseenter', show);
+  item.addEventListener('focus', show);
+  item.addEventListener('mouseleave', hide);
+  item.addEventListener('blur', hide);
+  item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(); } });
 });
 
 /* ── speakers photo reveal ─────────────────────────────── */
@@ -1321,7 +1325,8 @@ document.addEventListener('DOMContentLoaded', function() { setTimeout(function i
   if (desktop() && !reduced) {
     const canvas = document.getElementById('hero-canvas');
     const ctx = canvas.getContext('2d');
-    const heroRight = document.getElementById('hero-right');
+    const heroWheel = document.getElementById('hero-right');
+    const heroText = document.getElementById('hero-text');
     const totalFrames = 72;
     const frames = [];
     let loaded = 0;
@@ -1346,21 +1351,27 @@ document.addEventListener('DOMContentLoaded', function() { setTimeout(function i
           loaded++;
           if (loaded === 1) {
             /* show canvas, hide poster */
-            heroRight.classList.add('canvas-rdy');
+            heroWheel.classList.add('canvas-rdy');
             drawFrame(img);
           }
         };
       }
     }));
 
-    /* pin hero + scrub frames */
+    /* pin hero: headline eases up + fades while canvas scrubs frames */
     ScrollTrigger.create({
-      trigger: '.hero',
+      trigger: '#hero',
       start: 'top top',
-      end: '+=150%',
+      end: '+=200%',
       pin: true,
-      scrub: 0.5,
+      scrub: 0.6,
       onUpdate: self => {
+        /* headline block: float up + fade out over first 38% of scroll */
+        const p = Math.min(self.progress / 0.38, 1);
+        /* use will-change:transform only during animation */
+        heroText.style.opacity = String(Math.max(1 - p * 1.1, 0));
+        heroText.style.transform = 'translateY(' + (-64 * p) + 'px)';
+        /* scrub canvas frames across full scroll duration */
         const idx = Math.min(
           Math.floor(self.progress * (totalFrames - 1)),
           totalFrames - 1

@@ -16,7 +16,7 @@ import common as C  # noqa: E402
 
 a = C.args(out=os.path.join(C.HERE, "_frames", "sdg9-gears"), res=1080, still=0, samples=64)
 FRAMES, BG = 96, "#FD6925"
-PITCH, AMP, THICK, CLEAR = 0.07, 0.085, 0.3, 0.03  # pitch radius per tooth, tooth height, clearance
+PITCH, AMP, THICK, CLEAR = 0.07, 0.085, 0.46, 0.03  # pitch radius per tooth, tooth height, clearance
 TAU = 2 * math.pi
 
 
@@ -64,16 +64,16 @@ C.new_scene("BLENDER_EEVEE", a.res, a.res, FRAMES, a.out, a.samples, transparent
 cove = C.cove(BG, wall_y=3.5)
 C.tarka_lights(BG, target=(0, 0, 0.2), key=520, dist=4.5, key_dir=(-0.6, -0.6, 1.8))
 
-hub_mat = C.satin("hub", BG)
+hub_mat = C.principled("hub", BG, rough=0.45, sss=0.08)  # satin, no coat glint
 gears = []
 for g, ((n, hex_), (cx, cy)) in enumerate(zip(GEARS, centres)):
     pts = [(radius(n, TAU * j / (n * 24)) * math.cos(TAU * j / (n * 24)),
             radius(n, TAU * j / (n * 24)) * math.sin(TAU * j / (n * 24))) for j in range(n * 24)]
     o = C.mesh_object(f"Gear{g}", C.extrude_outline(bmesh.new(), pts, THICK), C.satin(f"gear{g}", hex_))
-    C.bevel(o, width=0.06, segments=6)
+    C.bevel(o, width=0.1, segments=8)  # chunky, inflated rims
     o.location = (cx, cy, THICK / 2 + 0.002)
-    hub = C.capsule(f"Hub{g}", 0.16 + 0.012 * n, 0.12, hub_mat)  # soft button on the axle
-    hub.scale.z = 0.55
+    hub = C.capsule(f"Hub{g}", 0.16 + 0.012 * n, 0.0, hub_mat)  # soft button on the axle
+    hub.scale.z = 0.4
     hub.location = (0, 0, THICK / 2)
     hub.parent = o
     gears.append(o)
@@ -84,8 +84,8 @@ def animate(p):
         o.rotation_euler.z = rot
 
 
-el, az, dist = math.radians(32), math.radians(-18), 21.0
-tgt = (0.15, 0.4, 0.15)  # middle of the cluster
+el, az, dist = math.radians(28), math.radians(-30), 21.5  # three-quarter, group ~60% of the width
+tgt = (0.15, 0.4, 0.25)  # middle of the cluster
 C.camera((tgt[0] + dist * math.cos(el) * math.sin(az), tgt[1] - dist * math.cos(el) * math.cos(az),
-          tgt[2] + dist * math.sin(el)), tgt, lens=110)
+          tgt[2] + dist * math.sin(el)), tgt, lens=100)
 C.run(animate, FRAMES, a.still, cove=cove)

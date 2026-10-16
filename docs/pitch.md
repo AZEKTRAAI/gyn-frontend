@@ -31,7 +31,7 @@ Most of these come from one habit: the price, the deadline and the form each liv
 
 - Registration in three steps: her details, a review screen, then payment on Stripe. Progress saves in the browser, so a reload doesn't wipe the form. Her passport number is never part of that save.
 - Nothing that says open when it's closed. The countdown runs to the summit itself (19 Nov, 09:00 Kuala Lumpur time), closed scholarship tiers say closed, and the server turns away a closed tier even if someone builds the request by hand.
-- A light page. Phones get a still image of the globe and never download the video. Every page was checked from 360px to 1440px wide with no sideways scrolling.
+- A light page. On phones the hero is the headline, dates and booking button; the 3D globe and its video are left out so the page paints fast, and the delegate photos come further down. Every page was checked from 360px to 2560px wide with no sideways scrolling.
 
 **A returning delegate.** He went to FutureMinds Summit Bangkok and now shares GYN links as an ambassador. He gets:
 

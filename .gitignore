@@ -1,8 +1,18 @@
-node_modules/
+# Next.js
 .next/
-.env*
-!.env.example
-.vercel/
-*.log
+out/
+node_modules/
+npm-debug.log*
+
+# env
+.env.local
+.env.*.local
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Agent tooling artifacts
 .playwright-mcp/
+AGENTS.md
+tsconfig.tsbuildinfo

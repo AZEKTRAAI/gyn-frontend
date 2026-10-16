@@ -48,7 +48,8 @@ body{font-family:var(--f-b);background:var(--bg);color:var(--c-ink);line-height:
 img,video{max-width:100%;display:block}
 a{color:inherit}
 button{font-family:inherit}
-a:focus-visible,button:focus-visible{outline:3px solid var(--c-yellow);outline-offset:2px;border-radius:2px}
+/* RT-025: yellow-on-white is 1.57:1 (fails 3:1) — two-tone ring: navy outline + yellow halo */
+a:focus-visible,button:focus-visible{outline:3px solid var(--c-ink);outline-offset:2px;border-radius:2px;box-shadow:0 0 0 5px var(--c-yellow)}
 
 /* === LAYOUT === */
 .wrap{max-width:1320px;margin:0 auto;padding:0 var(--gut)}
@@ -92,7 +93,28 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--c-yellow);outline-o
   color:var(--c-ink);transition:background 180ms,color 180ms
 }
 .theme-btn:hover{background:var(--c-ink);color:var(--c-paper)}
-@media(max-width:768px){.nav-links{display:none}}
+/* RT-014: mobile nav — burger shows, links hide until .open */
+.nav-burger{
+  display:none;background:none;border:2px solid var(--c-ink);border-radius:2px;
+  width:34px;height:34px;cursor:pointer;font-size:1rem;line-height:1;
+  color:var(--c-ink);align-items:center;justify-content:center;flex-shrink:0
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-links.open{
+    display:flex;flex-direction:column;
+    position:fixed;top:62px;left:0;right:0;bottom:0;
+    background:var(--c-paper);color:var(--c-ink);
+    z-index:99;padding:1.25rem var(--gut);overflow-y:auto;gap:0
+  }
+  .nav-links.open>li>a{display:block;padding:.75rem 0;font-size:1rem;border-bottom:1px solid rgba(14,21,48,.12)}
+  .nav-links.open .nav-dd{display:block}
+  .nav-links.open .nav-dd summary{padding:.75rem 0;font-size:1rem;border-bottom:1px solid rgba(14,21,48,.12)}
+  .nav-links.open .nav-dd-menu{position:static;border:none;padding-left:1rem}
+  .nav-links.open .nav-dd-menu a{border-bottom:1px solid rgba(14,21,48,.08)}
+  .nav-burger{display:flex;margin-left:auto}
+  .nav-cta{display:none}
+}
 
 /* === REVIEW PILL === */
 .dir-pill{
@@ -202,8 +224,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--c-yellow);outline-o
 .sdg-row{display:flex;gap:.5rem;flex-wrap:wrap}
 .sdg-tile{flex:1 1 190px;padding:1.5rem 1.25rem;color:var(--c-white);position:relative;overflow:hidden}
 .sdg-tile:nth-child(1){background:var(--sdg4);flex-basis:260px}
-.sdg-tile:nth-child(2){background:var(--sdg5);flex-basis:210px}
-.sdg-tile:nth-child(3){background:var(--sdg9);flex-basis:210px}
+/* RT-024: SDG5 (#FF3A21) and SDG9 (#FD6925) are too bright for white text (3.4:1/2.8:1) → use ink */
+.sdg-tile:nth-child(2){background:var(--sdg5);flex-basis:210px;color:var(--c-ink)}
+.sdg-tile:nth-child(3){background:var(--sdg9);flex-basis:210px;color:var(--c-ink)}
 .sdg-tile:nth-child(4){background:var(--sdg13);flex-basis:200px}
 .sdg-num{font-family:var(--f-d);font-size:clamp(2.5rem,6vw,4.5rem);line-height:1;opacity:.22;position:absolute;top:.2rem;right:.75rem}
 .sdg-tile h3{font-family:var(--f-d);font-size:clamp(.85rem,1.4vw,1.05rem);line-height:1.2;margin-bottom:.35rem;position:relative}
@@ -266,19 +289,21 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--c-yellow);outline-o
   white-space:nowrap;z-index:5;pointer-events:none;
   text-transform:uppercase /* 1 of 3 */
 }
-.ticket--closed{opacity:.55}
+/* RT-024: opacity reduces text contrast below AA — stamp communicates closed state instead */
+.ticket--closed{filter:grayscale(0.25)}
 .ticket--closed .ticket-cta{display:none}
 .ticket--fully   .ticket-stub{background:var(--c-ink);  color:var(--c-white)}
 .ticket--partial .ticket-stub{background:var(--c-navy); color:var(--c-white)}
 .ticket--forum   .ticket-stub{background:var(--c-magenta);color:var(--c-white)}
 .ticket--self    .ticket-stub{background:var(--c-cyan);  color:var(--c-ink)}
 .ticket--invite  .ticket-stub{background:var(--c-green); color:var(--c-ink)}
-.ticket--forum  .ticket-cta{border-color:var(--c-magenta);color:var(--c-magenta)}
-.ticket--forum  .ticket-cta:hover{background:var(--c-magenta);color:var(--c-white)}
-.ticket--self   .ticket-cta{border-color:var(--c-cyan);color:var(--c-ink)}
-.ticket--self   .ticket-cta:hover{background:var(--c-cyan);color:var(--c-ink)}
-.ticket--invite .ticket-cta{border-color:var(--c-green);color:var(--c-green)}
-.ticket--invite .ticket-cta:hover{background:var(--c-green);color:var(--c-ink)}
+/* RT-004: CTAs are on the magenta section background — use white for 4.6:1 contrast */
+.ticket--forum  .ticket-cta{border-color:rgba(255,255,255,.7);color:var(--c-white)}
+.ticket--forum  .ticket-cta:hover{background:var(--c-white);color:var(--c-magenta)}
+.ticket--self   .ticket-cta{border-color:rgba(255,255,255,.7);color:var(--c-white)}
+.ticket--self   .ticket-cta:hover{background:var(--c-white);color:var(--c-cyan)}
+.ticket--invite .ticket-cta{border-color:rgba(255,255,255,.7);color:var(--c-white)}
+.ticket--invite .ticket-cta:hover{background:var(--c-white);color:var(--c-green)}
 @media(max-width:580px){
   .ticket{flex-direction:column}
   .ticket-stub{min-width:unset;flex-direction:row;gap:1rem;justify-content:flex-start}
@@ -365,6 +390,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--c-yellow);outline-o
 .grant-info h3{font-family:var(--f-d);font-size:1.2rem;margin-bottom:.4rem}
 .grant-info p{font-size:.875rem;max-width:48ch}
 
+/* RT-030: APU section grid collapses to single column below 768px */
+.apu-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+@media(max-width:768px){.apu-grid{display:block}}
+@media(max-width:768px){.apu-grid>div+div{margin-top:1.5rem}}
+
 /* === CO-HOST === */
 .cohost-block{display:flex;gap:2rem;align-items:center;flex-wrap:wrap;padding:1.5rem;border:2px solid var(--c-ink)}
 .cohost-logo{height:50px;object-fit:contain;flex-shrink:0}
@@ -394,18 +424,18 @@ footer{background:var(--c-ink);color:var(--c-paper);padding:3rem var(--gut) 2rem
 </head>
 <body>
 
-<!-- NAV -->
+<!-- NAV — RT-014: real hrefs + mobile burger -->
 <nav class="site-nav" aria-label="Main navigation">
-  <a class="nav-logo" href="#" aria-label="Global Youth Network home">
+  <a class="nav-logo" href="https://thegyn.org/" aria-label="Global Youth Network home">
     <img src="assets/logos/gyn-logo.png" alt="Global Youth Network" height="42">
   </a>
-  <ul class="nav-links" role="list">
-    <li><a href="#">Home</a></li>
+  <ul class="nav-links" id="nav-links-list" role="list">
+    <li><a href="https://thegyn.org/">Home</a></li>
     <li>
       <details class="nav-dd">
         <summary>Past events</summary>
         <div class="nav-dd-menu">
-          <a href="#">FMS Thailand</a>
+          <a href="https://thegyn.org/fms-thailand/">FMS Thailand</a>
         </div>
       </details>
     </li>
@@ -413,15 +443,16 @@ footer{background:var(--c-ink);color:var(--c-paper);padding:3rem var(--gut) 2rem
       <details class="nav-dd">
         <summary>Upcoming events</summary>
         <div class="nav-dd-menu">
-          <a href="#">SIS Malaysia 2026</a>
+          <a href="https://thegyn.org/sism-2026/">SIS Malaysia 2026</a>
         </div>
       </details>
     </li>
-    <li><a href="#">About us</a></li>
-    <li><a href="#">Contact us</a></li>
+    <li><a href="https://thegyn.org/about-us/">About us</a></li>
+    <li><a href="https://thegyn.org/contact-us/">Contact us</a></li>
   </ul>
   <a class="nav-cta" href="#tickets">Book forum access, $199</a>
   <button class="theme-btn" id="theme-btn" aria-label="Switch to dark theme">&#9788;</button>
+  <button class="nav-burger" id="nav-burger" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links-list">&#9776;</button>
 </nav>
 
 <!-- HERO -->
@@ -438,7 +469,7 @@ footer{background:var(--c-ink);color:var(--c-paper);padding:3rem var(--gut) 2rem
           <div class="lu-item"><dt>City</dt><dd>Kuala Lumpur</dd></div>
           <div class="lu-item"><dt>Venue</dt><dd>Teedo Hotel, KL</dd></div>
           <div class="lu-item"><dt>Co-hosted by</dt><dd>UNU Global Health</dd></div>
-          <div class="lu-item"><dt>Seats</dt><dd>100 confirmed</dd></div>
+          <div class="lu-item"><dt>Seats</dt><dd>100 seats</dd></div>
         </dl>
         <!-- Primary CTA above the fold -->
         <a class="hero-cta" href="#tickets">Book forum access, $199</a>
@@ -458,14 +489,14 @@ footer{background:var(--c-ink);color:var(--c-paper);padding:3rem var(--gut) 2rem
     <!-- sticker field: aria-hidden, no tab stop. Decorative duplicates of facts also in the lineup above.
          Positions chosen to avoid H1 letter coverage: all stickers start in right column,
          render margins, or below the H1 text block. Dragging over H1 is fine. -->
+    <!-- sticker-field: RT-016 moved 19-22 Nov to hero-media area (below fact table);
+         RT-041 removed stale "Results 16 Oct"; RT-021 removed "Free sightseeing" (scholarship-only perk) -->
     <div class="sticker-field" aria-hidden="true">
-      <div class="sticker sticker--pill   sticker--cya" data-sticker style="left:62%;top:3%">19-22 Nov 2026</div>
+      <div class="sticker sticker--pill   sticker--cya" data-sticker style="left:55%;top:68%">19-22 Nov 2026</div>
       <div class="sticker sticker--circle sticker--mag" data-sticker style="left:87%;top:10%">$1,000<br>seed grant</div>
-      <div class="sticker sticker--circle sticker--fla" data-sticker style="left:82%;top:40%">Results<br>16 Oct</div>
-      <div class="sticker sticker--star   sticker--yel" data-sticker style="left:55%;top:58%">100<br>seats</div>
+      <div class="sticker sticker--star   sticker--yel" data-sticker style="left:62%;top:58%">100<br>seats</div>
       <div class="sticker sticker--pill   sticker--grn" data-sticker style="left:3%;top:68%">APU campus visit</div>
       <div class="sticker sticker--star   sticker--mag" data-sticker style="left:68%;top:75%">KL,<br>Malaysia</div>
-      <div class="sticker sticker--circle sticker--yel" data-sticker style="left:87%;top:72%">Free<br>sightseeing</div>
     </div>
 
     <div class="hero-media">
@@ -855,10 +886,10 @@ footer{background:var(--c-ink);color:var(--c-paper);padding:3rem var(--gut) 2rem
 <section class="section section--navy" aria-labelledby="apu-h">
   <div class="wrap">
     <h2 class="sec-h" id="apu-h">APU CAMPUS VISIT</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
+    <div class="apu-grid">
       <div>
-        <img src="assets/gallery/fmst-dsc02243-1.webp"
-          alt="Delegates at a GYN event" style="width:100%;aspect-ratio:4/3;object-fit:cover;margin-bottom:1.25rem">
+        <img src="assets/venue/apu-asia-pacific-university.webp"
+          alt="Asia Pacific University campus, Kuala Lumpur, Malaysia" style="width:100%;aspect-ratio:4/3;object-fit:cover;margin-bottom:1.25rem">
         <p style="font-size:.9rem;line-height:1.7;opacity:.85">Experience an exclusive institutional visit to Asia Pacific University (APU), one of Malaysia's leading universities. Explore its academic environment and global learning community while connecting with fellow international delegates.</p>
         <p style="font-size:.9rem;margin-top:.75rem;opacity:.85">Delegates will also explore Petaling Street, GMBB KL, Petronas Twin Towers, KLCC Park and many other spots.</p>
       </div>
@@ -1065,19 +1096,19 @@ footer{background:var(--c-ink);color:var(--c-paper);padding:3rem var(--gut) 2rem
     <div class="foot-col">
       <h4>Quick links</h4>
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About us</a></li>
-        <li><a href="#">FMS Thailand</a></li>
-        <li><a href="#">SIS Malaysia 2026</a></li>
-        <li><a href="#">Contact us</a></li>
+        <li><a href="https://thegyn.org/">Home</a></li>
+        <li><a href="https://thegyn.org/about-us/">About us</a></li>
+        <li><a href="https://thegyn.org/fms-thailand/">FMS Thailand</a></li>
+        <li><a href="https://thegyn.org/sism-2026/">SIS Malaysia 2026</a></li>
+        <li><a href="https://thegyn.org/contact-us/">Contact us</a></li>
       </ul>
     </div>
     <div class="foot-col">
       <h4>Policies</h4>
       <ul>
-        <li><a href="#">Privacy policy</a></li>
-        <li><a href="#">Refund policy</a></li>
-        <li><a href="#">Terms and conditions</a></li>
+        <li><a href="https://thegyn.org/privacy-policy/">Privacy policy</a></li>
+        <li><a href="https://thegyn.org/refund-policy/">Refund policy</a></li>
+        <li><a href="https://thegyn.org/terms-conditions/">Terms and conditions</a></li>
       </ul>
     </div>
     <div class="foot-col">
@@ -1106,6 +1137,25 @@ footer{background:var(--c-ink);color:var(--c-paper);padding:3rem var(--gut) 2rem
 (function(){
   'use strict';
 
+  /* === MOBILE NAV (RT-014) === */
+  var burger = document.getElementById('nav-burger');
+  var navList = document.getElementById('nav-links-list');
+  if (burger && navList) {
+    burger.addEventListener('click', function(){
+      var open = navList.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.innerHTML = open ? '&#x2715;' : '&#9776;';
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && navList.classList.contains('open')) {
+        navList.classList.remove('open');
+        burger.setAttribute('aria-expanded','false');
+        burger.innerHTML = '&#9776;';
+        burger.focus();
+      }
+    });
+  }
+
   /* === THEME TOGGLE === */
   var btn = document.getElementById('theme-btn');
   btn.addEventListener('click', function(){
@@ -1132,13 +1182,18 @@ footer{background:var(--c-ink);color:var(--c-paper);padding:3rem var(--gut) 2rem
 
   /* === REDUCED MOTION: disable video autoplay and sticker drag === */
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) {
+  /* RT-018: on mobile (< 768px) show poster only — 1.6 MB video not worth it on small screens */
+  var isMobile = window.matchMedia('(max-width:767px)').matches;
+
+  if (reduced || isMobile) {
     var rvid = document.getElementById('render-vid');
-    if (rvid) { rvid.removeAttribute('autoplay'); rvid.pause && rvid.pause(); }
+    var rimg = rvid ? rvid.nextElementSibling : null;
+    if (rvid) { rvid.style.display = 'none'; }
+    if (rimg && rimg.tagName === 'IMG') { rimg.style.display = 'block'; }
   }
 
   /* === VIDEO PLAY/PAUSE on IntersectionObserver === */
-  if (!reduced && !isSafari) {
+  if (!reduced && !isSafari && !isMobile) {
     var renderVid = document.getElementById('render-vid');
     if (renderVid && 'IntersectionObserver' in window) {
       var rvObs = new IntersectionObserver(function(entries){
@@ -1187,21 +1242,24 @@ footer{background:var(--c-ink);color:var(--c-paper);padding:3rem var(--gut) 2rem
       var lastLeft = 0, lastTop = 0;
       var prevLeft = 0, prevTop = 0;
 
-      function getLeft(){ return parseFloat(el.style.left) || 0; }
-      function getTop() { return parseFloat(el.style.top)  || 0; }
-
       el.addEventListener('pointerdown', function(e){
         e.preventDefault();
         isDragging = true;
         el.setPointerCapture(e.pointerId);
         el.style.transition = 'none'; // disable spring while dragging
         el.style.zIndex = '30';
+        /* RT-013: convert % position to px on first drag via getBoundingClientRect */
+        var field = el.closest('.sticker-field') || el.parentElement;
+        var fr = field.getBoundingClientRect();
+        var er = el.getBoundingClientRect();
+        el.style.left = (er.left - fr.left) + 'px';
+        el.style.top  = (er.top  - fr.top)  + 'px';
+        startLeft = parseFloat(el.style.left);
+        startTop  = parseFloat(el.style.top);
+        lastLeft  = startLeft; lastTop = startTop;
+        prevLeft  = startLeft; prevTop = startTop;
         startCX = e.clientX;
         startCY = e.clientY;
-        startLeft = getLeft();
-        startTop  = getTop();
-        prevLeft  = startLeft;
-        prevTop   = startTop;
       });
 
       el.addEventListener('pointermove', function(e){

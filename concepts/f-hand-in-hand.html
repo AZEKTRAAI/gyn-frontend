@@ -394,10 +394,11 @@ h3 { font-size: clamp(1rem, 1.8vw, 1.4rem); }
 .ticket-tag.closed .ticket-price { font-size: 1.5rem; }
 .ticket-tag.closed .ticket-incl  { display: none; }
 /* CLOSED stamp */
+/* RT-031: stamp at bottom so it does not overlay the price/name above it */
 .stamp-wrap {
-  position: absolute; inset: 0; display: flex;
-  align-items: center; justify-content: center; pointer-events: none;
-  border-radius: 4px; overflow: hidden;
+  position: absolute; left: 0; right: 0; bottom: 0.5rem;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
 }
 .stamp-text {
   border: 2.5px solid var(--crimson); color: var(--crimson);
@@ -593,7 +594,8 @@ footer ul { list-style: none; }
 footer li { margin-bottom: 0.3rem; }
 footer a { text-decoration: none; color: rgba(255,255,255,0.6); font-size: 0.8rem; transition: color 0.15s; }
 footer a:hover { color: var(--ember); }
-.f-logo { height: 38px; width: auto; margin-bottom: 0.85rem; }
+/* RT-017: navy logo on dark navy footer → invert to white */
+.f-logo { height: 38px; width: auto; margin-bottom: 0.85rem; filter: brightness(0) invert(1); }
 .socials { display: flex; gap: 0.6rem; margin-top: 1rem; }
 .socials a {
   width: 32px; height: 32px; border-radius: 50%;
@@ -652,6 +654,25 @@ footer a:hover { color: var(--ember); }
 @media (prefers-reduced-motion: reduce) {
   .collage-photo, .ribbons-wrap { transition: none !important; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ===== RT-005: mobile — text first, collage stacked below, no overlap ===== */
+@media (max-width: 767px) {
+  .hero { flex-direction: column; min-height: unset; align-items: stretch; }
+  .hero-content {
+    order: 0; position: relative; z-index: 5;
+    padding: 2.5rem 1.25rem 1.5rem; max-width: 100%;
+  }
+  /* collage-field leaves absolute flow so it stacks as a flex child below text */
+  .collage-field {
+    order: 1; position: relative;
+    width: 100%; height: 56vw; min-height: 180px;
+    overflow: hidden;
+  }
+  .p1 { width: 100%; height: 100%; right: 0; left: 0; top: 0; }
+  .p2, .p3, .p4, .p5 { display: none; }
+  /* RT-035: hide strip and fixed toggle on mobile */
+  .tape-strip, .sticker, .hero-ribbon-svg, .theme-toggle { display: none; }
 }
 </style>
 </head>
@@ -736,10 +757,10 @@ footer a:hover { color: var(--ember); }
     <div class="tape-strip" style="--r:-5deg; right:4%; top:57%"></div>
     <div class="tape-strip" style="--r:15deg; right:57%; top:65%"></div>
 
-    <!-- Sticker labels (real facts) -->
+    <!-- Sticker labels — RT-002: KL and 100-seats moved below all photos (top>88%) to clear photo surfaces -->
     <div class="sticker s-crimson" style="--r:-2.5deg; right:44%; top:20%">19&ndash;22 Nov</div>
-    <div class="sticker" style="--r:1.8deg; right:26%; top:62%">Kuala Lumpur</div>
-    <div class="sticker s-leaf" style="--r:-1.2deg; right:5%; top:54%">100 seats</div>
+    <div class="sticker" style="--r:1.8deg; right:26%; top:86%">Kuala Lumpur</div>
+    <div class="sticker s-leaf" style="--r:-1.2deg; right:5%; top:82%">100 seats</div>
 
     <!-- Ribbons Blender render — four coloured ribbons weaving like hands holding hands -->
     <div class="ribbons-wrap" id="ribbonsWrap" data-depth="0.2">
@@ -896,7 +917,7 @@ footer a:hover { color: var(--ember); }
         </div>
         <div class="summit-grant">
           <div class="grant-amount">$1,000 seed grant</div>
-          <p>The best team project wins a $1,000 seed grant to launch their idea.</p>
+          <p>Participants compete for a $1,000 seed grant to support innovative projects and social impact initiatives.</p>
         </div>
         <div class="apu-wrap">
           <img src="assets/venue/apu-asia-pacific-university.webp"
@@ -1010,7 +1031,7 @@ footer a:hover { color: var(--ember); }
 <section class="section section-crimson" id="past" aria-labelledby="past-h2">
   <div class="section-inner">
     <h2 class="section-h2" id="past-h2">From Bangkok to Kuala Lumpur</h2>
-    <p class="section-sub">Our first summit proved the model. The next chapter starts 19 November.</p>
+    <p class="section-sub">FMS Thailand, Bangkok, July 2026. The next chapter starts 19 November.</p>
     <div class="scrap-spread">
 
       <!-- FMS Thailand scrapbook page -->
@@ -1025,7 +1046,7 @@ footer a:hover { color: var(--ember); }
           <img src="assets/gallery/fmst-dsc01989-1.webp" alt="Speakers at FMS Thailand">
         </div>
         <h3 class="scrap-h3">FutureMinds Summit Thailand</h3>
-        <p class="scrap-meta">16&ndash;19 July 2026, Le Srivaree Suvarnabhumi Hotel, Bangkok &nbsp;&bull;&nbsp; Over 70 delegates &nbsp;&bull;&nbsp; 12 speakers</p>
+        <p class="scrap-meta">16&ndash;19 July 2026, Le Srivaree Suvarnabhumi Hotel, Bangkok, over 70 delegates, 12 speakers</p>
         <div class="video-row">
           <button class="v-thumb" data-vid="Aqqo3cL4W6w" data-title="Future Minds Summit 2026 - Day 1 Highlights" data-cat="highlights" aria-label="Play: Future Minds Summit 2026 Day 1 Highlights">
             <img src="assets/video/Aqqo3cL4W6w.jpg" alt="Day 1 highlights thumbnail">
@@ -1050,7 +1071,7 @@ footer a:hover { color: var(--ember); }
         <p class="next-venue">Teedo Hotel, Kuala Lumpur, Malaysia</p>
         <img class="next-img" src="assets/events/sism-2026-call-for-applications.webp"
              alt="SISM 2026 call for applications banner">
-        <p class="next-seats">100 confirmed seats available</p>
+        <p class="next-seats">100 seats available</p>
         <a href="https://thegyn.org/sism-2026/" class="next-cta">See SISM 2026</a>
       </div>
 
@@ -1118,7 +1139,7 @@ footer a:hover { color: var(--ember); }
 <section class="section section-flame" id="board" aria-labelledby="board-h2">
   <div class="section-inner">
     <h2 class="section-h2" id="board-h2">Global advisory board</h2>
-    <p class="section-sub">Eight advisors from eight countries shaping GYN&rsquo;s direction.</p>
+    <p class="section-sub">Eight advisors shaping GYN&rsquo;s direction.</p>
     <div class="photo-prints" role="list">
 
       <div class="photo-print" style="--rot:1.9deg;--tape-r:-2deg;" role="listitem">

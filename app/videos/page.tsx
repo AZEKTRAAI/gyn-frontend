@@ -5,6 +5,7 @@
  * Closing removes the param. Keyboard: Enter/Space on card opens; Esc closes.
  */
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { cms } from '@/lib/cms'
 import { VideosClient } from './_client'
 
@@ -47,7 +48,20 @@ export default async function VideosPage() {
           <p style={{ fontSize: '0.9375rem', color: 'rgba(255,255,255,.65)', marginBottom: '2.5rem' }}>
             Highlights, speaker sessions, and delegate testimonials from GYN summits.
           </p>
-          <VideosClient videos={videos} />
+          {/* VideosClient reads ?v= from the URL, so it renders client-side; the fallback keeps the list in the static HTML */}
+          <Suspense
+            fallback={
+              <ul>
+                {videos.map((v) => (
+                  <li key={v.youtubeId}>
+                    <a href={`https://www.youtube.com/watch?v=${v.youtubeId}`} style={{ color: 'var(--white)' }}>{v.title}</a>
+                  </li>
+                ))}
+              </ul>
+            }
+          >
+            <VideosClient videos={videos} />
+          </Suspense>
         </div>
       </section>
     </main>

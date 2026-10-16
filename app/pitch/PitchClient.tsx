@@ -30,35 +30,22 @@ function BeforeAfterSlider() {
 
   const clamp = (v: number) => Math.max(5, Math.min(95, v))
 
-  // Use refs for event handlers to avoid the useCallback circular dependency
-  const handlersRef = useRef({
-    move: (_ev: PointerEvent) => { void _ev },
-    up: () => {},
-  })
+  const startDrag = useCallback((e: React.PointerEvent) => {
+    ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+    dragging.current = true
+    const rect = containerRef.current?.getBoundingClientRect()
+    if (!rect) return
+    setPosition(clamp(((e.clientX - rect.left) / rect.width) * 100))
+  }, [])
 
-  const startDrag = useCallback(
-    (e: React.PointerEvent) => {
-      const updateFromX = (clientX: number) => {
-        const rect = containerRef.current?.getBoundingClientRect()
-        if (!rect) return
-        setPosition(clamp(((clientX - rect.left) / rect.width) * 100))
-      }
-      handlersRef.current.move = (ev: PointerEvent) => {
-        if (!dragging.current) return
-        updateFromX(ev.clientX)
-      }
-      handlersRef.current.up = () => {
-        dragging.current = false
-        document.removeEventListener('pointermove', handlersRef.current.move)
-        document.removeEventListener('pointerup', handlersRef.current.up)
-      }
-      dragging.current = true
-      updateFromX(e.clientX)
-      document.addEventListener('pointermove', handlersRef.current.move)
-      document.addEventListener('pointerup', handlersRef.current.up)
-    },
-    [],
-  )
+  function onDragMove(e: React.PointerEvent) {
+    if (!dragging.current) return
+    const rect = containerRef.current?.getBoundingClientRect()
+    if (!rect) return
+    setPosition(clamp(((e.clientX - rect.left) / rect.width) * 100))
+  }
+
+  function onDragEnd() { dragging.current = false }
 
   function onKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'ArrowLeft') setPosition((p) => clamp(p - 2))
@@ -71,6 +58,9 @@ function BeforeAfterSlider() {
     <div
       ref={containerRef}
       onPointerDown={startDrag}
+      onPointerMove={onDragMove}
+      onPointerUp={onDragEnd}
+      onPointerCancel={onDragEnd}
       style={{
         position: 'relative',
         userSelect: 'none',
@@ -79,6 +69,7 @@ function BeforeAfterSlider() {
         aspectRatio: '1440/900',
         width: '100%',
         background: '#111',
+        touchAction: 'none',
       }}
       aria-label="Before and after slider"
     >
@@ -232,56 +223,59 @@ function AnimatedCounter({ to, suffix = '' }: { to: number; suffix?: string }) {
 // ─── Issues list (real live-site findings from crawl of thegyn.org, 15 Oct 2026) ──
 // Sources: docs/live-site-findings.md. Each item maps to a numbered finding.
 
+// Sources: docs/live-site-findings.md — Problem column verbatim, Evidence column as source.
 const LIVE_ISSUES = [
   {
     sev: 'Accessibility',
-    text: 'Brand yellow #FEFF00 on white scores 1.08:1. WCAG AA requires 4.5:1 for text. The colour appears in buttons and headings across the site.',
-    source: 'design/palette.md contrast checks',
+    text: 'The brand yellow #FEFF00 on white is 1.08:1. WCAG AA needs 4.5:1 for text. It isn’t in the logo either.',
+    source: 'design/palette.md (computed with design/contrast.py); logo pixel count in the same file',
   },
   {
     sev: 'Conversion',
-    text: 'Both countdown timers show 00:00:00:00 after the 11 Oct deadline, yet the button still reads "Apply now". Visitors see a stale clock and a CTA that leads to the scholarship section.',
-    source: 'Crawl, thegyn.org, 15 Oct 2026',
+    text: 'Both countdowns expired on 11 Oct and show 00:00:00:00, while the home "APPLY NOW" button still links to the summit page.',
+    source: 'content/pages/home.md crawl note (line ~251), content/pages/sism-2026.md crawl note (line ~442)',
   },
   {
     sev: 'Trust',
-    text: 'The summit page "APPLY NOW" jumps to the scholarship section, where both cards now say "CLOSED NOW". The call to action leads to a closed section.',
-    source: 'Crawl, thegyn.org/sism-2026/',
+    text: 'The SISM hero\'s "APPLY NOW" jumps to the scholarship section, where both cards now say "CLOSED NOW". Applicants follow the call to action into a dead end.',
+    source: 'content/pages/sism-2026.md crawl notes (lines ~442–443)',
   },
   {
     sev: 'Revenue',
-    text: 'Forum Access is $199 on the public page, $249 in the Meta Pixel event, and $170 on a hidden form (sism-2026-application-form) with no CAPTCHA. Three prices for one product.',
-    source: 'Crawl, thegyn.org/sism-2026-application-form/',
+    text: 'Forum Access has three prices: $199 on the page, $249 sent to the Meta Pixel as the lead value, and $170 on an unlinked "discounted" form with no CAPTCHA. Self Funded is likewise $399 on the page and $449 in the pixel.',
+    source: 'content/pages/sism-2026.md; live HTML of /sism-2026/ fbq(\'track\', \'Lead\', { value: 249 … }); content/pages/sism-2026-application-form.md notes (lines ~74, ~80)',
   },
   {
     sev: 'Content',
-    text: 'Results date is 16 Oct in the FAQ and 15 Oct on the thank-you page. Applicants watching both see conflicting information on the most-watched date of the cycle.',
-    source: 'Crawl, FAQ vs. thank-you page',
+    text: 'The scholarship results date is 16 Oct in the FAQ and 15 Oct on the thank-you page.',
+    source: 'content/pages/sism-2026.md line ~398; content/pages/thank-you-page.md lines 12 and 25',
   },
   {
     sev: 'Quality',
-    text: 'Five benefit items link to a broken URL (http://i%20class=fa-solid…). All four contact-page hero background images return 404. Two FMS speaker photos return 404.',
-    source: 'Crawl, thegyn.org/contact-us + /fms-thailand/',
+    text: 'Five benefit items link to a broken address (http://i%20class=fa-solid…), all four contact-page background images return 404, and two FMS speaker photos return 404.',
+    source: 'content/pages/sism-2026.md note (line ~444); content/pages/contact-us.md note (line ~49); content/pages/fms-thailand.md note (line ~217)',
   },
   {
     sev: 'Media',
-    text: 'Nine videos sit in default YouTube iframes across the site with no playlist filtering, no deep links, and no poster images. Every embed autoplays its own suggested-videos panel on end.',
-    source: 'Crawl, thegyn.org media pages',
+    text: 'Nine videos sit in default YouTube iframes with no filtering, deep links or shared player.',
+    source: 'content/media.json (9 videos); crawl of /sism-2026/ and /fms-thailand/',
   },
   {
     sev: 'Copy',
-    text: '"PARTIALLY SCHOLARSHIP", "Patronas Twin Tower", "Al" for AI, and a gender field listing sexual orientations (one misspelled "Hetrosexual"). All visible on registration forms.',
-    source: 'Crawl, thegyn.org registration forms',
+    text: 'Typos on the pages that take money: "PARTIALLY SCHOLARSHIP", "Patronas Twin Tower", "Al" for AI, and a gender field listing sexual orientations, one misspelled ("Hetrosexual").',
+    source: 'content/pages/sism-2026.md lines 88, 141, 340 and note (line ~449); content/pages/sism-forum-access.md lines 43–45',
   },
 ]
 
+// Colors chosen to pass 4.5:1 on white (WCAG AA). Orange/amber fail on white,
+// so Conversion/Revenue use crimson-600 and Content/Quality use n-700.
 const SEV_COLOURS: Record<string, string> = {
   Accessibility: '#C52035',
-  Conversion: '#F2692C',
+  Conversion: '#C52035',
   Trust: '#C52035',
-  Revenue: '#F2692C',
-  Content: '#D6A200',
-  Quality: '#D6A200',
+  Revenue: '#C52035',
+  Content: '#3F3F3C',
+  Quality: '#3F3F3C',
   Media: '#3A4C8C',
   Copy: '#48783F',
 }
@@ -398,10 +392,10 @@ export function PitchClient({ lhHomeMobile, lhHomeDesktop }: Props) {
               >
                 12.83:1
               </span>
-              <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.5 }}>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--white)', lineHeight: 1.5 }}>
                 Primary text contrast (navy on white). Live site yellow on white was 1.08:1.
               </p>
-              <p style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,.45)', marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '0.6875rem', color: 'var(--white)', marginTop: '0.5rem' }}>
                 Proven, design/palette.md
               </p>
             </div>
@@ -424,7 +418,7 @@ export function PitchClient({ lhHomeMobile, lhHomeDesktop }: Props) {
                 Issues found on the live site: accessibility, conversion, trust,
                 revenue, content, quality, media and copy.
               </p>
-              <p style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,.5)', marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '0.6875rem', color: 'var(--white)', marginTop: '0.5rem' }}>
                 Proven, crawl of thegyn.org, 15 Oct 2026
               </p>
             </div>
@@ -443,10 +437,10 @@ export function PitchClient({ lhHomeMobile, lhHomeDesktop }: Props) {
               >
                 <AnimatedCounter to={lhHomeMobile.perf} />
               </span>
-              <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.5 }}>
-                Lighthouse Performance (mobile). Desktop: <strong style={{ color: 'var(--white)' }}>{lhHomeDesktop.perf}</strong>.
+              <p style={{ fontSize: '0.8125rem', color: 'var(--white)', lineHeight: 1.5 }}>
+                Lighthouse Performance (mobile). Desktop: <strong>{lhHomeDesktop.perf}</strong>.
               </p>
-              <p style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,.45)', marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '0.6875rem', color: 'var(--white)', marginTop: '0.5rem' }}>
                 Production build, {lhHomeMobile.date}
               </p>
             </div>
@@ -465,10 +459,10 @@ export function PitchClient({ lhHomeMobile, lhHomeDesktop }: Props) {
               >
                 <AnimatedCounter to={lhHomeMobile.a11y} />
               </span>
-              <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.5 }}>
-                Lighthouse Accessibility (mobile). Desktop: <strong style={{ color: 'var(--white)' }}>{lhHomeDesktop.a11y}</strong>.
+              <p style={{ fontSize: '0.8125rem', color: 'var(--white)', lineHeight: 1.5 }}>
+                Lighthouse Accessibility (mobile). Desktop: <strong>{lhHomeDesktop.a11y}</strong>.
               </p>
-              <p style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,.45)', marginTop: '0.5rem' }}>
+              <p style={{ fontSize: '0.6875rem', color: 'var(--white)', marginTop: '0.5rem' }}>
                 Production build, {lhHomeMobile.date}
               </p>
             </div>
@@ -626,7 +620,7 @@ export function PitchClient({ lhHomeMobile, lhHomeDesktop }: Props) {
                   <p style={{ fontSize: '0.875rem', color: 'var(--n-700)', lineHeight: 1.55, marginBottom: '0.25rem' }}>
                     {issue.text}
                   </p>
-                  <p style={{ fontSize: '0.6875rem', color: 'var(--n-400)' }}>{issue.source}</p>
+                  <p style={{ fontSize: '0.6875rem', color: 'var(--n-700)' }}>{issue.source}</p>
                 </div>
               </li>
             ))}

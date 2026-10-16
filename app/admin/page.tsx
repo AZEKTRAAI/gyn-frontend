@@ -353,10 +353,11 @@ function StatCard({ value, label, sub }: { value: string; label: string; sub?: s
       <p
         style={{
           fontFamily: 'var(--fd)',
-          fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
+          fontSize: 'clamp(1.125rem, 3vw, 2.25rem)',
           color: 'var(--navy-900)',
           lineHeight: 1,
           marginBottom: '0.375rem',
+          overflowWrap: 'anywhere',
         }}
       >
         {value}
@@ -549,7 +550,7 @@ export default function AdminPage() {
           >
             Recent registrations
           </h2>
-          <div style={{ overflowX: 'auto' }}>
+          <div role="region" aria-label="Recent registrations table" tabIndex={0} style={{ overflowX: 'auto' }}>
             <table
               style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}
               aria-label="Recent registration records"
@@ -576,7 +577,7 @@ export default function AdminPage() {
                           fontWeight: 700,
                           padding: '0.125rem 0.4rem',
                           background: r.status === 'Confirmed' ? '#48783F' : '#D6A200',
-                          color: '#fff',
+                          color: r.status === 'Confirmed' ? '#fff' : '#0E1530',
                         }}
                       >
                         {r.status}

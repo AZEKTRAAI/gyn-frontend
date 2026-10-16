@@ -251,7 +251,7 @@ export default function AboutUsPage() {
               <div
                 key={sdg.id}
                 style={{
-                  background: 'rgba(255,255,255,.06)',
+                  background: 'transparent',
                   borderTop: `4px solid ${sdg.color}`,
                   padding: '1.75rem 1.25rem',
                 }}
@@ -259,7 +259,7 @@ export default function AboutUsPage() {
                 <span
                   style={{
                     fontFamily: 'var(--fd)',
-                    fontSize: 'clamp(1.25rem, 2.5vw, 1.75rem)',
+                    fontSize: 'clamp(1.5rem, 2.5vw, 1.75rem)',
                     color: sdg.color,
                     display: 'block',
                     marginBottom: '0.5rem',
@@ -302,8 +302,8 @@ export default function AboutUsPage() {
             <div>
               <DeckSlider items={advisoryItems} heading="Global advisory board" />
             </div>
-            {/* Accessible grid fallback */}
-            <div>
+            {/* Accessible grid fallback — visually hidden; DeckSlider's sr-only list serves ATs */}
+            <div style={{ display: 'none' }} aria-hidden="true">
               <ul
                 aria-label="Advisory board members"
                 style={{ listStyle: 'none' }}

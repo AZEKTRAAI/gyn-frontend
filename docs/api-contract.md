@@ -22,11 +22,11 @@ Responses:
 - `200 { checkoutUrl: string, reference: string }`. With `STRIPE_SECRET_KEY` set, `checkoutUrl` is a Stripe Checkout URL. Without it (local dev, the pitch demo) it is `/sism-2026/registered?ref=<reference>&ticket=<ticket>&demo=1`.
 - `400 { fieldErrors: Record<string, string[]> }` with paths like `details.email`.
 - `409 { error }` if the ticket is closed or sold out.
-- `429 { error }` rate limited (5 per 10 min per IP).
+- `429 { error }` rate limited: 20 per 10 min per IP (`reg:<ip>`) AND 3 per 10 min per email address (`reg:email:<email>`). Both limits must pass.
 - `500 { error }` with a human sentence, never a stack trace.
 
 ### `POST /api/webhooks/stripe`
-Raw body, `Stripe-Signature` header, verified with `features/payments/stripe.ts`. Handles `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed`, `charge.refunded`. Idempotent on event id (`WebhookEvent` table). Always `200` after a valid signature, `400` on a bad one.
+Raw body, `Stripe-Signature` header, verified with `features/payments/stripe.ts`. Handles `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed`, `charge.refunded`. DB transitions are idempotent; the webhook event is recorded AFTER full processing (including email) so that email failures cause Stripe to retry. Returns `500` on processing error (triggers Stripe retry), `200` on success or duplicate.
 
 ### `POST /api/contact`
 Request: `{ name, email, topic: "general" | "partnership" | "group-booking" | "media", message (10–2000 chars), turnstileToken? }`. Responses `200 { ok: true }`, `400 { fieldErrors }`, `429`.

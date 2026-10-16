@@ -1,6 +1,7 @@
 // Node runtime: uses Prisma Client and crypto (not available in Edge Runtime).
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const preferredRegion = "sin1"; // Neon Singapore; avoids cross-Pacific DB round-trips
 
 import { NextRequest, NextResponse } from "next/server";
 import { getRepo } from "@/lib/db.ts";
@@ -38,7 +39,15 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: { code: "INTERNAL_ERROR", message: "An unexpected error occurred." } }, { status: 500 });
   }
 
-  const { allowed } = await checkRateLimit(ip);
+  // Two independent rate limit checks: per-IP (campus groups) and per-email (individual spamming)
+  const ipLimit = await checkRateLimit(`reg:${ip}`, 20);
+  const rawEmail = typeof body === "object" && body !== null
+    ? ((body as Record<string, unknown>).details as Record<string, unknown> | undefined)?.email
+    : undefined;
+  const emailLimit = typeof rawEmail === "string" && rawEmail.length > 0
+    ? await checkRateLimit(`reg:email:${rawEmail.toLowerCase()}`, 3)
+    : { allowed: true, remaining: 3 };
+  const allowed = ipLimit.allowed && emailLimit.allowed;
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
   const repo = getRepo();

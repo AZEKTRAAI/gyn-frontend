@@ -18,7 +18,7 @@ export function getRepo(): Repo {
     return globalForDb._repo;
   }
 
-  // connection_limit=5 suits a serverless pooler (e.g. Supabase pgBouncer); increase for long-lived servers
+  // max:5 matches Neon's pooled connection limit recommendation for serverless; increase for long-lived servers.
   const pool = new Pool({ connectionString: process.env.DATABASE_URL, max: 5 });
   const adapter = new PrismaPg(pool);
   const prisma = new PrismaClient({ adapter });

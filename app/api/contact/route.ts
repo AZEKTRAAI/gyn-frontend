@@ -1,6 +1,7 @@
 // Node runtime: uses Prisma via getRepo().
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const preferredRegion = "sin1"; // Neon Singapore; avoids cross-Pacific DB round-trips
 
 import { NextRequest, NextResponse } from "next/server";
 import { getRepo } from "@/lib/db.ts";

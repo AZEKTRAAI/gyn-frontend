@@ -40,16 +40,34 @@ describe("reference generation", () => {
 // ---------------------------------------------------------------------------
 
 describe("rate limiter (in-memory)", () => {
-  it("allows up to 5 requests, blocks the 6th", async () => {
+  it("default max=5: allows 5, blocks 6th", async () => {
     const { checkRateLimit } = await import("./rate-limit.ts");
-    const testIp = `test-${Date.now()}-${Math.random()}`;
-
+    const key = `test-${Date.now()}-${Math.random()}`;
     for (let i = 1; i <= 5; i++) {
-      const { allowed } = await checkRateLimit(testIp);
+      const { allowed } = await checkRateLimit(key);
       assert.equal(allowed, true, `Request ${i} should be allowed`);
     }
-    const { allowed } = await checkRateLimit(testIp);
-    assert.equal(allowed, false, "6th request should be blocked");
+    assert.equal((await checkRateLimit(key)).allowed, false, "6th should be blocked");
+  });
+
+  it("max=20: allows 20, blocks 21st (registration IP limit)", async () => {
+    const { checkRateLimit } = await import("./rate-limit.ts");
+    const key = `reg:${Date.now()}-${Math.random()}`;
+    for (let i = 1; i <= 20; i++) {
+      const { allowed } = await checkRateLimit(key, 20);
+      assert.equal(allowed, true, `Request ${i} should be allowed`);
+    }
+    assert.equal((await checkRateLimit(key, 20)).allowed, false, "21st should be blocked");
+  });
+
+  it("max=3: allows 3, blocks 4th (registration email limit)", async () => {
+    const { checkRateLimit } = await import("./rate-limit.ts");
+    const key = `reg:email:test-${Date.now()}@example.com`;
+    for (let i = 1; i <= 3; i++) {
+      const { allowed } = await checkRateLimit(key, 3);
+      assert.equal(allowed, true, `Request ${i} should be allowed`);
+    }
+    assert.equal((await checkRateLimit(key, 3)).allowed, false, "4th should be blocked");
   });
 });
 
@@ -387,5 +405,24 @@ describe("security fixes", () => {
       if (origToken === undefined) delete process.env.UPSTASH_REDIS_REST_TOKEN;
       else process.env.UPSTASH_REDIS_REST_TOKEN = origToken;
     }
+  });
+
+  // Webhook email retry: confirmRegistration is idempotent (safe to replay)
+  it("confirmRegistration is idempotent — safe for Stripe webhook retry", async () => {
+    const { DemoStore } = await import("./repo.ts");
+    const { generateReference } = await import("./reference.ts");
+    const store = new DemoStore();
+    const ref = await generateReference("SISM", async () => false);
+    const reg = await store.createRegistration({
+      eventId: "sism-2026", ticketId: "demo-ticket-forum-access", ticketName: "Forum Access",
+      attendeeData: { email: "retry@example.com", fullName: "Retry User" },
+      finalAmountCents: 19900, reference: ref, idempotencyKey: `idem-${Date.now()}`,
+    });
+    // First confirm
+    await store.confirmRegistration(reg.id, reg.paymentId);
+    // Second confirm (Stripe retry) — must not throw
+    await store.confirmRegistration(reg.id, reg.paymentId);
+    const details = await store.getRegistrationDetails(reg.id);
+    assert.equal(details?.reference, ref, "Registration should still have the same reference after double-confirm");
   });
 });

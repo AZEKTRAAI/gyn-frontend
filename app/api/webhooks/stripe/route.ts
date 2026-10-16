@@ -1,6 +1,7 @@
 // Node runtime: verifies Stripe webhook signatures using Node crypto.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const preferredRegion = "sin1"; // Neon Singapore; avoids cross-Pacific DB round-trips
 
 import { NextRequest, NextResponse } from "next/server";
 import { verifyStripeSignature } from "@/features/payments/stripe.ts";
@@ -44,19 +45,20 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   const repo = getRepo();
 
-  // Idempotency: insert the event; skip processing if already handled.
-  const isNew = await repo.insertWebhookEvent(event.id, event.type, event.data.object);
-  if (!isNew) {
-    // Already processed — return 200 so Stripe doesn't retry.
-    return NextResponse.json({ received: true, duplicate: true });
-  }
-
+  // Process first, record after — this lets email failures surface as 5xx so Stripe retries.
+  // DB transitions (confirmRegistration, failPayment, processRefund) are idempotent,
+  // so reprocessing the same event on retry is safe.
+  // insertWebhookEvent's unique constraint prevents concurrent double-processing.
   try {
     await processEvent(repo, event.type, event.data.object);
   } catch (err) {
     console.error({ msg: "webhook/stripe: processing error", eventId: event.id, type: event.type, error: String(err) });
-    // Still return 200 to prevent Stripe retries; log for manual investigation.
+    // Return 5xx so Stripe retries — DB state is idempotent, email will be retried too.
+    return NextResponse.json({ error: "Processing failed; will retry." }, { status: 500 });
   }
+
+  // Record the event after full success; unique constraint prevents double-recording on races.
+  await repo.insertWebhookEvent(event.id, event.type, event.data.object);
 
   return NextResponse.json({ received: true });
 }

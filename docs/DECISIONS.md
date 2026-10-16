@@ -27,3 +27,11 @@ Newest at the bottom. Each entry: what, why, reversible?
 **D11. Facts corrected during QA.** Ambassadors cover 11 countries, not 12 (USA appears twice). Advisors and ambassadors together cover 17 countries. Shell expansion had stripped `$1`/`$3` from C's prices; fixed and re-checked in all four.
 
 **D12. three.js 0.160.0 via cdnjs UMD build in concept C.** It prints a deprecation warning (UMD builds are deprecated from r150). Fine for a throwaway concept; the real build uses React Three Fiber per the stack.
+
+## 2026-10-16 (overnight, Azam asleep)
+
+**D13. Pages are built in round-2 direction G, Deep Field, before the team vote.** Azam asked for all pages to be implemented overnight and no votes were in yet. G is the closest to the client's own reference (echochange.org: saturated blue, bright CTA), the most credible next to a UN co-host, passed QA most cleanly, and has the strongest render (glass globe). All colour/type lives in tokens and section components so switching to E, F or H is a re-skin, not a rebuild. Reversible.
+
+**D14. URLs match the live site** (`/sism-2026`, `/fms-thailand`, `/about-us`, `/contact-us`, policy pages, `/sism-forum-access` etc.) so existing links and search rankings survive the switch.
+
+**D15. No external accounts were created overnight.** No `.env.local` exists (no Cloudinary, Stripe, Resend, database or Vercel credentials) and there is no Vercel or GitHub CLI on this machine. Everything is built to run locally with stubs and test-mode code paths; deploy and real keys need Azam in the morning.

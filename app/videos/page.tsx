@@ -1,6 +1,6 @@
 /**
  * /videos — All 9 videos, filterable by category, deep-linkable via ?v=<youtubeId>.
- * Decision D26: videos page added; footer nav updated.
+ * Decision D43: videos page added; footer nav updated.
  * Opening a video sets ?v=youtubeId in the URL (replaceState, no reload).
  * Closing removes the param. Keyboard: Enter/Space on card opens; Esc closes.
  */

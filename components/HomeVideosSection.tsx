@@ -3,7 +3,7 @@
 /**
  * HomeVideosSection — wraps CoverflowVideos with an inline <dialog> player.
  * Opens on card activate; closes on Escape or backdrop click.
- * Decision D27: uses its own dialog rather than wrapping VideoModal to keep
+ * Decision D44: uses its own dialog rather than wrapping VideoModal to keep
  * state ownership local and avoid prop-drilling the dialog ref.
  */
 

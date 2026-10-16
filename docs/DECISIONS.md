@@ -91,3 +91,7 @@ Newest at the bottom. Each entry: what, why, reversible?
 **D41. Dev server port corrected to 3000.** The coordinator noted mid-build that the shared dev server is at localhost:3000, not 3200 as written in api-contract.md. All Playwright tests use 3000. api-contract.md was not edited (coordinator owns it per file ownership).
 
 **D42. @electric-sql/pglite skipped.** Investigated whether pglite + Prisma adapter could give a real in-process Postgres for CI tests. pglite does not yet publish a Prisma 7 adapter; the @electric-sql/prisma-generator requires a Prisma 5 client shape and its types are incompatible with Prisma 7's new adapter contract. Skip time exceeded 20 min; not installed permanently. Revisit when electric-sql publishes prisma-7 adapter support.
+
+**D43. New /videos page, linked from the footer.** The live site has no video page; the nine videos were scattered as bare iframes. /videos collects them with category filters and deep links (`?v=<youtubeId>`). It's an addition to the sitemap, not a change to existing URLs.
+
+**D44. Home videos use their own dialog player** (`components/HomeVideosSection.tsx`) instead of wrapping VideoModal, so the coverflow carousel and the player share state without prop drilling.

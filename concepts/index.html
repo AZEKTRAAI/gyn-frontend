@@ -49,6 +49,8 @@ header.top p { color: var(--ink-2); font-size: 18.5px; }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 24px; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.card.feature { grid-column: 1 / -1; }
+.card.feature .shot { aspect-ratio: 16 / 8; }
 .card.mine { border-color: var(--cta); box-shadow: 0 0 0 1px var(--cta); }
 .shot { display: block; aspect-ratio: 16 / 10; max-width: 100%; background: var(--chip) center top / cover no-repeat; border-bottom: 1px solid var(--line); position: relative; }
 .shot span { position: absolute; left: 14px; top: 14px; font-weight: 600; font-size: 14px; background: var(--surface); color: var(--ink); padding: 7px 11px; border-radius: 99px; }
@@ -98,9 +100,9 @@ code { font-size: .92em; background: var(--chip); padding: 1px 5px; border-radiu
 
 <div class="wrap">
   <header class="top">
-    <h1>Round 2: four new directions for GYN</h1>
-    <p>The client pointed us at echochange.org, so this round goes louder: solid colour blocks, the 17 SDG colours as the palette, real delegate photos up front, and 3D animation rendered in Blender (actual renders, not CSS effects). We also checked round 1 against a published list of what makes a site look AI-made, and built these four to avoid every item on it.</p>
-    <div class="facts"><span>Same content as the live site</span><span>Blender renders, 4 of them</span><span>No purple, no gradients, no glass</span><span>Pitch on Sunday 19 Oct</span></div>
+    <h1>Round 3: one direction, In Our Hands</h1>
+    <p>Round 2 still wasn't as striking as echochange.org, so we took that site apart first, then built one direction from three references: Apple for the structure, Peter Tarka for the 3D objects and Zhenya Rynzhuk for the type. The story fits in one line: seventeen goals, four in our hands, a hundred seats in Kuala Lumpur. Round 2 is still below if the team prefers one of those.</p>
+    <div class="facts"><span>8 new Blender renders</span><span>Mobile Lighthouse 93 in our test, theirs 22 to 26</span><span>Accessibility 100, axe clean</span><span>Pitch on Sunday 19 Oct</span></div>
   </header>
 
   <div class="tally" aria-live="polite">
@@ -118,8 +120,20 @@ code { font-size: .92em; background: var(--chip); padding: 1px 5px; border-radiu
     <ul class="notes-list" id="notes"></ul>
   </div>
 
+  <section class="block" aria-labelledby="research-h">
+    <h2 id="research-h">How In Our Hands beats echochange</h2>
+    <ul class="changes">
+      <li><strong>What echochange gets right:</strong> one confident colour (royal blue covers about a quarter of the page), big people photos, short copy, and a three-click apply flow with a checklist. We kept all four ideas.</li>
+      <li><strong>Where it is weak:</strong> its mobile Lighthouse score is 22 to 26, the largest image takes 10 to 12.5 seconds on a phone, accessibility scores 82 to 85, the hero is a flat PNG, and the design drifts from page to page. Full notes are in <code>docs/research/echochange-analysis.md</code>.</li>
+      <li><strong>Apple:</strong> a centred hero with one headline and one yellow button, generous spacing between sections, and a scroll scene where the SDG wheel lifts out the four goals GYN works on.</li>
+      <li><strong>Peter Tarka:</strong> soft, rounded objects with one key light on a single colour field. Each of the four goals gets its own: books for education, a balance for equality, gears for innovation, a leaf on a globe for climate.</li>
+      <li><strong>Zhenya Rynzhuk:</strong> roman and italic in the same headline, a type poster for the six things GYN does, and a visible grid for the programme. We left out her habit of hiding navigation, because it was her weakest score.</li>
+      <li><strong>Real content only:</strong> the 12 ambassadors with their countries, the real speakers, prices, dates and FMS Bangkok photos, all taken from the live site.</li>
+    </ul>
+  </section>
+
   <section class="block" aria-labelledby="changed-h">
-    <h2 id="changed-h">What changed from round 1</h2>
+    <h2 id="changed-h">Round 2 notes</h2>
     <ul class="changes">
       <li>The palette moved from navy and cream to full SDG colour: solid crimson, cyan, sun yellow, magenta, ocean blue and green blocks, with the logo's four hand colours at the centre.</li>
       <li>Each concept has a Blender render that means something for GYN: the SDG wheel, the four hands from the logo, a glass globe with 17 goal colours, and the GYN letters with stickers. On Safari and for anyone who turns motion off, they show as still images.</li>
@@ -158,6 +172,12 @@ code { font-size: .92em; background: var(--chip); padding: 1px 5px; border-radiu
 
 <script>
 const DIRECTIONS = [
+  { id: "i", name: "In Our Hands", href: "i-in-our-hands.html", feature: true, swatch: ["#eef2f6", "#0e1530", "#fcc30b", "#c5192d", "#ff3a21", "#fd6925", "#3f7e44"],
+    mood: "Seventeen goals, four in our hands. A calm Apple-style hero, then each of GYN's four goals gets a full screen in its own SDG colour with a Blender object, then the summit, programme, speakers and tickets.",
+    type: "Host Grotesk, with Bodoni Moda italic for the one word that matters",
+    render: "Eight Blender renders: the SDG wheel that lifts out goals 4, 5, 9 and 13 as you scroll, books, a balance, gears, a leaf on a globe, four hands holding the wheel, and the KL towers.",
+    persona: "Everyone: Amina applying on her phone, Daniel sharing it, Dr. Farah checking GYN is serious",
+    risk: "Calmer than echochange in the hero; the colour arrives in the four goal chapters." },
   { id: "e", name: "Full Spectrum", href: "e-full-spectrum.html", swatch: ["#ffffff", "#c52035", "#26bde2", "#fcc30b", "#4c9f38"],
     mood: "The page walks round the SDG wheel. Every section is a solid block in the next goal colour, and the headlines are huge and wide.",
     type: "Anybody (extra wide) and Atkinson Hyperlegible Next",
@@ -188,7 +208,7 @@ const $ = (s) => document.querySelector(s);
 const cards = $("#cards");
 for (const d of DIRECTIONS) {
   const el = document.createElement("article");
-  el.className = "card"; el.id = "card-" + d.id;
+  el.className = d.feature ? "card feature" : "card"; el.id = "card-" + d.id;
   el.innerHTML = `
     <a class="shot" href="${d.href}" style="background-image:url('assets/shots/${d.id}.webp')" aria-label="Open direction ${d.id.toUpperCase()} prototype"><span>Direction ${d.id.toUpperCase()}</span></a>
     <div class="body">

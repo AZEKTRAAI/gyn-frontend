@@ -8,7 +8,10 @@
 <!-- Host Grotesk: contemporary variable grotesk, not Inter/Geist/Space Grotesk (reflex-reject). Bodoni Moda: Didone italic for the Rynzhuk serif-accent move — one word per headline only. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz@1,6..96&family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+<!-- fonts load without blocking first paint; text shows in the fallback until they arrive -->
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz@1,6..96&family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz@1,6..96&family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet"></noscript>
+<link rel="icon" href="data:,">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js" defer></script>
@@ -456,7 +459,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 <!-- NAV -->
 <nav class="nav" role="navigation" aria-label="Site navigation" id="site-nav">
   <a class="nav-logo" href="#" aria-label="Global Youth Network home">
-    <img src="assets/logos/gyn-logo.png" alt="GYN – Global Youth Network">
+    <img src="assets/logos/gyn-logo-80.webp" width="127" height="38" alt="GYN, Global Youth Network">
   </a>
   <ul class="nav-links" role="list">
     <li><a href="#">Home</a></li>
@@ -516,7 +519,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   <!-- wheel canvas: centred below headline, overlaps fold to pull eye down -->
   <div class="hero-wheel" id="hero-right" aria-hidden="true">
     <canvas id="hero-canvas" width="900" height="900"></canvas>
-    <img class="hero-poster"
+    <img class="hero-poster" fetchpriority="high"
       src="assets/r3/hero-wheel-poster.webp"
       alt=""
       id="hero-seq-poster">
@@ -529,11 +532,11 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
     <h2 class="ppl-hl split-h" id="ppl-h2">
       Global
       <span class="photo-pill" aria-hidden="true">
-        <img src="assets/gallery/fmst-dsc01881-1.webp" alt="">
+        <img src="assets/gallery/fmst-dsc01881-1.webp" alt="" loading="lazy">
       </span>
       Youth
       <span class="photo-pill" aria-hidden="true">
-        <img src="assets/gallery/fmst-dsc01976-1.webp" alt="">
+        <img src="assets/gallery/fmst-dsc01976-1.webp" alt="" loading="lazy">
       </span>
       Network
     </h2>
@@ -1094,7 +1097,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   <div class="container">
     <div class="footer-inner">
       <div class="f-brand">
-        <div class="f-logo-chip"><img class="f-logo" src="assets/logos/gyn-logo.png" alt="Global Youth Network"></div>
+        <div class="f-logo-chip"><img class="f-logo" src="assets/logos/gyn-logo-80.webp" loading="lazy" alt="Global Youth Network"></div>
         <p class="f-tagline">
           The Global Youth Network is a U.S. based organization that hosts international
           conferences to support the United Nations Sustainable Development Goals.

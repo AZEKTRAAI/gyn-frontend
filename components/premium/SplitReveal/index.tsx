@@ -27,6 +27,10 @@ export interface SplitRevealProps {
   /** Per-line stagger delay (ms). Default 70 */
   stagger?: number;
   className?: string;
+  /** id attribute for aria-labelledby wiring */
+  id?: string;
+  /** Inline styles on the wrapper element */
+  style?: React.CSSProperties;
 }
 
 export function SplitReveal({
@@ -35,6 +39,8 @@ export function SplitReveal({
   delay = 0,
   stagger = 70,
   className,
+  id,
+  style,
 }: SplitRevealProps) {
   const ref = useRef<HTMLElement>(null);
   // once:true — fires exactly once per section mount, not per paragraph
@@ -56,7 +62,7 @@ export function SplitReveal({
   // we render Tag normally and wrap inner spans with motion.
   return (
     // @ts-expect-error — dynamic tag; ref type is narrowed at runtime
-    <Tag ref={ref} className={className}>
+    <Tag ref={ref} className={className} id={id} style={style}>
       {lines.map((line, i) => (
         <span
           key={i}

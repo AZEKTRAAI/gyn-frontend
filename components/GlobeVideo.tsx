@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
+import { useMediaQuery } from '@/components/premium/useMediaQuery'
 
 /** Detect Safari: can't play webm transparency */
 function detectSafari() {
@@ -21,6 +22,8 @@ export function GlobeVideo() {
 
   const isSafari = detectSafari()
   const reducedMotion = detectReducedMotion()
+  // Below 768px: poster only, no video element, no download (brief task 1c)
+  const isMobile = !useMediaQuery('(min-width: 768px)')
 
   useEffect(() => {
     const video = videoRef.current
@@ -54,11 +57,11 @@ export function GlobeVideo() {
     return () => obs.disconnect()
   }, [])
 
-  // Poster only: Safari (no webm transparency), reduced motion, or server
-  const posterOnly = isSafari || reducedMotion
+  // Poster only: Safari (no webm), reduced motion, mobile (< 768px), or server
+  const posterOnly = isSafari || reducedMotion || isMobile
 
   return (
-    <div ref={wrapperRef} style={{ position: 'relative', width: 'min(100%, 500px)', aspectRatio: '1' }}>
+    <div ref={wrapperRef} style={{ position: 'relative', width: 'min(100%, 600px)', aspectRatio: '1' }}>
       {/* Real delegate photo behind / beside the globe (red team fix #4) */}
       {/* The poster image of the globe sits over the delegate photo */}
       <Image

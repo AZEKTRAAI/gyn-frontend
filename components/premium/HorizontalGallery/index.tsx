@@ -13,12 +13,13 @@
  *         No library code copied; MIT concept.
  */
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import {
   motion,
   useScroll,
   useTransform,
   useReducedMotion,
+  useMotionValue,
 } from 'motion/react';
 import { useMediaQuery } from '../useMediaQuery';
 
@@ -68,8 +69,21 @@ function StickyScrollGallery({ photos, heading }: HorizontalGalleryProps) {
     offset: ['start start', 'end end'],
   });
 
-  // Map scroll 0→1 to translateX 0 → -scrollDistance
-  // We use a CSS variable set on the track, driven by a motion value
+  // ResizeObserver-backed motion value so the track x recalculates on resize
+  // (window.innerWidth read at render time never updates — this fixes it)
+  const windowWidthMv = useMotionValue(typeof window !== 'undefined' ? window.innerWidth : 1440);
+  useEffect(() => {
+    const ro = new ResizeObserver(() => windowWidthMv.set(window.innerWidth));
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [windowWidthMv]);
+
+  const trackX = useTransform(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [scrollYProgress, windowWidthMv] as any,
+    ([progress, w]: number[]) =>
+      -(progress) * (cardCount - 1) * ((w) * (CARD_W_VW / 100) + CARD_GAP),
+  );
 
   // For the progress bar
   const barScaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
@@ -131,15 +145,7 @@ function StickyScrollGallery({ photos, heading }: HorizontalGalleryProps) {
             paddingInline: 'clamp(1.5rem, 5vw, 4rem)',
             alignItems: 'center',
             height: '100%',
-            x: useTransform(
-              scrollYProgress,
-              [0, 1],
-              [
-                0,
-                // Approximate pixel offset; recalculates per scroll naturally
-                -(cardCount - 1) * (window.innerWidth * (CARD_W_VW / 100) + CARD_GAP),
-              ],
-            ),
+            x: trackX,
             willChange: 'transform',
           }}
         >

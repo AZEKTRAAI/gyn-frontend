@@ -189,6 +189,10 @@ a { color: inherit; text-decoration: none; }
 
 /* === RESPONSIVE GRIDS === */
 /* These fix overflow on narrow viewports for inline-style grids in page.tsx */
+
+/* min-width:0 prevents grid children from overflowing their column */
+.hero-grid > * { min-width: 0; }
+
 @media (max-width: 768px) {
   .hero-grid { grid-template-columns: 1fr !important; }
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -203,6 +207,11 @@ a { color: inherit; text-decoration: none; }
   .summits-grid { grid-template-columns: 1fr !important; }
   .vid-grid { grid-template-columns: 1fr !important; }
   .ft-grid { grid-template-columns: 1fr 1fr !important; }
+  /* fms-thailand page grids */
+  .chap-row { grid-template-columns: 1fr !important; }
+  .sched-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .fmst-stats { grid-template-columns: repeat(2, 1fr) !important; }
+  .cta-grid { grid-template-columns: 1fr !important; }
 }
 @media (max-width: 480px) {
   .stats-grid { grid-template-columns: 1fr !important; }
@@ -210,3 +219,10 @@ a { color: inherit; text-decoration: none; }
   .spk-grid { grid-template-columns: 1fr !important; }
   .ft-grid { grid-template-columns: 1fr !important; }
 }
+
+/* Countdown: reduce gap and font on very small screens to prevent overflow */
+@media (max-width: 420px) {
+  .countdown { gap: 0.5rem !important; flex-wrap: wrap; }
+}
+/* scroll-padding so focused elements aren't hidden under the fixed header */
+html { scroll-padding-top: 4rem; }

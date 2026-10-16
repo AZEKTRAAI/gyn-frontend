@@ -29,6 +29,8 @@ export interface MagneticButtonProps {
   'aria-label'?: string;
   /** Extra class names for the inner content span */
   innerClassName?: string;
+  /** When set, renders a native <a> instead of <button> — preserves right-click / middle-click */
+  href?: string;
 }
 
 export function MagneticButton({
@@ -39,8 +41,9 @@ export function MagneticButton({
   type = 'button',
   disabled,
   'aria-label': ariaLabel,
+  href,
 }: MagneticButtonProps) {
-  const ref = useRef<HTMLButtonElement>(null);
+  const ref = useRef<HTMLButtonElement & HTMLAnchorElement>(null);
   const x = useSpring(0, SPRING);
   const y = useSpring(0, SPRING);
 
@@ -48,7 +51,7 @@ export function MagneticButton({
   const active = useMediaQuery('(hover: hover) and (pointer: fine)');
 
   const onMove = useCallback(
-    (e: React.PointerEvent<HTMLButtonElement>) => {
+    (e: React.PointerEvent) => {
       if (!active || !ref.current) return;
       const rect = ref.current.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
@@ -65,19 +68,34 @@ export function MagneticButton({
     y.set(0);
   }, [x, y]);
 
+  const sharedStyle = { x: active ? x : 0, y: active ? y : 0, display: 'inline-flex' };
+  const sharedMotion = { whileTap: { scale: 0.97 }, onPointerMove: onMove, onPointerLeave: onLeave };
+
+  if (href) {
+    return (
+      <motion.a
+        ref={ref as React.Ref<HTMLAnchorElement>}
+        href={href}
+        className={className}
+        aria-label={ariaLabel}
+        style={sharedStyle}
+        {...sharedMotion}
+      >
+        <span className={innerClassName}>{children}</span>
+      </motion.a>
+    );
+  }
+
   return (
     <motion.button
-      ref={ref}
+      ref={ref as React.Ref<HTMLButtonElement>}
       className={className}
       onClick={onClick}
       type={type}
       disabled={disabled}
       aria-label={ariaLabel}
-      style={{ x: active ? x : 0, y: active ? y : 0, display: 'inline-flex' }}
-      onPointerMove={onMove}
-      onPointerLeave={onLeave}
-      // Scale-down on press — Emil: 0.97 for subtle physical feedback
-      whileTap={{ scale: 0.97 }}
+      style={sharedStyle}
+      {...sharedMotion}
     >
       <span className={innerClassName}>{children}</span>
     </motion.button>

@@ -48,6 +48,7 @@ export function Countdown() {
 
   return (
     <div
+      className="countdown"
       style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}
       role="timer"
       aria-label="Time until summit opens on 19 November 2026"
@@ -60,7 +61,8 @@ export function Countdown() {
               suppressHydrationWarning
               style={{
                 fontFamily: 'var(--fd)',
-                fontSize: 'clamp(2.25rem, 4.5vw, 3.75rem)',
+                /* Krona One is very wide; floor raised to 1.75rem to prevent overflow at 360px */
+                fontSize: 'clamp(1.75rem, 4.5vw, 3.75rem)',
                 lineHeight: 1,
                 color: 'var(--yellow)',
                 minWidth: '2ch',
@@ -78,7 +80,7 @@ export function Countdown() {
               aria-hidden="true"
               style={{
                 fontFamily: 'var(--fd)',
-                fontSize: 'clamp(1.5rem, 3vw, 2.75rem)',
+                fontSize: 'clamp(1.25rem, 3vw, 2.75rem)',
                 color: 'rgba(255,255,255,.25)',
                 alignSelf: 'flex-start',
                 paddingTop: '0.1em',

@@ -3,6 +3,8 @@ import { Krona_One, Schibsted_Grotesk } from 'next/font/google'
 import './globals.css'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
+import { ViewTransitionStyles } from '@/components/premium/PageTransition'
+import { LenisScroll } from '@/components/LenisScroll'
 import { cms } from '@/lib/cms'
 
 /*
@@ -53,6 +55,8 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body>
+        <ViewTransitionStyles />
+        <LenisScroll />
         <a href="#main" className="sr-only focus:not-sr-only">
           Skip to main content
         </a>

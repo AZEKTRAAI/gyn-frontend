@@ -98,6 +98,12 @@ export function SiteFooter({ footer, socials }: Props) {
                   </Link>
                 </li>
               ))}
+              {/* D26: Videos page added to nav */}
+              <li>
+                <Link href="/videos" style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,.55)', transition: 'color 140ms ease' }}>
+                  Videos
+                </Link>
+              </li>
             </ul>
           </div>
 

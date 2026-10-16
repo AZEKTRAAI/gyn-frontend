@@ -104,6 +104,17 @@ Copy marked **[client]** comes verbatim from `content/`; copy marked **[ours]** 
 12. **Footer.** Real nav, policies, contact@thegyn.org, WhatsApp, socials from `content/sitemap.json`.
 
 ## 6. Beat echochange.org (from the analysis)
+Measured on their site (`docs/research/echochange-analysis.md`): mobile Lighthouse performance 22 to 26 with LCP 10 to 12.5 s, accessibility 82 to 85, CLS 0.2, 264 requests; the hero is one flattened 800px PNG; type and spacing drift across pages (H1 49 vs 55px, padding 40 to 100px, 7 font families on About); the summit page falls back to Arial, has no H1 and a dead countdown; mobile is a 15-screen straight stack with 14px light body text, 30px menu button and a header that scrolls away with the event button.
+
+Take the principle, not the look:
+- One home colour plus one rare action colour: our light field plus the yellow button, used only for booking.
+- Colour that carries meaning: each SDG chapter's colour is that goal's official colour.
+- Real crowds and a country on every person (ambassador and speaker chips carry the country name).
+- A dedicated booking page with "what's included" and a "before you begin" checklist (already in the app's registration flow).
+- Keep the booking button reachable: the nav pill stays on screen on mobile with the price in it.
+- Build the hero as real layers (canvas sequence + live text), never a flattened image.
+- One type system across every page, one section rhythm, 17px+ body text, 44px touch targets.
+
 - Match their saturation, beat their meaning: our colour fields are the SDG colours GYN actually works on, each paired with an object that says what the goal is.
 - Keep their best move (real young people up front) and do it with more craft: inline photo pills in a headline instead of a sticker collage.
 - Beat them on pacing: one idea per screen instead of many stacked widgets.

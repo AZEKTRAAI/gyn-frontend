@@ -8,6 +8,9 @@ import { type Speaker } from '@/components/premium/DeckSlider'
 import type { Tier } from '@/components/premium/TicketRail'
 import { SPEAKERS, LOGOS } from '@/features/media/media'
 
+// this page is static, so this is the build time; Countdown hydrates against it, then shows the live value
+const RENDERED_AT = Date.now()
+
 // Below-fold: code-split to reduce initial JS parse time
 const TicketRail = dynamic(() =>
   import('@/components/premium/TicketRail').then((m) => ({ default: m.TicketRail })),
@@ -137,7 +140,7 @@ export default async function Sism2026Page() {
               <p style={{ fontSize: 'clamp(.875rem,1.4vw,1.0625rem)', color: 'var(--white)', lineHeight: 1.65, marginBottom: '2rem', maxWidth: '52ch' }}>
                 100 seats, {sism.scholarships.total} scholarships. Join young leaders, innovators and professionals from around the world in Kuala Lumpur.
               </p>
-              <Countdown />
+              <Countdown serverNow={RENDERED_AT} />
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '2.5rem' }}>
                 <Link href="/sism-forum-access" className="btn btn-y">Book Forum Access, $199</Link>
                 <Link href="#tickets" className="btn btn-ow">See all tickets</Link>

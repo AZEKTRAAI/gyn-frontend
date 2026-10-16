@@ -10,8 +10,8 @@ interface Unit {
   label: string
 }
 
-function compute(): Unit[] {
-  const diff = Math.max(0, TARGET - Date.now())
+function compute(now: number): Unit[] {
+  const diff = Math.max(0, TARGET - now)
   const d = Math.floor(diff / 86_400_000)
   const h = Math.floor((diff % 86_400_000) / 3_600_000)
   const m = Math.floor((diff % 3_600_000) / 60_000)
@@ -24,36 +24,32 @@ function compute(): Unit[] {
   ]
 }
 
-export function Countdown() {
-  // Server renders real digits (as of build time) so the full-size numbers are part of the first paint;
-  // a "--" placeholder made the digits a late LCP candidate on mobile. The client corrects them on mount.
-  const [units, setUnits] = useState<Unit[]>(compute)
-  // suppressHydrationWarning keeps the build-time digits in the DOM; remounting once after hydration replaces them (RT-077)
-  const [hydrated, setHydrated] = useState(false)
+/**
+ * `serverNow` is the server's render time (build time for static pages). The first client render uses it too,
+ * so hydration matches the server HTML exactly; the effect then updates the same text nodes to the real time.
+ * That keeps the digits in the first paint (mobile LCP) without stale values (RT-077) or a remount (a late LCP).
+ */
+export function Countdown({ serverNow }: { serverNow: number }) {
+  const [units, setUnits] = useState<Unit[]>(() => compute(serverNow))
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setHydrated(true)
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUnits(compute())
-    const id = setInterval(() => setUnits(compute()), 1000)
+    setUnits(compute(Date.now()))
+    const id = setInterval(() => setUnits(compute(Date.now())), 1000)
     return () => clearInterval(id)
   }, [])
 
   return (
     <div
-      key={hydrated ? 'live' : 'build'}
       className="countdown"
       style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}
       role="timer"
       aria-label="Time until summit opens on 19 November 2026"
-      suppressHydrationWarning
     >
       {units.map((u, i) => (
         <Fragment key={u.label}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
             <span
-              suppressHydrationWarning
               style={{
                 fontFamily: 'var(--fd)',
                 /* Krona One is very wide; floor raised to 1.75rem to prevent overflow at 360px */

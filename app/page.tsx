@@ -36,6 +36,9 @@ import {
   PARTNERS,
 } from '@/features/media/media'
 
+// this page is static, so this is the build time; Countdown hydrates against it, then shows the live value
+const RENDERED_AT = Date.now()
+
 export const metadata: Metadata = {
   title: 'Global Youth Network – GYN',
   description:
@@ -147,7 +150,7 @@ export default async function HomePage() {
             <p style={{ fontSize: 'clamp(.875rem, 1.4vw, 1.0625rem)', color: 'rgba(255,255,255,.9)', lineHeight: 1.65, marginBottom: '2rem' }}>
               Join 100 young leaders, innovators, students and professionals from across the globe in Kuala Lumpur. Focused on SDGs 4, 5, 9 and 13.
             </p>
-            <Countdown />
+            <Countdown serverNow={RENDERED_AT} />
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '2.5rem' }}>
               {/* MagneticButton on primary CTA only (task 2) */}
               <MagneticCTA href="/sism-forum-access" className="btn btn-y">

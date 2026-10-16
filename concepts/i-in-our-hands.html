@@ -1,0 +1,1485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Global Youth Network – SDG Innovation Summit Malaysia 2026</title>
+<meta name="description" content="100 seats. Four days. Kuala Lumpur. Join GYN's SDG Innovation Summit Malaysia 2026, 19–22 November at Teedo Hotel, co-hosted by UNU Global Health.">
+<!-- Host Grotesk: contemporary variable grotesk, not Inter/Geist/Space Grotesk (reflex-reject). Bodoni Moda: Didone italic for the Rynzhuk serif-accent move — one word per headline only. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz@1,6..96&family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js" defer></script>
+<style>
+/*
+DEVIATIONS:
+1. sdg9-gears, sdg13-leaf, hands-wheel, kl-towers not yet rendered – chapters 9/13
+   show color-field only; closing uses #0E1530 with type. Graceful img.onerror hides box.
+2. ai-tells rule 15 (hero must have a real photo) is overridden by design-plan-final.md §2
+   (canvas sequence + live text). Real photos arrive in People section immediately below.
+3. Reveal animations start from visible state (opacity:1, transform:none); GSAP adds the
+   choreography on top – content is never gated on JS.
+*/
+
+/* tokens */
+:root {
+  --field:   #EEF2F6;
+  --ink:     #0E1530;
+  --navy:    #202F60;
+  --sdg4:    #C5192D;
+  --sdg5:    #FF3A21;
+  --sdg9:    #FD6925;
+  --sdg13:   #3F7E44;
+  --accent:  #FCC30B;
+  --crimson: #C52035;
+  --r:       28px;
+  --col:     1200px;
+  --sv:      clamp(80px,9vw,144px);
+  --sv-sm:   clamp(56px,7vw,112px);
+  --t-hero:  clamp(2.625rem,5.5vw,5rem);
+  --t-claim: clamp(2.25rem,4.5vw,4rem);
+  --t-h2:    clamp(1.875rem,3.5vw,3rem);
+  --t-lead:  clamp(1.1875rem,1.8vw,1.5rem);
+  --t-body:  clamp(1.0625rem,1.15vw,1.125rem);
+  --t-lbl:   0.875rem;
+  --ease:    cubic-bezier(0.16,1,0.3,1);
+  --ease-s:  cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Host Grotesk',system-ui,sans-serif;font-size:var(--t-body);font-weight:400;
+  line-height:1.55;color:var(--ink);background:var(--field);overflow-x:hidden}
+img,video,canvas{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:none;background:none}
+ul,ol{list-style:none}
+h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:balance}
+
+.container{width:100%;max-width:var(--col);margin:0 auto;padding:0 clamp(16px,4vw,48px)}
+.serif-i{font-family:'Bodoni Moda','Georgia',serif;font-style:italic;font-weight:400}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+/* skip link */
+.skip{position:absolute;top:-999px;left:16px;padding:8px 16px;background:var(--accent);
+  color:var(--ink);font-weight:600;border-radius:4px;z-index:9999}
+.skip:focus{top:8px}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:14px clamp(16px,4vw,48px);
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background 240ms var(--ease-s),box-shadow 240ms var(--ease-s)}
+.nav[data-s]{background:rgba(238,242,246,.96);box-shadow:0 1px 0 rgba(14,21,48,.08)}
+.nav-logo img{height:38px;width:auto}
+.nav-links{display:flex;align-items:center;gap:28px;font-size:var(--t-lbl);font-weight:500}
+.nav-links a{color:var(--navy);opacity:.72;transition:opacity 150ms}
+.nav-links a:hover,.nav-links a:focus{opacity:1}
+.nav-links a:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:2px}
+.nav-book{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--ink);
+  font-size:var(--t-lbl);font-weight:600;padding:10px 20px;border-radius:999px;
+  transition:transform 160ms var(--ease-s)}
+.nav-book:active{transform:scale(0.97)}
+.nav-book:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.nav-book .arr{transition:transform 240ms var(--ease)}
+.nav-book:hover .arr{transform:translateX(3px)}
+.nav-m-book{display:none;background:var(--accent);color:var(--ink);font-size:13px;font-weight:600;
+  padding:9px 16px;border-radius:999px}
+.nav-ham{display:none;flex-direction:column;gap:5px;padding:8px}
+.nav-ham span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;
+  transition:transform 200ms,opacity 200ms}
+.nav-drawer{display:none;position:fixed;inset:0;z-index:999;background:var(--field);
+  padding:76px 24px 40px;flex-direction:column;gap:4px}
+.nav-drawer.open{display:flex}
+.nav-drawer a{font-size:1.25rem;font-weight:500;padding:14px 0;
+  border-bottom:1px solid rgba(14,21,48,.1)}
+.nav-drawer .d-book{margin-top:24px;display:inline-block;background:var(--accent);color:var(--ink);
+  font-size:1rem;font-weight:600;padding:14px 28px;border-radius:999px;text-align:center}
+@media(max-width:767px){
+  .nav-links,.nav-book{display:none}
+  .nav-m-book,.nav-ham{display:flex}
+}
+
+/* hero */
+.hero{min-height:100svh;background:var(--field);display:grid;
+  grid-template-columns:1fr 1fr;align-items:center;padding-top:68px}
+.hero-text{padding:clamp(32px,5vw,72px) clamp(16px,4vw,56px);
+  display:flex;flex-direction:column;gap:24px;max-width:620px}
+.hero-h1{font-size:var(--t-hero);letter-spacing:-0.015em;line-height:1.05;
+  font-weight:600;color:var(--ink);text-wrap:balance}
+.hero-lead{font-size:var(--t-lead);color:var(--navy);line-height:1.38;font-weight:400}
+.hero-lead strong{font-weight:600;color:var(--ink)}
+.hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.btn-p{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--ink);
+  font-size:1rem;font-weight:600;padding:14px 28px;border-radius:999px;
+  transition:transform 160ms var(--ease-s)}
+.btn-p:active{transform:scale(0.97)}
+.btn-p .arr{transition:transform 240ms var(--ease)}
+.btn-p:hover .arr{transform:translateX(4px)}
+.btn-g{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--navy);
+  font-size:1rem;font-weight:500;padding:14px 24px;border-radius:999px;
+  border:1.5px solid rgba(32,47,96,.3);transition:border-color 160ms,transform 160ms var(--ease-s)}
+.btn-g:hover{border-color:var(--navy)}
+.btn-g:active{transform:scale(0.97)}
+.btn-p:focus-visible,.btn-g:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.hero-cd{font-size:var(--t-lbl);color:var(--navy);opacity:.65;
+  display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}
+.cd-unit{display:flex;flex-direction:column;align-items:center;min-width:34px}
+.cd-val{font-size:1.2rem;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.cd-sep{font-size:1.2rem;font-weight:300;padding-bottom:2px;align-self:flex-end}
+
+/* hero canvas side */
+.hero-right{position:relative;height:100svh;display:flex;align-items:center;
+  justify-content:center;overflow:hidden}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.hero-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  transition:opacity 500ms}
+.hero-right.canvas-rdy .hero-poster{opacity:0;pointer-events:none}
+
+@media(max-width:1023px){
+  .hero{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .hero-text{max-width:100%}
+}
+
+/* sections */
+.sec{padding:var(--sv) 0}
+.sec-sm{padding:var(--sv-sm) 0}
+.bg-field{background:var(--field)}
+.bg-white{background:#fff}
+.bg-ink{background:var(--ink);color:#fff}
+
+.sec-h2{font-size:var(--t-h2);letter-spacing:-0.008em;line-height:1.08;
+  font-weight:600;text-wrap:balance}
+
+/* people */
+.ppl{background:#fff;padding:var(--sv) 0}
+.ppl-hl{font-size:clamp(2.5rem,6vw,5.25rem);font-weight:600;letter-spacing:-0.018em;
+  line-height:1.0;display:flex;flex-wrap:wrap;align-items:center;gap:.15em;color:var(--ink)}
+.photo-pill{display:inline-flex;width:clamp(44px,5vw,68px);height:clamp(44px,5vw,68px);
+  border-radius:999px;overflow:hidden;border:2px solid var(--field);
+  vertical-align:middle;margin:0 .08em;flex-shrink:0;
+  transform:scale(0.6);transition:transform 500ms var(--ease)}
+.photo-pill.vis{transform:scale(1)}
+.photo-pill img{width:100%;height:100%;object-fit:cover}
+.ppl-desc{margin-top:28px;max-width:640px;font-size:var(--t-lead);
+  line-height:1.45;color:var(--navy)}
+.ppl-facts{margin-top:18px;display:flex;flex-wrap:wrap;gap:20px;
+  font-size:var(--t-lbl);font-weight:600;color:var(--crimson)}
+.ppl-facts span{color:var(--ink);font-weight:400}
+.ppl-strip{margin-top:48px;display:flex;gap:12px;overflow-x:auto;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+.ppl-strip::-webkit-scrollbar{display:none}
+.ppl-photo{flex-shrink:0;width:clamp(110px,16vw,180px);aspect-ratio:3/4;
+  border-radius:var(--r);overflow:hidden;scroll-snap-align:start;position:relative}
+.ppl-photo img{width:100%;height:100%;object-fit:cover}
+.ppl-name{position:absolute;bottom:0;left:0;right:0;padding:10px;
+  background:linear-gradient(to top,rgba(14,21,48,.72) 0%,transparent 100%); /* scrim */
+  color:#fff;font-size:11px;font-weight:500;opacity:0;transition:opacity 200ms}
+.ppl-photo:hover .ppl-name,.ppl-photo:focus-within .ppl-name{opacity:1}
+
+/* goals intro */
+.goals-intro{background:var(--field);padding:var(--sv-sm) 0 0}
+.goals-intro p{font-size:var(--t-lead);color:var(--navy);max-width:720px}
+
+/* sdg chapters */
+.sdg-wrap{position:relative}
+.sdg-ch{position:sticky;top:0;min-height:100svh;display:grid;
+  grid-template-columns:1fr 1fr;align-items:center;overflow:hidden;will-change:transform}
+.sdg-ch[data-s="4"]{background:var(--sdg4);color:#fff}
+.sdg-ch[data-s="5"]{background:var(--sdg5);color:var(--ink)}
+.sdg-ch[data-s="9"]{background:var(--sdg9);color:var(--ink)}
+.sdg-ch[data-s="13"]{background:var(--sdg13);color:#fff}
+.sdg-txt{padding:clamp(40px,6vw,80px) clamp(24px,4vw,64px);
+  display:flex;flex-direction:column;gap:18px}
+.sdg-tag{font-size:var(--t-lbl);font-weight:500;opacity:.65;letter-spacing:.02em}
+.sdg-claim{font-size:var(--t-claim);font-weight:600;letter-spacing:-0.012em;
+  line-height:1.06;text-wrap:balance}
+.sdg-sub{font-size:var(--t-lead);font-weight:400;line-height:1.38;opacity:.85}
+.sdg-media{position:relative;height:100svh;display:flex;align-items:center;
+  justify-content:center;overflow:hidden}
+.sdg-media video,.sdg-media img{width:100%;height:100%;object-fit:contain}
+
+/* sdg index bar (Rynzhuk, uppercase usage 1/3) */
+.sdg-idx{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:50;
+  display:flex;flex-direction:column;gap:10px;opacity:0;pointer-events:none;
+  transition:opacity 300ms}
+.sdg-idx.vis{opacity:1;pointer-events:auto}
+.sdg-idx-i{font-size:9px;font-weight:700;letter-spacing:.08em;
+  color:rgba(14,21,48,.3);writing-mode:vertical-rl;transform:rotate(180deg);
+  text-transform:uppercase;transition:color 300ms}
+.sdg-idx-i.on{color:var(--ink)}
+
+@media(max-width:1023px){
+  .sdg-ch{grid-template-columns:1fr;position:relative;top:auto;min-height:auto}
+  .sdg-media{height:55vw}
+  .sdg-idx{display:none}
+}
+
+/* what we do */
+.wwd{background:var(--field);padding:var(--sv) 0}
+.wwd-list{margin-top:48px;max-width:780px}
+.wwd-row{padding:20px 0;border-top:1px solid rgba(14,21,48,.1);cursor:pointer}
+.wwd-row:last-child{border-bottom:1px solid rgba(14,21,48,.1)}
+.wwd-row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wwd-nm{font-size:clamp(1.375rem,2.8vw,2.25rem);font-weight:600;letter-spacing:-0.01em;
+  color:var(--ink);display:flex;align-items:center;gap:12px;transition:color 200ms}
+.wwd-row:hover .wwd-nm,.wwd-row.on .wwd-nm{color:var(--crimson)}
+.wwd-dot{width:8px;height:8px;border-radius:50%;background:var(--crimson);flex-shrink:0;
+  opacity:0;transition:opacity 200ms;margin-top:2px}
+.wwd-row:hover .wwd-dot,.wwd-row.on .wwd-dot{opacity:1}
+.wwd-desc{max-height:0;overflow:hidden;font-size:var(--t-body);color:var(--navy);
+  line-height:1.55;transition:max-height 350ms var(--ease-s),padding-top 350ms}
+.wwd-row.on .wwd-desc{max-height:80px;padding-top:10px}
+.wwd-row:nth-child(2n) .wwd-nm{font-style:italic}
+
+/* summit bento */
+.summit{background:#fff;padding:var(--sv) 0}
+.bento{margin-top:48px;display:grid;grid-template-columns:repeat(6,1fr);
+  grid-auto-rows:minmax(160px,auto);gap:12px;grid-auto-flow:dense}
+/* tile spans: row1 span-4+span-2=6; row2 span-3+span-3=6; row3 span-2+span-2+span-2=6 → zero gaps */
+.bt{border-radius:var(--r);overflow:hidden;padding:24px;
+  display:flex;flex-direction:column;justify-content:flex-end}
+.bt-6{grid-column:span 6}.bt-4{grid-column:span 4}.bt-3{grid-column:span 3}.bt-2{grid-column:span 2}
+.bt-r2{grid-row:span 2}
+.bt-main{background:var(--ink);color:#fff;position:relative;min-height:260px}
+.bt-main .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.32}
+.bt-main .txt{position:relative;z-index:1}
+.bt-unu{background:var(--field)}
+.bt-grant{background:var(--accent);color:var(--ink)}
+.bt-apu{background:var(--navy);color:#fff}
+.bt-kl{background:var(--field);position:relative;overflow:hidden}
+.bt-date{background:var(--crimson);color:#fff}
+.bento-price{font-size:clamp(2rem,3.5vw,3.25rem);font-weight:600;letter-spacing:-0.02em;line-height:1}
+.bento-lbl{font-size:var(--t-lbl);font-weight:500;opacity:.65;margin-bottom:8px}
+.bento-h3{font-size:clamp(1.0625rem,1.8vw,1.375rem);font-weight:600;line-height:1.2;letter-spacing:-0.01em}
+.bento-body{font-size:12px;line-height:1.5;opacity:.78;margin-top:6px}
+.bento-logo{max-height:44px;width:auto;max-width:150px;margin-bottom:14px}
+.bento-apu{max-height:52px;width:auto;max-width:130px;margin-bottom:10px;
+  filter:brightness(0) invert(1)}
+.bt-kl-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.bt-kl-img.rdy{opacity:.55}
+
+@media(max-width:767px){
+  .bento{grid-template-columns:1fr 1fr}
+  .bt-6,.bt-4,.bt-3{grid-column:span 2}.bt-2{grid-column:span 1}
+}
+
+/* programme */
+.prog{background:var(--field);padding:var(--sv) 0}
+.prog-grid{margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(14,21,48,.15);border-left:1px solid rgba(14,21,48,.15)}
+.prog-day{border-right:1px solid rgba(14,21,48,.15);border-bottom:1px solid rgba(14,21,48,.15);
+  transition:background 200ms}
+.prog-day:hover{background:rgba(14,21,48,.035)}
+.prog-head{padding:20px 20px 12px;border-bottom:1px solid rgba(14,21,48,.12)}
+.prog-num{font-size:clamp(2.5rem,4.5vw,4.5rem);font-weight:300;letter-spacing:-0.03em;
+  line-height:1;color:var(--navy);opacity:.22}
+.prog-date{font-size:12px;font-weight:500;color:var(--navy);margin-top:2px}
+.prog-sessions{padding:14px 18px}
+.prog-item{font-size:12px;line-height:1.45;color:var(--navy);
+  padding:5px 0;border-bottom:1px solid rgba(14,21,48,.05)}
+.prog-item:last-child{border-bottom:none}
+@media(max-width:767px){
+  .prog-grid{grid-template-columns:1fr}
+}
+
+/* speakers */
+.spk{background:#fff;padding:var(--sv) 0}
+.spk-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-top:48px}
+.spk-list{display:flex;flex-direction:column}
+.spk-row{padding:16px 0;border-bottom:1px solid rgba(14,21,48,.09);
+  cursor:pointer;position:relative;outline:none}
+.spk-row:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.spk-nm{font-size:clamp(1.25rem,2.3vw,1.875rem);font-weight:600;letter-spacing:-0.01em;
+  line-height:1.1;color:var(--ink);transition:color 200ms}
+.spk-nm-ghost{font-size:clamp(1.25rem,2.3vw,1.875rem);font-weight:600;letter-spacing:-0.01em;
+  line-height:1.1;color:var(--ink);opacity:.18;
+  position:absolute;bottom:-18px;left:0;pointer-events:none}
+.spk-title{font-size:12px;color:var(--navy);opacity:.65;max-height:0;overflow:hidden;
+  transition:max-height 300ms var(--ease-s),padding-top 300ms}
+.spk-row.on .spk-title{max-height:56px;padding-top:5px}
+.spk-row:hover .spk-nm,.spk-row.on .spk-nm{color:var(--crimson)}
+.spk-photo-wrap{position:sticky;top:100px;aspect-ratio:3/4;border-radius:var(--r);
+  overflow:hidden;background:var(--field)}
+.spk-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  clip-path:inset(0 100% 0 0);transition:clip-path 500ms var(--ease)}
+.spk-img.on{clip-path:inset(0 0% 0 0)}
+@media(max-width:767px){
+  .spk-inner{grid-template-columns:1fr;gap:28px}
+  .spk-photo-wrap{position:static;aspect-ratio:4/3}
+  .spk-img{clip-path:inset(0 0 0 0)}
+  .spk-nm-ghost{display:none}
+}
+
+/* past summit */
+.past{background:var(--field);padding:var(--sv) 0}
+.vid-wrap{margin-top:36px;border-radius:var(--r);overflow:hidden;position:relative;
+  aspect-ratio:16/9;background:var(--ink);cursor:pointer}
+.vid-wrap img{width:100%;height:100%;object-fit:cover}
+.play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.play-inner{width:68px;height:68px;border-radius:50%;background:rgba(252,195,11,.95);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 200ms var(--ease-s)}
+.vid-wrap:hover .play-inner{transform:scale(1.1)}
+.play-inner svg{margin-left:4px}
+.past-strip{margin-top:16px;display:flex;gap:12px;overflow-x:auto;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+.past-strip::-webkit-scrollbar{display:none}
+.past-img{flex-shrink:0;width:clamp(160px,24vw,260px);aspect-ratio:4/3;
+  border-radius:var(--r);overflow:hidden;scroll-snap-align:start}
+.past-img img{width:100%;height:100%;object-fit:cover}
+.past-cap{font-size:12px;color:var(--navy);opacity:.55;margin-top:10px}
+
+/* tickets */
+.tix{background:var(--ink);color:#fff;padding:var(--sv) 0}
+.tix .sec-h2{color:#fff}
+.tix-lead{font-size:var(--t-lead);opacity:.65;margin-top:12px;max-width:560px}
+.tix-open{margin-top:44px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tix-card{border:1px solid rgba(255,255,255,.11);border-radius:var(--r);padding:28px 24px;
+  display:flex;flex-direction:column;gap:18px}
+.tix-price{font-size:clamp(2.5rem,4vw,3.5rem);font-weight:600;letter-spacing:-0.02em;line-height:1}
+.tix-old{font-size:var(--t-lead);font-weight:400;text-decoration:line-through;opacity:.38}
+.tix-nm{font-size:var(--t-lbl);font-weight:500;opacity:.55;margin-bottom:-10px}
+.tix-inc{font-size:12.5px;line-height:1.65;display:flex;flex-direction:column;gap:4px}
+.tix-inc li{color:rgba(255,255,255,.8)}
+.tix-inc li::before{content:"– ";opacity:.4}
+.tix-btn{display:block;text-align:center;background:var(--accent);color:var(--ink);
+  font-size:.9375rem;font-weight:600;padding:13px 20px;border-radius:999px;margin-top:auto;
+  transition:transform 160ms var(--ease-s)}
+.tix-btn:active{transform:scale(0.97)}
+.tix-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.tix-closed-row{margin-top:28px;border-top:1px solid rgba(255,255,255,.09);
+  padding-top:22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+/* uppercase: closed tier stamps — usage 2/3 */
+.tix-badge{font-size:11px;font-weight:600;padding:4px 12px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.38);
+  text-transform:uppercase;letter-spacing:.06em}
+.tix-closed-lbl{font-size:12.5px;color:rgba(255,255,255,.45)}
+@media(max-width:767px){.tix-open{grid-template-columns:1fr}}
+
+/* closing */
+.closing{background:var(--ink);color:#fff;padding:var(--sv) 0;position:relative;overflow:hidden}
+.closing-media{position:absolute;right:-4%;top:50%;transform:translateY(-50%);
+  width:48%;aspect-ratio:16/9;opacity:0;transition:opacity 600ms}
+.closing-media.rdy{opacity:.8}
+.closing-media video,.closing-media img{width:100%;height:100%;object-fit:contain}
+.closing-poster{font-size:clamp(14vw,14vw,14vw);line-height:.9;letter-spacing:-0.03em;
+  font-weight:600;color:#fff;position:relative;z-index:1;margin-bottom:36px}
+.closing-cta{position:relative;z-index:1}
+
+/* footer */
+.footer{background:var(--ink);color:rgba(255,255,255,.65);
+  border-top:1px solid rgba(255,255,255,.09);padding:52px 0 28px;font-size:var(--t-lbl)}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px}
+.f-brand{display:flex;flex-direction:column;gap:14px}
+.f-logo{height:34px;width:auto;filter:brightness(0) invert(1)}
+.f-tagline{font-size:13px;line-height:1.65;max-width:264px}
+.f-contact{display:flex;flex-direction:column;gap:5px;font-size:13px;color:rgba(255,255,255,.55)}
+.f-contact a{color:rgba(255,255,255,.7)}.f-contact a:hover{color:#fff}
+.f-col h4{font-size:var(--t-lbl);font-weight:600;color:#fff;margin-bottom:14px}
+.f-col ul{display:flex;flex-direction:column;gap:9px}
+.f-col a{color:rgba(255,255,255,.55);transition:color 150ms}.f-col a:hover{color:#fff}
+.f-bottom{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255,255,.07);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:10px;font-size:11.5px;color:rgba(255,255,255,.38)}
+.f-socials{display:flex;gap:18px}
+.f-socials a{color:rgba(255,255,255,.45);transition:color 150ms}.f-socials a:hover{color:#fff}
+@media(max-width:767px){
+  .footer-inner{grid-template-columns:1fr 1fr}
+  .f-brand{grid-column:span 2}
+  .f-bottom{flex-direction:column;align-items:flex-start}
+}
+
+/* modal */
+.modal-bg{display:none;position:fixed;inset:0;z-index:2000;
+  background:rgba(14,21,48,.92);align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal-box{width:90vw;max-width:720px;background:var(--ink);border-radius:var(--r);overflow:hidden}
+.modal-head{display:flex;align-items:center;justify-content:space-between;
+  padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.09)}
+.modal-ttl{color:#fff;font-size:1rem;font-weight:600}
+.modal-x{color:rgba(255,255,255,.55);font-size:1.25rem;transition:color 150ms;padding:4px}
+.modal-x:hover{color:#fff}
+.modal-body{padding:22px}
+.modal-thumb{width:100%;border-radius:8px;margin-bottom:14px}
+.modal-link{display:inline-flex;align-items:center;gap:8px;background:var(--accent);
+  color:var(--ink);font-size:.9375rem;font-weight:600;padding:12px 22px;border-radius:999px}
+
+/* split reveal: content starts visible, GSAP enhances */
+.split-h .line-w{overflow:hidden}.split-h .line-i{display:inline-block}
+
+/* prefers-reduced-motion */
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:50ms!important}
+  .hero-right{display:none!important}
+  .sdg-ch{position:relative!important;top:auto!important}
+  .photo-pill{transform:scale(1)!important}
+  .spk-img{clip-path:inset(0 0 0 0)!important}
+  .closing-media{opacity:.75!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<!-- NAV -->
+<nav class="nav" role="navigation" aria-label="Site navigation" id="site-nav">
+  <a class="nav-logo" href="#" aria-label="Global Youth Network home">
+    <img src="assets/logos/gyn-logo.png" alt="GYN – Global Youth Network">
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Past events</a></li>
+    <li><a href="#">Upcoming events</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <a class="nav-book" href="https://thegyn.org/sism-forum-access/" target="_blank" rel="noopener">
+    Book Forum Access, $199 <span class="arr" aria-hidden="true">&#8594;</span>
+  </a>
+  <a class="nav-m-book" href="https://thegyn.org/sism-forum-access/" target="_blank" rel="noopener">$199</a>
+  <button class="nav-ham" aria-label="Open menu" aria-expanded="false" id="nav-ham">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- mobile drawer -->
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true" role="dialog" aria-label="Navigation menu">
+  <a href="#" tabindex="-1">Home</a>
+  <a href="#" tabindex="-1">Past events</a>
+  <a href="#" tabindex="-1">Upcoming events</a>
+  <a href="#" tabindex="-1">About</a>
+  <a href="#" tabindex="-1">Contact</a>
+  <a class="d-book" href="https://thegyn.org/sism-forum-access/" target="_blank" rel="noopener" tabindex="-1">Book Forum Access, $199</a>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-h1">
+  <div class="hero-text">
+    <h1 class="hero-h1" id="hero-h1">
+      Seventeen goals.<br><em class="serif-i">Four</em> in our hands.
+    </h1>
+    <p class="hero-lead">
+      <strong>SDG Innovation Summit Malaysia 2026.</strong><br>
+      19 to 22 November, Teedo Hotel, Kuala Lumpur.<br>
+      Co-hosted by UNU Global Health.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-p" href="https://thegyn.org/sism-forum-access/" target="_blank" rel="noopener">
+        Book Forum Access, $199 <span class="arr" aria-hidden="true">&#8594;</span>
+      </a>
+      <a class="btn-g" href="#programme">See the programme</a>
+    </div>
+    <div class="hero-cd" aria-label="Countdown to summit" role="timer" aria-live="off">
+      <div class="cd-unit">
+        <span class="cd-val" id="cd-d">--</span>
+        <span>days</span>
+      </div>
+      <span class="cd-sep" aria-hidden="true">:</span>
+      <div class="cd-unit">
+        <span class="cd-val" id="cd-h">--</span>
+        <span>hrs</span>
+      </div>
+      <span class="cd-sep" aria-hidden="true">:</span>
+      <div class="cd-unit">
+        <span class="cd-val" id="cd-m">--</span>
+        <span>min</span>
+      </div>
+      <span class="cd-sep" aria-hidden="true">:</span>
+      <div class="cd-unit">
+        <span class="cd-val" id="cd-s">--</span>
+        <span>sec</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- canvas wheel sequence (desktop ≥1024px only) -->
+  <div class="hero-right" id="hero-right" aria-hidden="true">
+    <canvas id="hero-canvas" width="900" height="900"></canvas>
+    <!-- poster shows until sequence loads -->
+    <img class="hero-poster"
+      src="assets/r3/hero-wheel-poster.webp"
+      alt=""
+      id="hero-seq-poster">
+  </div>
+</section>
+
+<!-- PEOPLE -->
+<section class="ppl sec" aria-labelledby="ppl-h2">
+  <div class="container">
+    <h2 class="ppl-hl split-h" id="ppl-h2">
+      Global
+      <span class="photo-pill" aria-hidden="true">
+        <img src="assets/gallery/fmst-dsc01881-1.webp" alt="">
+      </span>
+      Youth
+      <span class="photo-pill" aria-hidden="true">
+        <img src="assets/gallery/fmst-dsc01976-1.webp" alt="">
+      </span>
+      Network
+    </h2>
+    <p class="ppl-desc">
+      Global Youth Network (GYN) is an international organization dedicated to
+      connecting and empowering young people worldwide. We bring together students,
+      professionals, and innovators to collaborate across borders, develop leadership
+      skills, and create meaningful global impact.
+    </p>
+    <div class="ppl-facts" role="list">
+      <div role="listitem"><strong>12</strong> <span>ambassadors in 11 countries</span></div>
+      <div role="listitem"><strong>8</strong> <span>global advisors</span></div>
+      <div role="listitem"><strong>12</strong> <span>FMS Thailand speakers</span></div>
+    </div>
+    <!-- delegate photo strip (FMS Bangkok, July 2026) -->
+    <div class="ppl-strip" role="list" aria-label="Delegate photos from FMS Bangkok, July 2026">
+      <div class="ppl-photo" role="listitem" tabindex="0">
+        <img src="assets/gallery/fmst-dsc01881-1.webp" alt="Delegates at FMS Bangkok, July 2026" loading="lazy">
+        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      </div>
+      <div class="ppl-photo" role="listitem" tabindex="0">
+        <img src="assets/gallery/fmst-dsc01894-1.webp" alt="Delegates at FMS Bangkok" loading="lazy">
+        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      </div>
+      <div class="ppl-photo" role="listitem" tabindex="0">
+        <img src="assets/gallery/fmst-dsc01945-1.webp" alt="FMS Bangkok session" loading="lazy">
+        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      </div>
+      <div class="ppl-photo" role="listitem" tabindex="0">
+        <img src="assets/gallery/fmst-dsc01960-1.webp" alt="FMS Bangkok workshop" loading="lazy">
+        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      </div>
+      <div class="ppl-photo" role="listitem" tabindex="0">
+        <img src="assets/gallery/fmst-dsc01976-1.webp" alt="FMS Bangkok delegates" loading="lazy">
+        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      </div>
+      <div class="ppl-photo" role="listitem" tabindex="0">
+        <img src="assets/gallery/fmst-dsc01989-1.webp" alt="FMS Bangkok group" loading="lazy">
+        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      </div>
+      <div class="ppl-photo" role="listitem" tabindex="0">
+        <img src="assets/gallery/fmst-dsc02120-1.webp" alt="FMS Bangkok activity" loading="lazy">
+        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      </div>
+      <div class="ppl-photo" role="listitem" tabindex="0">
+        <img src="assets/gallery/fmst-dsc02142-1.webp" alt="FMS Bangkok session" loading="lazy">
+        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      </div>
+      <div class="ppl-photo" role="listitem" tabindex="0">
+        <img src="assets/gallery/fmst-dsc02159-1.webp" alt="FMS Bangkok ceremony" loading="lazy">
+        <span class="ppl-name" aria-hidden="true">Bangkok, July 2026</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOALS INTRO -->
+<div class="goals-intro">
+  <div class="container">
+    <p>Four of the seventeen. The ones we work on.</p>
+  </div>
+</div>
+
+<!-- SDG INDEX (fixed sidebar) -->
+<nav class="sdg-idx" id="sdg-idx" aria-label="SDG chapters" aria-hidden="true">
+  <span class="sdg-idx-i" data-s="4">Education&#8308;</span>
+  <span class="sdg-idx-i" data-s="5">Equality&#8309;</span>
+  <span class="sdg-idx-i" data-s="9">Innovation&#8313;</span>
+  <span class="sdg-idx-i" data-s="13">Climate&#185;&#179;</span>
+</nav>
+
+<!-- SDG CHAPTERS -->
+<div class="sdg-wrap" id="sdg-wrap">
+
+  <!-- SDG 4 -->
+  <section class="sdg-ch" data-s="4" id="sdg4" aria-labelledby="sdg4-h2">
+    <div class="sdg-txt">
+      <p class="sdg-tag">SDG 4: Quality Education</p>
+      <h2 class="sdg-claim split-h" id="sdg4-h2">Learning that travels.</h2>
+      <p class="sdg-sub">Empowering through Quality Education.</p>
+    </div>
+    <div class="sdg-media" aria-hidden="true">
+      <!-- sdg4-books cove colour: #C5192D matches section bg -->
+      <video muted loop playsinline preload="none"
+        poster="assets/r3/sdg4-books-poster.webp"
+        data-src-webm="assets/r3/sdg4-books.webm"
+        data-src-mp4="assets/r3/sdg4-books.mp4"
+        class="sdg-vid"
+        aria-label="Books opening into stairs, representing quality education">
+        <img src="assets/r3/sdg4-books-poster.webp" alt="">
+      </video>
+    </div>
+  </section>
+
+  <!-- SDG 5 -->
+  <section class="sdg-ch" data-s="5" id="sdg5" aria-labelledby="sdg5-h2">
+    <div class="sdg-txt">
+      <p class="sdg-tag">SDG 5: Gender Equality</p>
+      <h2 class="sdg-claim split-h" id="sdg5-h2">Equal is the baseline.</h2>
+      <p class="sdg-sub">Breaking barriers for Gender Equality.</p>
+    </div>
+    <div class="sdg-media" aria-hidden="true">
+      <!-- sdg5-balance cove colour: #FF3A21 matches section bg -->
+      <video muted loop playsinline preload="none"
+        poster="assets/r3/sdg5-balance-poster.webp"
+        data-src-webm="assets/r3/sdg5-balance.webm"
+        data-src-mp4="assets/r3/sdg5-balance.mp4"
+        class="sdg-vid"
+        aria-label="Scales in balance, representing gender equality">
+        <img src="assets/r3/sdg5-balance-poster.webp" alt="">
+      </video>
+    </div>
+  </section>
+
+  <!-- SDG 9 -->
+  <section class="sdg-ch" data-s="9" id="sdg9" aria-labelledby="sdg9-h2">
+    <div class="sdg-txt">
+      <p class="sdg-tag">SDG 9: Industry, Innovation and Infrastructure</p>
+      <h2 class="sdg-claim split-h" id="sdg9-h2">Ideas need infrastructure.</h2>
+      <p class="sdg-sub">Driving Innovation &amp; Resilient Infrastructure.</p>
+    </div>
+    <div class="sdg-media" aria-hidden="true">
+      <!-- sdg9-gears cove: #FD6925 — render not yet available, colour field shows -->
+      <img src="assets/r3/sdg9-gears-poster.webp" alt="Meshing gears representing innovation"
+        style="opacity:0" onerror="this.style.display='none'">
+    </div>
+  </section>
+
+  <!-- SDG 13 -->
+  <section class="sdg-ch" data-s="13" id="sdg13" aria-labelledby="sdg13-h2">
+    <div class="sdg-txt">
+      <p class="sdg-tag">SDG 13: Climate Action</p>
+      <h2 class="sdg-claim split-h" id="sdg13-h2">The climate cannot wait.</h2>
+      <p class="sdg-sub">Taking urgent action for our Climate.</p>
+    </div>
+    <div class="sdg-media" aria-hidden="true">
+      <!-- sdg13-leaf cove: #3F7E44 — render not yet available, colour field shows -->
+      <img src="assets/r3/sdg13-leaf-poster.webp" alt="Leaf on globe representing climate action"
+        style="opacity:0" onerror="this.style.display='none'">
+    </div>
+  </section>
+
+</div><!-- /sdg-wrap -->
+
+<!-- WHAT WE DO -->
+<section class="wwd sec bg-field" aria-labelledby="wwd-h2">
+  <div class="container">
+    <h2 class="sec-h2 split-h" id="wwd-h2">
+      Six ways we work on the world.
+    </h2>
+    <div class="wwd-list" role="list">
+      <div class="wwd-row" role="listitem" tabindex="0" data-desc="GYN hosts international forums, workshops and summits to promote dialogue on Sustainable Development Goals.">
+        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Conferences</div>
+        <div class="wwd-desc"></div>
+      </div>
+      <div class="wwd-row" role="listitem" tabindex="0" data-desc="The GYN provides a collaborative platform of mentorship, technical support and resource sharing to address the world's most pressing challenges.">
+        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Networking</div>
+        <div class="wwd-desc"></div>
+      </div>
+      <div class="wwd-row" role="listitem" tabindex="0" data-desc="Preparing a new generation of leaders to navigate complexity with foresight, integrity and measurable global impact.">
+        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Leadership Development</div>
+        <div class="wwd-desc"></div>
+      </div>
+      <div class="wwd-row" role="listitem" tabindex="0" data-desc="Building cross-border dialogue and strategic partnerships to create solutions for the world's most complex challenges.">
+        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Collaborative Networks</div>
+        <div class="wwd-desc"></div>
+      </div>
+      <div class="wwd-row" role="listitem" tabindex="0" data-desc="Providing tailor-made, hands-on mentoring to youth to become effective leaders.">
+        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Youth Mentoring</div>
+        <div class="wwd-desc"></div>
+      </div>
+      <div class="wwd-row" role="listitem" tabindex="0" data-desc="Building leadership capacities and policy expertise for future-ready governance.">
+        <div class="wwd-nm"><span class="wwd-dot" aria-hidden="true"></span>Workshops &amp; Trainings</div>
+        <div class="wwd-desc"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMIT BENTO -->
+<section class="summit sec bg-white" aria-labelledby="summit-h2">
+  <div class="container">
+    <h2 class="sec-h2 split-h" id="summit-h2">
+      One hundred seats. Four days. <em class="serif-i">Kuala Lumpur.</em>
+    </h2>
+    <div class="bento" role="list">
+
+      <!-- main tile: banner + dates -->
+      <div class="bt bt-4 bt-r2 bt-main" role="listitem">
+        <img class="bg" src="assets/events/web-banner-sism.webp"
+          alt="SISM 2026 banner" loading="lazy" onerror="this.style.display='none'">
+        <div class="txt">
+          <div class="bento-lbl">SDG Innovation Summit Malaysia</div>
+          <div class="bento-h3">19–22 November 2026<br>Teedo Hotel, Kuala Lumpur</div>
+          <div class="bento-body">100 seats. Theme: Innovative Ideas for Social Impact.</div>
+        </div>
+      </div>
+
+      <!-- UNU co-host -->
+      <div class="bt bt-2 bt-unu" role="listitem">
+        <img class="bento-logo" src="assets/logos/unu-global-health-logo.png"
+          alt="UNU Global Health" loading="lazy" onerror="this.style.display='none'">
+        <div class="bento-h3">Co-hosted by UNU Global Health</div>
+        <div class="bento-body">United Nations University, Kuala Lumpur.</div>
+      </div>
+
+      <!-- seed grant -->
+      <div class="bt bt-3 bt-grant" role="listitem">
+        <div class="bento-lbl">Seed Grant Award</div>
+        <div class="bento-price">$1,000</div>
+        <div class="bento-body">Pitch it on stage. Win $1,000 to build it.</div>
+      </div>
+
+      <!-- APU visit -->
+      <div class="bt bt-3 bt-apu" role="listitem">
+        <img class="bento-apu" src="assets/venue/apu-asia-pacific-university.webp"
+          alt="Asia Pacific University" loading="lazy" onerror="this.style.display='none'">
+        <div class="bento-h3">APU Campus Visit</div>
+        <div class="bento-body">Exclusive institutional visit to Asia Pacific University, Malaysia.</div>
+      </div>
+
+      <!-- KL towers tile -->
+      <div class="bt bt-2 bt-kl" role="listitem">
+        <img class="bt-kl-img" id="kl-img"
+          src="assets/r3/kl-towers.webp" alt="Kuala Lumpur skyline"
+          loading="lazy" onerror="this.style.display='none'" onload="this.classList.add('rdy')">
+        <div style="position:relative;z-index:1">
+          <div class="bento-lbl">Venue</div>
+          <div class="bento-h3">Kuala Lumpur, Malaysia</div>
+        </div>
+      </div>
+
+      <!-- dates tile -->
+      <div class="bt bt-2 bt-date" role="listitem">
+        <div class="bento-price">Nov</div>
+        <div class="bento-h3" style="font-size:clamp(2rem,3.5vw,3rem);font-weight:600;
+          letter-spacing:-0.02em;line-height:1">19–22</div>
+        <div class="bento-body">2026</div>
+      </div>
+
+      <!-- group discount tile (shared with bento) -->
+      <div class="bt bt-2 bg-field" style="background:var(--field)" role="listitem">
+        <div class="bento-lbl">Group pricing</div>
+        <div class="bento-h3">Bring your team.</div>
+        <div class="bento-body">Group discounts available. Email contact@thegyn.org</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMME -->
+<section class="prog sec" id="programme" aria-labelledby="prog-h2">
+  <div class="container">
+    <h2 class="sec-h2 split-h" id="prog-h2">Four days in Kuala Lumpur.</h2>
+    <div class="prog-grid" role="list">
+
+      <div class="prog-day" role="listitem">
+        <div class="prog-head">
+          <div class="prog-num" aria-hidden="true">1</div>
+          <div class="prog-date">19 November 2026</div>
+        </div>
+        <ul class="prog-sessions" aria-label="Day 1 sessions">
+          <li class="prog-item">Arrival and hotel check-in</li>
+          <li class="prog-item">Meet and Greet: delegate registration and welcome kit</li>
+          <li class="prog-item">Free time: explore Kuala Lumpur</li>
+        </ul>
+      </div>
+
+      <div class="prog-day" role="listitem">
+        <div class="prog-head">
+          <div class="prog-num" aria-hidden="true">2</div>
+          <div class="prog-date">20 November 2026</div>
+        </div>
+        <ul class="prog-sessions" aria-label="Day 2 sessions">
+          <li class="prog-item">Event opening: welcome and event brief</li>
+          <li class="prog-item">Ice-breaking session</li>
+          <li class="prog-item">Delegate introductions and country showcase</li>
+          <li class="prog-item">Workshop 1, Understanding SDGs</li>
+          <li class="prog-item">Workshop 2, Social Ventures</li>
+          <li class="prog-item">Panel 1</li>
+          <li class="prog-item">Summit entrepreneurship activity A</li>
+          <li class="prog-item">Free city tour</li>
+        </ul>
+      </div>
+
+      <div class="prog-day" role="listitem">
+        <div class="prog-head">
+          <div class="prog-num" aria-hidden="true">3</div>
+          <div class="prog-date">21 November 2026</div>
+        </div>
+        <ul class="prog-sessions" aria-label="Day 3 sessions">
+          <li class="prog-item">Ice-breaking session 2</li>
+          <li class="prog-item">Workshop 3, Policy Impact</li>
+          <li class="prog-item">Workshop 4, SDG Case Studies</li>
+          <li class="prog-item">Hear You Out! Youth-led presentations</li>
+          <li class="prog-item">Summit entrepreneurship activity B</li>
+          <li class="prog-item">Cultural night and activities</li>
+        </ul>
+      </div>
+
+      <div class="prog-day" role="listitem">
+        <div class="prog-head">
+          <div class="prog-num" aria-hidden="true">4</div>
+          <div class="prog-date">22 November 2026</div>
+        </div>
+        <ul class="prog-sessions" aria-label="Day 4 sessions">
+          <li class="prog-item">Certification ceremony</li>
+          <li class="prog-item">Group photo</li>
+          <li class="prog-item">Check-out</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SPEAKERS -->
+<section class="spk sec bg-white" aria-labelledby="spk-h2">
+  <div class="container">
+    <h2 class="sec-h2 split-h" id="spk-h2">Eight speakers. <em class="serif-i">One stage.</em></h2>
+    <div class="spk-inner">
+
+      <div class="spk-list" id="spk-list" role="list">
+        <div class="spk-row on" role="listitem" tabindex="0" data-idx="0"
+          aria-label="Julie Victoire, International Youth Advocate, Speaker, Australian Education Leader, Founder The Rise Edit">
+          <div class="spk-nm">Julie Victoire</div>
+          <div class="spk-title" aria-hidden="true">International Youth Advocate, Australian Education Leader, Founder The Rise Edit</div>
+          <div class="spk-nm-ghost" aria-hidden="true">Dr Mohd Farid</div>
+        </div>
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="1"
+          aria-label="Dr Mohd Farid bin Atan, Deputy Director, Sustainability, Universiti Malaysia Sarawak">
+          <div class="spk-nm">Dr Mohd Farid bin Atan</div>
+          <div class="spk-title" aria-hidden="true">Deputy Director (Sustainability), Universiti Malaysia Sarawak (UNIMAS)</div>
+          <div class="spk-nm-ghost" aria-hidden="true">Ayman William</div>
+        </div>
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="2"
+          aria-label="Ayman William Hermansson, Assistant Professor, Heriot-Watt University Malaysia">
+          <div class="spk-nm">Ayman William Hermansson</div>
+          <div class="spk-title" aria-hidden="true">Assistant Professor, Heriot-Watt University Malaysia</div>
+          <div class="spk-nm-ghost" aria-hidden="true">Syed Bilal Qasim</div>
+        </div>
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="3"
+          aria-label="Syed Bilal Qasim, CEO Techsol Space">
+          <div class="spk-nm">Syed Bilal Qasim</div>
+          <div class="spk-title" aria-hidden="true">CEO Techsol Space, Project Director CEGA</div>
+          <div class="spk-nm-ghost" aria-hidden="true">Sapargulay</div>
+        </div>
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="4"
+          aria-label="Sapargulay Mahtumov, Youth Coordinator, MySDG Academy">
+          <div class="spk-nm">Sapargulay Mahtumov</div>
+          <div class="spk-title" aria-hidden="true">Youth Coordinator, MySDG Academy, Malaysia</div>
+          <div class="spk-nm-ghost" aria-hidden="true">Jasmine</div>
+        </div>
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="5"
+          aria-label="Jasmine Cannon-Ikurusi, CEO and Founder The Sapphire Employability and Wellbeing Academy">
+          <div class="spk-nm">Jasmine Cannon-Ikurusi</div>
+          <div class="spk-title" aria-hidden="true">CEO &amp; Founder The Sapphire Employability &amp; Wellbeing Academy, London, UK</div>
+          <div class="spk-nm-ghost" aria-hidden="true">Ashley Blake</div>
+        </div>
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="6"
+          aria-label="Ashley Blake, Head of Partnership vrCAVE Canada">
+          <div class="spk-nm">Ashley Blake</div>
+          <div class="spk-title" aria-hidden="true">Head of Partnership vrCAVE Canada</div>
+          <div class="spk-nm-ghost" aria-hidden="true">Arumita Mitra</div>
+        </div>
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="7"
+          aria-label="Arumita Mitra, Founder Sudhamta Foundation India, TedX Speaker, UN SDG Advocate">
+          <div class="spk-nm">Arumita Mitra</div>
+          <div class="spk-title" aria-hidden="true">Founder Sudhamta Foundation India, TedX Speaker, UN SDG Advocate</div>
+        </div>
+      </div>
+
+      <div class="spk-photo-wrap" id="spk-photo-wrap" aria-hidden="true">
+        <div style="position:relative;width:100%;height:100%">
+          <img class="spk-img on" src="assets/speakers/julie-victoire.webp"
+            alt="Julie Victoire" data-idx="0" onerror="this.style.display='none'">
+          <img class="spk-img" src="assets/speakers/dr-mohd-farid-bin-atan.webp"
+            alt="Dr Mohd Farid bin Atan" data-idx="1" onerror="this.style.display='none'">
+          <img class="spk-img" src="assets/speakers/ayman-william-hermansson.webp"
+            alt="Ayman William Hermansson" data-idx="2" onerror="this.style.display='none'">
+          <img class="spk-img" src="assets/speakers/syed-bilal-qasim.webp"
+            alt="Syed Bilal Qasim" data-idx="3" onerror="this.style.display='none'">
+          <img class="spk-img" src="assets/speakers/sapargulay-mahtumov.webp"
+            alt="Sapargulay Mahtumov" data-idx="4" onerror="this.style.display='none'">
+          <img class="spk-img" src="assets/speakers/jasmine-cannon-ikurusi.webp"
+            alt="Jasmine Cannon-Ikurusi" data-idx="5" onerror="this.style.display='none'">
+          <img class="spk-img" src="assets/speakers/ashley-blake.webp"
+            alt="Ashley Blake" data-idx="6" onerror="this.style.display='none'">
+          <img class="spk-img" src="assets/speakers/arumita-mitra.webp"
+            alt="Arumita Mitra" data-idx="7" onerror="this.style.display='none'">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PAST SUMMIT -->
+<section class="past sec" aria-labelledby="past-h2">
+  <div class="container">
+    <h2 class="sec-h2 split-h" id="past-h2">
+      Bangkok, July 2026. <em class="serif-i">We were there.</em>
+    </h2>
+    <p style="margin-top:16px;font-size:var(--t-lead);color:var(--navy);max-width:560px;line-height:1.4">
+      Our first summit, the FutureMinds Summit Thailand, brought over 70 young leaders
+      to Bangkok. Kuala Lumpur is next.
+    </p>
+    <!-- highlight video card -->
+    <div class="vid-wrap" id="vid-wrap" role="button" tabindex="0"
+      aria-label="Play FutureMinds Summit 2026 Day 1 Highlights video"
+      data-id="Aqqo3cL4W6w" data-title="FutureMinds Summit 2026 – Day 1 Highlights">
+      <img src="assets/video/Aqqo3cL4W6w.jpg"
+        alt="FutureMinds Summit 2026 Day 1 Highlights video thumbnail" loading="lazy">
+      <div class="play-btn" aria-hidden="true">
+        <div class="play-inner">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8 5v14l11-7L8 5z" fill="#0E1530"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- photo strip -->
+    <div class="past-strip" role="list" aria-label="FMS Bangkok photos, July 2026">
+      <div class="past-img" role="listitem">
+        <img src="assets/gallery/fmst-dsc02172-1.webp" alt="FMS Bangkok, July 2026" loading="lazy">
+      </div>
+      <div class="past-img" role="listitem">
+        <img src="assets/gallery/fmst-dsc02243-1.webp" alt="FMS Bangkok, July 2026" loading="lazy">
+      </div>
+      <div class="past-img" role="listitem">
+        <img src="assets/gallery/fmst-dsc03736-1.webp" alt="FMS Bangkok, July 2026" loading="lazy">
+      </div>
+      <div class="past-img" role="listitem">
+        <img src="assets/gallery/fmst-dsc02142-1.webp" alt="FMS Bangkok, July 2026" loading="lazy">
+      </div>
+      <div class="past-img" role="listitem">
+        <img src="assets/gallery/fmst-dsc01945-1.webp" alt="FMS Bangkok, July 2026" loading="lazy">
+      </div>
+    </div>
+    <p class="past-cap">FutureMinds Summit Thailand, Bangkok, July 2026.</p>
+  </div>
+</section>
+
+<!-- TICKETS -->
+<section class="tix sec" aria-labelledby="tix-h2">
+  <div class="container">
+    <h2 class="sec-h2" id="tix-h2">Confirmed seats, open now.</h2>
+    <p class="tix-lead">
+      Scholarship applications closed 11 October 2026. Results on 16 October.
+      Confirmed seats are still available.
+    </p>
+    <div class="tix-open" role="list">
+
+      <!-- Forum Access -->
+      <div class="tix-card" role="listitem" aria-label="Forum Access ticket, $199">
+        <div class="tix-nm">Forum Access</div>
+        <div>
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <div class="tix-price">$199</div>
+            <div class="tix-old">$249</div>
+          </div>
+        </div>
+        <ul class="tix-inc" aria-label="Included with Forum Access">
+          <li>Early invitation letter</li>
+          <li>Welcome dinner</li>
+          <li>Summit fee covered</li>
+          <li>GYN toolkit and merchandise</li>
+          <li>Speaking opportunity</li>
+          <li>Participation certificate</li>
+          <li>Cultural night ceremony</li>
+          <li>Lunch and coffee breaks</li>
+          <li>APU campus tour</li>
+        </ul>
+        <a class="tix-btn" href="https://thegyn.org/sism-forum-access/"
+          target="_blank" rel="noopener">Register, $199</a>
+      </div>
+
+      <!-- Self Funded -->
+      <div class="tix-card" role="listitem" aria-label="Self Funded ticket, $399, includes accommodation">
+        <div class="tix-nm">Self Funded with Accommodation</div>
+        <div>
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <div class="tix-price">$399</div>
+            <div class="tix-old">$449</div>
+          </div>
+        </div>
+        <ul class="tix-inc" aria-label="Included with Self Funded">
+          <li>Accommodation (twin sharing)</li>
+          <li>Early invitation letter</li>
+          <li>Welcome dinner</li>
+          <li>Summit fee covered</li>
+          <li>GYN toolkit and merchandise</li>
+          <li>Speaking opportunity</li>
+          <li>Participation certificate</li>
+          <li>Cultural night ceremony</li>
+          <li>Meals and refreshments</li>
+          <li>APU campus tour</li>
+        </ul>
+        <a class="tix-btn" href="https://thegyn.org/sism-self-funded/"
+          target="_blank" rel="noopener">Register, $399</a>
+      </div>
+
+      <!-- Invitation Letter -->
+      <div class="tix-card" role="listitem" aria-label="Invitation Letter, $49">
+        <div class="tix-nm">Invitation Letter</div>
+        <div class="tix-price">$49</div>
+        <ul class="tix-inc" aria-label="Included with Invitation Letter">
+          <li>Summit invitation letter</li>
+          <li>Visa support</li>
+          <li>Visa supporting documentation</li>
+          <li>Visa application guidance</li>
+          <li>Letter delivered within 48 hours</li>
+        </ul>
+        <a class="tix-btn" href="https://thegyn.org/sism-invitation-letter/"
+          target="_blank" rel="noopener">Get invitation, $49</a>
+      </div>
+
+    </div>
+
+    <!-- closed tiers -->
+    <div class="tix-closed-row" aria-label="Closed scholarship tiers">
+      <span class="tix-badge">Fully Funded Scholarship</span>
+      <span class="tix-badge">Partial Scholarship</span>
+      <span class="tix-closed-lbl">Scholarship applications closed 11 October 2026. Results 16 October.</span>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing sec" aria-labelledby="closing-h2">
+  <div class="container">
+    <div class="closing-poster">
+      See you in <em class="serif-i">Kuala<br>Lumpur.</em>
+    </div>
+    <div class="closing-cta">
+      <a class="btn-p" href="https://thegyn.org/sism-forum-access/" target="_blank" rel="noopener">
+        Book Forum Access, $199 <span class="arr" aria-hidden="true">&#8594;</span>
+      </a>
+    </div>
+  </div>
+  <!-- hands-wheel render (not yet available — graceful hide) -->
+  <div class="closing-media" id="closing-media" aria-hidden="true">
+    <video muted loop playsinline preload="none"
+      poster="assets/r3/hands-wheel.webp"
+      data-src-webm="assets/r3/hands-wheel.webm"
+      data-src-mp4="assets/r3/hands-wheel.mp4"
+      class="sdg-vid closing-vid"
+      aria-label="Four hands holding the SDG wheel">
+    </video>
+    <img src="assets/r3/hands-wheel.webp" alt=""
+      onerror="document.getElementById('closing-media').style.display='none'">
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="f-brand">
+        <img class="f-logo" src="assets/logos/gyn-logo.png" alt="Global Youth Network">
+        <p class="f-tagline">
+          The Global Youth Network is a U.S. based organization that hosts international
+          conferences to support the United Nations Sustainable Development Goals.
+        </p>
+        <div class="f-contact">
+          <a href="mailto:contact@thegyn.org">contact@thegyn.org</a>
+          <span>+1 (302) 556-0064</span>
+          <span>1001 S Main St STE 500, Kalispell, Montana 59901</span>
+          <a href="https://wa.me/message/HGC6MW4HT5YJC1" target="_blank" rel="noopener">WhatsApp us</a>
+        </div>
+      </div>
+      <div class="f-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">FMS Thailand</a></li>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="https://global-youth-network.getrewardful.com/login" target="_blank" rel="noopener">Affiliate login</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>Policies</h4>
+        <ul>
+          <li><a href="https://thegyn.org/privacy-policy/" target="_blank" rel="noopener">Privacy policy</a></li>
+          <li><a href="https://thegyn.org/refund-policy/" target="_blank" rel="noopener">Refund policy</a></li>
+          <li><a href="https://thegyn.org/terms-conditions/" target="_blank" rel="noopener">Terms and conditions</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>Upcoming event</h4>
+        <ul>
+          <li><a href="https://thegyn.org/sism-2026/" target="_blank" rel="noopener">SISM 2026</a></li>
+          <li><a href="https://thegyn.org/sism-forum-access/" target="_blank" rel="noopener">Book Forum Access, $199</a></li>
+          <li><a href="https://thegyn.org/sism-self-funded/" target="_blank" rel="noopener">Self funded, $399</a></li>
+          <li><a href="https://thegyn.org/sism-invitation-letter/" target="_blank" rel="noopener">Invitation letter, $49</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 Global Youth Network. All rights reserved.</span>
+      <div class="f-socials">
+        <a href="https://www.facebook.com/share/183ZmovUrB/" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+        <a href="https://www.instagram.com/gyn_global?igsh=emFic2tlcHlyZ2Fj" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+        <a href="https://www.youtube.com/@globalyouthnetwork/" target="_blank" rel="noopener" aria-label="YouTube">YT</a>
+        <a href="https://wa.me/message/HGC6MW4HT5YJC1" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<!-- VIDEO MODAL -->
+<div class="modal-bg" id="vid-modal" role="dialog" aria-modal="true" aria-labelledby="modal-ttl" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span class="modal-ttl" id="modal-ttl">Video</span>
+      <button class="modal-x" id="modal-close" aria-label="Close video">&#215;</button>
+    </div>
+    <div class="modal-body">
+      <img class="modal-thumb" id="modal-thumb" src="" alt="">
+      <a class="modal-link" id="modal-link" href="#" target="_blank" rel="noopener">
+        Watch on YouTube &#8599;
+      </a>
+    </div>
+  </div>
+</div>
+<script>
+/* ── utility ───────────────────────────────────────────── */
+const $ = (sel, ctx = document) => ctx.querySelector(sel);
+const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const desktop = () => window.innerWidth >= 1024;
+
+/* ── nav scroll ────────────────────────────────────────── */
+const nav = $('#site-nav');
+const onScroll = () => {
+  if (window.scrollY > 40) nav.dataset.s = '1';
+  else delete nav.dataset.s;
+};
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+/* ── mobile nav ────────────────────────────────────────── */
+const ham = $('#nav-ham');
+const drawer = $('#nav-drawer');
+ham.addEventListener('click', () => {
+  const open = drawer.classList.toggle('open');
+  ham.setAttribute('aria-expanded', open);
+  drawer.setAttribute('aria-hidden', !open);
+  $$('a', drawer).forEach(a => a.setAttribute('tabindex', open ? '0' : '-1'));
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && drawer.classList.contains('open')) ham.click();
+});
+
+/* ── countdown ─────────────────────────────────────────── */
+(function countdown() {
+  /* summit start: 19 Nov 2026 09:00 MYT (UTC+8) */
+  const target = new Date('2026-11-19T01:00:00Z').getTime();
+  const tick = () => {
+    const diff = target - Date.now();
+    if (diff <= 0) {
+      ['cd-d','cd-h','cd-m','cd-s'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent='00'; });
+      return;
+    }
+    const s = Math.floor(diff / 1000);
+    const m = Math.floor(s / 60);
+    const h = Math.floor(m / 60);
+    const d = Math.floor(h / 24);
+    const pad = n => String(n).padStart(2,'0');
+    document.getElementById('cd-d').textContent = d;
+    document.getElementById('cd-h').textContent = pad(h % 24);
+    document.getElementById('cd-m').textContent = pad(m % 60);
+    document.getElementById('cd-s').textContent = pad(s % 60);
+  };
+  tick();
+  setInterval(tick, 1000);
+})();
+
+/* ── what-we-do accordion ──────────────────────────────── */
+$$('.wwd-row').forEach(row => {
+  const desc = row.querySelector('.wwd-desc');
+  if (desc) desc.textContent = row.dataset.desc || '';
+  const activate = () => {
+    const isOn = row.classList.contains('on');
+    $$('.wwd-row.on').forEach(r => r.classList.remove('on'));
+    if (!isOn) row.classList.add('on');
+  };
+  row.addEventListener('click', activate);
+  row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+});
+
+/* ── speakers photo reveal ─────────────────────────────── */
+const spkRows = $$('.spk-row');
+const spkImgs = $$('.spk-img');
+function activateSpeaker(idx) {
+  spkRows.forEach((r, i) => {
+    r.classList.toggle('on', i === idx);
+    r.setAttribute('aria-selected', i === idx);
+  });
+  spkImgs.forEach(img => {
+    img.classList.toggle('on', parseInt(img.dataset.idx) === idx);
+  });
+}
+spkRows.forEach((row, i) => {
+  row.addEventListener('mouseenter', () => activateSpeaker(i));
+  row.addEventListener('focus', () => activateSpeaker(i));
+  row.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); activateSpeaker(Math.min(i + 1, spkRows.length - 1)); spkRows[Math.min(i+1, spkRows.length-1)].focus(); }
+    if (e.key === 'ArrowUp')   { e.preventDefault(); activateSpeaker(Math.max(i - 1, 0)); spkRows[Math.max(i-1,0)].focus(); }
+  });
+});
+
+/* ── video modal ───────────────────────────────────────── */
+const modal = $('#vid-modal');
+const modalThumb = $('#modal-thumb');
+const modalLink = $('#modal-link');
+const modalTtl = $('#modal-ttl');
+const modalClose = $('#modal-close');
+function openModal(id, title) {
+  modalThumb.src = 'assets/video/' + id + '.jpg';
+  modalThumb.alt = title;
+  modalLink.href = 'https://youtu.be/' + id;
+  modalTtl.textContent = title;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  modalClose.focus();
+}
+function closeModal() {
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+}
+$('#vid-wrap').addEventListener('click', function() {
+  openModal(this.dataset.id, this.dataset.title);
+});
+$('#vid-wrap').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(this.dataset.id, this.dataset.title); }
+});
+modalClose.addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── photo pills entrance ──────────────────────────────── */
+const pillObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.3 });
+$$('.photo-pill').forEach(p => pillObs.observe(p));
+
+/* ── SDG video in-view play/pause ──────────────────────── */
+const vidObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    const v = e.target;
+    if (!v.src && !v.currentSrc) {
+      /* lazy-set src on first intersection */
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      if (!isSafari && v.dataset.srcWebm) v.src = v.dataset.srcWebm;
+      else if (v.dataset.srcMp4) v.src = v.dataset.srcMp4;
+    }
+    if (e.isIntersecting) v.play && v.play().catch(() => {});
+    else v.pause && v.pause();
+  });
+}, { threshold: 0.3 });
+$$('.sdg-vid').forEach(v => { if (!reduced) vidObs.observe(v); });
+
+/* also handle closing-vid */
+const closingVid = $('.closing-vid');
+if (closingVid && !reduced) {
+  const closingObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!closingVid.src && !closingVid.currentSrc) {
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (!isSafari && closingVid.dataset.srcWebm) closingVid.src = closingVid.dataset.srcWebm;
+        else if (closingVid.dataset.srcMp4) closingVid.src = closingVid.dataset.srcMp4;
+        else { document.getElementById('closing-media').style.display = 'none'; return; }
+        /* show media when video or poster has loaded */
+        const cm = document.getElementById('closing-media');
+        closingVid.addEventListener('loadeddata', () => cm.classList.add('rdy'), { once: true });
+        closingVid.onerror = () => cm.style.display = 'none';
+      }
+      if (e.isIntersecting) closingVid.play && closingVid.play().catch(() => {});
+      else closingVid.pause && closingVid.pause();
+    });
+  }, { threshold: 0.2 });
+  closingObs.observe(closingVid);
+}
+
+/* ── GSAP (loads deferred) ──────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function() { setTimeout(function initGSAP() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── hero canvas sequence ──────────────────────────────
+     Desktop ≥1024px only. 72 frames at assets/r3/hero-wheel-seq/NNNN.webp
+     Frames load progressively after first paint.
+  ────────────────────────────────────────────────────────── */
+  if (desktop() && !reduced) {
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    const heroRight = document.getElementById('hero-right');
+    const totalFrames = 72;
+    const frames = [];
+    let loaded = 0;
+
+    /* draw a frame */
+    const drawFrame = (img) => {
+      if (!img || !img.complete) return;
+      canvas.width = img.naturalWidth || 900;
+      canvas.height = img.naturalHeight || 900;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    };
+
+    /* load all frames after first paint */
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      for (let i = 1; i <= totalFrames; i++) {
+        const img = new Image();
+        const num = String(i).padStart(4, '0');
+        img.src = 'assets/r3/hero-wheel-seq/' + num + '.webp';
+        frames[i - 1] = img;
+        img.onload = () => {
+          loaded++;
+          if (loaded === 1) {
+            /* show canvas, hide poster */
+            heroRight.classList.add('canvas-rdy');
+            drawFrame(img);
+          }
+        };
+      }
+    }));
+
+    /* pin hero + scrub frames */
+    ScrollTrigger.create({
+      trigger: '.hero',
+      start: 'top top',
+      end: '+=150%',
+      pin: true,
+      scrub: 0.5,
+      onUpdate: self => {
+        const idx = Math.min(
+          Math.floor(self.progress * (totalFrames - 1)),
+          totalFrames - 1
+        );
+        if (frames[idx] && frames[idx].complete) drawFrame(frames[idx]);
+      }
+    });
+  }
+
+  /* ── SDG stacked chapters ──────────────────────────────
+     Each chapter is already sticky via CSS.
+     GSAP adds the slide-in for the chapter above as the next arrives.
+  ────────────────────────────────────────────────────────── */
+  if (desktop() && !reduced) {
+    const chapters = $$('.sdg-ch');
+    chapters.forEach((ch, i) => {
+      if (i === 0) return; /* first chapter stays in place */
+      gsap.set(ch, { yPercent: 0 }); /* CSS sticky handles position */
+    });
+  }
+
+  /* ── SDG index highlight ───────────────────────────────── */
+  const sdgIdx = document.getElementById('sdg-idx');
+  const sdgIdxItems = $$('.sdg-idx-i');
+  $$('.sdg-ch').forEach(ch => {
+    ScrollTrigger.create({
+      trigger: ch,
+      start: 'top 60%',
+      end: 'bottom 40%',
+      onEnter: () => {
+        sdgIdx.classList.add('vis');
+        sdgIdx.setAttribute('aria-hidden', 'false');
+        sdgIdxItems.forEach(it => it.classList.toggle('on', it.dataset.s === ch.dataset.s));
+      },
+      onLeaveBack: () => {
+        const all = $$('.sdg-ch');
+        const first = all[0];
+        if (ch === first) {
+          sdgIdx.classList.remove('vis');
+          sdgIdx.setAttribute('aria-hidden', 'true');
+        }
+      }
+    });
+  });
+  /* hide when leaving SDG chapters section altogether */
+  ScrollTrigger.create({
+    trigger: '.wwd',
+    start: 'top 80%',
+    onEnter: () => { sdgIdx.classList.remove('vis'); sdgIdx.setAttribute('aria-hidden','true'); },
+    onLeaveBack: () => { sdgIdx.classList.add('vis'); sdgIdx.setAttribute('aria-hidden','false'); }
+  });
+
+  /* ── SplitText H2 line reveals ─────────────────────────
+     Only on .split-h elements. Content starts visible;
+     GSAP adds a clip-mask reveal that enhances, never hides.
+  ────────────────────────────────────────────────────────── */
+  if (!reduced && typeof SplitText !== 'undefined') {
+    gsap.registerPlugin(SplitText);
+    $$('.split-h').forEach(el => {
+      const split = new SplitText(el, { type: 'lines', linesClass: 'line-i' });
+      split.lines.forEach(line => {
+        const wrap = document.createElement('div');
+        wrap.className = 'line-w';
+        wrap.style.overflow = 'hidden';
+        line.parentNode.insertBefore(wrap, line);
+        wrap.appendChild(line);
+      });
+      /* start state: lines already visible at y=0 for no-JS */
+      gsap.set(split.lines, { yPercent: 100, opacity: 0 });
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 85%',
+        once: true,
+        onEnter: () => {
+          gsap.to(split.lines, {
+            yPercent: 0, opacity: 1,
+            duration: 0.8, stagger: 0.1,
+            ease: 'power3.out'
+          });
+        }
+      });
+    });
+  }
+
+  /* ── hero H1 entrance ──────────────────────────────────── */
+  if (!reduced) {
+    gsap.from('.hero-h1', { y: 40, duration: 0.9, ease: 'power3.out', delay: 0.1 });
+    gsap.from('.hero-lead', { y: 28, duration: 0.8, ease: 'power3.out', delay: 0.22 });
+    gsap.from('.hero-actions', { y: 22, opacity: 0, duration: 0.7, ease: 'power3.out', delay: 0.34 });
+    gsap.from('.hero-cd', { opacity: 0, duration: 0.5, delay: 0.5 });
+  }
+
+  /* ── programme row highlight follows pointer ───────────── */
+  $$('.prog-day').forEach(day => {
+    day.addEventListener('mouseenter', () => {
+      day.style.background = 'rgba(14,21,48,.04)';
+    });
+    day.addEventListener('mouseleave', () => {
+      day.style.background = '';
+    });
+  });
+
+  /* ── section entrance for non-SDG sections ─────────────── */
+  if (!reduced) {
+    ['.ppl-desc','.ppl-facts','.ppl-strip',
+     '.wwd-list','.bento','.prog-grid',
+     '.tix-open','.tix-closed-row',
+     '.past-strip','.vid-wrap'].forEach(sel => {
+      const el = $(sel);
+      if (!el) return;
+      gsap.from(el, {
+        opacity: 0, y: 28, duration: 0.7, ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+      });
+    });
+  }
+
+  ScrollTrigger.refresh();
+}, 50); });
+</script>
+</body>
+</html>

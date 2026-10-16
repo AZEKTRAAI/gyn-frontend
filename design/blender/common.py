@@ -54,7 +54,8 @@ def pulse(p, start, length):
 
 # ---------------------------------------------------------------- scene setup
 
-def new_scene(engine, w, h, frames, out_dir, samples=64):
+def new_scene(engine, w, h, frames, out_dir, samples=64, transparent=True,
+              view="Khronos PBR Neutral", fast_gi=True):
     bpy.ops.wm.read_factory_settings(use_empty=True)
     sc = bpy.context.scene
     r = sc.render
@@ -62,19 +63,20 @@ def new_scene(engine, w, h, frames, out_dir, samples=64):
     r.resolution_x, r.resolution_y, r.resolution_percentage = w, h, 100
     r.fps = 24
     sc.frame_start, sc.frame_end = 1, frames
-    r.film_transparent = True
+    r.film_transparent = transparent
     r.image_settings.file_format = "PNG"
-    r.image_settings.color_mode = "RGBA"
+    r.image_settings.color_mode = "RGBA" if transparent else "RGB"
     r.filepath = os.path.join(out_dir, "")
     # Neutral tone mapper keeps brand base colours close to their hex values.
-    sc.view_settings.view_transform = "Khronos PBR Neutral"
+    # Opaque cove renders pass view="Standard" so the backdrop lands on its exact hex.
+    sc.view_settings.view_transform = view
     sc.view_settings.exposure = 0.0
     if engine == "BLENDER_EEVEE":
         e = sc.eevee
         e.taa_render_samples = samples
         e.use_raytracing = True
         e.ray_tracing_options.resolution_scale = "1"
-        e.use_fast_gi = True          # horizon-scan AO / contact occlusion
+        e.use_fast_gi = fast_gi       # horizon-scan GI; grainy on matte light surfaces at low samples
         e.fast_gi_distance = 0.6
         e.shadow_ray_count = 3
         e.shadow_step_count = 12
@@ -212,7 +214,147 @@ def glossy(name, hex_):
 
 def clay(name, hex_):
     """Soft matte clay with a hint of sheen and subsurface."""
-    return principled(name, hex_, rough=0.62, sss=0.25, sheen=0.25, spec=0.35)
+    m = principled(name, hex_, rough=0.62, sss=0.25, sheen=0.25, spec=0.35)
+    m.node_tree.nodes["Principled BSDF"].inputs["Sheen Roughness"].default_value = 0.5
+    return m
+
+
+def satin(name, hex_):
+    """Tarka satin plastic: one broad soft highlight, light coat, faint edge glow."""
+    m = principled(name, hex_, rough=0.38, coat=0.3, coat_rough=0.15, sss=0.08)
+    m.node_tree.nodes["Principled BSDF"].inputs["Subsurface Radius"].default_value = (1.0, 0.4, 0.2)
+    return m
+
+
+# ---------------------------------------------------------------- tarka set: cove + rig
+
+def cove(hex_, floor_z=0.0, wall_y=4.0, bend=3.0, width=60.0):
+    """Seamless floor-to-wall backdrop that renders as exactly `hex_` where unshadowed.
+
+    Camera rays see the cove's live lighting divided by a lighting map of the
+    empty cove (made by calibrate_cove), times the hex: open backdrop comes out
+    flat at the hex, and only object shadows darken it, tinted by the hex.
+    Every other ray sees a plain diffuse surface in the hex, so bounce is tinted.
+    """
+    prof = [(y, 0.0) for y in (-40.0, -10.0, -3.0)]
+    prof += [(bend * math.sin(a), bend - bend * math.cos(a))
+             for a in (math.pi / 2 * k / 16 for k in range(17))]
+    prof += [(bend, z) for z in (bend + 3.0, 40.0)]
+    bm = bmesh.new()
+    cols = [[bm.verts.new((x, y + wall_y - bend, z + floor_z)) for y, z in prof]
+            for x in (-width / 2 + width * k / 8 for k in range(9))]
+    for c0, c1 in zip(cols, cols[1:]):
+        for k in range(len(prof) - 1):
+            bm.faces.new((c0[k], c1[k], c1[k + 1], c0[k + 1]))
+    o = mesh_object("Cove", bm)
+
+    m = bpy.data.materials.new("cove")
+    nt = m.node_tree
+    nt.nodes.clear()
+    N, L = nt.nodes.new, nt.links.new
+    white = N("ShaderNodeBsdfDiffuse")
+    s2r = N("ShaderNodeShaderToRGB")
+    L(white.outputs[0], s2r.inputs[0])
+    bw = N("ShaderNodeRGBToBW")
+    L(s2r.outputs["Color"], bw.inputs[0])
+    ao = N("ShaderNodeAmbientOcclusion")  # firmer contact shadows where objects sit
+    ao.name = "ao"
+    ao.inputs["Distance"].default_value = 0.5
+    lit = N("ShaderNodeMath")
+    lit.operation = "MULTIPLY"
+    L(bw.outputs[0], lit.inputs[0])
+    L(ao.outputs["AO"], lit.inputs[1])
+    tc = N("ShaderNodeTexCoord")
+    tex = N("ShaderNodeTexImage")
+    tex.name = "openlight"
+    tex.extension = "EXTEND"
+    L(tc.outputs["Window"], tex.inputs["Vector"])
+    ref = N("ShaderNodeRGBToBW")
+    L(tex.outputs["Color"], ref.inputs[0])
+    safe = N("ShaderNodeMath")
+    safe.operation = "MAXIMUM"
+    safe.inputs[1].default_value = 1e-4
+    L(ref.outputs[0], safe.inputs[0])
+    ratio = N("ShaderNodeMath")
+    ratio.operation = "DIVIDE"
+    ratio.use_clamp = True  # bounce from objects can't push the backdrop past its hex
+    L(lit.outputs[0], ratio.inputs[0])
+    L(safe.outputs[0], ratio.inputs[1])
+    raw = N("ShaderNodeMath")  # calibration output: raw lighting, scaled to stay < 1
+    raw.operation = "MULTIPLY"
+    raw.inputs[1].default_value = 0.25
+    L(lit.outputs[0], raw.inputs[0])
+    calib = N("ShaderNodeMix")
+    calib.name = "calib"
+    calib.data_type = "RGBA"
+    L(ratio.outputs[0], calib.inputs["A"])
+    L(raw.outputs[0], calib.inputs["B"])
+    tint = N("ShaderNodeMix")
+    tint.name = "tint"
+    tint.data_type = "RGBA"
+    tint.blend_type = "MULTIPLY"
+    tint.inputs["Factor"].default_value = 1.0
+    tint.inputs["A"].default_value = lin(hex_)
+    L(calib.outputs["Result"], tint.inputs["B"])
+    emit = N("ShaderNodeEmission")
+    L(tint.outputs["Result"], emit.inputs["Color"])
+    diff = N("ShaderNodeBsdfDiffuse")
+    diff.inputs["Color"].default_value = lin(hex_)
+    lp = N("ShaderNodeLightPath")
+    mix = N("ShaderNodeMixShader")
+    L(lp.outputs["Is Camera Ray"], mix.inputs["Fac"])
+    L(diff.outputs[0], mix.inputs[1])
+    L(emit.outputs[0], mix.inputs[2])
+    out = N("ShaderNodeOutputMaterial")
+    L(mix.outputs[0], out.inputs["Surface"])
+    o.data.materials.append(m)
+    o["hex"] = hex_
+    return o
+
+
+def calibrate_cove(cove_obj, samples=32):
+    """Render the empty cove's lighting to EXR and feed it back as the open-light map."""
+    sc = bpy.context.scene
+    nodes = cove_obj.data.materials[0].node_tree.nodes
+    hidden = [o for o in sc.objects if o.type in {"MESH", "CURVE", "FONT", "META"}
+              and o != cove_obj and not o.hide_render]
+    for o in hidden:
+        o.hide_render = True
+    nodes["calib"].inputs["Factor"].default_value = 1.0
+    nodes["tint"].inputs["A"].default_value = (1, 1, 1, 1)
+    r, ims, e = sc.render, sc.render.image_settings, sc.eevee
+    keep = (r.filepath, ims.file_format, ims.color_mode, ims.color_depth, e.taa_render_samples)
+    path = os.path.join(bpy.app.tempdir, f"cove_{os.getpid()}.exr")
+    ims.file_format, ims.color_mode, ims.color_depth = "OPEN_EXR", "RGB", "32"
+    e.taa_render_samples = samples
+    r.filepath = path
+    sc.frame_set(sc.frame_start)
+    bpy.ops.render.render(write_still=True)
+    r.filepath, ims.file_format, ims.color_mode, ims.color_depth, e.taa_render_samples = keep
+    img = bpy.data.images.load(path)
+    img.colorspace_settings.is_data = True
+    nodes["openlight"].image = img
+    nodes["calib"].inputs["Factor"].default_value = 0.0
+    nodes["tint"].inputs["A"].default_value = lin(cove_obj["hex"])
+    for o in hidden:
+        o.hide_render = False
+
+
+def tarka_lights(hex_, target=(0, 0, 1), key=600.0, dist=4.0, rim=0.0, world=0.25,
+                 key_dir=(-0.62, -0.62, 1.4), key_size=2.2):
+    """One big soft key front-left above, weak fill opposite, soft top box, world = backdrop."""
+    t = Vector(target)
+    # key a little tighter than the brief's 3-4 m so contact shadows read at this scale
+    area("Key", t + Vector(key_dir).normalized() * dist, t, size=key_size, energy=key)
+    area("Fill", t + Vector((0.8, -0.6, 0.25)).normalized() * dist * 1.3, t, size=5, energy=key * 0.1)
+    area("Top", t + Vector((0, 0, dist)), t, size=2.5, energy=key * 0.06, shape="SQUARE")  # weaker than the brief: it washed out floor shadows
+    if rim:
+        area("Rim", t + Vector((0.4, 1.0, 0.6)).normalized() * dist, t, size=2, energy=key * rim)
+    w = bpy.data.worlds.new("Cove")
+    bpy.context.scene.world = w
+    bg = w.node_tree.nodes["Background"]
+    bg.inputs["Color"].default_value = lin(hex_)
+    bg.inputs["Strength"].default_value = world
 
 
 # ---------------------------------------------------------------- geometry
@@ -262,14 +404,103 @@ def empty(name, loc=(0, 0, 0)):
     return o
 
 
+def rounded_box(name, size, mat, radius=0.08, segments=6):
+    """Box of `size` (x, y, z) with every edge rounded."""
+    bm = bmesh.new()
+    bmesh.ops.create_cube(bm, size=1.0)
+    for v in bm.verts:
+        v.co = Vector((v.co.x * size[0], v.co.y * size[1], v.co.z * size[2]))
+    o = mesh_object(name, bm, mat)
+    bevel(o, width=min(radius, min(size) * 0.49), segments=segments)
+    return o
+
+
+def uv_sphere(name, r, mat, seg=64):
+    bm = bmesh.new()
+    bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=seg // 2, radius=r)
+    return mesh_object(name, bm, mat)
+
+
+def capsule(name, r, length, mat, seg=48):
+    """Pill along local Z: two hemispheres joined by a straight section of `length`."""
+    bm = bmesh.new()
+    bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=seg // 2 + 1, radius=r)  # odd: no equator ring
+    for v in bm.verts:
+        v.co.z += length / 2 * (1 if v.co.z > 0 else -1)
+    return mesh_object(name, bm, mat)
+
+
+def soft_wedge(name, mat, r_in, r_out, step, gap, depth, round_r=0.07, edge=0.06, n=24, nb=8):
+    """SDG wheel wedge as an inflated tile: rounded corners in plan, fully round rims.
+
+    A filled 2D curve (origin at mid radius, centred on +X) whose bevel rounds every
+    edge; corners are filleted with quadratic Beziers so nothing reads as a box.
+    """
+    rc = (r_in + r_out) / 2
+    a_o, a_i = step / 2 - math.asin(gap / 2 / r_out), step / 2 - math.asin(gap / 2 / r_in)
+
+    def P(r, a):
+        return Vector((r * math.cos(a) - rc, r * math.sin(a)))
+
+    corners = [P(r_out, -a_o), P(r_out, a_o), P(r_in, a_i), P(r_in, -a_i)]
+    # each side: (start, end) trimmed by round_r, sampled as arc or line
+    sides = [[P(r_out, -a_o + round_r / r_out + (2 * a_o - 2 * round_r / r_out) * k / n) for k in range(n + 1)],
+             None,
+             [P(r_in, a_i - round_r / r_in - (2 * a_i - 2 * round_r / r_in) * k / n) for k in range(n + 1)],
+             None]
+    for s, (c0, c1) in ((1, (corners[1], corners[2])), (3, (corners[3], corners[0]))):
+        d = (c1 - c0).normalized()
+        sides[s] = [c0 + d * round_r, c1 - d * round_r]
+    pts = []
+    for s in range(4):
+        pts += sides[s]
+        corner, nxt = corners[(s + 1) % 4], sides[(s + 1) % 4][0]
+        prev = sides[s][-1]
+        pts += [(1 - t) ** 2 * prev + 2 * (1 - t) * t * corner + t * t * nxt
+                for t in (k / nb for k in range(1, nb))]
+    cu = bpy.data.curves.new(name, "CURVE")
+    cu.dimensions, cu.fill_mode = "2D", "BOTH"
+    cu.extrude = max(depth / 2 - edge, 0.0)
+    cu.bevel_depth, cu.bevel_resolution = edge, 8
+    cu.offset = -edge  # keep the plan size: the round rim grows inward (edge must stay < half the narrow end)
+    sp = cu.splines.new("POLY")
+    sp.points.add(len(pts) - 1)
+    for p, v in zip(sp.points, pts):
+        p.co = (v.x, v.y, 0, 1)
+    sp.use_cyclic_u = True
+    sp.use_smooth = True
+    cu.materials.append(mat)
+    o = bpy.data.objects.new(name, cu)
+    bpy.context.collection.objects.link(o)
+    return o
+
+
+def wedge_outline(r_in, r_out, step, gap, n=28):
+    """Annular sector centred on +X (origin at its mid radius) with parallel gaps."""
+    rc = (r_in + r_out) / 2
+    pts = []
+    for r, rev in ((r_out, False), (r_in, True)):
+        d = math.asin(gap / 2 / r)
+        angs = [-step / 2 + d + (step - 2 * d) * k / (n - 1) for k in range(n)]
+        if rev:
+            angs.reverse()
+        pts += [(r * math.cos(t) - rc, r * math.sin(t)) for t in angs]
+    return pts
+
+
 # ---------------------------------------------------------------- animation
 
-def run(animate, frames, still=0):
-    """Register animate(p) for every frame, then render the range (or one still)."""
+def run(animate, frames, still=0, cove=None):
+    """Register animate(p) for every frame, then render the range (or one still).
+
+    With a cove, its open-light map is rendered first (camera must not move).
+    """
     def handler(scene, *_):
         animate(((scene.frame_current - 1) % frames) / frames)
     bpy.app.handlers.frame_change_pre.append(handler)
     sc = bpy.context.scene
+    if cove:
+        calibrate_cove(cove)
     if still:
         sc.frame_start = sc.frame_end = still
     sc.frame_set(sc.frame_start)

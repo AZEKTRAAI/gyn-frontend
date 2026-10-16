@@ -2,7 +2,7 @@
 
 blender -b --python encode.py -- --src <png dir> --dst <file.webm|.mp4> [--crf 32] [--size 0]
 
-.webm -> VP9 with alpha (RGBA). .mp4 -> H.264 (frames should already be opaque).
+.webm -> VP9 (with alpha when the PNGs have it). .mp4 -> H.264 (frames should already be opaque).
 """
 import os
 import sys
@@ -35,8 +35,9 @@ ims.media_type = "VIDEO"
 ims.file_format = "FFMPEG"
 ff = r.ffmpeg
 ff.format, ff.codec = ("WEBM", "WEBM") if webm else ("MPEG4", "H264")
-ims.color_mode = "RGBA" if webm else "RGB"
-r.film_transparent = webm
+alpha = webm and img.depth == 32  # only carry alpha when the frames have it
+ims.color_mode = "RGBA" if alpha else "RGB"
+r.film_transparent = alpha
 ff.constant_rate_factor = "CUSTOM"
 ff.custom_constant_rate_factor = a.crf
 ff.ffmpeg_preset = "BEST"

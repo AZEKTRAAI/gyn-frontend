@@ -17,3 +17,6 @@ Thumbs.db
 .playwright-mcp/
 AGENTS.md
 tsconfig.tsbuildinfo
+
+# admin editor uploads in development (production uses Cloudinary)
+/public/uploads/

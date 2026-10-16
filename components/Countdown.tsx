@@ -2,16 +2,13 @@
 
 import { Fragment, useEffect, useState } from 'react'
 
-/** Target: 19 Nov 2026 09:00 MYT (UTC+8) = 01:00 UTC */
-const TARGET = new Date('2026-11-19T01:00:00Z').getTime()
-
 interface Unit {
   value: string
   label: string
 }
 
-function compute(now: number): Unit[] {
-  const diff = Math.max(0, TARGET - now)
+function compute(now: number, target: number): Unit[] {
+  const diff = Math.max(0, target - now)
   const d = Math.floor(diff / 86_400_000)
   const h = Math.floor((diff % 86_400_000) / 3_600_000)
   const m = Math.floor((diff % 3_600_000) / 60_000)
@@ -28,41 +25,48 @@ function compute(now: number): Unit[] {
  * `serverNow` is the server's render time (build time for static pages). The first client render uses it too,
  * so hydration matches the server HTML exactly; the effect then updates the same text nodes to the real time.
  * That keeps the digits in the first paint (mobile LCP) without stale values (RT-077) or a remount (a late LCP).
+ *
+ * `target` is the event start time as epoch ms. Pass null to hide the countdown entirely
+ * (e.g. when no date is set or the date has passed).
  */
-export function Countdown({ serverNow }: { serverNow: number }) {
-  const [units, setUnits] = useState<Unit[]>(() => compute(serverNow))
+export function Countdown({ serverNow, target = null }: { serverNow: number; target?: number | null }) {
+  const [units, setUnits] = useState<Unit[]>(() => target !== null ? compute(serverNow, target) : [])
 
   useEffect(() => {
+    if (target === null) return
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUnits(compute(Date.now()))
-    const id = setInterval(() => setUnits(compute(Date.now())), 1000)
+    setUnits(compute(Date.now(), target))
+    const id = setInterval(() => setUnits(compute(Date.now(), target)), 1000)
     return () => clearInterval(id)
-  }, [])
+  }, [target])
+
+  // Hide when no target or already past (all units are "00")
+  if (target === null || target <= serverNow) return null
 
   return (
     <div
       className="countdown"
       style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}
       role="timer"
-      aria-label="Time until summit opens on 19 November 2026"
+      aria-label={`Countdown to event`}
     >
       {units.map((u, i) => (
         <Fragment key={u.label}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
             <span
               style={{
-                fontFamily: 'var(--fd)',
-                /* Krona One is very wide; floor raised to 1.75rem to prevent overflow at 360px */
-                fontSize: 'clamp(1.75rem, 4.5vw, 3.75rem)',
+                fontFamily: 'var(--font-host-grotesk, var(--fb))',
+                fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
                 lineHeight: 1,
-                color: 'var(--yellow)',
+                color: 'var(--ink, var(--navy-900))',
+                fontWeight: 600,
                 minWidth: '2ch',
                 textAlign: 'center',
               }}
             >
               {u.value}
             </span>
-            <span style={{ fontSize: '0.6875rem', color: 'var(--white)', letterSpacing: '0.03em' }}>
+            <span style={{ fontSize: '0.6875rem', color: 'var(--navy, var(--navy-700))', letterSpacing: '0.03em' }}>
               {u.label}
             </span>
           </div>
@@ -70,11 +74,11 @@ export function Countdown({ serverNow }: { serverNow: number }) {
             <span
               aria-hidden="true"
               style={{
-                fontFamily: 'var(--fd)',
-                fontSize: 'clamp(1.25rem, 3vw, 2.75rem)',
-                color: 'rgba(255,255,255,.25)',
+                fontSize: 'clamp(1.25rem, 3vw, 2rem)',
+                color: 'rgba(14,21,48,.3)',
                 alignSelf: 'flex-start',
                 paddingTop: '0.1em',
+                fontWeight: 300,
               }}
             >
               :

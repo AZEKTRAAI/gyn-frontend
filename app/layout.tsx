@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Krona_One, Schibsted_Grotesk } from 'next/font/google'
+import { Krona_One, Schibsted_Grotesk, Host_Grotesk, Bodoni_Moda } from 'next/font/google'
 import dynamic from 'next/dynamic'
 import './globals.css'
 import { SiteHeader } from '@/components/SiteHeader'
@@ -25,6 +25,7 @@ const kronaOne = Krona_One({
   subsets: ['latin'],
   variable: '--font-krona',
   display: 'swap',
+  preload: false, // inner pages only; preloading it on the home competed with the hero image
 })
 
 const schibstedGrotesk = Schibsted_Grotesk({
@@ -32,6 +33,32 @@ const schibstedGrotesk = Schibsted_Grotesk({
   style: ['normal', 'italic'],
   subsets: ['latin'],
   variable: '--font-schibsted',
+  display: 'swap',
+  preload: false, // inner pages only; preloading it on the home competed with the hero image
+})
+
+/*
+  Host Grotesk: contemporary variable grotesk; not on any AI-reflex list.
+  Replaces Inter/Geist for the Direction I home page design.
+*/
+// No weight list: one variable file covers 300 to 800. Italics are Bodoni, so no Host italic file.
+const hostGrotesk = Host_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-host-grotesk',
+  display: 'swap',
+})
+
+/*
+  Bodoni Moda Italic: Didone serif for the Rynzhuk one-word italic accent per headline.
+  Optical size range 6..96 ensures good rendering at poster scale.
+*/
+const bodoniModa = Bodoni_Moda({
+  // Bodoni Moda is a variable font; specify weight: 'variable' to unlock the opsz axis
+  weight: 'variable',
+  style: ['italic'],
+  subsets: ['latin'],
+  axes: ['opsz'],
+  variable: '--font-bodoni',
   display: 'swap',
 })
 
@@ -58,7 +85,7 @@ export default async function RootLayout({
   const sitemap = await cms.getSitemap()
 
   return (
-    <html lang="en" className={`${kronaOne.variable} ${schibstedGrotesk.variable}`}>
+    <html lang="en" className={`${kronaOne.variable} ${schibstedGrotesk.variable} ${hostGrotesk.variable} ${bodoniModa.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

@@ -407,6 +407,11 @@ export default function AdminPage() {
           <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,.6)' }}>
             Registration overview — sample data only
           </p>
+          <p style={{ marginTop: '1rem' }}>
+            <a href="/admin/home" style={{ display: 'inline-flex', minHeight: 44, alignItems: 'center', padding: '10px 20px', borderRadius: 999, background: 'var(--yellow)', color: 'var(--navy-900)', fontWeight: 700 }}>
+              Edit the home page
+            </a>
+          </p>
         </div>
       </section>
 

@@ -1,0 +1,364 @@
+{
+  "seo": {
+    "title": "Global Youth Network - GYN",
+    "description": "GYN hosts international conferences to support the UN Sustainable Development Goals. Next: SDG Innovation Summit Malaysia 2026, 19 to 22 November, Teedo Hotel, Kuala Lumpur."
+  },
+  "hero": {
+    "headline": "Seventeen goals.\n*Four* in our hands.",
+    "eventName": "GYN presents SDG Innovation Summit Malaysia 2026 (SISM)",
+    "dateVenue": "19–22 November 2026, Teedo Hotel, Kuala Lumpur",
+    "note": "Co-hosted by UNU Global Health.",
+    "primaryCta": {
+      "label": "Book Forum Access, $199",
+      "href": "/sism-forum-access"
+    },
+    "secondaryCta": {
+      "label": "See the summit",
+      "href": "/sism-2026"
+    },
+    "countdownTo": "2026-11-19T00:00",
+    "utcOffset": "+08:00"
+  },
+  "about": {
+    "visible": true,
+    "heading": "Who we are & what we do",
+    "body": "Global Youth Network (GYN) is an international organization dedicated to connecting and empowering young people worldwide. We bring together students, professionals, and innovators to collaborate across borders, develop leadership skills, and create meaningful global impact.",
+    "services": [
+      {
+        "name": "Conferences",
+        "description": "GYN hosts international forums, workshops and summits to promote dialogue on Sustainable Development Goals"
+      },
+      {
+        "name": "Networking",
+        "description": "The GYN empowers the next generation by providing a collaborative ecosystem of mentorship, technical support and resource sharing to address the world’s most pressing challenges"
+      },
+      {
+        "name": "Leadership Development",
+        "description": "Empowering a new generation of leaders to navigate complexity with visionary foresight, unwavering integrity and measurable global impact"
+      },
+      {
+        "name": "Collaborative Networks",
+        "description": "Cultivating a global ecosystem of cross-border dialogue and strategic partnerships to unlock innovative solutions for the world’s most complex challenges"
+      },
+      {
+        "name": "Youth Mentoring",
+        "description": "Providing tailor-made and hands-on mentoring to youth to become effective leaders"
+      },
+      {
+        "name": "Workshops & Trainings",
+        "description": "Building leadership capacities and policy expertise for future-ready governance"
+      }
+    ]
+  },
+  "focus": {
+    "visible": true,
+    "heading": "4 SDGs, 1 sustainable future",
+    "quote": "At GYN, we focus on four Sustainable Development Goals (SDGs) as education, gender equality, industry – innovation & Infrastructure, and climate action, uniting young leaders worldwide to create impactful solutions and drive positive change for a sustainable future.",
+    "goals": [
+      {
+        "sdg": "4",
+        "label": "SDG 4: Quality Education",
+        "claim": "Learning that travels.",
+        "text": "Empowering through Quality Education."
+      },
+      {
+        "sdg": "5",
+        "label": "SDG 5: Gender Equality",
+        "claim": "Equal is the baseline.",
+        "text": "Breaking barriers for Gender Equality."
+      },
+      {
+        "sdg": "9",
+        "label": "SDG 9: Industry, Innovation and Infrastructure",
+        "claim": "Ideas need infrastructure.",
+        "text": "Driving Innovation & Resilient Infrastructure."
+      },
+      {
+        "sdg": "13",
+        "label": "SDG 13: Climate Action",
+        "claim": "The climate cannot wait.",
+        "text": "Taking urgent action for our Climate."
+      }
+    ]
+  },
+  "objectives": {
+    "visible": true,
+    "heading": "Objectives",
+    "items": [
+      {
+        "title": "Empowerment",
+        "text": "Priming young leaders with skills, mindset, and confidence to drive systemic change."
+      },
+      {
+        "title": "Data Unification",
+        "text": "To collect and unify data and research ideas from across the globe related to SDG 4, SDG 5, SDG 9 and SDG 13"
+      },
+      {
+        "title": "Research Exploration",
+        "text": "Exploring fields, sharing research, and volunteer work"
+      },
+      {
+        "title": "Capacity Building",
+        "text": "Bringing scientists, students, NGOs, and legal professionals together through sessions and trainings to foster innovation and peace."
+      },
+      {
+        "title": "Policy Round-ups",
+        "text": "To provide a platform for bridging gaps, bringing cross-functional ideas from AI experts, businesses, NGOs, and volunteers through policy & ideas"
+      },
+      {
+        "title": "Global Collaboration",
+        "text": "Providing a forum for international networking (cross-border dialogue) and cultural exchange."
+      },
+      {
+        "title": "Sustainable Impact",
+        "text": "Advancing the UN Sustainable Development Goals (SDGs 4, 5, 9, and 13) through youth-led innovation and leadership skills."
+      }
+    ]
+  },
+  "advisors": {
+    "visible": true,
+    "heading": "Our global advisory board",
+    "people": [
+      {
+        "name": "Wenbo Li",
+        "role": "CEO Poly-Gamma, China",
+        "bio": "Mr. Li is a technology entrepreneur in the global advertising technology industry. Through his work with Poly-Gamma, he contributes to building innovative and transparent digital advertising solutions that empower businesses and publishers.",
+        "photo": {
+          "src": "/media/advisory-board/wenbo-li.webp",
+          "alt": "Wenbo Li"
+        }
+      },
+      {
+        "name": "Sura Fitiani",
+        "role": "Intersect Innovation Hub, Palestine",
+        "bio": "Ms. Fitiani works with startups and entrepreneurs to support innovation, partnerships, and growth within Palestine’s evolving technology and entrepreneurship landscape.",
+        "photo": {
+          "src": "/media/advisory-board/sura-fitiani.webp",
+          "alt": "Sura Fitiani"
+        }
+      },
+      {
+        "name": "Dr. Salah",
+        "role": "Senior Government Official, Oman",
+        "bio": "Dr. Salah has experience in public policy and national development. He has contributed to initiatives focused on governance, strategic planning, and sustainable growth.",
+        "photo": {
+          "src": "/media/advisory-board/dr-salah.webp",
+          "alt": "Dr. Salah"
+        }
+      },
+      {
+        "name": "Sidra Riaz",
+        "role": "Presidential Doctoral Fellow at Florida University, United States",
+        "bio": "COP 29 & COP30 Fellow. UN Youth Delegate.",
+        "photo": {
+          "src": "/media/advisory-board/sidra-riaz.webp",
+          "alt": "Sidra Riaz"
+        }
+      },
+      {
+        "name": "Dr. Mona Al Kadi",
+        "role": "Life Transformative Coach, UAE",
+        "bio": "Dr. Mona empowers individuals through coaching and mentorship to achieve personal growth and unlock their full potential.",
+        "photo": {
+          "src": "/media/advisory-board/dr-mona-al-kadi.webp",
+          "alt": "Dr. Mona Al Kadi"
+        }
+      },
+      {
+        "name": "Mr. Elam",
+        "role": "CEO Axxon group, UK",
+        "bio": "Mr. Elam is actively advancing the global technology ecosystem by driving innovation and enabling scalable opportunities for emerging tech entrepreneurs.",
+        "photo": {
+          "src": "/media/advisory-board/mr-elam.webp",
+          "alt": "Mr. Elam"
+        }
+      },
+      {
+        "name": "Dr. Suman Roy",
+        "role": "UN SDG Advocate",
+        "bio": "Dr. Suman Roy is an internationally recognized leader in food security, sustainability, and global development, dedicated to advancing the United Nations Sustainable Development Goals.",
+        "photo": {
+          "src": "/media/advisory-board/dr-suman-roy.webp",
+          "alt": "Dr. Suman Roy"
+        }
+      },
+      {
+        "name": "Ashley Blake",
+        "role": "Head of Partnership vrCAVE Canada",
+        "bio": "Leads strategic partnerships and community collaborations, fostering innovation and growth across the immersive technology and XR ecosystem.",
+        "photo": {
+          "src": "/media/advisory-board/ashley-blake.webp",
+          "alt": "Ashley Blake"
+        }
+      }
+    ]
+  },
+  "ambassadors": {
+    "visible": true,
+    "heading": "GYN global ambassadors",
+    "intro": "",
+    "people": [
+      {
+        "name": "Helga Tongi",
+        "country": "USA",
+        "photo": {
+          "src": "/media/ambassadors/helga-tongi.webp",
+          "alt": "Helga Tongi"
+        }
+      },
+      {
+        "name": "Yara Shamas",
+        "country": "Lebanon",
+        "photo": {
+          "src": "/media/ambassadors/yara-shamas.webp",
+          "alt": "Yara Shamas"
+        }
+      },
+      {
+        "name": "Patee",
+        "country": "Thailand",
+        "photo": {
+          "src": "/media/ambassadors/patee.webp",
+          "alt": "Patee"
+        }
+      },
+      {
+        "name": "Kritika Ghimire",
+        "country": "Nepal",
+        "photo": {
+          "src": "/media/ambassadors/kritika-ghimire.webp",
+          "alt": "Kritika Ghimire"
+        }
+      },
+      {
+        "name": "Lim Pei En",
+        "country": "Malaysia",
+        "photo": {
+          "src": "/media/ambassadors/lim-pei-en.webp",
+          "alt": "Lim Pei En"
+        }
+      },
+      {
+        "name": "Dr Righteous",
+        "country": "Nigeria",
+        "photo": {
+          "src": "/media/ambassadors/dr-righteous.webp",
+          "alt": "Dr Righteous"
+        }
+      },
+      {
+        "name": "Md Nafi",
+        "country": "Bangladesh",
+        "photo": {
+          "src": "/media/ambassadors/md-nafi.webp",
+          "alt": "Md Nafi"
+        }
+      },
+      {
+        "name": "Diba",
+        "country": "Australia",
+        "photo": {
+          "src": "/media/ambassadors/diba.webp",
+          "alt": "Diba"
+        }
+      },
+      {
+        "name": "Casey",
+        "country": "USA",
+        "photo": {
+          "src": "/media/ambassadors/casey.webp",
+          "alt": "Casey"
+        }
+      },
+      {
+        "name": "Ashif",
+        "country": "India",
+        "photo": {
+          "src": "/media/ambassadors/ashif.webp",
+          "alt": "Ashif"
+        }
+      },
+      {
+        "name": "Boling",
+        "country": "Laos",
+        "photo": {
+          "src": "/media/ambassadors/boling.webp",
+          "alt": "Boling"
+        }
+      },
+      {
+        "name": "Abdul Ahad",
+        "country": "Pakistan",
+        "photo": {
+          "src": "/media/ambassadors/abdul-ahad.webp",
+          "alt": "Abdul Ahad"
+        }
+      }
+    ]
+  },
+  "events": {
+    "visible": true,
+    "heading": "Our upcoming events",
+    "items": [
+      {
+        "kicker": "Call for Applications!",
+        "title": "SDG Innovation Summit Malaysia 2026",
+        "dates": "19–22 November 2026",
+        "venue": "Teedo Hotel, Kuala Lumpur",
+        "description": "The SDG Innovation Summit Malaysia 2026 brings together 100 young leaders, innovators, entrepreneurs, students, professionals, and changemakers from around the world to exchange ideas, build connections, and drive sustainable impact aligned with the UN Sustainable Development Goals (SDGs).",
+        "image": {
+          "src": "/media/events/web-banner-sism.webp",
+          "alt": "SDG Innovation Summit Malaysia 2026 banner"
+        },
+        "cta": {
+          "label": "SIS Malaysia 2026, apply",
+          "href": "/sism-2026"
+        }
+      }
+    ]
+  },
+  "partners": {
+    "visible": true,
+    "heading": "Our partners",
+    "logos": [
+      {
+        "name": "",
+        "logo": "/media/partners/oc.png",
+        "href": ""
+      },
+      {
+        "name": "Opportunities Radar",
+        "logo": "/media/partners/opportunities-radar.png",
+        "href": ""
+      },
+      {
+        "name": "",
+        "logo": "/media/partners/tehgzr.png",
+        "href": ""
+      },
+      {
+        "name": "",
+        "logo": "/media/partners/tss.png",
+        "href": ""
+      },
+      {
+        "name": "Axxon",
+        "logo": "/media/partners/axxon.png",
+        "href": ""
+      },
+      {
+        "name": "",
+        "logo": "/media/partners/logo-n.png",
+        "href": ""
+      }
+    ]
+  },
+  "closing": {
+    "visible": true,
+    "headline": "See you in *Kuala Lumpur.*",
+    "cta": {
+      "label": "Book Forum Access, $199",
+      "href": "/sism-forum-access"
+    }
+  }
+}

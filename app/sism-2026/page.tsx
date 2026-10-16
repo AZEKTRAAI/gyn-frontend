@@ -140,7 +140,8 @@ export default async function Sism2026Page() {
               <p style={{ fontSize: 'clamp(.875rem,1.4vw,1.0625rem)', color: 'var(--white)', lineHeight: 1.65, marginBottom: '2rem', maxWidth: '52ch' }}>
                 100 seats, {sism.scholarships.total} scholarships. Join young leaders, innovators and professionals from around the world in Kuala Lumpur.
               </p>
-              <Countdown serverNow={RENDERED_AT} />
+              {/* Hard-coded target: 19 Nov 2026 00:00 MYT = UTC+8 */}
+              <Countdown serverNow={RENDERED_AT} target={new Date('2026-11-18T16:00:00Z').getTime()} />
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '2.5rem' }}>
                 <Link href="/sism-forum-access" className="btn btn-y">Book Forum Access, $199</Link>
                 <Link href="#tickets" className="btn btn-ow">See all tickets</Link>

@@ -1,5 +1,18 @@
 # Admin panel plan
 
+## Built: home page editor (`/admin/home`)
+
+Every text, image, link and list on the home page is edited here, and **Publish changes** puts it live straight away (`revalidatePath('/')`).
+
+- **Content contract:** `features/home/schema.ts` (zod). The editor form is generated from it (`z.toJSONSchema`), so a new field in the schema shows up in the editor with no UI work. The seed and fallback is `content/home.json` (copy from the live thegyn.org home page).
+- **Sections:** search and sharing, top of page (current event, countdown), who we are, focus areas (the four SDG chapters), objectives, advisory board, ambassadors, upcoming events, partners, closing banner. Each section except the top has a "Show this section" switch. Lists support add, remove and reorder.
+- **Storage:** with `DATABASE_URL`, `Page` "home" plus one `ContentBlock` per section, and an `AuditLog` row (`HOME_PAGE_UPDATED`) holding the old and new content for rollback. Without a database, development saves to `content/home.json`, and production refuses to save.
+- **Images:** upload in the editor. With `CLOUDINARY_URL`, they go to Cloudinary (signed, server side). Without it, development writes to `public/uploads` and production refuses. The file type is checked from its bytes (PNG, JPG, WebP, AVIF; no SVG), with a 4 MB cap.
+- **Safety:** links must start with `https://`, `/`, `#`, `mailto:` or `tel:` (no `javascript:`). Images must be `/...` or `https://res.cloudinary.com/...`. Every server action calls `requireAdmin()` (`lib/server/admin-auth.ts`), which checks `ADMIN_BASIC_AUTH` itself rather than trusting the proxy. With no `ADMIN_BASIC_AUTH`, production locks `/admin` entirely.
+- **Not built yet:** drafts and preview before publishing, version history UI (the audit log has the data), per-person logins and roles (Auth.js, below), section reordering.
+
+## The rest (plan)
+
 Not built. `/admin` today is a static page (`app/admin/page.tsx`) with fabricated sample numbers and SVG charts, no data access and no login. `proxy.ts` puts HTTP Basic Auth in front of it when `ADMIN_BASIC_AUTH` is set. Everything below is the plan for the real thing, written against `prisma/schema.prisma` as of 16 Oct 2026. Where the plan needs something the schema doesn't have, it says so; the full list is in "Schema changes" near the end.
 
 Target users: two to six GYN staff and a scholarship panel of volunteer reviewers. Volume, from `docs/schema.md`: 2 summits a year, about 200 confirmed seats, 1,000 to 4,000 scholarship applications, a few hundred thousand rows over the life of the database. Nothing here needs to scale past one Postgres instance.

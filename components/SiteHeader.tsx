@@ -1,3 +1,4 @@
+// Direction I header
 'use client'
 
 import Image from 'next/image'
@@ -11,18 +12,25 @@ interface Props {
 
 export function SiteHeader({ nav }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
-  // Track which desktop dropdown is open (by label)
-  const [expandedLabel, setExpandedLabel] = useState<string | null>(null)
+  const [scrolled, setScrolled] = useState(false)
 
   const hamburgerRef = useRef<HTMLButtonElement>(null)
-  const menuRef = useRef<HTMLDivElement>(null)
+  const drawerRef = useRef<HTMLDivElement>(null)
 
   const closeMenu = useCallback(() => {
     setMenuOpen(false)
     hamburgerRef.current?.focus()
   }, [])
 
-  // Escape closes mobile menu
+  // Scroll: show solid field background once past 40px
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Escape closes mobile drawer
   useEffect(() => {
     if (!menuOpen) return
     const onKey = (e: KeyboardEvent) => {
@@ -32,20 +40,37 @@ export function SiteHeader({ nav }: Props) {
     return () => document.removeEventListener('keydown', onKey)
   }, [menuOpen, closeMenu])
 
-  // Focus trap inside mobile menu
+  // Scroll lock + inert when drawer open
   useEffect(() => {
-    if (!menuOpen || !menuRef.current) return
-    const panel = menuRef.current
+    const main = document.getElementById('main')
+    const footer = document.querySelector('footer')
+    const skip = document.querySelector<HTMLElement>('.sr-only')
+    if (menuOpen) {
+      document.documentElement.style.overflow = 'hidden'
+      if (main) main.inert = true
+      if (footer) footer.inert = true
+      if (skip) skip.inert = true
+      // Focus first link in drawer
+      const first = drawerRef.current?.querySelector<HTMLElement>('a, button')
+      first?.focus()
+    } else {
+      document.documentElement.style.overflow = ''
+      if (main) main.inert = false
+      if (footer) footer.inert = false
+      if (skip) skip.inert = false
+    }
+  }, [menuOpen])
+
+  // Focus trap inside drawer
+  useEffect(() => {
+    if (!menuOpen || !drawerRef.current) return
+    const panel = drawerRef.current
     const getFocusable = () =>
       Array.from(
         panel.querySelectorAll<HTMLElement>(
           'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
         ),
       )
-
-    // Move focus to first item when menu opens
-    const focusable = getFocusable()
-    focusable[0]?.focus()
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return
@@ -69,17 +94,6 @@ export function SiteHeader({ nav }: Props) {
     return () => document.removeEventListener('keydown', onKey)
   }, [menuOpen])
 
-  // Close desktop dropdowns on Escape
-  useEffect(() => {
-    if (!expandedLabel) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setExpandedLabel(null)
-    }
-    document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
-  }, [expandedLabel])
-
-  // First child href for parent nav items that have href="#"
   function primaryHref(item: NavItem): string {
     if (item.href !== '#') return item.href.replace('https://thegyn.org', '') || '/'
     const first = item.children?.[0]?.href
@@ -93,9 +107,14 @@ export function SiteHeader({ nav }: Props) {
           position: fixed;
           inset-block-start: 0;
           inset-inline: 0;
-          z-index: 100;
-          background: var(--navy-900);
-          border-bottom: 1px solid rgba(255,255,255,.08);
+          z-index: 1000;
+          /* always solid: inner pages have dark photo heroes the dark nav text would vanish on */
+          background: #EEF2F6;
+          transition: background 240ms cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 240ms cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .site-header[data-scrolled] {
+          background: rgba(238,242,246,.96);
+          box-shadow: 0 1px 0 rgba(14,21,48,.08);
         }
         .nav-inner {
           display: flex;
@@ -105,38 +124,44 @@ export function SiteHeader({ nav }: Props) {
         }
         .nav-desktop { display: flex; align-items: center; list-style: none; gap: 0; }
         .nav-cta-wrap { display: flex; align-items: center; gap: 0.75rem; }
-        .ham-btn { display: none; background: none; border: none; cursor: pointer; color: var(--white); padding: 0.5rem; }
-        @media (max-width: 767px) {
+        .ham-btn { display: none; background: none; border: none; cursor: pointer; color: var(--ink, #0E1530); padding: 0.5rem; flex-direction: column; gap: 5px; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+        @media (max-width: 1023px) {
           .nav-desktop { display: none; }
           .nav-cta-wrap { display: none; }
-          .ham-btn { display: block; }
+          .ham-btn { display: flex; }
         }
         .nav-item { position: relative; }
         .nav-item-btn, .nav-item-link {
           display: block;
           padding: 0.5rem 0.75rem;
-          font-size: 0.875rem;
+          font-size: 0.9375rem;
           font-weight: 500;
-          color: rgba(255,255,255,.8);
+          color: rgba(14,21,48,.72);
           background: none;
           border: none;
           cursor: pointer;
-          font-family: var(--fb);
-          transition: color 140ms cubic-bezier(0.23, 1, 0.32, 1);
+          font-family: var(--font-host-grotesk, var(--fb));
+          transition: color 150ms;
           white-space: nowrap;
+          min-height: 44px;
+          display: inline-flex;
+          align-items: center;
         }
-        .nav-item-btn:hover, .nav-item-link:hover { color: var(--white); }
+        .nav-item-btn:hover, .nav-item-link:hover { color: #0E1530; }
+        .nav-item-btn:focus-visible, .nav-item-link:focus-visible { outline: 2px solid #FCC30B; outline-offset: 4px; border-radius: 2px; }
         .nav-drop {
           display: none;
           position: absolute;
-          top: 100%;
+          top: calc(100% + 4px);
           left: 0;
-          background: var(--navy-800);
+          background: rgba(238,242,246,.98);
           min-width: 200px;
           list-style: none;
-          border-top: 2px solid var(--yellow);
+          border: 1px solid rgba(14,21,48,.1);
           padding-block: 0.5rem;
           z-index: 10;
+          border-radius: 8px;
+          box-shadow: 0 4px 16px rgba(14,21,48,.08);
         }
         .nav-item:hover .nav-drop,
         .nav-item:focus-within .nav-drop { display: block; }
@@ -144,15 +169,106 @@ export function SiteHeader({ nav }: Props) {
         .nav-drop-link {
           display: block;
           padding: 0.5rem 1rem;
-          font-size: 0.8125rem;
-          color: rgba(255,255,255,.75);
-          transition: color 140ms cubic-bezier(0.23, 1, 0.32, 1), background-color 140ms cubic-bezier(0.23, 1, 0.32, 1);
+          font-size: 0.875rem;
+          color: rgba(14,21,48,.72);
+          transition: color 140ms, background-color 140ms;
           white-space: nowrap;
         }
-        .nav-drop-link:hover { color: var(--white); background: rgba(255,255,255,.05); }
+        .nav-drop-link:hover { color: #0E1530; background: rgba(14,21,48,.04); }
+        .nav-book-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: #FCC30B;
+          color: #0E1530;
+          font-size: 0.875rem;
+          font-weight: 600;
+          padding: 0.625rem 1.25rem;
+          border-radius: 999px;
+          transition: transform 160ms cubic-bezier(0.23,1,0.32,1);
+          font-family: var(--font-host-grotesk, var(--fb));
+          min-height: 44px;
+        }
+        .nav-book-pill:hover { transform: scale(1.02); }
+        .nav-book-pill:active { transform: scale(0.97); }
+        .nav-book-pill:focus-visible { outline: 2px solid #0E1530; outline-offset: 2px; }
+        /* Mobile: compact price-only pill beside logo */
+        .nav-m-book {
+          display: none;
+          background: #FCC30B;
+          color: #0E1530;
+          font-size: 0.8125rem;
+          font-weight: 600;
+          padding: 0.5rem 1rem;
+          border-radius: 999px;
+          min-height: 44px;
+          align-items: center;
+        }
+        @media (max-width: 1023px) {
+          .nav-m-book { display: inline-flex; }
+        }
+
+        /* Mobile drawer — full screen, field bg */
+        .nav-drawer {
+          position: fixed;
+          inset: 0;
+          z-index: 999;
+          background: #EEF2F6;
+          padding: 76px 24px 40px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          overflow-y: auto;
+          /* hidden by default; toggled via menuOpen */
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 200ms;
+        }
+        .nav-drawer.open {
+          opacity: 1;
+          pointer-events: auto;
+        }
+        .nav-drawer a {
+          font-size: 1.25rem;
+          font-weight: 500;
+          color: #0E1530;
+          padding: 14px 0;
+          border-bottom: 1px solid rgba(14,21,48,.1);
+          display: block;
+          font-family: var(--font-host-grotesk, var(--fb));
+          min-height: 44px;
+        }
+        .nav-drawer a:focus-visible { outline: 2px solid #FCC30B; outline-offset: 4px; }
+        .drawer-book {
+          margin-top: 24px;
+          display: inline-block;
+          background: #FCC30B;
+          color: #0E1530;
+          font-size: 1rem;
+          font-weight: 600;
+          padding: 14px 28px;
+          border-radius: 999px;
+          text-align: center;
+          border-bottom: none !important;
+        }
+        .ham-bar {
+          display: block;
+          width: 22px;
+          height: 2px;
+          background: #0E1530;
+          border-radius: 2px;
+          transition: transform 200ms, opacity 200ms;
+        }
+        .ham-btn[aria-expanded="true"] .ham-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .ham-btn[aria-expanded="true"] .ham-bar:nth-child(2) { opacity: 0; }
+        .ham-btn[aria-expanded="true"] .ham-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
       `}</style>
 
-      <header className="site-header" role="banner">
+      <header
+        className="site-header"
+        role="banner"
+        data-scrolled={scrolled ? '' : undefined}
+      >
         <div className="wrap">
           <nav className="nav-inner" aria-label="Main navigation">
             <Link href="/" aria-label="Global Youth Network home">
@@ -170,38 +286,23 @@ export function SiteHeader({ nav }: Props) {
             {/* Desktop nav */}
             <ul className="nav-desktop" role="list">
               {nav.map((item) => (
-                <li
-                  key={item.label}
-                  className="nav-item"
-                  onMouseLeave={() => setExpandedLabel(null)}
-                >
+                <li key={item.label} className="nav-item">
                   {item.children ? (
                     <>
                       <button
                         className="nav-item-btn"
                         aria-haspopup="true"
-                        aria-expanded={expandedLabel === item.label}
-                        onMouseEnter={() => setExpandedLabel(item.label)}
-                        onFocus={() => setExpandedLabel(item.label)}
-                        onClick={() =>
-                          setExpandedLabel((v) => (v === item.label ? null : item.label))
-                        }
+                        aria-expanded={false}
                       >
                         {item.label}
                       </button>
-                      <ul
-                        className="nav-drop"
-                        role="list"
-                        data-open={expandedLabel === item.label ? 'true' : undefined}
-                      >
+                      <ul className="nav-drop" role="list">
                         {item.children.map((child) => (
                           <li key={child.label}>
                             <Link
                               href={child.href.replace('https://thegyn.org', '') || '/'}
                               className="nav-drop-link"
-                              onClick={() => setExpandedLabel(null)}
                             >
-                              {/* Strip flag emoji per taste rule 10 */}
                               {child.label.replace(/[\u{1F1E0}-\u{1F1FF}]{2}/gu, '').trim()}
                             </Link>
                           </li>
@@ -221,105 +322,61 @@ export function SiteHeader({ nav }: Props) {
             </ul>
 
             <div className="nav-cta-wrap">
-              <Link href="/sism-forum-access" className="btn btn-y">
+              <Link href="/sism-forum-access" className="nav-book-pill">
                 Book Forum Access, $199
               </Link>
             </div>
 
-            {/* Mobile hamburger */}
-            <button
-              ref={hamburgerRef}
-              className="ham-btn"
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-              onClick={() => setMenuOpen((v) => !v)}
-            >
-              <svg width="22" height="18" viewBox="0 0 22 18" fill="none" aria-hidden="true">
-                {menuOpen ? (
-                  <>
-                    <line x1="1" y1="1" x2="21" y2="17" stroke="currentColor" strokeWidth="2" />
-                    <line x1="21" y1="1" x2="1" y2="17" stroke="currentColor" strokeWidth="2" />
-                  </>
-                ) : (
-                  <>
-                    <rect width="22" height="2" fill="currentColor" />
-                    <rect y="8" width="22" height="2" fill="currentColor" />
-                    <rect y="16" width="22" height="2" fill="currentColor" />
-                  </>
-                )}
-              </svg>
-            </button>
+            {/* Mobile: compact pill + hamburger */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Link href="/sism-forum-access" className="nav-m-book" aria-label="Book Forum Access, $199">
+                $199
+              </Link>
+              <button
+                ref={hamburgerRef}
+                className="ham-btn"
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
+                onClick={() => setMenuOpen((v) => !v)}
+              >
+                <span className="ham-bar" />
+                <span className="ham-bar" />
+                <span className="ham-bar" />
+              </button>
+            </div>
           </nav>
         </div>
 
-        {/* Mobile menu panel */}
-        {menuOpen && (
-          <div
-            id="mobile-menu"
-            ref={menuRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Navigation menu"
-            style={{
-              position: 'fixed',
-              insetBlockStart: '3.5rem',
-              insetInline: 0,
-              background: 'var(--navy-800)',
-              zIndex: 99,
-              padding: '1.25rem var(--gut) 2rem',
-              borderTop: '2px solid var(--yellow)',
-            }}
+        {/* Mobile drawer */}
+        <div
+          id="mobile-menu"
+          ref={drawerRef}
+          className={`nav-drawer${menuOpen ? ' open' : ''}`}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
+          aria-hidden={!menuOpen}
+        >
+          {nav.map((item) => (
+            <Link
+              key={item.label}
+              href={primaryHref(item)}
+              onClick={closeMenu}
+              tabIndex={menuOpen ? 0 : -1}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Link
+            href="/sism-forum-access"
+            className="drawer-book"
+            onClick={closeMenu}
+            tabIndex={menuOpen ? 0 : -1}
           >
-            <ul style={{ listStyle: 'none' }}>
-              {nav.map((item) => (
-                <li key={item.label}>
-                  {/* Items with href="#": link to the primary destination (first child) instead */}
-                  <Link
-                    href={primaryHref(item)}
-                    onClick={closeMenu}
-                    style={{
-                      display: 'block',
-                      padding: '0.75rem 0',
-                      fontSize: '1rem',
-                      fontWeight: 500,
-                      color: 'rgba(255,255,255,.85)',
-                      borderBottom: '1px solid rgba(255,255,255,.08)',
-                    }}
-                  >
-                    {item.label}
-                  </Link>
-                  {item.children && (
-                    <ul style={{ listStyle: 'none', paddingLeft: '1rem' }}>
-                      {item.children.map((child) => (
-                        <li key={child.label}>
-                          <Link
-                            href={child.href.replace('https://thegyn.org', '')}
-                            onClick={closeMenu}
-                            style={{
-                              display: 'block',
-                              padding: '0.5rem 0',
-                              fontSize: '0.9rem',
-                              color: 'rgba(255,255,255,.65)',
-                              borderBottom: '1px solid rgba(255,255,255,.05)',
-                            }}
-                          >
-                            {child.label.replace(/[\u{1F1E0}-\u{1F1FF}]{2}/gu, '').trim()}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
-            <div style={{ marginTop: '1.25rem' }}>
-              <Link href="/sism-forum-access" className="btn btn-y" onClick={closeMenu}>
-                Book Forum Access, $199
-              </Link>
-            </div>
-          </div>
-        )}
+            Book Forum Access, $199
+          </Link>
+        </div>
       </header>
     </>
   )

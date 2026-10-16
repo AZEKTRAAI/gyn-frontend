@@ -1,6 +1,6 @@
 // HTTP Basic Auth guard for /admin and /pitch routes.
 // Set ADMIN_BASIC_AUTH="user:password" and PITCH_BASIC_AUTH="user:password" in env.
-// When the env var is absent the route is unguarded (acceptable for demo; set before launch).
+// When the env var is absent: /pitch is unguarded; /admin is unguarded in dev and locked in production.
 import { NextRequest, NextResponse } from "next/server";
 
 function basicAuthResponse(): NextResponse {
@@ -12,7 +12,11 @@ function basicAuthResponse(): NextResponse {
 
 function checkBasicAuth(req: NextRequest, envVar: string): NextResponse | null {
   const expected = process.env[envVar];
-  if (!expected) return null; // no env var = unguarded in demo mode
+  if (!expected) {
+    // Unguarded in dev/demo; production fails closed for /admin (it can edit the live site).
+    if (process.env.NODE_ENV === "production" && envVar === "ADMIN_BASIC_AUTH") return basicAuthResponse();
+    return null;
+  }
   const auth = req.headers.get("authorization");
   if (!auth?.startsWith("Basic ")) return basicAuthResponse();
   const decoded = Buffer.from(auth.slice(6), "base64").toString("utf-8");

@@ -11,7 +11,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   // next/font self-hosts Google Fonts at build time; no external font CDN needed at runtime.
   "font-src 'self' data:",
-  "img-src 'self' data: blob: https://i.ytimg.com https://thegyn.org https://img.youtube.com",
+  "img-src 'self' data: blob: https://i.ytimg.com https://thegyn.org https://img.youtube.com https://res.cloudinary.com",
   // Turnstile challenge iframe + YouTube nocookie embeds
   "frame-src https://challenges.cloudflare.com https://www.youtube-nocookie.com",
   // Stripe API calls are server-side only. Turnstile verify and Vercel analytics are client-initiated.
@@ -38,8 +38,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'i.ytimg.com' },
       { protocol: 'https', hostname: 'thegyn.org' },
+      // admin image uploads (features/home/upload.ts)
+      { protocol: 'https', hostname: 'res.cloudinary.com' },
     ],
   },
+  // admin image uploads are capped at 4 MB; the rest is multipart overhead
+  experimental: { serverActions: { bodySizeLimit: '5mb' } },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },

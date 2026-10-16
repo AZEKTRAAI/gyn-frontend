@@ -41,6 +41,7 @@
     "concepts",
     "features/payments/stripe.test.ts",
     "features/registration/schema.test.ts",
-    "lib/server/tests.ts"
+    "lib/server/tests.ts",
+    "prisma/seed.test.ts"
   ]
 }

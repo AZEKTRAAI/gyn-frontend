@@ -224,7 +224,7 @@ export default async function FmsThailandPage() {
       <HorizontalGallery photos={galleryPhotos} heading="A glimpse into FMST 2026" />
 
       {/* SPEAKERS — DeckSlider */}
-      <section aria-labelledby="spk-hd" style={{ background: 'var(--blue-deep)', paddingBlock: 'var(--sp)' }}>
+      <section aria-labelledby="spk-hd" style={{ background: 'var(--blue-deep)', paddingBlock: 'var(--sp)', color: 'var(--white)' }}>
         <div className="wrap">
           <SplitReveal id="spk-hd" lines={['12 speakers. One summit.']} as="h2" className="d2"
             style={{ color: 'var(--white)', marginBottom: '2.5rem' }}

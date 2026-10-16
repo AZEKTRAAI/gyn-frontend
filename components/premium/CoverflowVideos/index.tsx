@@ -48,9 +48,11 @@ export interface CoverflowVideosProps {
   /** Called when user activates an item (Enter/click on active card) */
   onOpen: (item: VideoItem) => void;
   heading?: string;
+  /** Text color for title/category/counter. Defaults to navy-900 (suits light backgrounds). Pass var(--white) for dark-bg sections. */
+  textColor?: string;
 }
 
-export function CoverflowVideos({ items, onOpen, heading }: CoverflowVideosProps) {
+export function CoverflowVideos({ items, onOpen, heading, textColor = 'var(--navy-900, #0E1530)' }: CoverflowVideosProps) {
   const [active, setActive] = useState(0);
   const prefersReduced = useReducedMotion();
   const regionRef = useRef<HTMLElement>(null);
@@ -220,7 +222,7 @@ export function CoverflowVideos({ items, onOpen, heading }: CoverflowVideosProps
         style={{
           textAlign: 'center',
           marginTop: '1.25rem',
-          color: 'var(--navy-900, #0E1530)',
+          color: textColor,
         }}
       >
         <p style={{ fontSize: '0.8125rem', opacity: 0.6, marginBottom: '0.25rem' }}>
@@ -242,7 +244,7 @@ export function CoverflowVideos({ items, onOpen, heading }: CoverflowVideosProps
         }}
       >
         <button onClick={() => go(-1)} aria-label="Previous video" style={ctrlStyle}>←</button>
-        <span style={{ fontSize: '0.8125rem', opacity: 0.55 }}>{active + 1} / {total}</span>
+        <span style={{ fontSize: '0.8125rem', color: textColor }}>{active + 1} / {total}</span>
         <button onClick={() => go(1)} aria-label="Next video" style={ctrlStyle}>→</button>
       </div>
     </section>

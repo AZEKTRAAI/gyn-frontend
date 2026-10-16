@@ -136,7 +136,7 @@ export function DeckSlider({ items, heading }: DeckSliderProps) {
         >
           ←
         </button>
-        <span style={{ fontSize: '0.8125rem', opacity: 0.6 }}>
+        <span style={{ fontSize: '0.8125rem' }}>
           {activeIndex + 1} / {total}
         </span>
         <button

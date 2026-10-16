@@ -43,7 +43,7 @@ export function HomeVideosSection({ items, heading }: Props) {
 
   return (
     <>
-      <CoverflowVideos items={items} onOpen={setOpen} heading={heading} />
+      <CoverflowVideos items={items} onOpen={setOpen} heading={heading} textColor="var(--white)" />
 
       <dialog
         ref={dlgRef}

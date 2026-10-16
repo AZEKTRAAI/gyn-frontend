@@ -239,6 +239,9 @@ function NativeScrollRow({ photos, heading }: HorizontalGalleryProps) {
         </h2>
       )}
       <div
+        role="region"
+        aria-label={heading ?? 'Gallery photos'}
+        tabIndex={0}
         style={{
           display: 'flex',
           gap: '0.75rem',

@@ -58,7 +58,7 @@ export function PolicyLayout({ title, toc, lastUpdated, children }: Props) {
             {title}
           </h1>
           {lastUpdated && (
-            <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,.7)' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--white)' }}>
               Last updated {lastUpdated}
             </p>
           )}
@@ -148,6 +148,7 @@ export function PolicyLayout({ title, toc, lastUpdated, children }: Props) {
         .policy-body a:hover { color: var(--blue-ocean); }
         .policy-body table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.9375rem; }
         .policy-body th { background: var(--navy-900); color: var(--white); padding: 0.625rem 0.875rem; text-align: left; font-weight: 600; }
+        .policy-body th strong { color: inherit; }
         .policy-body td { padding: 0.5rem 0.875rem; border-bottom: 1px solid var(--n-200); color: var(--n-700); vertical-align: top; }
         .policy-body tr:nth-child(even) td { background: var(--n-50); }
       `}</style>

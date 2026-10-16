@@ -106,12 +106,11 @@ export function VideosClient({ videos }: Props) {
               position: 'relative',
               background: 'rgba(255,255,255,.04)',
             }}
-            aria-label={`Play: ${v.title}`}
           >
             <div style={{ position: 'relative', aspectRatio: '16/9', background: 'rgba(0,0,0,.4)' }}>
               <Image
                 src={v.thumbnail || `https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`}
-                alt={v.title}
+                alt=""
                 fill
                 sizes="(max-width: 768px) 90vw, (max-width: 1280px) 33vw, 400px"
                 style={{ objectFit: 'cover', opacity: 0.82 }}

@@ -215,3 +215,12 @@ Counts this pass: Pass 1, 11 fixed. Pass 2, 12 fixed, 18 still open, 0 regressed
 ### Go / no-go for Sunday's demo
 
 No-go on this build, but a short round of fixes turns it into a go. The demo path breaks at its most important step: "Pay $199 USD" and "Send message" fail silently, because the build has the Turnstile secret but not the site key (RT-075). The home page is the first screen, and it breaks its H1 mid-word on any screen wider than about 1600px; a 1920×1080 meeting-room screen is the likely setup (RT-076). Its countdown shows the build day's numbers, which is the exact fault we pin on the live site (RT-077). Each blocker needs one config change or a one-line fix. Fix those three, centre the video dialogs and shrink the SISM player (RT-079, RT-080), and paste the doc's eight live-site sentences into /pitch (RT-078). Then rebuild with the always-pass site key and, before Sunday, re-run `demo.py` and `demo2.py` at 1440 and 390 and `wide.py` at 1920. The remaining open items (policy H1s, admin numbers, form labels, FMS layout at 390) won't stop a demo. A careful client could notice the refund table headers and the duplicated advisory board on the about page, so fix those too if there's time.
+
+### Pass 3 follow-up (16 Oct, after the fixes)
+Re-checked on a fresh production build with Cloudflare's test Turnstile keys, the way a demo deploy would run:
+- RT-075 fixed: the widget renders, issues a token, and registration lands on the success page at 1440 and 390; a missing token now shows "Please complete the security check." instead of silently jumping back to step 1.
+- RT-076 fixed: the longest H1 word fits its column at 1440, 1536, 1680, 1920 and 2560.
+- RT-077 fixed: the countdown hydrates against the render time and then shows the live value (checked at +1 s, +4 s and +65 s). The first fix (a remount) made the digits a late LCP again; the final one updates the same text nodes.
+- RT-078, RT-079, RT-080, RT-081, RT-082, RT-083, RT-084, RT-085 fixed (the /pitch list now quotes docs/live-site-findings.md; dialogs are centred; the shorts player fits a laptop screen; the sticky bar is phone-only and the WhatsApp button sits above it).
+- axe-core: no serious or critical violations on 12 routes at 390 and 1440. Lighthouse: accessibility 97, best practices 100, SEO 100 on / and /sism-2026; performance 100 desktop, 87 to 92 mobile across runs.
+- Lows not fixed: the Google Calendar and .ics end times differ; `?v=` with an unknown id opens an empty player.

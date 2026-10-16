@@ -142,14 +142,14 @@ Lighthouse, production build:
 
 | Page | Mobile | Desktop |
 |---|---|---|
-| Home | Performance 92, accessibility 97, best practices 100, SEO 100 | Performance 100, accessibility 97, best practices 100, SEO 100 |
-| SISM 2026 | Performance 89 (88 to 90 across runs), accessibility 93, best practices 100, SEO 100 | Performance 100, accessibility 93, best practices 100, SEO 100 |
+| Home | Performance 88, accessibility 97, best practices 100, SEO 100 | Performance 100, accessibility 97, best practices 100, SEO 100 |
+| SISM 2026 | Performance 89, accessibility 97, best practices 100, SEO 100 | Performance 100, accessibility 97, best practices 100, SEO 100 |
 
-Lighthouse's mobile score simulates a mid-range phone on slow 4G. In a real throttled browser the headline paints in about 1.1 seconds; the rest of the gap is the simulation charging the headline for its font download. On phones we hide the hero's globe and photo to keep that number up; the photos appear further down the page.
+Mobile performance moves between 87 and 92 from run to run. Lighthouse's mobile score simulates a mid-range phone on slow 4G. In a real throttled browser the headline paints in about 1.1 seconds; the rest of the gap is the simulation charging the headline for its font download. On phones we hide the hero's globe and photo to keep that number up; the photos appear further down the page.
 
 **Security.** A review of our build on 16 Oct found 16 issues: 2 critical, 5 high, 5 medium, 4 low. We fixed 11 of the 12 critical, high and medium ones the same day. The last (one rate limit shared across all servers) closes when the Upstash account exists. The low ones are fixed or accepted with a written reason. 41 automated tests cover registration, server-side prices, rate limiting and Stripe's payment reports.
 
-**Accessibility.** The palette's text colours are checked against WCAG 2.2 AA by script. Our automated check on 16 Oct still flagged contrast in some sections and keyboard handling in the mobile menu. Both are on our list before launch.
+**Accessibility.** Every text colour pair is checked against WCAG 2.2 AA by script. On 16 Oct an automated axe-core scan of all twelve page types, at phone and desktop width, found no serious or critical issues. Keyboard users can reach and operate the menu, carousels, video player and forms, focus is always visible, and motion stops for anyone who asks their device to reduce it.
 
 ## What we need from you to start
 

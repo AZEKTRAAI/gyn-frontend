@@ -5,7 +5,7 @@
  * (a) Before/after comparison slider (keyboard-operable, role="slider")
  * (b) Metrics cards with animated counters (proven numbers only; Lighthouse pending)
  * (c) Premium component showcase
- * (d) Live-site issues list from redteam.md
+ * (d) Live-site issues found in the 15 Oct 2026 crawl of thegyn.org
  */
 
 import { useEffect, useRef, useState, useCallback } from 'react'

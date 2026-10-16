@@ -39,7 +39,7 @@ DEVIATIONS:
   --sv:      clamp(80px,9vw,144px);
   --sv-sm:   clamp(56px,7vw,112px);
   --t-hero:  clamp(2.625rem,5.5vw,5rem);
-  --t-claim: clamp(2.25rem,5.5vw,5rem);
+  --t-claim: clamp(2.25rem,5vw,4.5rem);
   --t-h2:    clamp(1.875rem,3.5vw,3rem);
   --t-lead:  clamp(1.1875rem,1.8vw,1.5rem);
   --t-body:  clamp(1.0625rem,1.15vw,1.125rem);
@@ -102,11 +102,11 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   .nav-m-book,.nav-ham{display:flex}
 }
 
-/* hero — centred Apple composition */
-.hero{min-height:100svh;background:var(--field);display:flex;flex-direction:column;
-  align-items:center;padding-top:76px;overflow:hidden;position:relative}
+/* hero — centred Apple composition; wheel absolutely positioned so 40% is visible above fold */
+.hero{height:100svh;background:var(--field);display:flex;flex-direction:column;
+  align-items:center;padding-top:72px;overflow:hidden;position:relative}
 .hero-text{display:flex;flex-direction:column;align-items:center;text-align:center;
-  gap:20px;max-width:1100px;width:100%;padding:clamp(28px,4vw,56px) clamp(16px,4vw,40px) 0}
+  gap:14px;max-width:1100px;width:100%;padding:clamp(12px,2vw,28px) clamp(16px,4vw,40px) 0}
 .hero-h1{font-size:clamp(4.5rem,6.5vw,5.5rem);letter-spacing:-0.022em;line-height:1.03;
   font-weight:600;color:var(--ink);text-wrap:balance}
 .hero-lead{font-size:var(--t-lead);color:var(--navy);line-height:1.38;font-weight:400;
@@ -131,20 +131,24 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .cd-val{font-size:1.2rem;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
 .cd-sep{font-size:1.2rem;font-weight:300;padding-bottom:2px;align-self:flex-end}
 
-/* hero wheel canvas — centred below headline block */
-.hero-wheel{position:relative;width:clamp(260px,50vw,720px);aspect-ratio:1/1;
-  margin-top:clamp(12px,2vw,28px);flex-shrink:0}
+/* hero wheel: absolute at bottom, translateY(60%) keeps 40% visible above fold */
+.hero-wheel{position:absolute;bottom:0;left:50%;
+  transform:translateX(-50%) translateY(60%);
+  width:clamp(380px,54vw,720px);aspect-ratio:1/1;
+  pointer-events:none}
 #hero-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
 .hero-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
   transition:opacity 500ms}
 .hero-wheel.canvas-rdy .hero-poster{opacity:0;pointer-events:none}
 
 @media(max-width:1023px){
-  .hero-wheel{width:min(88vw,460px)}
+  .hero{height:auto;overflow:visible}
+  .hero-wheel{position:relative;bottom:auto;left:auto;
+    transform:none;width:min(88vw,420px);margin-top:8px}
 }
 @media(max-width:767px){
   .hero-h1{font-size:clamp(3rem,10vw,4.5rem)}
-  .hero-wheel{width:min(96vw,380px);margin-top:12px}
+  .hero-wheel{width:min(96vw,360px)}
 }
 
 /* sections */
@@ -197,7 +201,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 /* sdg chapters */
 .sdg-wrap{position:relative}
 .sdg-ch{position:sticky;top:0;height:100svh;display:grid;
-  grid-template-columns:45% 55%;align-items:center}
+  grid-template-columns:40% 60%;align-items:center}
 .sdg-ch[data-s="4"]{background:var(--sdg4);color:#fff}
 .sdg-ch[data-s="5"]{background:var(--sdg5);color:var(--ink)}
 .sdg-ch[data-s="9"]{background:var(--sdg9);color:var(--ink)}
@@ -209,9 +213,9 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   line-height:1.06;text-wrap:balance}
 .sdg-sub{font-size:var(--t-lead);font-weight:400;line-height:1.38;opacity:.85}
 .sdg-media{position:relative;height:100svh;display:flex;align-items:center;
-  justify-content:center;overflow:hidden}
-.sdg-media video{width:100%;height:100%;object-fit:contain}
-.sdg-media img{width:100%;height:100%;object-fit:contain}
+  justify-content:center}
+.sdg-media video{width:88%;height:88%;object-fit:contain}
+.sdg-media img{width:88%;height:88%;object-fit:contain}
 
 /* sdg index bar (Rynzhuk, uppercase usage 1/3) */
 .sdg-idx{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:50;
@@ -224,8 +228,9 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .sdg-idx-i.on{color:var(--ink)}
 
 @media(max-width:1023px){
-  .sdg-ch{grid-template-columns:1fr;position:relative;top:auto;min-height:auto}
-  .sdg-media{height:55vw}
+  .sdg-ch{grid-template-columns:1fr;position:relative;top:auto;height:auto}
+  .sdg-media{height:auto;padding:0 0 20px}
+  .sdg-media video,.sdg-media img{width:min(88vw,420px);height:auto;max-height:min(88vw,420px);margin:0 auto}
   .sdg-idx{display:none}
 }
 
@@ -266,7 +271,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .bt-unu{background:var(--field)}
 .bt-grant{background:var(--accent);color:var(--ink)}
 .bt-apu{background:var(--navy);color:#fff}
-.bt-kl{background:var(--field);position:relative;overflow:hidden}
+.bt-kl{background:var(--field);overflow:hidden;flex-direction:column;padding:0}
 /* bt-date removed (duplicate of date info in main banner tile) */
 .bento-price{font-size:clamp(2rem,3.5vw,3.25rem);font-weight:600;letter-spacing:-0.02em;line-height:1}
 .bento-lbl{font-size:var(--t-lbl);font-weight:500;opacity:.65;margin-bottom:8px}
@@ -275,8 +280,9 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .bento-logo{max-height:44px;width:auto;max-width:150px;margin-bottom:14px}
 .bento-apu{max-height:52px;width:auto;max-width:130px;margin-bottom:10px;
   }
-.bt-kl-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
-.bt-kl-img.rdy{opacity:.55}
+.bt-kl-render{flex:1;overflow:hidden;min-height:0;display:flex;align-items:center;justify-content:center}
+.bt-kl-render img{width:100%;height:100%;object-fit:contain;display:block}
+.bt-kl-txt{padding:12px 18px;background:var(--field);flex-shrink:0;border-top:1px solid rgba(14,21,48,.08)}
 
 @media(max-width:767px){
   .bento{grid-template-columns:1fr 1fr}
@@ -311,10 +317,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .spk-row:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .spk-nm{font-size:clamp(1.25rem,2.3vw,1.875rem);font-weight:600;letter-spacing:-0.01em;
   line-height:1.1;color:var(--ink);transition:color 200ms}
-.spk-nm-ghost{font-size:clamp(1.25rem,2.3vw,1.875rem);font-weight:600;letter-spacing:-0.01em;
-  line-height:1.1;color:var(--ink);opacity:0;
-  position:absolute;bottom:-18px;left:0;pointer-events:none;transition:opacity 300ms}
-.spk-row.on .spk-nm-ghost{opacity:.18}
+/* spk-nm-ghost removed: active name in crimson is sufficient */
 .spk-title{font-size:12px;color:var(--navy);opacity:.65;max-height:0;overflow:hidden;
   transition:max-height 300ms var(--ease-s),padding-top 300ms}
 .spk-row.on .spk-title{max-height:56px;padding-top:5px}
@@ -328,7 +331,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   .spk-inner{grid-template-columns:1fr;gap:28px}
   .spk-photo-wrap{position:static;aspect-ratio:4/3}
   .spk-img{clip-path:inset(0 0 0 0)}
-  .spk-nm-ghost{display:none}
+  /* spk-nm-ghost removed */
 }
 
 /* past summit */
@@ -379,11 +382,9 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 
 /* closing */
 .closing{background:var(--ink);color:#fff;padding:var(--sv) 0;overflow:hidden}
-.closing-media{width:clamp(260px,48vw,640px);margin:0 auto clamp(32px,4vw,56px);
-  aspect-ratio:1/1;opacity:0;transition:opacity 700ms;display:block}
-.closing-media.rdy{opacity:1}
+.closing-media{width:clamp(260px,55vw,760px);margin:0 auto clamp(28px,3vw,48px);
+  aspect-ratio:16/9;display:block}
 .closing-media video{width:100%;height:100%;object-fit:contain;display:block}
-.closing-media img{width:100%;height:100%;object-fit:contain;display:block}
 .closing-poster{font-size:clamp(3.5rem,12vw,11rem);line-height:.92;letter-spacing:-0.03em;
   font-weight:600;color:#fff;margin-bottom:36px;text-align:center}
 .closing-cta{text-align:center}
@@ -437,7 +438,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   .sdg-ch{position:relative!important;top:auto!important}
   .photo-pill{transform:scale(1)!important}
   .spk-img{clip-path:inset(0 0 0 0)!important}
-  .closing-media{opacity:.75!important}
+  /* closing-media always visible, no override needed */
 }
 </style>
 </head>
@@ -539,61 +540,74 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       <div role="listitem"><strong>8</strong> <span>global advisors</span></div>
       <div role="listitem"><strong>12</strong> <span>FMS Thailand speakers</span></div>
     </div>
-    <!-- delegate photo mosaic — 12 photos, grid-auto-flow dense, no gaps -->
-    <!-- layout: 2×[2c,2r] rows1-2 | 4×[1c,2r]+[2c,1r] rows3-4 | 2×[1c,1r]+[2c,1r] rows5-6 -->
-    <div class="mosaic" role="list" aria-label="Delegates from FMS Bangkok, July 2026">
-      <!-- row 1-2: two 2×2 big tiles -->
+    <!-- ambassador mosaic: 12 GYN ambassadors (content/pages/home.md) + 2 FMS gallery tiles -->
+    <!-- 4-col, 6 rows: rows1-2=FMS 2x2 | rows3-4=tall 1x2 | rows5-6=square 1x1 -->
+    <div class="mosaic" role="list" aria-label="GYN global ambassadors and FMS Bangkok, July 2026">
+
+      <!-- rows 1-2: FMS gallery tiles — caption only, no individual name -->
       <div class="m-item m-a" role="listitem">
-        <img src="assets/gallery/fmst-dsc01881-1.webp" alt="Delegates, FMS Bangkok 2026" loading="lazy">
-        <span class="cc">Thailand</span>
+        <img src="assets/gallery/fmst-dsc02172-1.webp"
+          alt="FutureMinds Summit, Bangkok, July 2026" loading="lazy">
+        <span class="cc">FutureMinds Summit, Bangkok, July 2026</span>
       </div>
       <div class="m-item m-a" role="listitem">
-        <img src="assets/gallery/fmst-dsc02172-1.webp" alt="Delegates, FMS Bangkok 2026" loading="lazy">
-        <span class="cc">Malaysia</span>
+        <img src="assets/gallery/fmst-dsc01881-1.webp"
+          alt="FutureMinds Summit, Bangkok, July 2026" loading="lazy">
+        <span class="cc">FutureMinds Summit, Bangkok, July 2026</span>
       </div>
-      <!-- row 1 remainder: two square tiles stacked in dense flow -->
-      <div class="m-item m-d" role="listitem">
-        <img src="assets/gallery/fmst-dsc01945-1.webp" alt="FMS Bangkok session" loading="lazy">
-        <span class="cc">Australia</span>
-      </div>
-      <div class="m-item m-d" role="listitem">
-        <img src="assets/gallery/fmst-dsc01960-1.webp" alt="FMS Bangkok workshop" loading="lazy">
-        <span class="cc">India</span>
-      </div>
-      <!-- row 3: 2 tall + 2 wide  -->
+
+      <!-- rows 3-4: tall ambassador portraits -->
       <div class="m-item m-b" role="listitem">
-        <img src="assets/gallery/fmst-dsc01894-1.webp" alt="FMS Bangkok delegate" loading="lazy">
-        <span class="cc">Philippines</span>
+        <img src="assets/ambassadors/helga-tongi.webp" alt="Helga Tongi, GYN Ambassador" loading="lazy">
+        <span class="cc">Helga Tongi &middot; USA</span>
       </div>
       <div class="m-item m-b" role="listitem">
-        <img src="assets/gallery/fmst-dsc02243-1.webp" alt="FMS Bangkok group" loading="lazy">
-        <span class="cc">Indonesia</span>
+        <img src="assets/ambassadors/yara-shamas.webp" alt="Yara Shamas, GYN Ambassador" loading="lazy">
+        <span class="cc">Yara Shamas &middot; Lebanon</span>
       </div>
-      <div class="m-item m-c" role="listitem">
-        <img src="assets/gallery/fmst-dsc01976-1.webp" alt="FMS Bangkok activity" loading="lazy">
-        <span class="cc">United Kingdom</span>
+      <div class="m-item m-b" role="listitem">
+        <img src="assets/ambassadors/patee.webp" alt="Patee, GYN Ambassador" loading="lazy">
+        <span class="cc">Patee &middot; Thailand</span>
       </div>
-      <div class="m-item m-c" role="listitem">
-        <img src="assets/gallery/fmst-dsc03736-1.webp" alt="FMS Bangkok ceremony" loading="lazy">
-        <span class="cc">Canada</span>
+      <div class="m-item m-b" role="listitem">
+        <img src="assets/ambassadors/kritika-ghimire.webp" alt="Kritika Ghimire, GYN Ambassador" loading="lazy">
+        <span class="cc">Kritika Ghimire &middot; Nepal</span>
       </div>
-      <!-- row 5-6 -->
+
+      <!-- rows 5-6: square ambassador portraits -->
       <div class="m-item m-d" role="listitem">
-        <img src="assets/gallery/fmst-dsc01989-1.webp" alt="FMS Bangkok networking" loading="lazy">
-        <span class="cc">Kenya</span>
+        <img src="assets/ambassadors/lim-pei-en.webp" alt="Lim Pei En, GYN Ambassador" loading="lazy">
+        <span class="cc">Lim Pei En &middot; Malaysia</span>
       </div>
       <div class="m-item m-d" role="listitem">
-        <img src="assets/gallery/fmst-dsc02120-1.webp" alt="FMS Bangkok panel" loading="lazy">
-        <span class="cc">Singapore</span>
+        <img src="assets/ambassadors/dr-righteous.webp" alt="Dr Righteous, GYN Ambassador" loading="lazy">
+        <span class="cc">Dr Righteous &middot; Nigeria</span>
       </div>
-      <div class="m-item m-c" role="listitem">
-        <img src="assets/gallery/fmst-dsc02142-1.webp" alt="FMS Bangkok, July 2026" loading="lazy">
-        <span class="cc">United States</span>
+      <div class="m-item m-d" role="listitem">
+        <img src="assets/ambassadors/md-nafi.webp" alt="Md Nafi, GYN Ambassador" loading="lazy">
+        <span class="cc">Md Nafi &middot; Bangladesh</span>
       </div>
-      <div class="m-item m-c" role="listitem">
-        <img src="assets/gallery/fmst-dsc02159-1.webp" alt="FMS Bangkok closing" loading="lazy">
-        <span class="cc">UAE</span>
+      <div class="m-item m-d" role="listitem">
+        <img src="assets/ambassadors/diba.webp" alt="Diba, GYN Ambassador" loading="lazy">
+        <span class="cc">Diba &middot; Australia</span>
       </div>
+      <div class="m-item m-d" role="listitem">
+        <img src="assets/ambassadors/casey.webp" alt="Casey, GYN Ambassador" loading="lazy">
+        <span class="cc">Casey &middot; USA</span>
+      </div>
+      <div class="m-item m-d" role="listitem">
+        <img src="assets/ambassadors/ashif.webp" alt="Ashif, GYN Ambassador" loading="lazy">
+        <span class="cc">Ashif &middot; India</span>
+      </div>
+      <div class="m-item m-d" role="listitem">
+        <img src="assets/ambassadors/boling.webp" alt="Boling, GYN Ambassador" loading="lazy">
+        <span class="cc">Boling &middot; Laos</span>
+      </div>
+      <div class="m-item m-d" role="listitem">
+        <img src="assets/ambassadors/abdul-ahad.webp" alt="Abdul Ahad, GYN Ambassador" loading="lazy">
+        <span class="cc">Abdul Ahad &middot; Pakistan</span>
+      </div>
+
     </div>
   </div>
 </section>
@@ -756,12 +770,13 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
         <div class="bento-body">Exclusive institutional visit to Asia Pacific University, Malaysia.</div>
       </div>
 
-      <!-- KL towers tile -->
+      <!-- KL towers tile: render top, text bottom, no overlap -->
       <div class="bt bt-2 bt-kl" role="listitem">
-        <img class="bt-kl-img" id="kl-img"
-          src="assets/r3/kl-towers.webp" alt="Kuala Lumpur skyline"
-          loading="lazy" onerror="this.style.display='none'" onload="this.classList.add('rdy')">
-        <div style="position:relative;z-index:1">
+        <div class="bt-kl-render">
+          <img src="assets/r3/kl-towers.webp" alt="Kuala Lumpur skyline render"
+            loading="lazy" onerror="this.closest('.bt-kl-render').style.display='none'">
+        </div>
+        <div class="bt-kl-txt">
           <div class="bento-lbl">Venue</div>
           <div class="bento-h3">Kuala Lumpur, Malaysia</div>
         </div>
@@ -855,43 +870,36 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
           aria-label="Julie Victoire, International Youth Advocate, Speaker, Australian Education Leader, Founder The Rise Edit">
           <div class="spk-nm">Julie Victoire</div>
           <div class="spk-title" aria-hidden="true">International Youth Advocate, Australian Education Leader, Founder The Rise Edit</div>
-          <div class="spk-nm-ghost" aria-hidden="true">Dr Mohd Farid</div>
         </div>
         <div class="spk-row" role="listitem" tabindex="0" data-idx="1"
           aria-label="Dr Mohd Farid bin Atan, Deputy Director, Sustainability, Universiti Malaysia Sarawak">
           <div class="spk-nm">Dr Mohd Farid bin Atan</div>
           <div class="spk-title" aria-hidden="true">Deputy Director (Sustainability), Universiti Malaysia Sarawak (UNIMAS)</div>
-          <div class="spk-nm-ghost" aria-hidden="true">Ayman William</div>
         </div>
         <div class="spk-row" role="listitem" tabindex="0" data-idx="2"
           aria-label="Ayman William Hermansson, Assistant Professor, Heriot-Watt University Malaysia">
           <div class="spk-nm">Ayman William Hermansson</div>
           <div class="spk-title" aria-hidden="true">Assistant Professor, Heriot-Watt University Malaysia</div>
-          <div class="spk-nm-ghost" aria-hidden="true">Syed Bilal Qasim</div>
         </div>
         <div class="spk-row" role="listitem" tabindex="0" data-idx="3"
           aria-label="Syed Bilal Qasim, CEO Techsol Space">
           <div class="spk-nm">Syed Bilal Qasim</div>
           <div class="spk-title" aria-hidden="true">CEO Techsol Space, Project Director CEGA</div>
-          <div class="spk-nm-ghost" aria-hidden="true">Sapargulay</div>
         </div>
         <div class="spk-row" role="listitem" tabindex="0" data-idx="4"
           aria-label="Sapargulay Mahtumov, Youth Coordinator, MySDG Academy">
           <div class="spk-nm">Sapargulay Mahtumov</div>
           <div class="spk-title" aria-hidden="true">Youth Coordinator, MySDG Academy, Malaysia</div>
-          <div class="spk-nm-ghost" aria-hidden="true">Jasmine</div>
         </div>
         <div class="spk-row" role="listitem" tabindex="0" data-idx="5"
           aria-label="Jasmine Cannon-Ikurusi, CEO and Founder The Sapphire Employability and Wellbeing Academy">
           <div class="spk-nm">Jasmine Cannon-Ikurusi</div>
           <div class="spk-title" aria-hidden="true">CEO &amp; Founder The Sapphire Employability &amp; Wellbeing Academy, London, UK</div>
-          <div class="spk-nm-ghost" aria-hidden="true">Ashley Blake</div>
         </div>
         <div class="spk-row" role="listitem" tabindex="0" data-idx="6"
           aria-label="Ashley Blake, Head of Partnership vrCAVE Canada">
           <div class="spk-nm">Ashley Blake</div>
           <div class="spk-title" aria-hidden="true">Head of Partnership vrCAVE Canada</div>
-          <div class="spk-nm-ghost" aria-hidden="true">Arumita Mitra</div>
         </div>
         <div class="spk-row" role="listitem" tabindex="0" data-idx="7"
           aria-label="Arumita Mitra, Founder Sudhamta Foundation India, TedX Speaker, UN SDG Advocate">
@@ -1055,11 +1063,9 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       data-src-webm="assets/r3/hands-wheel.webm"
       data-src-mp4="assets/r3/hands-wheel.mp4"
       class="sdg-vid closing-vid"
-      aria-label="Four hands holding the SDG wheel">
+      aria-label="Four hands holding the SDG wheel"
+      onerror="this.closest('.closing-media').style.display='none'">
     </video>
-    <img src="assets/r3/hands-wheel-poster.webp" alt=""
-      onload="document.getElementById('closing-media').classList.add('rdy')"
-      onerror="document.getElementById('closing-media').style.display='none'">
   </div>
   <div class="container">
     <div class="closing-poster" id="closing-h2">
@@ -1302,9 +1308,7 @@ if (closingVid && !reduced) {
         else if (closingVid.dataset.srcMp4) closingVid.src = closingVid.dataset.srcMp4;
         else { document.getElementById('closing-media').style.display = 'none'; return; }
         /* show media when video or poster has loaded */
-        const cm = document.getElementById('closing-media');
-        closingVid.addEventListener('loadeddata', () => cm.classList.add('rdy'), { once: true });
-        closingVid.onerror = () => cm.style.display = 'none';
+        closingVid.onerror = () => { const cm = document.getElementById('closing-media'); if (cm) cm.style.display='none'; };
       }
       if (e.isIntersecting) closingVid.play && closingVid.play().catch(() => {});
       else closingVid.pause && closingVid.pause();

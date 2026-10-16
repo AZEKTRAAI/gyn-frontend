@@ -72,7 +72,7 @@ export class PrismaRepo implements Repo {
           nationality: input.attendeeData["nationality"] as string | undefined,
           countryOfResidence: input.attendeeData["countryOfResidence"] as string | undefined,
           gender: input.attendeeData["gender"] as string | undefined,
-          howHeardAboutUs: input.attendeeData["heardFrom"] as string | undefined,
+          howHeardAboutUs: (input.attendeeData["heardFrom"] as string | undefined) || undefined, // "" from the placeholder means not answered
         },
       });
 

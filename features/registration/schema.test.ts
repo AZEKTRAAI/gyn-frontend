@@ -42,3 +42,9 @@ test("the old orientation options are rejected as genders", () => {
   const r = registrationInput.safeParse({ ticket: "forum-access", details: { ...attendee, gender: "Homosexual" }, consent: true });
   assert.equal(r.success, false);
 });
+
+test("the optional 'how did you hear' field accepts the empty placeholder (RT-045)", () => {
+  const r = registrationInput.safeParse({ ticket: "forum-access", details: { ...attendee, heardFrom: "" }, consent: true });
+  assert.equal(r.success, true);
+  assert.equal(registrationInput.safeParse({ ticket: "forum-access", details: { ...attendee, heardFrom: "Carrier pigeon" }, consent: true }).success, false);
+});

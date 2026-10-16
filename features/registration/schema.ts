@@ -25,7 +25,8 @@ export const attendeeSchema = z.object({
   countryOfResidence: country,
   whatsapp: phone,
   gender: z.enum(GENDERS, "Choose an option"),
-  heardFrom: z.enum(HEARD_FROM).optional(),
+  // the select's placeholder submits "", which means "not answered", not an invalid choice
+  heardFrom: z.enum([...HEARD_FROM, ""]).optional(),
 });
 
 // Passport numbers are used to issue the letter and must not be stored afterwards (docs/schema.md, PII section).

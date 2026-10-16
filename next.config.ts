@@ -1,10 +1,13 @@
 import type { NextConfig } from 'next'
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const csp = [
   "default-src 'self'",
   // unsafe-inline: required for Next.js inline styles and Turnstile widget.
+  // unsafe-eval: required for Next.js dev HMR/React refresh; omitted in production.
   // Upgrade to nonce-based CSP via middleware before real-payment production launch.
-  "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://va.vercel-scripts.com",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://challenges.cloudflare.com https://va.vercel-scripts.com`,
   "style-src 'self' 'unsafe-inline'",
   // next/font self-hosts Google Fonts at build time; no external font CDN needed at runtime.
   "font-src 'self' data:",

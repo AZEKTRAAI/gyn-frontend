@@ -179,6 +179,7 @@
     .hero-sub { font-size: clamp(.875rem,1.4vw,1.0625rem); color: rgba(255,255,255,1); line-height: 1.65; margin-bottom: 2rem; }
 
     .countdown { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    @media (min-width: 520px) { .countdown { flex-wrap: nowrap; } }
     .cd-unit { display: flex; flex-direction: column; align-items: center; gap: .25rem; min-width: 0; }
     .cd-num {
       font-family: var(--fd); font-size: clamp(2.25rem,4.5vw,3.75rem); line-height: 1;
@@ -194,10 +195,11 @@
     .hero-content { min-width: 0; }
     .hero-visual { display: flex; align-items: center; justify-content: center; min-width: 0; }
     .globe-wrap { position: relative; width: min(100%,500px); aspect-ratio: 1; z-index: 0; }
-    .globe-poster, .globe-video { width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 1; }
+    /* globe overlaps the photo's bottom-right corner so the delegates' faces stay visible */
+    .globe-poster, .globe-video { position: absolute; right: -8%; bottom: -8%; width: 60%; height: 60%; object-fit: contain; z-index: 1; }
     .globe-video { display: none; }
     /* real summit photo sits behind the globe render */
-    .hero-real-photo { position: absolute; inset: 0; z-index: -1; overflow: hidden; margin: 0; }
+    .hero-real-photo { position: absolute; left: 0; top: 0; width: 80%; height: 80%; z-index: 0; overflow: hidden; margin: 0; }
     .hero-real-photo img { width: 100%; height: 100%; object-fit: cover; }
     .hero-real-photo figcaption {
       position: absolute; bottom: 0; left: 0; right: 0;
@@ -566,8 +568,8 @@
   <div class="wrap hero-body">
 
     <div class="hero-content">
-      <p class="hero-meta">19–22 November 2026 / Teedo Hotel, Kuala Lumpur / Co-hosted by UNU Global Health</p>
       <h1 id="hero-title" class="d1 hero-title">SDG INNOVATION SUMMIT MALAYSIA 2026</h1>
+      <p class="hero-meta">19–22 November 2026 / Teedo Hotel, Kuala Lumpur / Co-hosted by UNU Global Health</p>
       <p class="hero-sub">Join 100 young leaders, innovators, students and professionals from across the globe in Kuala Lumpur. Focused on SDGs 4, 5, 9 and 13.</p>
 
       <div class="countdown" id="countdown" role="timer" aria-label="Time until summit opens on 19 November 2026">

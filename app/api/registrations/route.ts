@@ -49,7 +49,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     : { allowed: true, remaining: 3 };
   const allowed = ipLimit.allowed && emailLimit.allowed;
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+  // fall back to this request's own origin so preview deploys redirect to themselves, never to localhost
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? new URL(req.url).origin;
   const repo = getRepo();
 
   // Build the Stripe checkout factory if credentials are present

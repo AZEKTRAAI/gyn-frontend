@@ -20,5 +20,6 @@ Built while Azam sleeps. Each line is ticked when it's done and checked.
 ## Needs Azam in the morning
 - Pick a direction (or confirm G)
 - Cloudinary, Stripe, Resend, database and Vercel credentials
+- **Turnstile keys before any deployed demo:** a production build refuses registrations without `TURNSTILE_SECRET_KEY` (by design). For a demo, use Cloudflare's always-pass test keys (site key `1x00000000000000000000AA`, secret `1x0000000000000000000000000000000AA`), and set `NEXT_PUBLIC_BASE_URL` to the deploy URL
 - Payoneer: ruled out (its terms ban consumer sales; see docs/payments.md). Confirm Stripe Checkout + Adaptive Pricing + UPI
 - Refunds: the refund policy says vouchers, but the payments doc assumes cash refunds through Stripe. Which is meant?

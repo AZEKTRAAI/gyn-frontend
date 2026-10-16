@@ -36,8 +36,8 @@ const schibstedGrotesk = Schibsted_Grotesk({
 })
 
 export const metadata: Metadata = {
-  // absolute URLs for OG/Twitter images; set NEXT_PUBLIC_SITE_URL per environment
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://thegyn.org'),
+  // absolute URLs for OG/Twitter images
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? 'https://thegyn.org'),
   title: {
     template: '%s | Global Youth Network',
     default: 'Global Youth Network – GYN',

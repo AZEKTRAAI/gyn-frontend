@@ -123,7 +123,7 @@ The contact form does not render a Turnstile widget yet, so once `TURNSTILE_SECR
 
 | Var | Switches on | Read by | Notes |
 |---|---|---|---|
-| `NEXT_PUBLIC_BASE_URL` | Stripe success/cancel URLs and the demo redirect | `app/api/registrations/route.ts` | Defaults to `http://localhost:3000`. On a preview deploy set it to that deploy's own URL: the form only follows redirects to `checkout.stripe.com` or its own origin |
+| `NEXT_PUBLIC_BASE_URL` | Stripe success/cancel URLs and the demo redirect | `app/api/registrations/route.ts` | Defaults to the request's own origin, so preview deploys work without it. Also used for absolute share-image URLs (`metadataBase`, default `https://thegyn.org`) |
 | `AUTH_SECRET` | Nothing yet. Reserved for Auth.js in the admin panel | not read | `openssl rand -base64 32` |
 | `NODE_ENV` | Turnstile fail-closed, set by Next itself | `lib/server/turnstile.ts` | Don't set it by hand on Vercel |
 

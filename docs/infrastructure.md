@@ -266,7 +266,7 @@ Restore drill, once before launch and then every 6 months, owned by the lead:
 
 ## 7. Load test
 
-Run against a production build, never `next dev`, and never against the production database. Point `DATABASE_URL` at a Neon branch made for the test. Leave `STRIPE_SECRET_KEY` unset so `/api/registrations` returns the demo URL instead of creating Checkout Sessions, and leave `TURNSTILE_SECRET_KEY` unset (Turnstile is skipped in that mode). Per [api-contract.md](api-contract.md) the lead runs the build, because parallel builds corrupt `.next`.
+Run against a production build, never `next dev`, and never against the production database. Point `DATABASE_URL` at a Neon branch made for the test. Leave `STRIPE_SECRET_KEY` unset so `/api/registrations` returns the demo URL instead of creating Checkout Sessions. A production build refuses registrations when `TURNSTILE_SECRET_KEY` is unset (it fails closed), so set Cloudflare's always-pass test secret `1x0000000000000000000000000000000AA` and send any `turnstileToken`. Each request then makes one real call to Cloudflare's siteverify API, so keep the write-path run small. Per [api-contract.md](api-contract.md) the lead runs the build, because parallel builds corrupt `.next`.
 
 ```bash
 # 1. production build on a spare port
@@ -289,15 +289,15 @@ npx autocannon -c 10 -d 30 -m POST -H "content-type: application/json" -i reg.js
 {"ticket":"forum-access","consent":true,"details":{"fullName":"Load Test","email":"loadtest@example.com","nationality":"Malaysia","countryOfResidence":"Malaysia","whatsapp":"+60 12 345 6789","gender":"Prefer not to say"}}
 ```
 
-autocannon sends every request from one IP, so after the first 5 POSTs the limiter answers 429. That row then measures the rejection path, which is worth knowing for abuse traffic. To measure the full write path, run once with `MAX_REQUESTS` in `lib/server/rate-limit.ts` raised on a throwaway local branch (do not commit it) and count the rows created in the test branch afterwards.
+autocannon sends every request from one IP, so the limiter (20 per 10 minutes per IP, 3 per email) answers 429 almost at once. Locally the server trusts `x-real-ip` (on Vercel the platform sets it, so clients can't), so the write-path run uses a small autocannon script that rotates `x-real-ip` and the email per request. The script is in the session scratchpad; copy it into `scripts/` if you want it in the repo.
 
 Pass marks for launch: static pages p95 under 100 ms locally, `/api/registrations` p95 under 800 ms against the Singapore Neon branch from a Singapore-adjacent machine, zero non-2xx other than the expected 429s.
 
 | Endpoint | Tool | Connections | Duration | Req/s | p95 latency | Errors (non-2xx, timeouts) |
 |---|---|---|---|---|---|---|
-| `GET /` | autocannon | 50 | 30 s | | | |
-| `GET /sism-2026` | autocannon | 50 | 30 s | | | |
-| `GET /contact-us` (dynamic) | autocannon | 20 | 30 s | | | |
+| `GET /` | autocannon 8.0.0 | 50 | 20 s | 478 | p97.5 141 ms | 0 of 9,564 |
+| `GET /sism-2026` | autocannon 8.0.0 | 50 | 20 s | 609 | p97.5 117 ms | 0 of 12,181 |
+| `GET /contact-us` (dynamic) | autocannon | 20 | 30 s | not run | | |
 | `GET /sism-2026/registered?...` (dynamic) | autocannon | 20 | 30 s | | | |
 | `GET /api/calendar/sism-2026.ics` | autocannon | 20 | 30 s | | | |
 | `POST /api/registrations` (limiter on) | autocannon | 10 | 30 s | | | |
@@ -305,3 +305,17 @@ Pass marks for launch: static pages p95 under 100 ms locally, `/api/registration
 | `POST /api/contact` | autocannon | 10 | 30 s | | | |
 
 Machine, Node version, database branch and region used: ______
+
+### Results, 16 Oct 2026 (local)
+
+Production build (`next build` + `next start`) on the development laptop (Windows, RTX 2050 machine, Node 22.20), no database (`DATABASE_URL` unset, so the in-memory DemoStore), no Stripe key. autocannon 8.0.0. autocannon reports p97.5 rather than p95, so that's what the table shows.
+
+| Endpoint | Connections | Duration | Req/s | p50 | p97.5 | p99 | Result |
+|---|---|---|---|---|---|---|---|
+| `GET /` | 50 | 20 s | 478 | 102 ms | 141 ms | 147 ms | 9,564 × 200, 0 errors |
+| `GET /sism-2026` | 50 | 20 s | 609 | 78 ms | 117 ms | 127 ms | 12,181 × 200, 0 errors |
+| `POST /api/registrations`, no Turnstile key | 50 | 20 s | 834 | 55 ms | 112 ms | 123 ms | 16,680 × 400: correctly refused, CAPTCHA not configured |
+| `POST /api/registrations`, Turnstile test key, rotating IP/email | 5 | 10 s | 132 | 36 ms | 49 ms | 54 ms | 1,321 × 200, 0 errors, each including a Cloudflare siteverify call |
+
+What this does and doesn't show: the app tier and the Turnstile round trip comfortably exceed launch-day demand (the 100× estimate in section 2 is well under 10 registrations a second). It does not test Postgres: the Neon branch run (pooler, `pg` adapter, `max: 5`) is still to do once a database exists, and the static numbers on Vercel's CDN will be far better than a laptop serving them itself.
+

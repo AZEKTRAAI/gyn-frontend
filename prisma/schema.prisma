@@ -8,9 +8,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")    // pooler URL (PgBouncer / Supabase pooler)
-  directUrl = env("DIRECT_URL")      // direct connection for migrations
+  provider = "postgresql"
+  // URLs moved to prisma.config.ts (Prisma 7): DIRECT_URL for migrate, DATABASE_URL passed to PrismaClient adapter at runtime
 }
 
 // ---------------------------------------------------------------------------

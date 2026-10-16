@@ -65,3 +65,19 @@ Newest at the bottom. Each entry: what, why, reversible?
 **D29. Admin dashboard uses plain SVG (no chart library).** The brief requires no chart library; all charts are inline SVG with `<title>` for accessibility and `<details>/<table>` fallbacks. SVG viewBoxes are fixed-width with `width: 100%; height: auto` so they scale to any container. Reversible: swap SVG for a library component if the dashboard becomes interactive.
 
 **D30. /pitch screenshots use http://localhost:3000 not 3200.** The lead confirmed the shared dev server runs on port 3000. The api-contract.md reference to port 3200 was corrected mid-build.
+
+## 2026-10-16 (backend overnight build)
+
+**D31. Prisma 7: datasource URLs moved to prisma.config.ts.** Prisma 7.10.1 removes `url` and `directUrl` from `schema.prisma`. `DIRECT_URL` (un-pooled) goes in `prisma.config.ts` for migrate; `DATABASE_URL` (pooled) is passed to `PrismaClient({ adapter })` at runtime. Initial migration SQL generated with `prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script`. Reversible: schema change only, no data loss.
+
+**D32. DemoStore (in-memory) as the only active repository.** `@prisma/adapter-pg` is not installed; `PrismaClient` in Prisma 7 requires a driver adapter. The production path in `lib/db.ts` throws with clear instructions to install the adapter and implement `PrismaRepo`. All routes work via `DemoStore` (data lost on restart). Remove when deploying with a real database.
+
+**D33. Rate limiter fails open on Upstash error.** If Upstash Redis is unreachable, the in-memory fallback is skipped in production mode, and the request is allowed through (logged). The alternative (fail closed) would block real users during an outage. Revisit if abuse is observed.
+
+**D34. Passport numbers not stored.** The invitation-letter handler receives `passportNumber` from the validated input but explicitly excludes it from the `attendeeData` passed to the repository. It is discarded immediately after parsing. Consistent with Option 1 in docs/schema.md §PII. If visa-support workflows need retention, encrypt and store per Option 2 before launch.
+
+**D35. `allowImportingTsExtensions: true` added to tsconfig.** Required for `.ts` extension imports in source files — needed because Turbopack doesn't remap `.js` → `.ts` in new files the way Webpack's TypeScript loader does, and because bare-Node tests (`--experimental-strip-types`) need explicit `.ts` extensions. Non-breaking: the option is only additive (requires `noEmit: true`, already set). Reversible: remove if all imports switch to extensionless.
+
+**D36. `lib/server/tests.ts` excluded from tsconfig.** Follows the same pattern as `features/payments/stripe.test.ts` and `features/registration/schema.test.ts`. Test files use `.ts` extensions in imports for bare-Node compatibility; excluding them from tsconfig avoids TS5097 errors while keeping production code type-checked.
+
+**D37. Webhook confirmation email is a stub.** The `sendConfirmation` helper in the Stripe webhook handler uses placeholder values (email "unknown@example.com", reference "SISM-XXXXX") because the webhook doesn't yet look up the attendee from the DB. In production, add a `getRegistrationDetails(registrationId)` method to the Repo interface and replace the stubs. The demo path never hits this code.

@@ -1,0 +1,81 @@
+// Rate limiter: 5 requests per 10-minute sliding window, keyed by IP.
+// Uses Upstash Redis REST when UPSTASH_REDIS_REST_URL + TOKEN are set,
+// otherwise falls back to an in-memory sliding window.
+// shortcut: in-memory window is per-process only (doesn't share state across serverless instances);
+//           add Upstash credentials in production to get correct cross-instance limiting.
+
+const WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+const MAX_REQUESTS = 5;
+
+// ---------------------------------------------------------------------------
+// In-memory sliding window (dev / demo mode)
+// ---------------------------------------------------------------------------
+
+interface Entry {
+  timestamps: number[];
+}
+
+const store = new Map<string, Entry>();
+
+function checkInMemory(key: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const cutoff = now - WINDOW_MS;
+  const entry = store.get(key) ?? { timestamps: [] };
+  entry.timestamps = entry.timestamps.filter((t) => t > cutoff);
+  const allowed = entry.timestamps.length < MAX_REQUESTS;
+  if (allowed) entry.timestamps.push(now);
+  store.set(key, entry);
+  return { allowed, remaining: Math.max(0, MAX_REQUESTS - entry.timestamps.length) };
+}
+
+// ---------------------------------------------------------------------------
+// Upstash Redis REST sliding window
+// Uses a sorted set where member = timestamp, score = timestamp.
+// ---------------------------------------------------------------------------
+
+async function checkUpstash(key: string): Promise<{ allowed: boolean; remaining: number }> {
+  const base = process.env.UPSTASH_REDIS_REST_URL!;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN!;
+  const now = Date.now();
+  const cutoff = now - WINDOW_MS;
+  const rkey = `rl:${key}`;
+
+  // Pipeline: ZREMRANGEBYSCORE (prune old), ZADD (add current), ZCARD (count), EXPIRE
+  const pipeline = [
+    ["ZREMRANGEBYSCORE", rkey, "-inf", String(cutoff)],
+    ["ZADD", rkey, String(now), `${now}`],
+    ["ZCARD", rkey],
+    ["EXPIRE", rkey, String(Math.ceil(WINDOW_MS / 1000))],
+  ];
+
+  const res = await fetch(`${base}/pipeline`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    body: JSON.stringify(pipeline),
+  });
+
+  if (!res.ok) {
+    // Fail open: if Redis is unreachable, allow the request (log the error).
+    console.error({ msg: "rate-limit: Upstash error", status: res.status });
+    return { allowed: true, remaining: MAX_REQUESTS };
+  }
+
+  const results = (await res.json()) as Array<{ result: unknown }>;
+  // results[2].result is the ZCARD value = current count after adding
+  const count = Number(results[2]?.result ?? 1);
+  const allowed = count <= MAX_REQUESTS;
+  return { allowed, remaining: Math.max(0, MAX_REQUESTS - count) };
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+export async function checkRateLimit(
+  ip: string
+): Promise<{ allowed: boolean; remaining: number }> {
+  if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+    return checkUpstash(ip);
+  }
+  return checkInMemory(ip);
+}

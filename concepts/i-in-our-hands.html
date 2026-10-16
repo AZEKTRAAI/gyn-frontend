@@ -207,7 +207,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .sdg-ch[data-s="13"]{background:var(--sdg13);color:#fff}
 .sdg-txt{padding:clamp(40px,6vw,80px) clamp(24px,4vw,64px);
   display:flex;flex-direction:column;gap:18px}
-.sdg-tag{font-size:var(--t-lbl);font-weight:500;opacity:.65;letter-spacing:.02em}
+.sdg-tag{font-size:var(--t-lbl);font-weight:600;letter-spacing:.02em}
 .sdg-claim{font-size:var(--t-claim);font-weight:600;letter-spacing:-0.012em;
   line-height:1.06;text-wrap:balance}
 .sdg-sub{font-size:var(--t-lead);font-weight:400;line-height:1.38;opacity:.85}
@@ -215,17 +215,19 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   justify-content:center}
 .sdg-media{overflow:hidden}
 .sdg-media video,.sdg-media img{width:100%;height:100%;object-fit:contain;scale:1.22;
-  /* mask, not a visible gradient: hides the video codec's colour shift at the cove edge */
+  /* edge scrim as a mask, not a visible gradient: hides the codec's colour shift at the cove edge */
   -webkit-mask-image:radial-gradient(closest-side,#000 72%,transparent);
   mask-image:radial-gradient(closest-side,#000 72%,transparent)}
 
-/* sdg index bar (Rynzhuk, uppercase usage 1/3) */
+/* sdg index bar (Rynzhuk, caps usage 1/3); sits on a field pill so it reads over every chapter colour */
 .sdg-idx{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:50;
   display:flex;flex-direction:column;gap:10px;opacity:0;pointer-events:none;
+  background:var(--field);padding:12px 6px;border-radius:999px;
   transition:opacity 300ms}
-.sdg-idx.vis{opacity:1;pointer-events:auto}
-.sdg-idx-i{font-size:9px;font-weight:700;letter-spacing:.08em;
-  color:rgba(14,21,48,.3);writing-mode:vertical-rl;transform:rotate(180deg);
+.sdg-idx{visibility:hidden}
+.sdg-idx.vis{opacity:1;pointer-events:auto;visibility:visible}
+.sdg-idx-i{font-size:10px;font-weight:700;letter-spacing:.08em;
+  color:#4A5370;writing-mode:vertical-rl;transform:rotate(180deg);
   text-transform:uppercase;transition:color 300ms}
 .sdg-idx-i.on{color:var(--ink)}
 
@@ -323,7 +325,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .spk-nm{font-size:clamp(1.25rem,2.3vw,1.875rem);font-weight:600;letter-spacing:-0.01em;
   line-height:1.1;color:var(--ink);transition:color 200ms}
 /* spk-nm-ghost removed: active name in crimson is sufficient */
-.spk-title{font-size:12px;color:var(--navy);opacity:.65;max-height:0;overflow:hidden;
+.spk-title{font-size:12px;color:var(--navy);opacity:.82;max-height:0;overflow:hidden;
   transition:max-height 300ms var(--ease-s),padding-top 300ms}
 .spk-row.on .spk-title{max-height:56px;padding-top:5px}
 .spk-row:hover .spk-nm,.spk-row.on .spk-nm{color:var(--crimson)}
@@ -353,10 +355,11 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .past-strip{margin-top:16px;display:flex;gap:12px;overflow-x:auto;
   scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px}
 .past-strip::-webkit-scrollbar{display:none}
+.past-strip:focus-visible{outline:2px solid currentColor;outline-offset:4px}
 .past-img{flex-shrink:0;width:clamp(160px,24vw,260px);aspect-ratio:4/3;
   border-radius:var(--r);overflow:hidden;scroll-snap-align:start}
 .past-img img{width:100%;height:100%;object-fit:cover}
-.past-cap{font-size:12px;color:var(--navy);opacity:.55;margin-top:10px}
+.past-cap{font-size:12px;color:var(--navy);opacity:.82;margin-top:10px}
 
 /* tickets */
 .tix{background:var(--ink);color:#fff;padding:var(--sv) 0}
@@ -378,11 +381,11 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .tix-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .tix-closed-row{margin-top:28px;border-top:1px solid rgba(255,255,255,.09);
   padding-top:22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-/* uppercase: closed tier stamps — usage 2/3 */
+/* caps: closed tier stamps, usage 2/3 */
 .tix-badge{font-size:11px;font-weight:600;padding:4px 12px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.38);
+  border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.66);
   text-transform:uppercase;letter-spacing:.06em}
-.tix-closed-lbl{font-size:12.5px;color:rgba(255,255,255,.45)}
+.tix-closed-lbl{font-size:12.5px;color:rgba(255,255,255,.7)}
 @media(max-width:767px){.tix-open{grid-template-columns:1fr}}
 
 /* closing */
@@ -404,14 +407,14 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .f-tagline{font-size:13px;line-height:1.65;max-width:264px}
 .f-contact{display:flex;flex-direction:column;gap:5px;font-size:13px;color:rgba(255,255,255,.55)}
 .f-contact a{color:rgba(255,255,255,.7)}.f-contact a:hover{color:#fff}
-.f-col h4{font-size:var(--t-lbl);font-weight:600;color:#fff;margin-bottom:14px}
+.f-col h2{font-size:var(--t-lbl);font-weight:600;color:#fff;margin-bottom:14px}
 .f-col ul{display:flex;flex-direction:column;gap:9px}
 .f-col a{color:rgba(255,255,255,.55);transition:color 150ms}.f-col a:hover{color:#fff}
 .f-bottom{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255,255,.07);
   display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:10px;font-size:11.5px;color:rgba(255,255,255,.38)}
+  flex-wrap:wrap;gap:10px;font-size:11.5px;color:rgba(255,255,255,.66)}
 .f-socials{display:flex;gap:18px}
-.f-socials a{color:rgba(255,255,255,.45);transition:color 150ms}.f-socials a:hover{color:#fff}
+.f-socials a{color:rgba(255,255,255,.72);transition:color 150ms}.f-socials a:hover{color:#fff}
 @media(max-width:767px){
   .footer-inner{grid-template-columns:1fr 1fr}
   .f-brand{grid-column:span 2}
@@ -963,7 +966,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       </div>
     </div>
     <!-- photo strip -->
-    <div class="past-strip" role="list" aria-label="FMS Bangkok photos, July 2026">
+    <div class="past-strip" role="list" tabindex="0" aria-label="FMS Bangkok photos, July 2026">
       <div class="past-img" role="listitem">
         <img src="assets/gallery/fmst-dsc02172-1.webp" alt="FMS Bangkok, July 2026" loading="lazy">
       </div>
@@ -1084,6 +1087,8 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   </div>
 </section>
 
+</main>
+
 <!-- FOOTER -->
 <footer class="footer" role="contentinfo">
   <div class="container">
@@ -1102,7 +1107,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
         </div>
       </div>
       <div class="f-col">
-        <h4>Links</h4>
+        <h2>Links</h2>
         <ul>
           <li><a href="#">Home</a></li>
           <li><a href="#">About us</a></li>
@@ -1112,7 +1117,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
         </ul>
       </div>
       <div class="f-col">
-        <h4>Policies</h4>
+        <h2>Policies</h2>
         <ul>
           <li><a href="https://thegyn.org/privacy-policy/" target="_blank" rel="noopener">Privacy policy</a></li>
           <li><a href="https://thegyn.org/refund-policy/" target="_blank" rel="noopener">Refund policy</a></li>
@@ -1120,7 +1125,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
         </ul>
       </div>
       <div class="f-col">
-        <h4>Upcoming event</h4>
+        <h2>Upcoming event</h2>
         <ul>
           <li><a href="https://thegyn.org/sism-2026/" target="_blank" rel="noopener">SISM 2026</a></li>
           <li><a href="https://thegyn.org/sism-forum-access/" target="_blank" rel="noopener">Book Forum Access, $199</a></li>
@@ -1132,16 +1137,14 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
     <div class="f-bottom">
       <span>© 2026 Global Youth Network. All rights reserved.</span>
       <div class="f-socials">
-        <a href="https://www.facebook.com/share/183ZmovUrB/" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
-        <a href="https://www.instagram.com/gyn_global?igsh=emFic2tlcHlyZ2Fj" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
-        <a href="https://www.youtube.com/@globalyouthnetwork/" target="_blank" rel="noopener" aria-label="YouTube">YT</a>
-        <a href="https://wa.me/message/HGC6MW4HT5YJC1" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+        <a href="https://www.facebook.com/share/183ZmovUrB/" target="_blank" rel="noopener" >Facebook</a>
+        <a href="https://www.instagram.com/gyn_global?igsh=emFic2tlcHlyZ2Fj" target="_blank" rel="noopener" >Instagram</a>
+        <a href="https://www.youtube.com/@globalyouthnetwork/" target="_blank" rel="noopener" >YouTube</a>
+        <a href="https://wa.me/message/HGC6MW4HT5YJC1" target="_blank" rel="noopener" >WhatsApp</a>
       </div>
     </div>
   </div>
 </footer>
-
-</main>
 
 <!-- VIDEO MODAL -->
 <div class="modal-bg" id="vid-modal" role="dialog" aria-modal="true" aria-labelledby="modal-ttl" aria-hidden="true">

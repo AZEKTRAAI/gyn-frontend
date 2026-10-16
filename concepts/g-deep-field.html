@@ -22,7 +22,7 @@
   <style>
 [hidden]{display:none!important} /* beats global img/video display rules */
 
-    /* === TOKENS === */
+    /* colour tokens */
     :root {
       --blue-deep:  #00689D;
       --blue-ocean: #0A97D9;
@@ -30,6 +30,7 @@
       --navy-900:   #0E1530;
       --navy-800:   #16204A;
       --navy-700:   #202F60;
+      --crimson:    #C52035;
       --yellow:     #FCC30B;
       --yellow-dk:  #D6A200;
       --white:      #FFFFFF;
@@ -60,7 +61,8 @@
     }
     img { display: block; max-width: 100%; height: auto; }
     a { color: inherit; text-decoration: none; }
-    :focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+    /* two-tone focus ring: white inner + navy outer — visible on light and dark backgrounds */
+    :focus-visible { outline: 3px solid #fff; outline-offset: 3px; box-shadow: 0 0 0 5px var(--navy-900); }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -127,13 +129,8 @@
     }
     .nav-drop a:hover { color: var(--white); background: rgba(255,255,255,.05); }
     .nav-right { display: flex; align-items: center; gap: .75rem; }
-    .theme-toggle {
-      background: none; border: 1px solid rgba(255,255,255,.2);
-      color: rgba(255,255,255,.6); padding: .3rem .5rem; cursor: pointer;
-      font-size: .8125rem; font-family: var(--fb);
-      transition: border-color 140ms ease, color 140ms ease;
-    }
-    .theme-toggle:hover { color: var(--white); border-color: rgba(255,255,255,.5); }
+    .btn-crimson { background: var(--crimson); color: var(--white); }
+    .btn-crimson:hover { background: #a51b2d; }
     .ham {
       display: none; background: none; border: none;
       cursor: pointer; color: var(--white); padding: .5rem;
@@ -177,27 +174,36 @@
       padding-block: clamp(2rem,5vw,4rem);
       flex: 1;
     }
-    .hero-meta { font-size: clamp(.8rem,1.3vw,.9375rem); color: rgba(255,255,255,.7); margin-bottom: 1.25rem; }
+    .hero-meta { font-size: clamp(.8rem,1.3vw,.9375rem); color: rgba(255,255,255,1); margin-bottom: 1.25rem; }
     .hero-title { color: var(--white); margin-bottom: 1rem; }
-    .hero-sub { font-size: clamp(.875rem,1.4vw,1.0625rem); color: rgba(255,255,255,.75); line-height: 1.65; margin-bottom: 2rem; }
+    .hero-sub { font-size: clamp(.875rem,1.4vw,1.0625rem); color: rgba(255,255,255,1); line-height: 1.65; margin-bottom: 2rem; }
 
-    .countdown { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 2.5rem; }
-    .cd-unit { display: flex; flex-direction: column; align-items: center; gap: .25rem; }
+    .countdown { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .cd-unit { display: flex; flex-direction: column; align-items: center; gap: .25rem; min-width: 0; }
     .cd-num {
       font-family: var(--fd); font-size: clamp(2.25rem,4.5vw,3.75rem); line-height: 1;
       color: var(--yellow); min-width: 2ch; text-align: center;
     }
-    .cd-lbl { font-size: .6875rem; color: rgba(255,255,255,.55); letter-spacing:.03em; }
+    .cd-lbl { font-size: .75rem; color: rgba(255,255,255,.9); letter-spacing:.03em; }
     .cd-sep {
       font-family: var(--fd); font-size: clamp(1.5rem,3vw,2.75rem);
-      color: rgba(255,255,255,.25); align-self: flex-start; padding-top: .1em;
+      color: rgba(255,255,255,.5); align-self: flex-start; padding-top: .1em;
     }
     .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-    .hero-visual { display: flex; align-items: center; justify-content: center; }
-    .globe-wrap { position: relative; width: min(100%,500px); aspect-ratio: 1; }
-    .globe-poster, .globe-video { width: 100%; height: 100%; object-fit: contain; }
+    .hero-content { min-width: 0; }
+    .hero-visual { display: flex; align-items: center; justify-content: center; min-width: 0; }
+    .globe-wrap { position: relative; width: min(100%,500px); aspect-ratio: 1; z-index: 0; }
+    .globe-poster, .globe-video { width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 1; }
     .globe-video { display: none; }
+    /* real summit photo sits behind the globe render */
+    .hero-real-photo { position: absolute; inset: 0; z-index: -1; overflow: hidden; margin: 0; }
+    .hero-real-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-real-photo figcaption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,.55); font-size: .625rem;
+      color: rgba(255,255,255,.8); padding: 3px 6px;
+    }
 
     .hero-strip {
       background: rgba(0,0,0,.28); /* scrim */
@@ -298,7 +304,7 @@
       width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: .25rem;
       padding: 1.25rem 1.25rem 1.25rem 1.5rem;
       background: rgba(255,255,255,.06); border: none;
-      box-shadow: inset 3px 0 0 transparent; /* inset accent, not border-left */
+      box-shadow: inset 3px 0 0 transparent;
       cursor: pointer; text-align: left;
       transition: background-color 200ms ease, box-shadow 200ms ease;
       margin-bottom: .5rem;
@@ -309,7 +315,7 @@
     }
     .sum-name { font-family: var(--fd); font-size: 1rem; color: var(--white); }
     .sum-dates { font-size: .8125rem; color: rgba(255,255,255,.6); }
-    .sum-open { font-size: .75rem; color: var(--yellow); font-weight: 600; }
+    .sum-open { font-size: .75rem; color: var(--white); font-weight: 600; }
     .sum-past { font-size: .75rem; color: rgba(255,255,255,.45); }
     .sum-display {}
     .sum-photo-wrap { position: relative; aspect-ratio: 16/10; background: rgba(0,0,0,.2); overflow: hidden; }
@@ -346,7 +352,7 @@
     .tc-item { display: flex; align-items: center; gap: .625rem; }
     .tc-name { font-size: .875rem; font-weight: 600; color: var(--n-600); }
     .tc-badge {
-      font-size: .6875rem; font-weight: 700; color: var(--n-400);
+      font-size: .6875rem; font-weight: 700; color: var(--n-700);
       padding: .125rem .45rem; background: var(--n-200);
       text-transform: uppercase; /* 2 of 3 */ letter-spacing: .06em;
     }
@@ -372,7 +378,7 @@
     .spk-photo { aspect-ratio: 1; width:100%; object-fit:cover; }
     .spk-info { padding: .875rem; }
     .spk-name { font-family: var(--fd); font-size: .875rem; color: var(--white); margin-bottom: .25rem; }
-    .spk-title { font-size: .75rem; color: rgba(255,255,255,.7); line-height:1.4; }
+    .spk-title { font-size: .75rem; color: rgba(255,255,255,.95); line-height:1.4; }
     @media (max-width:900px) { .spk-grid { grid-template-columns: repeat(2,1fr); } }
 
     /* === ADVISORY === */
@@ -462,7 +468,7 @@
 
     /* === PARTNERS === */
     .par-sec { background:var(--white); padding-block:var(--sp); }
-    .par-hd { font-family:var(--fd); font-size:.875rem; color:var(--n-400); margin-bottom:2rem; }
+    .par-hd { font-family:var(--fd); font-size:.875rem; color:var(--n-600); margin-bottom:2rem; }
     .par-logos { display:flex; flex-wrap:wrap; gap:2.5rem; align-items:center; }
     .par-logo img {
       height:2.25rem; width:auto;
@@ -491,7 +497,7 @@
     .ft-bot {
       margin-top:2rem; padding-top:1.5rem;
       border-top:1px solid rgba(255,255,255,.08);
-      font-size:.75rem; color:rgba(255,255,255,.3);
+      font-size:.75rem; color:rgba(255,255,255,.55);
     }
     @media (max-width:768px) { .ft-inner { grid-template-columns:1fr 1fr; } }
     @media (max-width:480px) { .ft-inner { grid-template-columns:1fr; } }
@@ -539,7 +545,6 @@
         <li><a href="https://thegyn.org/contact-us/">Contact Us</a></li>
       </ul>
       <div class="nav-right">
-        <button class="theme-toggle" id="theme-btn" aria-label="Toggle light/dark reading">Light</button>
         <a href="https://thegyn.org/sism-forum-access/" class="btn btn-y">Book Forum Access, $199</a>
       </div>
       <button class="ham" aria-label="Open menu" aria-expanded="false" id="ham-btn">
@@ -595,15 +600,22 @@
 
     <div class="hero-visual">
       <div class="globe-wrap">
+        <!-- real summit photo behind the globe render -->
+        <figure class="hero-real-photo">
+          <img src="assets/gallery/fmst-dsc01881-1.webp"
+               alt="Delegates at FutureMinds Summit, Bangkok, July 2026"
+               width="500" height="500" loading="eager">
+          <figcaption>FutureMinds Summit, Bangkok, July 2026</figcaption>
+        </figure>
         <!--
           glass-globe: Blender VP9 transparent render.
-          JS will swap in the video when in view.
+          JS swaps in the video when in view (desktop only; poster on mobile).
           Safari cannot decode webm transparency so it keeps the poster.
         -->
         <img
           class="globe-poster"
           src="assets/r2/renders/glass-globe-poster.webp"
-          alt="A glass globe with 17 SDG-coloured planets in orbit"
+          alt="GYN glass globe with 17 SDG-coloured planets in orbit"
           width="500" height="500">
         <video
           id="globe-vid"
@@ -618,32 +630,6 @@
     </div>
 
   </div>
-
-  <!-- 3 delegate photos from FMS Thailand -->
-  <div class="hero-strip">
-    <div class="wrap">
-      <div class="strip-row">
-        <figure class="del-photo">
-          <img src="assets/gallery/fmst-dsc01881-1.webp"
-               alt="Delegates at FutureMinds Summit Thailand, Bangkok, July 2026"
-               width="110" height="110" loading="lazy">
-          <figcaption class="del-cap">FutureMinds Summit Thailand, Bangkok 2026</figcaption>
-        </figure>
-        <figure class="del-photo">
-          <img src="assets/gallery/fmst-dsc01894-1.webp"
-               alt="Panel session at FutureMinds Summit Thailand 2026"
-               width="110" height="110" loading="lazy">
-          <figcaption class="del-cap">FutureMinds Summit Thailand, Bangkok 2026</figcaption>
-        </figure>
-        <figure class="del-photo">
-          <img src="assets/gallery/fmst-dsc01945-1.webp"
-               alt="Workshop session at FutureMinds Summit Thailand 2026"
-               width="110" height="110" loading="lazy">
-          <figcaption class="del-cap">FutureMinds Summit Thailand, Bangkok 2026</figcaption>
-        </figure>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- ============================================================
@@ -654,7 +640,7 @@
     <div class="stats-grid">
       <div class="stat-tile t-y span2">
         <span class="stat-n">100</span>
-        <span class="stat-l">confirmed seats in Kuala Lumpur, 19–22 Nov 2026</span>
+        <span class="stat-l">seats in Kuala Lumpur, 19–22 Nov 2026</span>
       </div>
       <div class="stat-tile t-w">
         <span class="stat-n">17</span>
@@ -670,7 +656,7 @@
       </div>
       <div class="stat-tile t-w">
         <span class="stat-n">4</span>
-        <span class="stat-l">UN SDGs at the core of every session</span>
+        <span class="stat-l">GYN focus SDGs for SISM 2026</span>
       </div>
       <div class="stat-tile t-y">
         <span class="stat-n">2</span>
@@ -777,7 +763,7 @@
         </div>
         <div class="sum-info" id="sum-info">
           <p class="sum-info-name" id="sum-disp-name">SDG Innovation Summit Malaysia 2026</p>
-          <p class="sum-info-desc" id="sum-disp-desc">Join 100 young leaders, innovators and professionals in Kuala Lumpur. Co-hosted by the United Nations University Global Health Institute.</p>
+          <p class="sum-info-desc" id="sum-disp-desc">Join 100 young leaders, innovators and professionals in Kuala Lumpur. Co-hosted by the United Nations University International Institute for Global Health (UNU Global Health).</p>
           <a href="https://thegyn.org/sism-2026/" class="btn btn-y" id="sum-disp-link">Register for SISM 2026</a>
         </div>
       </div>
@@ -839,7 +825,6 @@
         <p class="tier-nm">FORUM ACCESS</p>
         <div class="tier-pw">
           <span class="tier-p">$199</span>
-          <span class="tier-po">$249</span>
         </div>
         <ul class="tier-inc">
           <li>Early Invitation Letter</li>
@@ -852,14 +837,13 @@
           <li>Lunch and coffee breaks</li>
           <li>APU Campus Tour</li>
         </ul>
-        <a href="https://thegyn.org/sism-forum-access/" class="btn btn-n">Register, $199</a>
+        <a href="https://thegyn.org/sism-forum-access/" class="btn btn-crimson">Register, $199</a>
       </article>
 
       <article class="tier" aria-label="Self Funded ticket with accommodation">
         <p class="tier-nm">SELF FUNDED + ACCOMMODATION</p>
         <div class="tier-pw">
           <span class="tier-p">$399</span>
-          <span class="tier-po">$449</span>
         </div>
         <ul class="tier-inc">
           <li>Accommodation (twin sharing)</li>
@@ -1267,17 +1251,22 @@
   tick();
   setInterval(tick, 1000);
 
-  /* --- GLOBE VIDEO (Safari detection + IntersectionObserver) --- */
+  /* --- GLOBE VIDEO (Safari detection + IntersectionObserver) ---
+     Observe the globe-wrap (always visible) not the video element (display:none).
+     Skip on mobile (<768px) to save bandwidth, and under reduced-motion. */
   var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
   var globeVid = document.getElementById('globe-vid');
+  var globeWrap = document.querySelector('.globe-wrap');
   var globePoster = document.querySelector('.globe-poster');
+  var motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var wideEnough = window.innerWidth >= 768;
 
-  if (!isSafari && globeVid && window.IntersectionObserver) {
+  if (!isSafari && globeVid && globeWrap && window.IntersectionObserver && motionOK && wideEnough) {
     var globeObs = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (e.isIntersecting) {
-          if (!globeVid.src) {
-            /* load webm source */
+          if (!globeVid.children.length) {
+            /* lazy-load sources on first intersection */
             var src = document.createElement('source');
             src.src = globeVid.dataset.webm;
             src.type = 'video/webm';
@@ -1289,14 +1278,14 @@
             globeVid.load();
           }
           globeVid.style.display = 'block';
-          globePoster.style.display = 'none';
+          if (globePoster) globePoster.style.display = 'none';
           globeVid.play().catch(function () {});
         } else {
           globeVid.pause();
         }
       });
     }, { threshold: 0.1 });
-    globeObs.observe(globeVid);
+    globeObs.observe(globeWrap);
   }
 
   /* --- WHERE WE'RE FROM (ARIA tablist) --- */
@@ -1465,7 +1454,7 @@
     'sum-btn-sism': {
       photoId: 'sum-sism',
       name: 'SDG Innovation Summit Malaysia 2026',
-      desc: 'Join 100 young leaders, innovators and professionals in Kuala Lumpur. Co-hosted by the United Nations University Global Health Institute.',
+      desc: 'Join 100 young leaders, innovators and professionals in Kuala Lumpur. Co-hosted by the United Nations University International Institute for Global Health (UNU Global Health).',
       link: 'https://thegyn.org/sism-2026/',
       cta: 'Register for SISM 2026'
     }
@@ -1586,18 +1575,6 @@
   /* link-click closes */
   mobMenu.querySelectorAll('a').forEach(function (a) {
     a.addEventListener('click', closeMob);
-  });
-
-  /* --- THEME TOGGLE --- */
-  var themeBtn = document.getElementById('theme-btn');
-  var root = document.documentElement;
-  var dark = false;
-
-  themeBtn.addEventListener('click', function () {
-    dark = !dark;
-    root.setAttribute('data-theme', dark ? 'dark' : 'light');
-    themeBtn.textContent = dark ? 'Light' : 'Dark';
-    /* update footer + nav which use navy-900 always; no change needed */
   });
 
 }());

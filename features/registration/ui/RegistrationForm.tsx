@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -83,7 +83,7 @@ const inputS: React.CSSProperties = {
   width: '100%', padding: '0.625rem 0.75rem',
   border: '1.5px solid var(--n-200)', background: 'var(--white)',
   fontSize: '1rem', fontFamily: 'var(--fb)', color: 'var(--navy-900)',
-  minHeight: '44px', outline: 'none',
+  minHeight: '44px',
 }
 const inputE: React.CSSProperties = { ...inputS, borderColor: 'var(--crimson-600)' }
 const selectS: React.CSSProperties = { ...inputS, cursor: 'pointer' }
@@ -99,7 +99,7 @@ function ProgressBar({ step }: { step: number }) {
         {STEPS.map((label, i) => (
           <li key={label} style={{ flex: 1, borderBottom: `3px solid ${i <= step ? 'var(--blue-deep)' : 'var(--n-200)'}`, paddingBottom: '0.5rem' }}>
             <span
-              style={{ display: 'block', fontSize: '0.75rem', fontWeight: i === step ? 700 : 400, color: i <= step ? 'var(--blue-deep)' : 'var(--n-400)' }}
+              style={{ display: 'block', fontSize: '0.75rem', fontWeight: i === step ? 700 : 400, color: i <= step ? 'var(--blue-deep)' : 'var(--n-500)' }}
               aria-current={i === step ? 'step' : undefined}
             >
               {i + 1}. {label}
@@ -122,6 +122,7 @@ export function RegistrationForm({ ticket, includes }: RegistrationFormProps) {
   const [submitting, setSubmitting] = useState(false)
   const [consent, setConsent] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>()
+  const reviewHeadingRef = useRef<HTMLHeadingElement>(null)
 
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
@@ -173,6 +174,8 @@ export function RegistrationForm({ ticket, includes }: RegistrationFormProps) {
   const goToReview = useCallback(() => {
     setStep(1)
     window.scrollTo({ top: 0 })
+    // Move focus to review heading so screen readers announce the new step
+    setTimeout(() => reviewHeadingRef.current?.focus(), 50)
   }, [])
 
   const pay = useCallback(async () => {
@@ -209,7 +212,7 @@ export function RegistrationForm({ ticket, includes }: RegistrationFormProps) {
           console.error('registration: unexpected redirect URL rejected', checkoutUrl)
           return
         }
-        lsClear(ticket)
+        // shortcut: clear only on /registered (not here), so cancelled checkout can restore progress
         window.location.href = checkoutUrl
         return
       }
@@ -353,6 +356,14 @@ export function RegistrationForm({ ticket, includes }: RegistrationFormProps) {
       {/* ── Step 1: Review ── */}
       {step === 1 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          {/* tabIndex=-1 lets programmatic focus work without adding it to tab order */}
+          <h2
+            ref={reviewHeadingRef}
+            tabIndex={-1}
+            style={{ fontFamily: 'var(--fd)', fontSize: '1.125rem', color: 'var(--navy-900)', outline: 'none' }}
+          >
+            Review your registration
+          </h2>
           <div style={{ border: '1px solid var(--n-200)', padding: '1.5rem' }}>
             <p style={{ fontFamily: 'var(--fd)', fontSize: '0.875rem', color: 'var(--blue-deep)', marginBottom: '0.5rem' }}>{ticketInfo.name}</p>
             <p style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(2rem,4vw,2.5rem)', lineHeight: 1, color: 'var(--navy-900)', marginBottom: '1rem' }}>${price} USD</p>

@@ -211,7 +211,7 @@ export function SiteFooter({ footer, socials }: Props) {
       </a>
 
       <style>{`
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
           footer .wrap > div:first-child {
             grid-template-columns: 1fr 1fr !important;
           }

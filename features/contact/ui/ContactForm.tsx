@@ -4,11 +4,14 @@
  * ContactForm — react-hook-form + zod, POSTs to /api/contact per the contract.
  * Inline errors, success state, failure state, honeypot anti-spam field.
  * topic can be pre-filled via the `defaultTopic` prop (from ?topic= query param).
+ * Turnstile: rendered when NEXT_PUBLIC_TURNSTILE_SITE_KEY is set; script loaded only then.
  */
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import Script from 'next/script'
+import { useState, useEffect } from 'react'
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -49,10 +52,30 @@ export function ContactForm({ defaultTopic = 'general' }: Props) {
     defaultValues: { topic: defaultTopic },
   })
 
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+  const [turnstileToken, setTurnstileToken] = useState<string | undefined>()
+
+  // Register Turnstile callback on window so the widget can call it
+  useEffect(() => {
+    if (!turnstileSiteKey) return
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Turnstile global callback
+    ;(window as any).__cfTurnstileCb = (t: string) => setTurnstileToken(t)
+    return () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      delete (window as any).__cfTurnstileCb
+    }
+  }, [turnstileSiteKey])
+
   async function onSubmit(data: ContactInput) {
+    if (turnstileSiteKey && !turnstileToken) {
+      setError('root', { message: 'Please complete the security check.' })
+      return
+    }
+
     // discard honeypot before sending
-    const { website: _hp, ...payload } = data
+    const { website: _hp, ...rest } = data
     void _hp
+    const payload = { ...rest, ...(turnstileToken ? { turnstileToken } : {}) }
 
     let res: Response
     try {
@@ -125,140 +148,156 @@ export function ContactForm({ defaultTopic = 'general' }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      {/* Honeypot — hidden from sighted users and screen readers */}
-      <div style={{ position: 'absolute', left: '-9999px', height: 0, overflow: 'hidden' }} aria-hidden="true">
-        <label htmlFor="cf-website">Leave this blank</label>
-        <input
-          id="cf-website"
-          type="text"
-          tabIndex={-1}
-          autoComplete="off"
-          {...register('website')}
-        />
-      </div>
+    <>
+      {/* Load Turnstile script only when the site key is configured */}
+      {turnstileSiteKey && (
+        <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" />
+      )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-        {/* Name */}
-        <div>
-          <label htmlFor="cf-name" style={labelStyle}>
-            Name <span aria-hidden="true" style={{ color: 'var(--crimson-600)' }}>*</span>
-          </label>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        {/* Honeypot — hidden from sighted users and screen readers */}
+        <div style={{ position: 'absolute', left: '-9999px', height: 0, overflow: 'hidden' }} aria-hidden="true">
+          <label htmlFor="cf-website">Leave this blank</label>
           <input
-            id="cf-name"
+            id="cf-website"
             type="text"
-            autoComplete="name"
-            aria-required="true"
-            aria-describedby={errors.name ? 'cf-name-err' : undefined}
-            aria-invalid={!!errors.name}
-            style={inputStyle(!!errors.name)}
-            {...register('name')}
+            tabIndex={-1}
+            autoComplete="off"
+            {...register('website')}
           />
-          {errors.name && (
-            <p id="cf-name-err" role="alert" style={errorStyle}>
-              {errors.name.message}
-            </p>
-          )}
         </div>
 
-        {/* Email */}
-        <div>
-          <label htmlFor="cf-email" style={labelStyle}>
-            Email <span aria-hidden="true" style={{ color: 'var(--crimson-600)' }}>*</span>
-          </label>
-          <input
-            id="cf-email"
-            type="email"
-            autoComplete="email"
-            aria-required="true"
-            aria-describedby={errors.email ? 'cf-email-err' : undefined}
-            aria-invalid={!!errors.email}
-            style={inputStyle(!!errors.email)}
-            {...register('email')}
-          />
-          {errors.email && (
-            <p id="cf-email-err" role="alert" style={errorStyle}>
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-
-        {/* Topic */}
-        <div>
-          <label htmlFor="cf-topic" style={labelStyle}>
-            Topic <span aria-hidden="true" style={{ color: 'var(--crimson-600)' }}>*</span>
-          </label>
-          <select
-            id="cf-topic"
-            aria-required="true"
-            aria-describedby={errors.topic ? 'cf-topic-err' : undefined}
-            aria-invalid={!!errors.topic}
-            style={{ ...inputStyle(!!errors.topic), cursor: 'pointer' }}
-            {...register('topic')}
-          >
-            {Object.entries(TOPIC_LABELS).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-          {errors.topic && (
-            <p id="cf-topic-err" role="alert" style={errorStyle}>
-              {errors.topic.message}
-            </p>
-          )}
-        </div>
-
-        {/* Message */}
-        <div>
-          <label htmlFor="cf-message" style={labelStyle}>
-            Message <span aria-hidden="true" style={{ color: 'var(--crimson-600)' }}>*</span>
-          </label>
-          <textarea
-            id="cf-message"
-            rows={6}
-            aria-required="true"
-            aria-describedby={errors.message ? 'cf-message-err' : undefined}
-            aria-invalid={!!errors.message}
-            style={{ ...inputStyle(!!errors.message), resize: 'vertical' }}
-            placeholder="Please let us know what is on your mind."
-            {...register('message')}
-          />
-          {errors.message && (
-            <p id="cf-message-err" role="alert" style={errorStyle}>
-              {errors.message.message}
-            </p>
-          )}
-        </div>
-
-        {/* Root / network errors */}
-        {errors.root && (
-          <div
-            role="alert"
-            style={{
-              padding: '0.875rem 1rem',
-              background: '#fff0f1',
-              borderLeft: '4px solid var(--crimson-600)',
-            }}
-          >
-            <p style={{ fontSize: '0.9375rem', color: 'var(--n-800)' }}>
-              {errors.root.message}
-            </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          {/* Name */}
+          <div>
+            <label htmlFor="cf-name" style={labelStyle}>
+              Name <span aria-hidden="true" style={{ color: 'var(--crimson-600)' }}>*</span>
+            </label>
+            <input
+              id="cf-name"
+              type="text"
+              autoComplete="name"
+              aria-required="true"
+              aria-describedby={errors.name ? 'cf-name-err' : undefined}
+              aria-invalid={!!errors.name}
+              style={inputStyle(!!errors.name)}
+              {...register('name')}
+            />
+            {errors.name && (
+              <p id="cf-name-err" role="alert" style={errorStyle}>
+                {errors.name.message}
+              </p>
+            )}
           </div>
-        )}
 
-        <div>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="btn btn-n"
-            aria-disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Sending...' : 'Send message'}
-          </button>
+          {/* Email */}
+          <div>
+            <label htmlFor="cf-email" style={labelStyle}>
+              Email <span aria-hidden="true" style={{ color: 'var(--crimson-600)' }}>*</span>
+            </label>
+            <input
+              id="cf-email"
+              type="email"
+              autoComplete="email"
+              aria-required="true"
+              aria-describedby={errors.email ? 'cf-email-err' : undefined}
+              aria-invalid={!!errors.email}
+              style={inputStyle(!!errors.email)}
+              {...register('email')}
+            />
+            {errors.email && (
+              <p id="cf-email-err" role="alert" style={errorStyle}>
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+
+          {/* Topic */}
+          <div>
+            <label htmlFor="cf-topic" style={labelStyle}>
+              Topic <span aria-hidden="true" style={{ color: 'var(--crimson-600)' }}>*</span>
+            </label>
+            <select
+              id="cf-topic"
+              aria-required="true"
+              aria-describedby={errors.topic ? 'cf-topic-err' : undefined}
+              aria-invalid={!!errors.topic}
+              style={{ ...inputStyle(!!errors.topic), cursor: 'pointer' }}
+              {...register('topic')}
+            >
+              {Object.entries(TOPIC_LABELS).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+            {errors.topic && (
+              <p id="cf-topic-err" role="alert" style={errorStyle}>
+                {errors.topic.message}
+              </p>
+            )}
+          </div>
+
+          {/* Message */}
+          <div>
+            <label htmlFor="cf-message" style={labelStyle}>
+              Message <span aria-hidden="true" style={{ color: 'var(--crimson-600)' }}>*</span>
+            </label>
+            <textarea
+              id="cf-message"
+              rows={6}
+              aria-required="true"
+              aria-describedby={errors.message ? 'cf-message-err' : undefined}
+              aria-invalid={!!errors.message}
+              style={{ ...inputStyle(!!errors.message), resize: 'vertical' }}
+              placeholder="Please let us know what is on your mind."
+              {...register('message')}
+            />
+            {errors.message && (
+              <p id="cf-message-err" role="alert" style={errorStyle}>
+                {errors.message.message}
+              </p>
+            )}
+          </div>
+
+          {/* Turnstile widget — rendered only when the site key is set */}
+          {turnstileSiteKey && (
+            <div
+              className="cf-turnstile"
+              data-sitekey={turnstileSiteKey}
+              data-callback="__cfTurnstileCb"
+            />
+          )}
+
+          {/* Root / network errors */}
+          {errors.root && (
+            <div
+              role="alert"
+              style={{
+                padding: '0.875rem 1rem',
+                background: '#fff0f1',
+                borderLeft: '4px solid var(--crimson-600)',
+              }}
+            >
+              <p style={{ fontSize: '0.9375rem', color: 'var(--n-800)' }}>
+                {errors.root.message}
+              </p>
+            </div>
+          )}
+
+          <div>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="btn btn-n"
+              aria-disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Sending...' : 'Send message'}
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   )
 }
 
@@ -280,8 +319,7 @@ function inputStyle(hasError: boolean): React.CSSProperties {
     color: 'var(--n-900)',
     background: 'var(--white)',
     border: `2px solid ${hasError ? 'var(--crimson-600)' : 'var(--n-300)'}`,
-    outline: 'none',
-    transition: 'border-color 150ms ease',
+    transition: 'border-color 150ms cubic-bezier(0.23, 1, 0.32, 1)',
   }
 }
 

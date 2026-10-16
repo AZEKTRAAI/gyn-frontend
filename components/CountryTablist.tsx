@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import type { MediaEntry } from '@/features/media/media'
 
 interface Person {
@@ -24,6 +24,32 @@ interface Props {
 export function CountryTablist({ tabs }: Props) {
   const [activeId, setActiveId] = useState(tabs[0]?.id)
   const active = tabs.find((t) => t.id === activeId) ?? tabs[0]
+  // Refs for roving tabindex: one ref per tab button
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+
+  const activate = useCallback(
+    (id: string) => {
+      setActiveId(id)
+      const idx = tabs.findIndex((t) => t.id === id)
+      tabRefs.current[idx]?.focus()
+    },
+    [tabs],
+  )
+
+  /** WAI-ARIA tabs keyboard pattern: Arrow keys move focus and select; Home/End jump to ends. */
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent, idx: number) => {
+      let next = idx
+      if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length
+      else if (e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length
+      else if (e.key === 'Home') next = 0
+      else if (e.key === 'End') next = tabs.length - 1
+      else return
+      e.preventDefault()
+      activate(tabs[next].id)
+    },
+    [tabs, activate],
+  )
 
   return (
     <div>
@@ -33,14 +59,18 @@ export function CountryTablist({ tabs }: Props) {
         aria-label="View people by category"
         style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '2rem' }}
       >
-        {tabs.map((tab) => (
+        {tabs.map((tab, idx) => (
           <button
             key={tab.id}
+            ref={(el) => { tabRefs.current[idx] = el }}
             role="tab"
             aria-selected={tab.id === activeId}
             aria-controls={`panel-${tab.id}`}
             id={`tab-${tab.id}`}
-            onClick={() => setActiveId(tab.id)}
+            /* Roving tabindex: only the active tab is in the natural tab order */
+            tabIndex={tab.id === activeId ? 0 : -1}
+            onClick={() => activate(tab.id)}
+            onKeyDown={(e) => onKeyDown(e, idx)}
             style={{
               background: tab.id === activeId ? 'var(--blue-deep)' : 'var(--white)',
               color: tab.id === activeId ? 'var(--white)' : 'var(--blue-deep)',
@@ -50,7 +80,7 @@ export function CountryTablist({ tabs }: Props) {
               fontSize: '0.875rem',
               fontWeight: 600,
               cursor: 'pointer',
-              transition: 'background-color 160ms ease, color 160ms ease',
+              transition: 'background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), color 160ms cubic-bezier(0.23, 1, 0.32, 1)',
             }}
           >
             {tab.label}

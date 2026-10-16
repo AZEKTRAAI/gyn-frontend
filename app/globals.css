@@ -48,7 +48,7 @@
   --radius-logo: 6px;
 
   /* === MOTION === */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --duration-fast: 140ms;
   --duration-base: 200ms;
 }
@@ -61,16 +61,23 @@
   --navy-900: #0E1530;
   --navy-800: #16204A;
   --navy-700: #202F60;
+  --navy-300: #8E9BCB;
   --yellow: #FCC30B;
   --yellow-dk: #D6A200;
   --white: #FFFFFF;
   --paper: #F7F7F4;
+  --n-50: #F7F7F4;
   --n-100: #EEEEE9;
   --n-200: #DCDCD5;
+  --n-300: #BDBDB5;
   --n-400: #9A9A93;
+  --n-500: #76766F;
   --n-600: #5A5A55;
   --n-700: #3F3F3C;
+  --n-800: #262624;
+  --n-900: #141413;
   --crimson-600: #C52035;
+  --leaf-600: #48783F;
   --sdg4: #C5192D;
   --sdg5: #FF3A21;
   --sdg9: #FD6925;
@@ -105,9 +112,15 @@ section, footer { overflow-x: clip; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 
+/* Two-tone focus ring: navy inner (≥3:1 on all light/mid surfaces) + yellow outer (≥3:1 on navy/blues).
+   outline: transparent keeps the ring visible in Windows High Contrast via ButtonText substitution. */
 :focus-visible {
-  outline: 3px solid var(--yellow);
-  outline-offset: 3px;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--navy-900), 0 0 0 4px var(--yellow);
+}
+@media (forced-colors: active) {
+  :focus-visible { outline-color: ButtonText; }
 }
 
 /* Prefers-reduced-motion: disable all transitions and globe video */
@@ -178,7 +191,8 @@ a { color: inherit; text-decoration: none; }
 .t-c .stat-n, .t-c .stat-l { color: var(--navy-900); }
 .t-b  { background: var(--blue-deep); }
 .t-b .stat-n { color: var(--yellow); }
-.t-b .stat-l { color: var(--white); }
+/* !important: overrides inline rgba(255,255,255,.75) in page.tsx; full white = 6.06:1 on blue-deep (WCAG AA) */
+.t-b .stat-l { color: var(--white) !important; }
 
 /* === SCREEN READER ONLY === */
 .sr-only {
@@ -189,6 +203,25 @@ a { color: inherit; text-decoration: none; }
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
 }
+/* Skip link — becomes visible on keyboard focus regardless of Tailwind layer order */
+.sr-only:focus-visible {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  translate: -50% 0;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  padding: 0.625rem 1.25rem;
+  background: var(--yellow);
+  color: var(--navy-900);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  z-index: 9999;
+  border: 2px solid var(--navy-900);
+}
 
 /* === RESPONSIVE GRIDS === */
 /* These fix overflow on narrow viewports for inline-style grids in page.tsx */
@@ -196,7 +229,7 @@ a { color: inherit; text-decoration: none; }
 /* min-width:0 prevents grid children from overflowing their column */
 .hero-grid > * { min-width: 0; }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .hero-grid { grid-template-columns: 1fr !important; }
   /* Hero secondary visual (globe / hero image): hide on mobile so H1 text is LCP, not the image */
   .hero-aside { display: none; }

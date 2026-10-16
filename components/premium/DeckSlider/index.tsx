@@ -215,6 +215,7 @@ function DeckCard({ item, depth, isActive, prefersReduced, onDismiss }: DeckCard
         cursor: isActive ? 'grab' : 'default',
         touchAction: 'none',
       }}
+      initial={{ y: yOffset, scale, opacity: depth > VISIBLE_BEHIND ? 0 : 1 }}
       animate={{
         y: yOffset,
         scale,

@@ -131,10 +131,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* === TYPE SCALE === */
-/* Krona One is very wide; at 360px inner width = 328px, "INNOVATION" must fit: clamp bottoms at 1.25rem */
-.d1 { font-family: var(--fd); font-size: clamp(1.25rem, 4vw, 3.75rem); line-height: 1.04; }
-.d2 { font-family: var(--fd); font-size: clamp(1.4rem, 3vw, 2.5rem); line-height: 1.1; }
-.d3 { font-family: var(--fd); font-size: clamp(1rem, 1.8vw, 1.4rem); line-height: 1.2; }
+/* Krona One is very wide; at 360px inner width = 328px, "INNOVATION" must fit.
+   overflow-wrap prevents single long words from clipping under overflow-x:clip sections. */
+.d1 { font-family: var(--fd); font-size: clamp(1.125rem, 3.8vw, 3.75rem); line-height: 1.04; overflow-wrap: break-word; }
+.d2 { font-family: var(--fd); font-size: clamp(1.25rem, 2.8vw, 2.5rem); line-height: 1.1; overflow-wrap: break-word; }
+.d3 { font-family: var(--fd); font-size: clamp(1rem, 1.8vw, 1.4rem); line-height: 1.2; overflow-wrap: break-word; }
 
 /* === BUTTONS === */
 .btn {

@@ -142,6 +142,7 @@ export function CoverflowVideos({ items, onOpen, heading }: CoverflowVideosProps
                   transformStyle: 'preserve-3d',
                   cursor: isActive ? 'pointer' : 'default',
                 }}
+                initial={{ x: translateX, rotateY, z: translateZ, scale, opacity }}
                 animate={{
                   x: translateX,
                   rotateY,

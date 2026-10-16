@@ -89,9 +89,10 @@ enum ReviewStatus {
 }
 
 enum AdminRole {
-  SUPER_ADMIN
+  OWNER                // formerly SUPER_ADMIN; full access
+  EDITOR               // formerly CONTENT_EDITOR; can manage pages, media, videos
   REVIEWER             // scholarship panel; can only read/score applications
-  CONTENT_EDITOR       // can manage pages, media, videos
+  FINANCE              // can view registrations, issue refunds, manage pricing
 }
 
 enum MediaResourceType {
@@ -266,6 +267,8 @@ model Refund {
   registrationId    String
   registration      Registration    @relation(fields: [registrationId], references: [id])
   providerRefundId  String?         // Stripe re_xxx
+  // Idempotency key sent to Stripe POST /v1/refunds; prevents double-refund on retry
+  idempotencyKey    String?         @unique
   amountCents       Int
   type              RefundType      @default(GYN_CREDIT_VOUCHER)
   status            RefundStatus    @default(PENDING)
@@ -479,7 +482,7 @@ model AdminUser {
   email          String    @unique
   name           String
   role           AdminRole
-  hashedPassword String
+  hashedPassword String?   // optional: magic-link auth does not use a password
   active         Boolean   @default(true)
   lastLoginAt    DateTime?
 
@@ -513,6 +516,24 @@ model AuditLog {
 // ---------------------------------------------------------------------------
 // Webhook idempotency store
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// Contact messages (from the public contact form)
+// ---------------------------------------------------------------------------
+
+// Stored separately from FormSubmission to avoid a FormDefinition dependency.
+// Retention: 1 year (operational data; see docs/schema.md).
+model ContactMessage {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  topic       String
+  message     String
+  ipAddress   String?
+  submittedAt DateTime @default(now())
+
+  @@index([submittedAt])
+}
 
 // providerEventId is unique: duplicate deliveries from Stripe are no-ops.
 model WebhookEvent {

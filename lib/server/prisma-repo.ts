@@ -240,13 +240,14 @@ export class PrismaRepo implements Repo {
     message: string;
     ip?: string;
   }): Promise<void> {
-    // shortcut: contact form saved as FormSubmission requires a FormDefinition row to exist.
-    // For now, log and skip DB insert; create a seed FormDefinition in production before launch.
-    console.log({
-      msg: "contact: submission received (DB upsert skipped — no FormDefinition seed)",
-      name: data.name,
-      topic: data.topic,
-      ip: data.ip,
+    await this.prisma.contactMessage.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        topic: data.topic,
+        message: data.message,
+        ipAddress: data.ip,
+      },
     });
   }
 }

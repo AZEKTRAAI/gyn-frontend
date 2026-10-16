@@ -402,7 +402,7 @@ export function PitchClient({ lhHomeMobile, lhHomeDesktop }: Props) {
                 Primary text contrast (navy on white). Live site yellow on white was 1.08:1.
               </p>
               <p style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,.45)', marginTop: '0.5rem' }}>
-                Proven — design/palette.md
+                Proven, design/palette.md
               </p>
             </div>
 
@@ -425,7 +425,7 @@ export function PitchClient({ lhHomeMobile, lhHomeDesktop }: Props) {
                 revenue, content, quality, media and copy.
               </p>
               <p style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,.5)', marginTop: '0.5rem' }}>
-                Proven — crawl of thegyn.org, 15 Oct 2026
+                Proven, crawl of thegyn.org, 15 Oct 2026
               </p>
             </div>
 

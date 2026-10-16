@@ -195,6 +195,12 @@ export const GALLERY: MediaEntry[] = [
 
 /** Logos */
 export const LOGOS: Record<string, MediaEntry> = {
+  'logo.apu': {
+    src: '/media/venue/apu-asia-pacific-university.webp',
+    alt: 'Asia Pacific University (APU) logo',
+    width: 360,
+    height: 170,
+  },
   'logo.gyn': {
     src: '/media/logos/gyn-logo.png',
     alt: 'Global Youth Network',

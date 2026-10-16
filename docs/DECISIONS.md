@@ -84,7 +84,7 @@ Newest at the bottom. Each entry: what, why, reversible?
 
 **D38. Sticky mobile "Book a seat" bar shows Forum Access $199, not Invitation Letter $49.** The bar is labelled "Book a seat" and an invitation letter does not grant summit access. The cheapest confirmed seat is Forum Access at $199. Invitation Letter link is available in the application-process CTA block below. Reversible if definition of "cheapest open tier" expands.
 
-**D39. APU institutional visit image falls back to sism-2026-call-for-applications.webp.** No dedicated APU campus image exists in the media manifest yet. The stand-in is the SISM 2026 call-for-applications banner, which is clearly captioned. Replace by adding an APU image to the media manifest and updating the `src` in `app/sism-2026/page.tsx`. Reversible.
+**D39. APU visit shows the APU logo, not a photo.** The crawl only has APU's logo (360x170), no campus photo. An earlier version used the SISM banner captioned as the APU campus, which mislabelled it; replaced by the logo from the media manifest (`logo.apu`). Swap in a real campus photo when GYN has one.
 
 **D40. Hydration warning from motion components on sism-2026 page is not fixed.** DeckSlider and CoverflowVideos (from components/premium/) use motion.div with initial transforms that differ between SSR and client. React 18 logs a "tree hydrated" warning. The warning is benign (the app functions correctly), and the components are owned by Pages A. Noted here; Pages A can add suppressHydrationWarning or an isServer guard if needed.
 

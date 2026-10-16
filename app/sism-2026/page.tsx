@@ -108,13 +108,13 @@ export default async function Sism2026Page() {
         <div className="wrap" style={{ paddingBlock: 'clamp(2.5rem,6vw,5rem)' }}>
           <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '2.5rem', alignItems: 'center' }}>
             <div>
-              <p style={{ fontSize: 'clamp(.8rem,1.3vw,.9375rem)', color: 'rgba(255,255,255,.85)', marginBottom: '1.25rem', lineHeight: 1.6 }}>
-                {sism.dates.displayAlt} / {sism.venue}, {sism.city} / Co-hosted by UNU Global Health
-              </p>
               <h1 id="sism-title" className="d1" style={{ color: 'var(--white)', marginBottom: '1rem' }}>
                 SDG INNOVATION SUMMIT MALAYSIA 2026
               </h1>
-              <p style={{ fontSize: 'clamp(.875rem,1.4vw,1.0625rem)', color: 'rgba(255,255,255,.85)', lineHeight: 1.65, marginBottom: '2rem', maxWidth: '52ch' }}>
+              <p style={{ fontSize: 'clamp(.875rem,1.3vw,.9375rem)', color: 'var(--white)', marginBottom: '1rem', lineHeight: 1.6 }}>
+                {sism.dates.displayAlt} / {sism.venue}, {sism.city} / Co-hosted by UNU Global Health
+              </p>
+              <p style={{ fontSize: 'clamp(.875rem,1.4vw,1.0625rem)', color: 'var(--white)', lineHeight: 1.65, marginBottom: '2rem', maxWidth: '52ch' }}>
                 100 seats, {sism.scholarships.total} scholarships. Join young leaders, innovators and professionals from around the world in Kuala Lumpur.
               </p>
               <Countdown />
@@ -234,14 +234,14 @@ export default async function Sism2026Page() {
               Experience an exclusive institutional visit to Asia Pacific University (APU), one of Malaysia&apos;s leading universities. Explore its academic environment and global learning community while connecting with fellow international delegates. Delegates will also explore Petaling Street (Chinatown), GMBB KL, Petronas Twin Towers, KLCC Park and many other spots.
             </p>
           </div>
-          <figure style={{ margin: 0 }}>
+          {/* only the APU logo exists in the crawled media; no campus photo, so none is shown */}
+          <figure style={{ margin: 0, background: 'var(--white)', padding: '2rem', display: 'grid', placeItems: 'center' }}>
             <Image
-              src="/media/events/sism-2026-call-for-applications.webp"
-              alt="Asia Pacific University campus, Kuala Lumpur"
-              width={768}
-              height={512}
-              sizes="(max-width: 768px) 100vw, 50vw"
-              style={{ width: '100%', height: '280px', objectFit: 'cover', display: 'block' }}
+              src={LOGOS['logo.apu'].src}
+              alt={LOGOS['logo.apu'].alt}
+              width={LOGOS['logo.apu'].width}
+              height={LOGOS['logo.apu'].height}
+              style={{ width: 'min(100%, 360px)', height: 'auto', display: 'block' }}
             />
           </figure>
         </div>

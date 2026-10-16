@@ -4,8 +4,9 @@ import dynamic from 'next/dynamic'
 import { cms } from '@/lib/cms'
 import { Countdown } from '@/components/Countdown'
 import { GlobeVideo } from '@/components/GlobeVideo'
-import { MagneticButton } from '@/components/premium/MagneticButton'
 import { TransitionLink } from '@/components/premium/PageTransition'
+// Hero CTA: SSR plain <a>; magnetic spring attached client-side after idle on fine-pointer devices
+import MagneticCTA from '@/components/premium/MagneticButton/MagneticCTA'
 import type { Summit } from '@/components/premium/SummitSwitcher'
 import type { Tier } from '@/components/premium/TicketRail'
 import { type VideoItem } from '@/components/premium/CoverflowVideos'
@@ -145,24 +146,21 @@ export default async function HomePage() {
             <Countdown />
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '2.5rem' }}>
               {/* MagneticButton on primary CTA only (task 2) */}
-              <MagneticButton href="/sism-forum-access" className="btn btn-y">
+              <MagneticCTA href="/sism-forum-access" className="btn btn-y">
                 Book Forum Access, $199
-              </MagneticButton>
+              </MagneticCTA>
               <TransitionLink href="/sism-2026" className="btn btn-ow">See the full programme</TransitionLink>
             </div>
           </div>
 
-          {/* Right: globe poster (server Image = LCP hint) + client video overlay */}
-          <div className="hero-right" style={{ position: 'relative', minWidth: 0 }}>
-            {/* Server-rendered poster so Next.js emits a fetchpriority=high preload */}
+          {/* Right: globe + overlay. Hidden on mobile so H1 text is LCP (globe would beat text by px area). */}
+          <div className="hero-aside" style={{ position: 'relative', minWidth: 0 }}>
             <div style={{ position: 'relative', width: 'min(100%, 600px)', aspectRatio: '1' }}>
               <Image
                 src="/renders/glass-globe-poster.webp"
                 alt="A glass globe with 17 SDG-coloured planets in orbit"
                 width={500}
                 height={500}
-                priority
-                fetchPriority="high"
                 sizes="(max-width: 768px) 70vw, 500px"
                 style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />

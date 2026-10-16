@@ -198,8 +198,8 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 768px) {
   .hero-grid { grid-template-columns: 1fr !important; }
-  /* Pull globe above text on mobile — largest LCP candidate is visible sooner */
-  .hero-right { order: -1; }
+  /* Hero secondary visual (globe / hero image): hide on mobile so H1 text is LCP, not the image */
+  .hero-aside { display: none; }
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .stats-grid .stat-span2 { grid-column: span 1 !important; }
   .who-grid { grid-template-columns: 1fr !important; }

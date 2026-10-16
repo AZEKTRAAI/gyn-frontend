@@ -134,14 +134,12 @@ export default async function Sism2026Page() {
                 <Link href="#tickets" className="btn btn-ow">See all tickets</Link>
               </div>
             </div>
-            <figure className="hero-right" style={{ margin: 0 }}>
+            <figure className="hero-aside" style={{ margin: 0 }}>
               <Image
                 src="/media/hero/sism-2026-hero-visual.webp"
                 alt="SDG Innovation Summit Malaysia 2026 promotional visual"
                 width={720}
                 height={540}
-                priority
-                fetchPriority="high"
                 sizes="(max-width: 768px) 100vw, 45vw"
                 style={{ width: '100%', height: 'auto', display: 'block' }}
               />

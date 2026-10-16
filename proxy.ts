@@ -20,7 +20,7 @@ function checkBasicAuth(req: NextRequest, envVar: string): NextResponse | null {
   return null; // authenticated
 }
 
-export function middleware(req: NextRequest): NextResponse {
+export function proxy(req: NextRequest): NextResponse {
   const { pathname } = req.nextUrl;
   if (pathname.startsWith("/admin")) {
     const res = checkBasicAuth(req, "ADMIN_BASIC_AUTH");

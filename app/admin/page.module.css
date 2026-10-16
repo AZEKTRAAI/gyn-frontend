@@ -1,0 +1,17 @@
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+
+@media (max-width: 768px) {
+  .chartsGrid { grid-template-columns: 1fr; }
+}

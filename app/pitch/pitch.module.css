@@ -1,0 +1,28 @@
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.tilesGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.issueRow {
+  display: grid;
+  grid-template-columns: 5rem 5.5rem 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .tilesGrid { grid-template-columns: repeat(2, 1fr); }
+  .issueRow { grid-template-columns: 4rem 5rem 1fr; gap: 0.5rem; }
+}
+
+@media (max-width: 480px) {
+  .tilesGrid { grid-template-columns: 1fr 1fr; }
+  .issueRow { grid-template-columns: 1fr; gap: 0.25rem; }
+}

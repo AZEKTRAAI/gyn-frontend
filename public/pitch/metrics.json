@@ -1,0 +1,18 @@
+{
+  "note": "Fill Lighthouse scores after running: npx lighthouse http://localhost:3000 --output json --output-path ./public/pitch/lighthouse.json",
+  "lighthouse": {
+    "performance": null,
+    "accessibility": null,
+    "bestPractices": null,
+    "seo": null
+  },
+  "proven": {
+    "contrastBefore": "1.08:1",
+    "contrastAfter": "12.83:1",
+    "liveIssueCount": 57,
+    "blockerCount": 6,
+    "highCount": 12,
+    "mediumCount": 17,
+    "lowCount": 9
+  }
+}

@@ -55,3 +55,13 @@ Newest at the bottom. Each entry: what, why, reversible?
 **D24. No dark theme.** G's colour-blocked design (blue-deep / yellow / white) is built for light mode only. A dark theme would require full palette redesign (dark colours invert the meaning of the blue blocks) and there is no brief requirement for it. Skipped. Revisit only if Azam explicitly requests a dark variant.
 
 **D25. Prisma pinned to 7.10.1 (stable), not the npm "latest" tag.** On 16 Oct the `prisma` package's "latest" tag points at 8.0.0-rc.23, a release candidate, while `@prisma/client` latest is 7.10.1. Both are pinned to 7.10.1 so CLI and client match. Also installed: react-hook-form 7.90.0, @hookform/resolvers 5.9.1, lenis 1.3.27. All installs are done centrally so parallel agents never edit package.json at the same time.
+
+**D26. Tiny custom markdown renderer for policy pages, not a library.** gray-matter is installed and parses the front-matter; no remark/rehype or marked is installed. The three policy files use only headings, paragraphs, lists, bold, links and one table. A 100-line custom renderer in `lib/md-render.ts` avoids a new dependency. The `// shortcut:` comment names remark as the upgrade path if more complex markdown lands. Reversible.
+
+**D27. PolicyLayout is a client component.** The sticky TOC uses IntersectionObserver to track the active heading as the user scrolls. That requires `useEffect`, making it a client component. The markdown body itself is rendered server-side and injected via `dangerouslySetInnerHTML` — only the TOC highlight logic runs client-side. Reversible.
+
+**D28. Pitch screenshots captured from live thegyn.org and localhost:3000 at 1440x900.** Saved as PNG (not WebP) because Playwright's WebP support requires mime-type detection from the file extension and the installed Playwright version does not recognize .webp. Filed as `before.png` / `after.png` in `public/pitch/`. Reversible: rename and recapture in WebP format once confirmed.
+
+**D29. Admin dashboard uses plain SVG (no chart library).** The brief requires no chart library; all charts are inline SVG with `<title>` for accessibility and `<details>/<table>` fallbacks. SVG viewBoxes are fixed-width with `width: 100%; height: auto` so they scale to any container. Reversible: swap SVG for a library component if the dashboard becomes interactive.
+
+**D30. /pitch screenshots use http://localhost:3000 not 3200.** The lead confirmed the shared dev server runs on port 3000. The api-contract.md reference to port 3200 was corrected mid-build.

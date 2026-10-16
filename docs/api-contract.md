@@ -31,6 +31,11 @@ Raw body, `Stripe-Signature` header, verified with `features/payments/stripe.ts`
 ### `POST /api/contact`
 Request: `{ name, email, topic: "general" | "partnership" | "group-booking" | "media", message (10–2000 chars), turnstileToken? }`. Responses `200 { ok: true }`, `400 { fieldErrors }`, `429`.
 
+**Turnstile behaviour (both `/api/contact` and `/api/registrations`):**
+- `TURNSTILE_SECRET_KEY` set: a `turnstileToken` is required and verified with Cloudflare's siteverify API. Missing or invalid token → `400 { fieldErrors: { form: ["Please complete the CAPTCHA challenge."] } }`.
+- `TURNSTILE_SECRET_KEY` unset, `NODE_ENV !== "production"` (dev/demo): verification is skipped with a console warning.
+- `TURNSTILE_SECRET_KEY` unset, `NODE_ENV === "production"`: the request is rejected with `400` and `console.error` names the missing env var (`TURNSTILE_SECRET_KEY`). **The contact form does not yet render a Turnstile widget** (the other agent adds it); set the key before production to avoid all contact submissions being rejected.
+
 ### `GET /api/calendar/sism-2026.ics`
 Returns a `text/calendar` file for 19–22 Nov 2026, Teedo Hotel, Kuala Lumpur (Asia/Kuala_Lumpur).
 

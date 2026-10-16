@@ -8,10 +8,11 @@ export async function verifyTurnstile(token: string | undefined): Promise<void> 
   const secret = process.env.TURNSTILE_SECRET_KEY;
   if (!secret) {
     if (process.env.NODE_ENV === "production") {
-      // Fail-closed: a production deployment without a CAPTCHA key is a misconfiguration.
+      // Fail-closed: a production deployment without TURNSTILE_SECRET_KEY is a misconfiguration.
+      console.error({ msg: "turnstile: TURNSTILE_SECRET_KEY is not set; rejecting request (fail-closed in production)" });
       throw new TurnstileError("CAPTCHA is not configured. Please contact support.");
     }
-    // Demo/dev mode: skip with a warning.
+    // Demo/dev mode: skip with a warning so developers know why CAPTCHA is inactive.
     console.warn({ msg: "turnstile: TURNSTILE_SECRET_KEY not set; skipping verification (demo mode)" });
     return;
   }

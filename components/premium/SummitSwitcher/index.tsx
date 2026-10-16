@@ -159,7 +159,8 @@ export function SummitSwitcher({
       </div>
 
       {/* ── Slide stack ── */}
-      <div style={{ position: 'relative', aspectRatio: '16/7', minHeight: '480px' }}>
+      {/* aspect-ratio plus min-height forced a 1097px-wide box on phones; height scales instead and width follows the container */}
+      <div style={{ position: 'relative', width: '100%', height: 'clamp(480px, 44vw, 640px)' }}>
         <AnimatePresence custom={direction} initial={false} mode="sync">
           <motion.div
             key={summit.id}

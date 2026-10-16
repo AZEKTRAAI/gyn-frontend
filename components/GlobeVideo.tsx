@@ -10,25 +10,20 @@ function detectSafari() {
   return /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 }
 
-/** Detect reduced-motion preference */
-function detectReducedMotion() {
-  if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
-
 export function GlobeVideo() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  const isSafari = detectSafari()
-  const reducedMotion = detectReducedMotion()
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
   // Below 768px: poster only, no video element, no download (brief task 1c)
   const isMobile = !useMediaQuery('(min-width: 768px)')
+  // Server and first client render agree on "poster only"; the video mounts once the real viewport is known
+  const posterOnly = reducedMotion || isMobile
 
   useEffect(() => {
     const video = videoRef.current
     const wrapper = wrapperRef.current
-    if (!video || !wrapper) return
+    if (!video || !wrapper || detectSafari()) return
 
     // Set sources now so preload="none" was honoured before this point
     const webm = document.createElement('source')
@@ -55,10 +50,7 @@ export function GlobeVideo() {
     )
     obs.observe(wrapper)
     return () => obs.disconnect()
-  }, [])
-
-  // Poster only: Safari (no webm), reduced motion, mobile (< 768px), or server
-  const posterOnly = isSafari || reducedMotion || isMobile
+  }, [posterOnly]) // re-run when the video element mounts after hydration
 
   return (
     <div ref={wrapperRef} style={{ position: 'relative', width: 'min(100%, 600px)', aspectRatio: '1' }}>

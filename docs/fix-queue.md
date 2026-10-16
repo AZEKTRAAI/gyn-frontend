@@ -24,3 +24,7 @@ Collected from the docs review (README/handoff writer) on 16 Oct. Red team pass 
 ## Consistency and cleanup
 - [ ] Two easing curves in use; standardise on `cubic-bezier(0.23, 1, 0.32, 1)`
 - [ ] Dead files: `components/SummitsSwapper.tsx`, `components/VideoModal.tsx`, `public/renders/ribbons.*` (about 3 MB)
+
+## From red team pass 2 (docs/redteam.md, RT-045 to RT-074)
+- [x] RT-045 optional "how did you hear" blocked the paid form (fixed in the schema, 3acaa81)
+- [ ] RT-046 to RT-074 except RT-058 (config agent): work through every blocker, high and medium in docs/redteam.md Pass 2

@@ -20,12 +20,10 @@ import {
   motion,
   useMotionValue,
   useTransform,
-  AnimatePresence,
   useReducedMotion,
   type PanInfo,
 } from 'motion/react';
 
-const EASE: [number, number, number, number] = [0.23, 1, 0.32, 1];
 // Velocity threshold in px/s — fast flick counts as dismiss
 const VELOCITY_THRESHOLD = 500;
 const DRAG_THRESHOLD = 80;

@@ -54,7 +54,6 @@ export function CoverflowVideos({ items, onOpen, heading }: CoverflowVideosProps
   const [active, setActive] = useState(0);
   const prefersReduced = useReducedMotion();
   const regionRef = useRef<HTMLElement>(null);
-  const dragStartX = useRef(0);
 
   const total = items.length;
 

@@ -12,8 +12,9 @@
  *         standard magnetic-button pattern (no specific library copied).
  */
 
-import { useRef, useCallback, useEffect, useState } from 'react';
+import { useRef, useCallback } from 'react';
 import { motion, useSpring } from 'motion/react';
+import { useMediaQuery } from '../useMediaQuery';
 
 const SPRING = { stiffness: 120, damping: 14, mass: 0.8 };
 // Max displacement in px — keeps the effect subtle on CTAs
@@ -44,14 +45,7 @@ export function MagneticButton({
   const y = useSpring(0, SPRING);
 
   // Only enable on hover:hover + pointer:fine (desktops with real mice)
-  const [active, setActive] = useState(false);
-  useEffect(() => {
-    const mql = window.matchMedia('(hover: hover) and (pointer: fine)');
-    setActive(mql.matches);
-    const handler = (e: MediaQueryListEvent) => setActive(e.matches);
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
-  }, []);
+  const active = useMediaQuery('(hover: hover) and (pointer: fine)');
 
   const onMove = useCallback(
     (e: React.PointerEvent<HTMLButtonElement>) => {

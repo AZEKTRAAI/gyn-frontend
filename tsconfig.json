@@ -38,7 +38,6 @@
   "exclude": [
     "node_modules",
     "concepts",
-    "components/premium",
     "features/payments/stripe.test.ts",
     "features/registration/schema.test.ts"
   ]

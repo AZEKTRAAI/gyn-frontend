@@ -10,8 +10,8 @@ export default [
     },
   },
   {
-    // premium components and concepts are not part of this app build
-    ignores: ['concepts/**', 'node_modules/**', '.next/**', 'components/premium/**'],
+    // concepts are throwaway HTML prototypes, not part of the app
+    ignores: ['concepts/**', 'node_modules/**', '.next/**'],
   },
   {
     linterOptions: {

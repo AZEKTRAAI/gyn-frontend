@@ -13,13 +13,14 @@
  *         No library code copied; MIT concept.
  */
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef } from 'react';
 import {
   motion,
   useScroll,
   useTransform,
   useReducedMotion,
 } from 'motion/react';
+import { useMediaQuery } from '../useMediaQuery';
 
 export interface GalleryPhoto {
   id: string;
@@ -40,15 +41,7 @@ const CARD_GAP = 24; // px
 
 export function HorizontalGallery({ photos, heading }: HorizontalGalleryProps) {
   const prefersReduced = useReducedMotion();
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const mql = window.matchMedia('(max-width: 767px)');
-    setIsMobile(mql.matches);
-    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
-  }, []);
+  const isMobile = useMediaQuery('(max-width: 767px)');
 
   if (isMobile || prefersReduced) {
     return <NativeScrollRow photos={photos} heading={heading} />;
@@ -77,7 +70,6 @@ function StickyScrollGallery({ photos, heading }: HorizontalGalleryProps) {
 
   // Map scroll 0→1 to translateX 0 → -scrollDistance
   // We use a CSS variable set on the track, driven by a motion value
-  const xPct = useTransform(scrollYProgress, [0, 1], ['0%', '-100%']);
 
   // For the progress bar
   const barScaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);

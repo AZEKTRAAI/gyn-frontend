@@ -15,8 +15,8 @@ export function buildSism2026Ics(): string {
     "DTSTAMP:20261016T000000Z",
     "DTSTART;TZID=Asia/Kuala_Lumpur:20261119T090000",
     "DTEND;TZID=Asia/Kuala_Lumpur:20261122T180000",
-    "SUMMARY:SISM 2026 – 9th Student International Summit in Medicine",
-    "DESCRIPTION:The 9th Student International Summit in Medicine (SISM 2026)." +
+    "SUMMARY:SISM 2026 – SDG Innovation Summit Malaysia 2026",
+    "DESCRIPTION:SDG Innovation Summit Malaysia 2026, co-hosted by UNU Global Health." +
       " Forum Access and Self-Funded delegates only. Invitation Letter holders " +
       "attend subject to visa approval. See https://thegyn.org/sism-2026 for details.",
     "LOCATION:Teedo Hotel\\, Kuala Lumpur\\, Malaysia",

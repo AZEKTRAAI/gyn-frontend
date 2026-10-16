@@ -32,7 +32,7 @@ function confirmationHtml(d: RegistrationConfirmationData): string {
 <body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#1a1a1a">
   <h1 style="color:#202F60">You're registered for SISM 2026!</h1>
   <p>Hi ${esc(d.recipientName)},</p>
-  <p>Your registration for the <strong>9th SISM – Student International Summit in Medicine 2026</strong> has been confirmed.</p>
+  <p>Your registration for the <strong>SDG Innovation Summit Malaysia 2026</strong> has been confirmed.</p>
   <table style="border-collapse:collapse;width:100%;margin:24px 0">
     <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Reference</td><td style="padding:8px;border:1px solid #ddd">${esc(d.reference)}</td></tr>
     <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Ticket</td><td style="padding:8px;border:1px solid #ddd">${esc(d.ticketName)}</td></tr>

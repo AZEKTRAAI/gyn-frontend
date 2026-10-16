@@ -215,7 +215,7 @@ export function TicketRail({ tiers, defaultActive }: TicketRailProps) {
               height: '0.375rem',
               borderRadius: '999px',
               background:
-                i === active ? 'var(--blue-ocean, #0A97D9)' : 'var(--n-200, #DCDCD5)',
+                i === active ? 'var(--yellow, #FCC30B)' : 'var(--n-200, #DCDCD5)',
               border: 'none',
               padding: 0,
               cursor: 'pointer',

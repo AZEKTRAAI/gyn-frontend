@@ -7,17 +7,10 @@
   align-items: start;
 }
 
-.objGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1px;
-  background: var(--n-200);
-}
-
 .sdgGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 2px;
 }
 
 .advGrid {
@@ -47,6 +40,6 @@
 }
 
 @media (max-width: 480px) {
-  .sdgGrid { grid-template-columns: 1fr; }
+  .sdgGrid { grid-template-columns: 1fr 1fr; }
   .ambGrid { grid-template-columns: repeat(2, 1fr); }
 }

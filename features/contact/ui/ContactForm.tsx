@@ -119,8 +119,9 @@ export function ContactForm({ defaultTopic = 'general' }: Props) {
         aria-live="polite"
         style={{
           padding: '2rem',
-          background: 'var(--paper)',
-          borderLeft: '4px solid var(--leaf-600)',
+          background: '#f0f9ee',
+          border: '1px solid var(--leaf-600)',
+          borderRadius: '8px',
         }}
       >
         <p
@@ -277,7 +278,8 @@ export function ContactForm({ defaultTopic = 'general' }: Props) {
               style={{
                 padding: '0.875rem 1rem',
                 background: '#fff0f1',
-                borderLeft: '4px solid var(--crimson-600)',
+                border: '1px solid var(--crimson-600)',
+                borderRadius: '8px',
               }}
             >
               <p style={{ fontSize: '0.9375rem', color: 'var(--n-800)' }}>
@@ -314,12 +316,14 @@ function inputStyle(hasError: boolean): React.CSSProperties {
   return {
     display: 'block',
     width: '100%',
-    padding: '0.625rem 0.75rem',
+    minHeight: '44px',
+    padding: '0.625rem 0.875rem',
     fontFamily: 'var(--fb)',
     fontSize: '0.9375rem',
     color: 'var(--n-900)',
     background: 'var(--white)',
-    border: `2px solid ${hasError ? 'var(--crimson-600)' : 'var(--n-300)'}`,
+    border: `1.5px solid ${hasError ? 'var(--crimson-600)' : 'var(--n-300)'}`,
+    borderRadius: '8px',
     transition: 'border-color 150ms cubic-bezier(0.23, 1, 0.32, 1)',
   }
 }

@@ -4,9 +4,10 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { cms } from '@/lib/cms'
 import { Countdown } from '@/components/Countdown'
-import { type Speaker } from '@/components/premium/DeckSlider'
+import { PageHero } from '@/components/PageHero'
 import type { Tier } from '@/components/premium/TicketRail'
 import { SPEAKERS, LOGOS } from '@/features/media/media'
+import { SismSpeakers, type SpeakerItem } from './SismSpeakers'
 
 // this page is static, so this is the build time; Countdown hydrates against it, then shows the live value
 const RENDERED_AT = Date.now()
@@ -14,9 +15,6 @@ const RENDERED_AT = Date.now()
 // Below-fold: code-split to reduce initial JS parse time
 const TicketRail = dynamic(() =>
   import('@/components/premium/TicketRail').then((m) => ({ default: m.TicketRail })),
-)
-const DeckSlider = dynamic(() =>
-  import('@/components/premium/DeckSlider').then((m) => ({ default: m.DeckSlider })),
 )
 const SismVideos = dynamic(() =>
   import('@/features/events/SismVideos').then((m) => ({ default: m.SismVideos })),
@@ -106,17 +104,15 @@ export default async function Sism2026Page() {
     })),
   ]
 
-  const deckSpeakers: Speaker[] = sism.speakers.map((spk, i) => {
+  const speakerItems: SpeakerItem[] = sism.speakers.map((spk) => {
     const lastWord = spk.name.split(' ').pop()?.toLowerCase() ?? ''
     const img = SPK_BY_LAST[lastWord]
     return {
-      id: String(i),
       name: toTitleCase(spk.name),
       role: spk.title.split('|')[0].split('-')[0].trim(),
-      organisation: spk.title.split('|').slice(-1)[0].trim(),
+      org: spk.title.split('|').slice(-1)[0].trim(),
       imageSrc: img?.src ?? '/media/events/sism-2026-call-for-applications.webp',
       imageAlt: img?.alt ?? spk.name,
-      topic: spk.title,
     }
   })
 
@@ -124,48 +120,38 @@ export default async function Sism2026Page() {
     <main id="main">
 
       {/* ─── HERO ─── */}
-      <section
-        aria-labelledby="sism-title"
-        style={{ background: 'var(--blue-deep)', paddingTop: 'calc(3.5rem + clamp(2rem,5vw,4.5rem))' }}
-      >
-        <div className="wrap" style={{ paddingBlock: 'clamp(2.5rem,6vw,5rem)' }}>
-          <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '2.5rem', alignItems: 'center' }}>
-            <div>
-              <h1 id="sism-title" className="d1" style={{ color: 'var(--white)', marginBottom: '1rem' }}>
-                SDG INNOVATION SUMMIT MALAYSIA 2026
-              </h1>
-              <p style={{ fontSize: 'clamp(.875rem,1.3vw,.9375rem)', color: 'var(--white)', marginBottom: '1rem', lineHeight: 1.6 }}>
-                {sism.dates.displayAlt} / {sism.venue}, {sism.city} / Co-hosted by UNU Global Health
-              </p>
-              <p style={{ fontSize: 'clamp(.875rem,1.4vw,1.0625rem)', color: 'var(--white)', lineHeight: 1.65, marginBottom: '2rem', maxWidth: '52ch' }}>
-                100 seats, {sism.scholarships.total} scholarships. Join young leaders, innovators and professionals from around the world in Kuala Lumpur.
-              </p>
-              {/* Hard-coded target: 19 Nov 2026 00:00 MYT = UTC+8 */}
-              <Countdown serverNow={RENDERED_AT} target={new Date('2026-11-18T16:00:00Z').getTime()} />
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '2.5rem' }}>
-                <Link href="/sism-forum-access" className="btn btn-y">Book Forum Access, $199</Link>
-                <Link href="#tickets" className="btn btn-ow">See all tickets</Link>
-              </div>
+      <PageHero
+        id="sism-title"
+        title="SDG *Innovation* Summit Malaysia 2026"
+        lead={<>100 seats, {sism.scholarships.total} scholarships. Join young leaders, innovators and professionals from around the world in Kuala Lumpur.</>}
+        meta={<>{sism.dates.displayAlt} / {sism.venue}, {sism.city} / Co-hosted by UNU Global Health</>}
+        actions={
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%' }}>
+            {/* Hard-coded target: 19 Nov 2026 00:00 MYT = UTC+8 */}
+            <Countdown serverNow={RENDERED_AT} target={new Date('2026-11-18T16:00:00Z').getTime()} />
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              <Link href="/sism-forum-access" className="btn btn-y">Book Forum Access, $199</Link>
+              <Link href="#tickets" className="btn btn-g">See all tickets</Link>
             </div>
-            <figure className="hero-aside" style={{ margin: 0 }}>
-              <Image
-                src="/media/hero/sism-2026-hero-visual.webp"
-                alt="SDG Innovation Summit Malaysia 2026 promotional visual"
-                width={720}
-                height={540}
-                sizes="(max-width: 768px) 100vw, 45vw"
-                style={{ width: '100%', height: 'auto', display: 'block' }}
-              />
-            </figure>
           </div>
-        </div>
-      </section>
+        }
+        media={
+          <Image
+            src="/media/hero/sism-2026-hero-visual.webp"
+            alt="SDG Innovation Summit Malaysia 2026 promotional visual"
+            width={720}
+            height={540}
+            sizes="(max-width: 768px) 100vw, 45vw"
+          />
+        }
+        tone="field"
+      />
 
       {/* ─── WHAT IT IS ─── */}
       <section aria-labelledby="what-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(2rem,5vw,4rem)', alignItems: 'start' }}>
           <div>
-            <h2 id="what-hd" className="d2" style={{ color: 'var(--navy-700)', marginBottom: '1.5rem' }}>What is the SDG Innovation Summit 2026?</h2>
+            <h2 id="what-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '1.5rem' }}>What is the SDG Innovation Summit 2026?</h2>
             <p style={{ color: 'var(--n-700)', fontSize: '1rem', lineHeight: 1.75, marginBottom: '1rem' }}>
               The SDG Innovation Summit Malaysia 2026 is a premier international youth summit designed to bring together 100 young leaders, innovators, students, entrepreneurs, professionals, researchers, and changemakers from around the world to explore innovative ideas, foster meaningful collaboration, and create sustainable impact in support of the United Nations Sustainable Development Goals (SDGs).
             </p>
@@ -174,11 +160,11 @@ export default async function Sism2026Page() {
             </p>
           </div>
           <div>
-            <h3 className="d3" style={{ color: 'var(--navy-700)', marginBottom: '1.25rem' }}>What will you experience?</h3>
+            <h3 className="d3" style={{ color: 'var(--navy)', marginBottom: '1.25rem' }}>What will you experience?</h3>
             <p style={{ color: 'var(--n-600)', fontSize: '0.9375rem', lineHeight: 1.7, marginBottom: '1rem' }}>
               Through keynote addresses, high-level panel discussions, leadership workshops, innovation labs, strategic networking, cultural exchange activities, and an exclusive institutional visit to Asia Pacific University (APU), Malaysia, delegates will gain valuable knowledge, practical skills, global perspectives, and meaningful international connections.
             </p>
-            <Link href="https://youtu.be/Aqqo3cL4W6w" target="_blank" rel="noopener" className="btn btn-n" style={{ display: 'inline-flex' }}>
+            <Link href="https://youtu.be/Aqqo3cL4W6w" target="_blank" rel="noopener" className="btn btn-g" style={{ display: 'inline-flex' }}>
               Watch the summit video
             </Link>
           </div>
@@ -186,24 +172,45 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── THEME & PURPOSE ─── */}
-      <section aria-labelledby="theme-hd" style={{ background: 'var(--yellow)', paddingBlock: 'var(--sp)' }}>
+      <section aria-labelledby="theme-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
-          <h2 id="theme-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '0.5rem' }}>Forum theme</h2>
-          <p style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.5rem,4vw,3rem)', color: 'var(--navy-900)', lineHeight: 1.1, marginBottom: '2rem' }}>
+          <h2 id="theme-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '0.5rem' }}>Forum theme</h2>
+          <p style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.5rem,4vw,3rem)', color: 'var(--ink)', lineHeight: 1.1, marginBottom: '2rem' }}>
             Innovative Ideas for Social Impact
           </p>
-          <p style={{ fontSize: '1rem', color: 'var(--navy-800)', lineHeight: 1.75, maxWidth: '65ch', marginBottom: '2.5rem' }}>
+          <p style={{ fontSize: '1rem', color: 'var(--navy)', lineHeight: 1.75, maxWidth: '65ch', marginBottom: '2.5rem' }}>
             The SDG Innovation Summit Malaysia aims to create a collaborative platform where innovation meets purpose and ideas become action. The summit inspires young leaders to present innovative ideas aligned with the four focus SDGs.
           </p>
-          <div className="sdg-grid" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1.2fr', gap: '1rem' }}>
-            {sism.focusSdgs.map(sdg => (
-              <div key={sdg.sdg} style={{ background: 'var(--navy-900)', padding: '1.75rem 1.25rem' }}>
-                <span style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.5rem,3vw,2.5rem)', display: 'block', marginBottom: '0.5rem', color: sdg.sdg === 'SDG 4' ? 'var(--sdg4)' : sdg.sdg === 'SDG 5' ? 'var(--sdg5)' : sdg.sdg === 'SDG 9' ? 'var(--sdg9)' : 'var(--sdg13)' }}>
-                  {sdg.sdg}
-                </span>
-                <span style={{ fontSize: '0.875rem', color: 'var(--white)', lineHeight: 1.5 }}>{sdg.label}</span>
-              </div>
-            ))}
+
+          {/* Solid SDG colour tiles with 3D poster renders */}
+          <div className="sdg-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
+            {sism.focusSdgs.map(sdg => {
+              const tileColor = sdg.sdg === 'SDG 4' ? 'var(--sdg4)' : sdg.sdg === 'SDG 5' ? 'var(--sdg5)' : sdg.sdg === 'SDG 9' ? 'var(--sdg9)' : 'var(--sdg13)'
+              // SDG 4 + 13 pass 4.5:1 with white; SDG 5 + 9 need ink
+              const textColor = (sdg.sdg === 'SDG 5' || sdg.sdg === 'SDG 9') ? 'var(--ink)' : 'var(--white)'
+              const poster = sdg.sdg === 'SDG 4' ? '/renders/r3/sdg4-books-poster.webp'
+                : sdg.sdg === 'SDG 5' ? '/renders/r3/sdg5-balance-poster.webp'
+                : sdg.sdg === 'SDG 9' ? '/renders/r3/sdg9-gears-poster.webp'
+                : '/renders/r3/sdg13-leaf-poster.webp'
+              return (
+                <div key={sdg.sdg} style={{ background: tileColor, overflow: 'hidden' }}>
+                  <Image
+                    src={poster}
+                    alt=""
+                    width={400}
+                    height={280}
+                    style={{ width: '100%', height: 'auto', display: 'block', aspectRatio: '10/7', objectFit: 'cover' }}
+                    aria-hidden="true"
+                  />
+                  <div style={{ padding: '1.25rem 1rem' }}>
+                    <span style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.25rem,2.5vw,2rem)', display: 'block', marginBottom: '0.375rem', color: textColor, fontWeight: 700, lineHeight: 1 }}>
+                      {sdg.sdg}
+                    </span>
+                    <span style={{ fontSize: '0.8125rem', color: textColor, lineHeight: 1.5, display: 'block' }}>{sdg.label}</span>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -228,7 +235,7 @@ export default async function Sism2026Page() {
       <section aria-labelledby="cohost-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
           <div>
-            <h2 id="cohost-hd" className="d2" style={{ color: 'var(--navy-700)', marginBottom: '1.25rem' }}>Co-hosted by UNU Global Health</h2>
+            <h2 id="cohost-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '1.25rem' }}>Co-hosted by UNU Global Health</h2>
             <p style={{ color: 'var(--n-700)', fontSize: '1rem', lineHeight: 1.75, marginBottom: '1rem' }}>
               The Global Youth Network (GYN) organizes the SDG Innovation Summit Malaysia, co-hosted by the United Nations University International Institute for Global Health, Malaysia. Participants will have an opportunity to engage with UNU Global Health representatives and UNU Young Leaders during the summit.
             </p>
@@ -250,24 +257,32 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── APU VISIT ─── */}
-      <section aria-labelledby="apu-hd" style={{ background: 'var(--paper)', paddingBlock: 'var(--sp)' }}>
+      <section aria-labelledby="apu-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
           <div>
-            <h2 id="apu-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '1.25rem' }}>Exclusive APU institutional visit</h2>
+            <h2 id="apu-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '1.25rem' }}>Exclusive APU institutional visit</h2>
             <p style={{ color: 'var(--n-700)', fontSize: '1rem', lineHeight: 1.75 }}>
               Experience an exclusive institutional visit to Asia Pacific University (APU), one of Malaysia&apos;s leading universities. Explore its academic environment and global learning community while connecting with fellow international delegates. Delegates will also explore Petaling Street (Chinatown), GMBB KL, Petronas Twin Towers, KLCC Park and many other spots.
             </p>
           </div>
-          {/* only the APU logo exists in the crawled media; no campus photo, so none is shown */}
-          <figure style={{ margin: 0, background: 'var(--white)', padding: '2rem', display: 'grid', placeItems: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div style={{ borderRadius: '20px', overflow: 'hidden' }}>
+              <Image
+                src="/renders/r3/kl-towers.webp"
+                alt="Petronas Twin Towers, Kuala Lumpur"
+                width={600}
+                height={400}
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
             <Image
               src={LOGOS['logo.apu'].src}
               alt={LOGOS['logo.apu'].alt}
               width={LOGOS['logo.apu'].width}
               height={LOGOS['logo.apu'].height}
-              style={{ width: 'min(100%, 360px)', height: 'auto', display: 'block' }}
+              style={{ width: 'min(100%, 240px)', height: 'auto', display: 'block' }}
             />
-          </figure>
+          </div>
         </div>
       </section>
 
@@ -275,11 +290,11 @@ export default async function Sism2026Page() {
       <section aria-labelledby="apply-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
           <div>
-            <h2 id="apply-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '1.25rem' }}>Who can apply</h2>
+            <h2 id="apply-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '1.25rem' }}>Who can apply</h2>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
               {sism.eligibility.map(item => (
                 <li key={item} style={{ fontSize: '0.9375rem', color: 'var(--n-700)', lineHeight: 1.6, paddingLeft: '1.25rem', position: 'relative' }}>
-                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--blue-deep)', display: 'block' }} />
+                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--ink)', display: 'block' }} />
                   {item}
                 </li>
               ))}
@@ -303,65 +318,88 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── TICKETS ─── */}
-      <section id="tickets" aria-labelledby="tick-hd" style={{ background: 'var(--n-50)', paddingBlock: 'var(--sp)' }}>
+      <section id="tickets" aria-labelledby="tick-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
-          <h2 id="tick-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '0.75rem' }}>Attend SISM 2026</h2>
+          <h2 id="tick-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '0.75rem' }}>Attend SISM 2026</h2>
           <p style={{ fontSize: '0.9375rem', color: 'var(--n-600)', marginBottom: '2.5rem', maxWidth: '60ch' }}>
             100 seats (30 scholarships). Scholarship applications closed. Forum Access and Self-Funded seats open now. Group discounts via{' '}
-            <a href="mailto:contact@thegyn.org" style={{ color: 'var(--blue-deep)', textDecoration: 'underline' }}>contact@thegyn.org</a>.
+            <a href="mailto:contact@thegyn.org" style={{ color: 'var(--navy)', textDecoration: 'underline' }}>contact@thegyn.org</a>.
           </p>
           <TicketRail tiers={railTiers} defaultActive={0} />
         </div>
       </section>
 
       {/* ─── SPEAKERS ─── */}
-      <section aria-labelledby="spk-hd" style={{ background: 'var(--blue-deep)', paddingBlock: 'var(--sp)', color: 'var(--white)' }}>
+      <section aria-labelledby="spk-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
-          <h2 id="spk-hd" className="d2" style={{ color: 'var(--white)', marginBottom: '2rem' }}>Speakers at SISM 2026</h2>
-          <DeckSlider items={deckSpeakers} heading="SISM 2026 speakers" />
-          {/* Accessible flat list — screen readers bypass the carousel */}
-          <ol aria-label="Full speaker list" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '2.5rem' }}>
-            {sism.speakers.map(spk => (
-              <li key={spk.name} style={{ fontSize: '0.875rem', color: 'var(--white)', lineHeight: 1.5 }}>
-                <span style={{ fontWeight: 600, color: 'var(--white)' }}>
-                  {toTitleCase(spk.name)}
-                </span>
-                {', '}
-                {spk.title}
-              </li>
-            ))}
-          </ol>
+          <h2 id="spk-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: 'clamp(32px,4vw,48px)' }}>Speakers at SISM 2026</h2>
+          <SismSpeakers speakers={speakerItems} />
         </div>
       </section>
 
       {/* ─── SCHEDULE ─── */}
-      <section aria-labelledby="sched-hd" style={{ background: 'var(--navy-900)', paddingBlock: 'var(--sp)' }}>
+      <section aria-labelledby="sched-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
-          <h2 id="sched-hd" className="d2" style={{ color: 'var(--white)', marginBottom: '0.5rem' }}>4-day programme</h2>
-          <p style={{ fontSize: '0.9375rem', color: 'var(--navy-300)', marginBottom: '2.5rem' }}>Kuala Lumpur, 19–22 November 2026 (tentative)</p>
-          <ol style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <h2 id="sched-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '0.5rem' }}>4-day programme</h2>
+          <p style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--navy)', marginBottom: '3rem' }}>Kuala Lumpur, 19–22 November 2026 (tentative)</p>
+
+          {/* Ruled 4-column grid per concept i-in-our-hands.html */}
+          <div
+            className="prog-grid-sism"
+            role="list"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              borderTop: '1px solid rgba(14,21,48,.15)',
+              borderLeft: '1px solid rgba(14,21,48,.15)',
+            }}
+          >
             {sism.schedule.map((day, i) => (
-              <li key={day.day} style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '1.5rem', alignItems: 'start' }}>
-                <div>
-                  <p style={{ fontFamily: 'var(--fd)', fontSize: '0.875rem', color: 'var(--yellow)', marginBottom: '0.25rem' }}>Day {i + 1}</p>
-                  <p style={{ fontSize: '0.8125rem', color: 'var(--navy-300)', lineHeight: 1.4 }}>{day.dateDisplay}</p>
+              <div
+                key={day.day}
+                role="listitem"
+                style={{ borderRight: '1px solid rgba(14,21,48,.15)', borderBottom: '1px solid rgba(14,21,48,.15)' }}
+              >
+                <div style={{ padding: '20px 20px 12px', borderBottom: '1px solid rgba(14,21,48,.12)' }}>
+                  <div
+                    aria-hidden="true"
+                    style={{ fontSize: 'clamp(2.5rem,4.5vw,4.5rem)', fontWeight: 300, letterSpacing: '-0.03em', lineHeight: 1, color: 'var(--navy)', opacity: 0.22 }}
+                  >
+                    {i + 1}
+                  </div>
+                  <div style={{ fontSize: '12px', fontWeight: 500, color: 'var(--navy)', marginTop: '2px' }}>
+                    {day.dateDisplay}
+                  </div>
                 </div>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
-                  {day.items.map(item => (
-                    <li key={item} style={{ fontSize: '0.875rem', color: 'var(--white)', lineHeight: 1.55, paddingLeft: '1rem', position: 'relative' }}>
-                      <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '4px', height: '4px', background: 'var(--yellow)', display: 'block' }} />
+                <ul style={{ padding: '14px 18px', listStyle: 'none' }} aria-label={`Day ${i + 1} sessions`}>
+                  {day.items.map((item, j) => (
+                    <li
+                      key={item}
+                      style={{
+                        fontSize: '12px',
+                        lineHeight: 1.45,
+                        color: 'var(--navy)',
+                        padding: '5px 0',
+                        borderBottom: j < day.items.length - 1 ? '1px solid rgba(14,21,48,.05)' : 'none',
+                      }}
+                    >
                       {item.replace(/:/g, ': ')}
                     </li>
                   ))}
                 </ul>
-              </li>
+              </div>
             ))}
-          </ol>
+          </div>
+
+          <style>{`
+            @media (max-width: 767px) { .prog-grid-sism { grid-template-columns: 1fr !important; } }
+            @media (min-width: 768px) and (max-width: 1023px) { .prog-grid-sism { grid-template-columns: 1fr 1fr !important; } }
+          `}</style>
         </div>
       </section>
 
       {/* ─── TESTIMONIAL VIDEOS ─── */}
-      <section aria-labelledby="vid-hd" style={{ background: 'var(--paper)', paddingBlock: 'var(--sp)' }}>
+      <section aria-labelledby="vid-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
           <h2 id="vid-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '0.75rem' }}>Hear from past delegates</h2>
           <p style={{ fontSize: '0.9375rem', color: 'var(--n-600)', marginBottom: '2rem' }}>
@@ -372,7 +410,7 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── APPLICATION PROCESS ─── */}
-      <section aria-labelledby="proc-hd" style={{ background: 'var(--blue-deep)', paddingBlock: 'var(--sp)' }}>
+      <section aria-labelledby="proc-hd" style={{ background: 'var(--ink)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
           <h2 id="proc-hd" className="d2" style={{ color: 'var(--white)', marginBottom: '2.5rem' }}>How to apply</h2>
           <ol style={{ listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }} className="sdg-grid">
@@ -425,7 +463,7 @@ export default async function Sism2026Page() {
                   <p style={{ fontSize: '0.9375rem', color: 'var(--n-700)', lineHeight: 1.7 }}>
                     {faq.a}
                     {faq.links?.map(l => (
-                      <span key={l.href}> <a href={l.href} target="_blank" rel="noopener" style={{ color: 'var(--blue-deep)', textDecoration: 'underline' }}>{l.label}</a></span>
+                      <span key={l.href}> <a href={l.href} target="_blank" rel="noopener" style={{ color: 'var(--navy)', textDecoration: 'underline' }}>{l.label}</a></span>
                     ))}
                   </p>
                 </div>

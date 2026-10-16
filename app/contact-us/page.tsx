@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ContactForm } from '@/features/contact/ui/ContactForm'
+import { PageHero } from '@/components/PageHero'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
@@ -29,40 +30,14 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
       : 'general'
 
   return (
-    <main id="main" style={{ paddingTop: '3.5rem' }}>
+    <main id="main">
 
-      {/* =====================================================
-          HERO
-          ===================================================== */}
-      <section
-        aria-labelledby="contact-hero-hd"
-        style={{ background: 'var(--blue-deep)', paddingBlock: 'clamp(3rem, 7vw, 6rem)' }}
-      >
-        <div className="wrap">
-          <h1
-            id="contact-hero-hd"
-            className="d1"
-            style={{ color: 'var(--white)', marginBottom: '1rem' }}
-          >
-            CONTACT US
-          </h1>
-          <p
-            style={{
-              fontSize: '1rem',
-              color: 'rgba(255,255,255,.85)',
-              lineHeight: 1.65,
-              maxWidth: '55ch',
-            }}
-          >
-            Have a question, a partnership idea, or want to book for a group? We would love to hear
-            from you. Use the form below or reach us directly.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="Get in *touch*"
+        lead="Have a question, a partnership idea, or want to book for a group? We would love to hear from you."
+      />
 
-      {/* =====================================================
-          CONTACT DETAILS + FORM
-          ===================================================== */}
+      {/* Contact details + form */}
       <section
         aria-labelledby="contact-form-hd"
         style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}
@@ -73,9 +48,9 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
             <h2
               id="contact-form-hd"
               className="d3"
-              style={{ color: 'var(--navy-900)', marginBottom: '2rem' }}
+              style={{ color: 'var(--ink)', marginBottom: '2rem' }}
             >
-              Get in touch
+              Contact details
             </h2>
 
             <dl style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -97,7 +72,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
                     href="mailto:contact@thegyn.org"
                     style={{
                       fontSize: '0.9375rem',
-                      color: 'var(--blue-deep)',
+                      color: 'var(--navy)',
                       fontWeight: 600,
                     }}
                   >
@@ -126,7 +101,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
                     rel="noopener noreferrer"
                     style={{
                       fontSize: '0.9375rem',
-                      color: 'var(--blue-deep)',
+                      color: 'var(--navy)',
                       fontWeight: 600,
                     }}
                   >
@@ -186,7 +161,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
                         href="https://www.facebook.com/thegyn.org/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{ fontSize: '0.875rem', color: 'var(--blue-deep)' }}
+                        style={{ fontSize: '0.875rem', color: 'var(--navy)' }}
                       >
                         Facebook
                       </a>
@@ -196,7 +171,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
                         href="https://www.instagram.com/gyn_global"
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{ fontSize: '0.875rem', color: 'var(--blue-deep)' }}
+                        style={{ fontSize: '0.875rem', color: 'var(--navy)' }}
                       >
                         Instagram
                       </a>
@@ -206,7 +181,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
                         href="https://www.youtube.com/@globalyouthnetwork/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{ fontSize: '0.875rem', color: 'var(--blue-deep)' }}
+                        style={{ fontSize: '0.875rem', color: 'var(--navy)' }}
                       >
                         YouTube
                       </a>
@@ -216,7 +191,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
                         href="https://www.linkedin.com/company/thegyn"
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{ fontSize: '0.875rem', color: 'var(--blue-deep)' }}
+                        style={{ fontSize: '0.875rem', color: 'var(--navy)' }}
                       >
                         LinkedIn
                       </a>
@@ -232,7 +207,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
             <h2
               id="form-hd"
               className="d3"
-              style={{ color: 'var(--navy-900)', marginBottom: '1.5rem' }}
+              style={{ color: 'var(--ink)', marginBottom: '1.5rem' }}
             >
               Send a message
             </h2>

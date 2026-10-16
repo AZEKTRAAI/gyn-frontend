@@ -7,6 +7,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { cms } from '@/lib/cms'
+import { PageHero } from '@/components/PageHero'
 import { VideosClient } from './_client'
 
 export const metadata: Metadata = {
@@ -39,22 +40,22 @@ export default async function VideosPage() {
   })
 
   return (
-    <main id="main" style={{ background: 'var(--navy-900)', minHeight: '100vh' }}>
-      <section style={{ paddingTop: 'calc(3.5rem + clamp(2rem, 5vw, 4rem))', paddingBottom: 'clamp(3rem, 6vw, 6rem)' }}>
+    <main id="main">
+      <PageHero
+        title="*Summit* videos"
+        lead="Highlights, speaker sessions, and delegate testimonials from GYN summits."
+        tone="field"
+      />
+
+      <section style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
-          <h1 className="d1" style={{ color: 'var(--white)', marginBottom: '0.5rem' }}>
-            Videos
-          </h1>
-          <p style={{ fontSize: '0.9375rem', color: 'rgba(255,255,255,.65)', marginBottom: '2.5rem' }}>
-            Highlights, speaker sessions, and delegate testimonials from GYN summits.
-          </p>
           {/* VideosClient reads ?v= from the URL, so it renders client-side; the fallback keeps the list in the static HTML */}
           <Suspense
             fallback={
               <ul>
                 {videos.map((v) => (
                   <li key={v.youtubeId}>
-                    <a href={`https://www.youtube.com/watch?v=${v.youtubeId}`} style={{ color: 'var(--white)' }}>{v.title}</a>
+                    <a href={`https://www.youtube.com/watch?v=${v.youtubeId}`}>{v.title}</a>
                   </li>
                 ))}
               </ul>

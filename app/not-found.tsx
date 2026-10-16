@@ -12,7 +12,7 @@ export default function NotFound() {
       <section
         aria-labelledby="nf-title"
         style={{
-          background: 'var(--blue-deep)',
+          background: 'var(--ink)',
           paddingBlock: 'var(--sp)',
           minHeight: '60vh',
           display: 'flex',

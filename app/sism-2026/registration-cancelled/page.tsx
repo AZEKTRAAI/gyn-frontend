@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Registration not completed — SISM 2026',
+  title: 'Registration not completed, SISM 2026',
   robots: 'noindex',
 }
 
@@ -14,11 +14,11 @@ export default function RegistrationCancelledPage() {
           Registration not completed
         </h1>
         <p style={{ fontSize: '1rem', color: 'var(--n-700)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
-          Your payment was not processed. Your registration progress has been saved — you can return to the form to complete your booking.
+          Your payment was not processed. Your registration progress has been saved, so you can return to the form to complete your booking.
         </p>
         <p style={{ fontSize: '0.9375rem', color: 'var(--n-600)', lineHeight: 1.7, marginBottom: '2.5rem' }}>
           If you ran into a problem with your card, check that international transactions are enabled and that your account has sufficient funds. Need help? Email{' '}
-          <a href="mailto:contact@thegyn.org" style={{ color: 'var(--blue-deep)', textDecoration: 'underline' }}>contact@thegyn.org</a>.
+          <a href="mailto:contact@thegyn.org" style={{ color: 'var(--navy)', textDecoration: 'underline' }}>contact@thegyn.org</a>.
         </p>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
           <Link href="/sism-forum-access" className="btn btn-y" style={{ minHeight: '44px' }}>

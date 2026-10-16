@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Krona_One, Schibsted_Grotesk, Host_Grotesk, Bodoni_Moda } from 'next/font/google'
+import { Host_Grotesk, Bodoni_Moda } from 'next/font/google'
 import dynamic from 'next/dynamic'
 import './globals.css'
 import { SiteHeader } from '@/components/SiteHeader'
@@ -13,29 +13,6 @@ const LenisScroll = dynamic(() =>
 const ViewTransitionStyles = dynamic(() =>
   import('@/components/premium/PageTransition').then((m) => ({ default: m.ViewTransitionStyles })),
 )
-
-/*
-  Krona One: wide, authoritative display face; no SaaS associations;
-  pairs with the SDG wheel's bold geometry.
-  Schibsted Grotesk: humanist grotesque from Schibsted Media Group;
-  warm, legible; absent from every AI-default font list.
-*/
-const kronaOne = Krona_One({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-krona',
-  display: 'swap',
-  preload: false, // inner pages only; preloading it on the home competed with the hero image
-})
-
-const schibstedGrotesk = Schibsted_Grotesk({
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  variable: '--font-schibsted',
-  display: 'swap',
-  preload: false, // inner pages only; preloading it on the home competed with the hero image
-})
 
 /*
   Host Grotesk: contemporary variable grotesk; not on any AI-reflex list.
@@ -85,7 +62,7 @@ export default async function RootLayout({
   const sitemap = await cms.getSitemap()
 
   return (
-    <html lang="en" className={`${kronaOne.variable} ${schibstedGrotesk.variable} ${hostGrotesk.variable} ${bodoniModa.variable}`}>
+    <html lang="en" className={`${hostGrotesk.variable} ${bodoniModa.variable}`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

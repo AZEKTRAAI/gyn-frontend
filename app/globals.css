@@ -34,9 +34,10 @@
   --color-n-800: #262624;
   --color-n-900: #141413;
 
-  /* === TYPE === */
-  --font-display: 'Krona One', Georgia, serif;
-  --font-body: 'Schibsted Grotesk', system-ui, sans-serif;
+  /* === TYPE (Direction I) === */
+  --font-display: var(--font-host-grotesk), system-ui, sans-serif;
+  --font-body: var(--font-host-grotesk), system-ui, sans-serif;
+  --font-serif: var(--font-bodoni), Georgia, serif;
 
   /* === SPACING SCALE (fluid) === */
   --spacing-gut: clamp(1rem, 4vw, 3.5rem);
@@ -82,8 +83,13 @@
   --sdg5: #FF3A21;
   --sdg9: #FD6925;
   --sdg13: #3F7E44;
-  --fd: 'Krona One', Georgia, serif;
-  --fb: 'Schibsted Grotesk', system-ui, sans-serif;
+  /* Direction I: one grotesk for display and text, Bodoni italic only for the accent word */
+  --fd: var(--font-host-grotesk), system-ui, sans-serif;
+  --fb: var(--font-host-grotesk), system-ui, sans-serif;
+  --fs: var(--font-bodoni), Georgia, serif;
+  --field: #EEF2F6;
+  --ink: #0E1530;
+  --navy: #202F60;
   --gut: clamp(1rem, 4vw, 3.5rem);
   --sp: clamp(3rem, 6vw, 6rem);
 }
@@ -150,32 +156,37 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* === TYPE SCALE === */
-/* Krona One is very wide; at 360px inner width = 328px, "INNOVATION" must fit.
-   overflow-wrap prevents single long words from clipping under overflow-x:clip sections. */
-/* Krona One caps run ~0.97em wide; 8.2vw keeps the longest H1 word ("FUTUREMINDS") inside 360px minus gutters */
-.d1 { font-family: var(--fd); font-size: clamp(1.5rem, 8.2vw, 3.75rem); line-height: 1.04; overflow-wrap: break-word; }
-@media (min-width: 768px) { .d1 { font-size: clamp(2.25rem, 3.8vw, 3.75rem); } }
-.d2 { font-family: var(--fd); font-size: clamp(1.25rem, 2.8vw, 2.5rem); line-height: 1.1; overflow-wrap: break-word; }
-.d3 { font-family: var(--fd); font-size: clamp(1rem, 1.8vw, 1.4rem); line-height: 1.2; overflow-wrap: break-word; }
+/* Direction I scale (Apple-style weights and tracking). overflow-wrap stops long words clipping under overflow-x:clip. */
+.d1 { font-family: var(--fd); font-weight: 600; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.04; letter-spacing: -0.022em; overflow-wrap: break-word; text-wrap: balance; }
+.d2 { font-family: var(--fd); font-weight: 600; font-size: clamp(1.875rem, 3.6vw, 3rem); line-height: 1.08; letter-spacing: -0.012em; overflow-wrap: break-word; text-wrap: balance; }
+.d3 { font-family: var(--fd); font-weight: 600; font-size: clamp(1.125rem, 1.8vw, 1.5rem); line-height: 1.2; letter-spacing: -0.008em; overflow-wrap: break-word; }
+/* the one italic accent word in a headline */
+.accent { font-family: var(--fs); font-style: italic; font-weight: 400; }
 
 /* === BUTTONS === */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  min-height: 44px;
+  padding: 0.875rem 1.625rem;
+  border-radius: 999px;
   font-family: var(--fb);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1;
   border: none;
   cursor: pointer;
-  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease, transform 160ms var(--ease-out);
 }
+.btn:active { transform: scale(0.97); }
 
 .btn-y  { background: var(--yellow); color: var(--navy-900); }
 .btn-y:hover { background: var(--yellow-dk); }
-.btn-ow { background: transparent; color: var(--white); border: 2px solid var(--white); }
+.btn-ow { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,.6); }
+/* ghost on light surfaces */
+.btn-g  { background: transparent; color: var(--navy); border: 1.5px solid rgba(32,47,96,.3); }
+.btn-g:hover { border-color: var(--navy); }
 .btn-ow:hover { background: var(--white); color: var(--navy-900); }
 .btn-n  { background: var(--navy-900); color: var(--white); }
 .btn-n:hover { background: var(--navy-800); }

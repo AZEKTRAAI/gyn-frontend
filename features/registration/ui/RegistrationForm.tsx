@@ -83,7 +83,7 @@ const inputS: React.CSSProperties = {
   width: '100%', padding: '0.625rem 0.75rem',
   border: '1.5px solid var(--n-200)', background: 'var(--white)',
   fontSize: '1rem', fontFamily: 'var(--fb)', color: 'var(--navy-900)',
-  minHeight: '44px',
+  minHeight: '44px', borderRadius: '8px',
 }
 const inputE: React.CSSProperties = { ...inputS, borderColor: 'var(--crimson-600)' }
 const selectS: React.CSSProperties = { ...inputS, cursor: 'pointer' }
@@ -97,9 +97,9 @@ function ProgressBar({ step }: { step: number }) {
     <nav aria-label="Registration steps" style={{ marginBottom: '2rem' }}>
       <ol style={{ display: 'flex', gap: 0, listStyle: 'none' }}>
         {STEPS.map((label, i) => (
-          <li key={label} style={{ flex: 1, borderBottom: `3px solid ${i <= step ? 'var(--blue-deep)' : 'var(--n-200)'}`, paddingBottom: '0.5rem' }}>
+          <li key={label} style={{ flex: 1, borderBottom: `3px solid ${i <= step ? 'var(--ink)' : 'var(--n-200)'}`, paddingBottom: '0.5rem' }}>
             <span
-              style={{ display: 'block', fontSize: '0.75rem', fontWeight: i === step ? 700 : 400, color: i <= step ? 'var(--blue-deep)' : 'var(--n-500)' }}
+              style={{ display: 'block', fontSize: '0.75rem', fontWeight: i === step ? 700 : 400, color: i <= step ? 'var(--ink)' : 'var(--n-500)' }}
               aria-current={i === step ? 'step' : undefined}
             >
               {i + 1}. {label}
@@ -369,13 +369,13 @@ export function RegistrationForm({ ticket, includes }: RegistrationFormProps) {
             Review your registration
           </h2>
           <div style={{ border: '1px solid var(--n-200)', padding: '1.5rem' }}>
-            <p style={{ fontFamily: 'var(--fd)', fontSize: '0.875rem', color: 'var(--blue-deep)', marginBottom: '0.5rem' }}>{ticketInfo.name}</p>
-            <p style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(2rem,4vw,2.5rem)', lineHeight: 1, color: 'var(--navy-900)', marginBottom: '1rem' }}>${price} USD</p>
+            <p style={{ fontFamily: 'var(--fd)', fontSize: '0.875rem', color: 'var(--navy)', marginBottom: '0.5rem' }}>{ticketInfo.name}</p>
+            <p style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(2rem,4vw,2.5rem)', lineHeight: 1, color: 'var(--ink)', marginBottom: '1rem' }}>${price} USD</p>
             {includes.length > 0 && (
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                 {includes.map(item => (
                   <li key={item} style={{ fontSize: '0.8125rem', color: 'var(--n-700)', paddingLeft: '1rem', position: 'relative' }}>
-                    <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.45em', width: '6px', height: '6px', background: 'var(--blue-ocean)', display: 'block' }} />
+                    <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.45em', width: '6px', height: '6px', background: 'var(--ink)', display: 'block' }} />
                     {item}
                   </li>
                 ))}
@@ -397,17 +397,17 @@ export function RegistrationForm({ ticket, includes }: RegistrationFormProps) {
 
           <p style={{ fontSize: '0.8125rem', color: 'var(--n-600)', lineHeight: 1.6 }}>
             Payments are processed via Stripe. For Self-Funded and Forum Access categories, refunds are issued as GYN Credit Vouchers. See our{' '}
-            <Link href="/refund-policy" style={{ color: 'var(--blue-deep)', textDecoration: 'underline' }}>refund policy</Link>.
+            <Link href="/refund-policy" style={{ color: 'var(--navy)', textDecoration: 'underline' }}>refund policy</Link>.
           </p>
 
           <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
             <input
               id="reg-consent" type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)}
-              style={{ width: '20px', height: '20px', marginTop: '2px', accentColor: 'var(--blue-deep)', flexShrink: 0, cursor: 'pointer' }}
+              style={{ width: '20px', height: '20px', marginTop: '2px', accentColor: 'var(--ink)', flexShrink: 0, cursor: 'pointer' }}
             />
             <label htmlFor="reg-consent" style={{ fontSize: '0.875rem', color: 'var(--navy-900)', lineHeight: 1.5, cursor: 'pointer' }}>
               I agree to the{' '}
-              <Link href="/terms-conditions" style={{ color: 'var(--blue-deep)', textDecoration: 'underline' }}>Terms and Conditions</Link>
+              <Link href="/terms-conditions" style={{ color: 'var(--navy)', textDecoration: 'underline' }}>Terms and Conditions</Link>
               <span aria-hidden="true" style={{ color: 'var(--crimson-600)', marginLeft: '0.125rem' }}>*</span>
             </label>
           </div>

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { DeckSlider } from '@/components/premium/DeckSlider'
+import { AdvisorsSection } from '@/components/home/AdvisorsSection'
+import { PageHero } from '@/components/PageHero'
 import {
   ADVISORY,
   AMBASSADORS,
@@ -45,67 +46,46 @@ const OBJECTIVES = [
 ]
 
 const SDG_FOCUS = [
-  { id: 'SDG 4', label: 'Quality Education', color: 'var(--sdg4)' },
-  { id: 'SDG 5', label: 'Gender Equality', color: 'var(--sdg5)' },
-  { id: 'SDG 9', label: 'Industry, Innovation and Infrastructure', color: 'var(--sdg9)' },
-  { id: 'SDG 13', label: 'Climate Action', color: 'var(--sdg13)' },
+  { id: 'SDG 4', label: 'Quality Education', color: '#C5192D', textColor: '#fff' },
+  { id: 'SDG 5', label: 'Gender Equality', color: '#FF3A21', textColor: '#0E1530' },
+  { id: 'SDG 9', label: 'Industry, Innovation and Infrastructure', color: '#FD6925', textColor: '#0E1530' },
+  { id: 'SDG 13', label: 'Climate Action', color: '#3F7E44', textColor: '#fff' },
 ]
 
 export default function AboutUsPage() {
-  const advisoryItems = Object.entries(ADVISORY).map(([key, v]) => {
+  // Map ADVISORY manifest to the shape AdvisorsSection expects
+  const advisorPeople = Object.values(ADVISORY).map((v) => {
     const parts = v.alt.split(',')
     return {
-      id: key,
       name: parts[0].trim(),
       role: parts.slice(1).join(',').trim(),
-      organisation: parts.slice(2).join(',').trim() || parts[1]?.trim() || '',
-      imageSrc: v.src,
-      imageAlt: v.alt,
+      bio: '',
+      photo: { src: v.src, alt: v.alt },
     }
   })
 
   const ambassadorEntries = Object.values(AMBASSADORS)
 
   return (
-    <main id="main" style={{ paddingTop: '3.5rem' }}>
+    <main id="main">
+
+      {/* Hero — field tone, hands-wheel render on the right */}
+      <PageHero
+        title="*About* GYN"
+        lead="The Global Youth Network connects young people worldwide through international summits, leadership programs and four Sustainable Development Goal focus areas."
+        media={
+          <Image
+            src="/renders/r3/hands-wheel-poster.webp"
+            alt="Four hands holding the SDG wheel, representing GYN's four focus goals"
+            width={640}
+            height={640}
+            priority
+          />
+        }
+      />
 
       {/* =====================================================
-          HERO
-          ===================================================== */}
-      <section
-        aria-labelledby="about-hero-hd"
-        style={{
-          background: 'var(--blue-deep)',
-          paddingBlock: 'clamp(3rem, 7vw, 6rem)',
-        }}
-      >
-        <div className="wrap">
-          <h1
-            id="about-hero-hd"
-            className="d1"
-            style={{ color: 'var(--white)', marginBottom: '1.5rem', maxWidth: '18ch' }}
-          >
-            ABOUT US
-          </h1>
-          <p
-            style={{
-              fontSize: 'clamp(.9375rem, 1.5vw, 1.125rem)',
-              color: 'rgba(255,255,255,.9)',
-              lineHeight: 1.7,
-              maxWidth: '65ch',
-            }}
-          >
-            The Global Youth Network (GYN) is a US-based organization that will provide youth with an
-            opportunity to connect with people from various backgrounds coming from different parts of the
-            world. Through our international conferences and leadership programs, we aim to target
-            students, professionals, innovators, and community leaders to share their ideas and also to
-            collaborate on global challenges via provided interactive forums.
-          </p>
-        </div>
-      </section>
-
-      {/* =====================================================
-          MISSION + VISION
+          MISSION + VISION — white
           ===================================================== */}
       <section
         aria-labelledby="mission-hd"
@@ -116,23 +96,25 @@ export default function AboutUsPage() {
             <h2
               id="mission-hd"
               className="d2"
-              style={{ color: 'var(--navy-700)', marginBottom: '1.25rem' }}
+              style={{ color: 'var(--ink)', marginBottom: '1.25rem' }}
             >
               Our mission
             </h2>
+            {/* Bodoni italic for the pull quote, per Direction I */}
             <blockquote
               style={{
-                borderLeft: '4px solid var(--blue-deep)',
+                borderLeft: '4px solid var(--sdg4)',
                 paddingLeft: '1.25rem',
                 margin: 0,
               }}
             >
               <p
                 style={{
-                  fontSize: 'clamp(.9375rem, 1.3vw, 1.0625rem)',
+                  fontFamily: 'var(--fs)',
+                  fontSize: 'clamp(1rem, 1.3vw, 1.125rem)',
+                  fontStyle: 'italic',
                   color: 'var(--n-700)',
                   lineHeight: 1.75,
-                  fontStyle: 'italic',
                 }}
               >
                 &ldquo;Empowering youth by cultivating leadership skills via a goal-driven network
@@ -146,13 +128,13 @@ export default function AboutUsPage() {
           <div>
             <h2
               className="d2"
-              style={{ color: 'var(--navy-700)', marginBottom: '1.25rem' }}
+              style={{ color: 'var(--ink)', marginBottom: '1.25rem' }}
             >
               Our vision
             </h2>
             <p
               style={{
-                fontSize: 'clamp(.9375rem, 1.3vw, 1.0625rem)',
+                fontSize: 'clamp(0.9375rem, 1.3vw, 1.0625rem)',
                 color: 'var(--n-700)',
                 lineHeight: 1.75,
               }}
@@ -168,63 +150,72 @@ export default function AboutUsPage() {
       </section>
 
       {/* =====================================================
-          OBJECTIVES
+          OBJECTIVES — field + ruled grid (Direction I pattern)
           ===================================================== */}
       <section
         aria-labelledby="obj-hd"
-        style={{ background: 'var(--paper)', paddingBlock: 'var(--sp)' }}
+        style={{ background: '#EEF2F6', paddingBlock: 'var(--sp)' }}
       >
         <div className="wrap">
           <h2
             id="obj-hd"
             className="d2"
-            style={{ color: 'var(--navy-900)', marginBottom: '2.5rem' }}
+            style={{ color: 'var(--ink)', marginBottom: 'clamp(2rem, 3vw, 3rem)' }}
           >
             What we do
           </h2>
-          <ul
-            style={{ listStyle: 'none', background: 'var(--n-200)' }}
-            className={styles.objGrid}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))',
+              borderTop: '1px solid rgba(14,21,48,.15)',
+              borderLeft: '1px solid rgba(14,21,48,.15)',
+            }}
+            role="list"
           >
-            {OBJECTIVES.map((item, i) => (
-              <li
+            {OBJECTIVES.map((item) => (
+              <div
                 key={item.title}
+                role="listitem"
                 style={{
-                  background: i % 2 === 0 ? 'var(--white)' : 'var(--n-50)',
-                  padding: '2rem 1.5rem',
+                  borderRight: '1px solid rgba(14,21,48,.15)',
+                  borderBottom: '1px solid rgba(14,21,48,.15)',
+                  padding: '1.5rem 1.75rem',
                 }}
               >
                 <p
                   style={{
                     fontFamily: 'var(--fd)',
-                    fontSize: '1rem',
-                    color: 'var(--navy-700)',
-                    marginBottom: '0.75rem',
+                    fontSize: '1.0625rem',
+                    fontWeight: 600,
+                    color: 'var(--ink)',
+                    marginBottom: '0.5rem',
+                    letterSpacing: '-0.01em',
                   }}
                 >
                   {item.title}
                 </p>
                 <p
                   style={{
-                    fontSize: '0.875rem',
-                    color: 'var(--n-600)',
-                    lineHeight: 1.65,
+                    fontSize: '0.9375rem',
+                    color: 'var(--navy)',
+                    lineHeight: 1.55,
                   }}
                 >
                   {item.body}
                 </p>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
 
       {/* =====================================================
-          SDG FOCUS
+          SDG FOCUS — ink band with four colored goal cells
           ===================================================== */}
       <section
         aria-labelledby="sdg-hd"
-        style={{ background: 'var(--navy-900)', paddingBlock: 'var(--sp)' }}
+        style={{ background: 'var(--ink)', paddingBlock: 'var(--sp)' }}
       >
         <div className="wrap">
           <h2
@@ -232,7 +223,7 @@ export default function AboutUsPage() {
             className="d2"
             style={{ color: 'var(--white)', marginBottom: '0.75rem' }}
           >
-            4 SDGs we focus on
+            Four goals we focus on
           </h2>
           <p
             style={{
@@ -251,18 +242,19 @@ export default function AboutUsPage() {
               <div
                 key={sdg.id}
                 style={{
-                  background: 'transparent',
-                  borderTop: `4px solid ${sdg.color}`,
-                  padding: '1.75rem 1.25rem',
+                  background: sdg.color,
+                  padding: '2rem 1.5rem',
                 }}
               >
                 <span
                   style={{
                     fontFamily: 'var(--fd)',
-                    fontSize: 'clamp(1.5rem, 2.5vw, 1.75rem)',
-                    color: sdg.color,
+                    fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
+                    fontWeight: 700,
+                    color: sdg.textColor,
                     display: 'block',
                     marginBottom: '0.5rem',
+                    letterSpacing: '-0.01em',
                   }}
                 >
                   {sdg.id}
@@ -270,8 +262,9 @@ export default function AboutUsPage() {
                 <span
                   style={{
                     fontSize: '0.875rem',
-                    color: 'rgba(255,255,255,.8)',
-                    lineHeight: 1.5,
+                    fontWeight: 500,
+                    color: sdg.textColor,
+                    lineHeight: 1.4,
                   }}
                 >
                   {sdg.label}
@@ -283,90 +276,25 @@ export default function AboutUsPage() {
       </section>
 
       {/* =====================================================
-          ADVISORY BOARD — DeckSlider + accessible grid
+          ADVISORY BOARD — Direction I name-list + sticky photo
+          (reuses AdvisorsSection from home, mapped from ADVISORY manifest)
           ===================================================== */}
-      <section
-        aria-labelledby="adv-hd"
-        style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}
-      >
-        <div className="wrap">
-          <h2
-            id="adv-hd"
-            className="d2"
-            style={{ color: 'var(--navy-900)', marginBottom: '2rem' }}
-          >
-            Global advisory board
-          </h2>
-          <div className={styles.advGrid}>
-            {/* DeckSlider for visual interaction */}
-            <div>
-              <DeckSlider items={advisoryItems} heading="Global advisory board" />
-            </div>
-            {/* Accessible grid fallback — visually hidden; DeckSlider's sr-only list serves ATs */}
-            <div style={{ display: 'none' }} aria-hidden="true">
-              <ul
-                aria-label="Advisory board members"
-                style={{ listStyle: 'none' }}
-                className={styles.advPersonGrid}
-              >
-                {Object.entries(ADVISORY).map(([key, v]) => {
-                  const parts = v.alt.split(',')
-                  return (
-                    <li key={key}>
-                      <Image
-                        src={v.src}
-                        alt={v.alt}
-                        width={200}
-                        height={200}
-                        sizes="(max-width: 768px) 45vw, 200px"
-                        style={{
-                          width: '100%',
-                          aspectRatio: '1',
-                          objectFit: 'cover',
-                          marginBottom: '0.625rem',
-                        }}
-                        loading="lazy"
-                      />
-                      <p
-                        style={{
-                          fontFamily: 'var(--fd)',
-                          fontSize: '0.8125rem',
-                          color: 'var(--navy-700)',
-                          marginBottom: '0.25rem',
-                        }}
-                      >
-                        {parts[0].trim()}
-                      </p>
-                      <p
-                        style={{
-                          fontSize: '0.75rem',
-                          color: 'var(--n-600)',
-                          lineHeight: 1.4,
-                        }}
-                      >
-                        {parts.slice(1).join(',').trim()}
-                      </p>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+      <AdvisorsSection
+        advisors={{ visible: true, heading: 'Global advisory board', people: advisorPeople }}
+      />
 
       {/* =====================================================
           AMBASSADORS — 12 people, 11 countries
           ===================================================== */}
       <section
         aria-labelledby="amb-hd"
-        style={{ background: 'var(--paper)', paddingBlock: 'var(--sp)' }}
+        style={{ background: '#EEF2F6', paddingBlock: 'var(--sp)' }}
       >
         <div className="wrap">
           <h2
             id="amb-hd"
             className="d2"
-            style={{ color: 'var(--navy-900)', marginBottom: '0.75rem' }}
+            style={{ color: 'var(--ink)', marginBottom: '0.75rem' }}
           >
             GYN ambassadors
           </h2>
@@ -396,6 +324,7 @@ export default function AboutUsPage() {
                     width: '100%',
                     aspectRatio: '1',
                     objectFit: 'cover',
+                    borderRadius: '28px',
                     marginBottom: '0.75rem',
                   }}
                   loading="lazy"
@@ -404,7 +333,7 @@ export default function AboutUsPage() {
                   style={{
                     fontFamily: 'var(--fd)',
                     fontSize: '0.875rem',
-                    color: 'var(--navy-700)',
+                    color: 'var(--ink)',
                     marginBottom: '0.25rem',
                   }}
                 >
@@ -420,17 +349,23 @@ export default function AboutUsPage() {
       </section>
 
       {/* =====================================================
-          PARTNERS
+          PARTNERS — ink band, white logos via CSS invert filter
+          (matches PartnersSection.tsx pattern from home page)
           ===================================================== */}
       <section
         aria-labelledby="par-hd"
-        style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}
+        style={{ background: '#0E1530', paddingBlock: 'clamp(56px,7vw,112px)' }}
       >
         <div className="wrap">
           <h2
             id="par-hd"
-            className="d2"
-            style={{ color: 'var(--navy-900)', marginBottom: '2rem' }}
+            style={{
+              fontFamily: 'var(--font-host-grotesk, var(--fb))',
+              fontSize: 'clamp(1.125rem,1.8vw,1.375rem)',
+              fontWeight: 600,
+              color: 'rgba(255,255,255,.55)',
+              marginBottom: 'clamp(24px,3vw,40px)',
+            }}
           >
             Our partners
           </h2>
@@ -442,29 +377,31 @@ export default function AboutUsPage() {
               alignItems: 'center',
               marginBottom: '2.5rem',
             }}
+            role="list"
           >
             {PARTNERS.map((p) => (
-              <Image
-                key={p.src}
-                src={p.src}
-                alt={p.alt}
-                width={p.width}
-                height={p.height}
-                style={{ height: '2.5rem', width: 'auto' }}
-                loading="lazy"
-              />
+              <div key={p.src} role="listitem">
+                <Image
+                  src={p.src}
+                  alt={p.alt}
+                  width={p.width}
+                  height={p.height}
+                  style={{ height: '2.5rem', width: 'auto', filter: 'brightness(0) invert(1)', opacity: 0.8 }}
+                  loading="lazy"
+                />
+              </div>
             ))}
           </div>
           <div
             style={{
               paddingTop: '2rem',
-              borderTop: '1px solid var(--n-200)',
+              borderTop: '1px solid rgba(255,255,255,.12)',
             }}
           >
             <p
               style={{
                 fontSize: '0.8125rem',
-                color: 'var(--n-600)',
+                color: 'rgba(255,255,255,.5)',
                 marginBottom: '1rem',
               }}
             >
@@ -475,18 +412,18 @@ export default function AboutUsPage() {
               alt={LOGOS['logo.unu-global-health'].alt}
               width={LOGOS['logo.unu-global-health'].width}
               height={LOGOS['logo.unu-global-health'].height}
-              style={{ height: '3rem', width: 'auto' }}
+              style={{ height: '3rem', width: 'auto', filter: 'brightness(0) invert(1)', opacity: 0.85 }}
             />
           </div>
         </div>
       </section>
 
       {/* =====================================================
-          PARTNER WITH US CTA (persona Dr. Farah)
+          PARTNER WITH US CTA — ink band
           ===================================================== */}
       <section
         aria-labelledby="partner-cta-hd"
-        style={{ background: 'var(--blue-deep)', paddingBlock: 'var(--sp)' }}
+        style={{ background: 'var(--ink)', paddingBlock: 'var(--sp)' }}
       >
         <div
           className="wrap"

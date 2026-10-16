@@ -4,7 +4,7 @@ import { TICKETS, type TicketId } from '@/features/registration/schema'
 import { ClearRegistrationStorage } from '@/features/registration/ui/ClearRegistrationStorage'
 
 export const metadata: Metadata = {
-  title: 'Registration confirmed — SISM 2026',
+  title: 'Registration confirmed, SISM 2026',
   robots: 'noindex',
 }
 
@@ -64,7 +64,7 @@ export default async function RegisteredPage({ searchParams }: Props) {
 
         <p style={{ fontSize: '1rem', color: 'var(--n-700)', lineHeight: 1.75, marginBottom: '2.5rem' }}>
           A confirmation email is on its way. Please check your inbox (and spam folder) within a few minutes. If you have questions, email{' '}
-          <a href="mailto:contact@thegyn.org" style={{ color: 'var(--blue-deep)', textDecoration: 'underline' }}>contact@thegyn.org</a>.
+          <a href="mailto:contact@thegyn.org" style={{ color: 'var(--navy)', textDecoration: 'underline' }}>contact@thegyn.org</a>.
         </p>
 
         {/* What happens next */}
@@ -77,7 +77,7 @@ export default async function RegisteredPage({ searchParams }: Props) {
               'Prepare for 4 days of learning, networking and innovation in Kuala Lumpur.',
             ].map((item, i) => (
               <li key={i} style={{ fontSize: '0.9375rem', color: 'var(--n-700)', lineHeight: 1.6, paddingLeft: '1.5rem', position: 'relative' }}>
-                <span style={{ position: 'absolute', left: 0, fontFamily: 'var(--fd)', color: 'var(--blue-deep)', fontSize: '0.875rem' }}>{i + 1}.</span>
+                <span style={{ position: 'absolute', left: 0, fontFamily: 'var(--fd)', color: 'var(--navy)', fontSize: '0.875rem' }}>{i + 1}.</span>
                 {item}
               </li>
             ))}
@@ -105,7 +105,7 @@ export default async function RegisteredPage({ searchParams }: Props) {
           </a>
         </div>
 
-        <Link href="/sism-2026" style={{ fontSize: '0.9375rem', color: 'var(--blue-deep)', textDecoration: 'underline' }}>
+        <Link href="/sism-2026" style={{ fontSize: '0.9375rem', color: 'var(--navy)', textDecoration: 'underline' }}>
           Back to the summit page
         </Link>
 

@@ -1,0 +1,440 @@
+import type { Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
+import { cms } from '@/lib/cms'
+import { Countdown } from '@/components/Countdown'
+import { DeckSlider, type Speaker } from '@/components/premium/DeckSlider'
+import { TicketRail, type Tier } from '@/components/premium/TicketRail'
+import { SismVideos } from '@/features/events/SismVideos'
+import { SPEAKERS, LOGOS } from '@/features/media/media'
+
+export const metadata: Metadata = {
+  title: 'SDG Innovation Summit Malaysia 2026 | Fully Funded Conference',
+  description: 'Apply for the SDG Innovation Summit Malaysia 2026. Fully funded scholarships available to cover airfare, visa, accommodation and meals.',
+  openGraph: {
+    images: [{ url: 'https://thegyn.org/wp-content/uploads/2026/08/SISM-06-1-scaled.jpeg' }],
+  },
+}
+
+/* Speaker images keyed by last name for fast lookup */
+const SPK_BY_LAST: Record<string, (typeof SPEAKERS)[string]> = {}
+Object.values(SPEAKERS).forEach(s => {
+  const last = s.alt.split(',')[0].split(' ').pop()?.toLowerCase() ?? ''
+  SPK_BY_LAST[last] = s
+})
+
+interface EventData {
+  id: string; name: string
+  dates: { start: string; end: string; display: string; displayAlt: string }
+  venue: string; city: string; theme: string
+  focusSdgs: { sdg: string; label: string }[]
+  award: string
+  ticketTypes: {
+    id: string; name: string; price: number; includes: string[]
+    cta: { label: string; href: string | null }; status: string
+  }[]
+  speakers: { name: string; title: string; image: string }[]
+  schedule: {
+    day: string; date: string; dateDisplay: string; items: string[]
+  }[]
+  eligibility: string[]
+  scholarshipCriteria: string[]
+  applicationProcess: { step: string; text: string }[]
+  faqs: { q: string; a: string; links?: { label: string; href: string }[] }[]
+  scholarships: { total: number }
+  coHost: string
+}
+
+export default async function Sism2026Page() {
+  const eventsData = await cms.getEvents() as { events: EventData[] }
+  const sism = eventsData.events.find(e => e.id === 'sism-2026') as EventData
+
+  const openTiers = sism.ticketTypes.filter(t => t.status === 'open')
+  const closedTiers = sism.ticketTypes.filter(t => t.status === 'closed')
+
+  const railTiers: Tier[] = [
+    ...closedTiers.map(t => ({
+      id: t.id,
+      name: t.id === 'fully-funded' ? 'Fully Funded Scholarship' : 'Partial Scholarship',
+      price: t.id === 'fully-funded' ? 'Funded' : 'Partial',
+      description: t.id === 'fully-funded'
+        ? 'Scholarship applications closed 11 October. Results announced 16 October.'
+        : 'Applications closed 11 October. Results announced 16 October.',
+      features: t.includes.slice(0, 5),
+      cta: 'Applications closed',
+      ctaHref: '#tickets',
+      closed: true,
+    })),
+    ...openTiers.map(t => ({
+      id: t.id,
+      name: t.name.replace(/\(.*?\)/g, '').trim(),
+      price: `$${t.price}`,
+      description: t.id === 'forum-access'
+        ? 'Confirmed seat. Summit access, meals, sightseeing and certificate.'
+        : t.id === 'self-funded'
+        ? 'Confirmed seat with twin-sharing accommodation included.'
+        : 'Official invitation letter for your Malaysian visa application.',
+      features: t.includes.slice(0, 5),
+      cta: t.id === 'invitation-letter' ? `Get invitation letter, $${t.price}` : `Book ${t.id === 'forum-access' ? 'Forum Access' : 'Self Funded'}, $${t.price}`,
+      ctaHref: t.id === 'forum-access' ? '/sism-forum-access'
+        : t.id === 'self-funded' ? '/sism-self-funded'
+        : '/sism-invitation-letter',
+      featured: t.id === 'forum-access',
+    })),
+  ]
+
+  const deckSpeakers: Speaker[] = sism.speakers.map((spk, i) => {
+    const lastWord = spk.name.split(' ').pop()?.toLowerCase() ?? ''
+    const img = SPK_BY_LAST[lastWord]
+    return {
+      id: String(i),
+      name: spk.name.charAt(0) + spk.name.slice(1).toLowerCase().replace(/\b\w/g, c => c.toUpperCase()),
+      role: spk.title.split('|')[0].split('-')[0].trim(),
+      organisation: spk.title.split('|').slice(-1)[0].trim(),
+      imageSrc: img?.src ?? '/media/events/sism-2026-call-for-applications.webp',
+      imageAlt: img?.alt ?? spk.name,
+      topic: spk.title,
+    }
+  })
+
+  return (
+    <main id="main">
+
+      {/* ─── HERO ─── */}
+      <section
+        aria-labelledby="sism-title"
+        style={{ background: 'var(--blue-deep)', paddingTop: 'calc(3.5rem + clamp(2rem,5vw,4.5rem))' }}
+      >
+        <div className="wrap" style={{ paddingBlock: 'clamp(2.5rem,6vw,5rem)' }}>
+          <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '2.5rem', alignItems: 'center' }}>
+            <div>
+              <p style={{ fontSize: 'clamp(.8rem,1.3vw,.9375rem)', color: 'rgba(255,255,255,.85)', marginBottom: '1.25rem', lineHeight: 1.6 }}>
+                {sism.dates.displayAlt} / {sism.venue}, {sism.city} / Co-hosted by UNU Global Health
+              </p>
+              <h1 id="sism-title" className="d1" style={{ color: 'var(--white)', marginBottom: '1rem' }}>
+                SDG INNOVATION SUMMIT MALAYSIA 2026
+              </h1>
+              <p style={{ fontSize: 'clamp(.875rem,1.4vw,1.0625rem)', color: 'rgba(255,255,255,.85)', lineHeight: 1.65, marginBottom: '2rem', maxWidth: '52ch' }}>
+                100 seats, {sism.scholarships.total} scholarships. Join young leaders, innovators and professionals from around the world in Kuala Lumpur.
+              </p>
+              <Countdown />
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '2.5rem' }}>
+                <Link href="/sism-forum-access" className="btn btn-y">Book Forum Access, $199</Link>
+                <Link href="#tickets" className="btn btn-ow">See all tickets</Link>
+              </div>
+            </div>
+            <figure style={{ margin: 0 }}>
+              <Image
+                src="/media/hero/sism-2026-hero-visual.webp"
+                alt="SDG Innovation Summit Malaysia 2026 promotional visual"
+                width={720}
+                height={540}
+                priority
+                sizes="(max-width: 768px) 100vw, 45vw"
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── WHAT IT IS ─── */}
+      <section aria-labelledby="what-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(2rem,5vw,4rem)', alignItems: 'start' }}>
+          <div>
+            <h2 id="what-hd" className="d2" style={{ color: 'var(--navy-700)', marginBottom: '1.5rem' }}>What is the SDG Innovation Summit 2026?</h2>
+            <p style={{ color: 'var(--n-700)', fontSize: '1rem', lineHeight: 1.75, marginBottom: '1rem' }}>
+              The SDG Innovation Summit Malaysia 2026 is a premier international youth summit designed to bring together 100 young leaders, innovators, students, entrepreneurs, professionals, researchers, and changemakers from around the world to explore innovative ideas, foster meaningful collaboration, and create sustainable impact in support of the United Nations Sustainable Development Goals (SDGs).
+            </p>
+            <p style={{ color: 'var(--n-600)', fontSize: '0.9375rem', lineHeight: 1.7 }}>
+              Following the success of our international summit in Bangkok, Thailand, the summit continues in Kuala Lumpur, Malaysia.
+            </p>
+          </div>
+          <div>
+            <h3 className="d3" style={{ color: 'var(--navy-700)', marginBottom: '1.25rem' }}>What will you experience?</h3>
+            <p style={{ color: 'var(--n-600)', fontSize: '0.9375rem', lineHeight: 1.7, marginBottom: '1rem' }}>
+              Through keynote addresses, high-level panel discussions, leadership workshops, innovation labs, strategic networking, cultural exchange activities, and an exclusive institutional visit to Asia Pacific University (APU), Malaysia, delegates will gain valuable knowledge, practical skills, global perspectives, and meaningful international connections.
+            </p>
+            <Link href="https://youtu.be/Aqqo3cL4W6w" target="_blank" rel="noopener" className="btn btn-n" style={{ display: 'inline-flex' }}>
+              Watch the summit video
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── THEME & PURPOSE ─── */}
+      <section aria-labelledby="theme-hd" style={{ background: 'var(--yellow)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap">
+          <h2 id="theme-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '0.5rem' }}>Forum theme</h2>
+          <p style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.5rem,4vw,3rem)', color: 'var(--navy-900)', lineHeight: 1.1, marginBottom: '2rem' }}>
+            Innovative Ideas for Social Impact
+          </p>
+          <p style={{ fontSize: '1rem', color: 'var(--navy-800)', lineHeight: 1.75, maxWidth: '65ch', marginBottom: '2.5rem' }}>
+            The SDG Innovation Summit Malaysia aims to create a collaborative platform where innovation meets purpose and ideas become action. The summit inspires young leaders to present innovative ideas aligned with the four focus SDGs.
+          </p>
+          <div className="sdg-grid" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1.2fr', gap: '1rem' }}>
+            {sism.focusSdgs.map(sdg => (
+              <div key={sdg.sdg} style={{ background: 'var(--navy-900)', padding: '1.75rem 1.25rem' }}>
+                <span style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.5rem,3vw,2.5rem)', display: 'block', marginBottom: '0.5rem', color: sdg.sdg === 'SDG 4' ? 'var(--sdg4)' : sdg.sdg === 'SDG 5' ? 'var(--sdg5)' : sdg.sdg === 'SDG 9' ? 'var(--sdg9)' : 'var(--sdg13)' }}>
+                  {sdg.sdg}
+                </span>
+                <span style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.5 }}>{sdg.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── SEED GRANT ─── */}
+      <section aria-labelledby="grant-hd" style={{ background: 'var(--navy-900)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
+          <div>
+            <h2 id="grant-hd" className="d2" style={{ color: 'var(--yellow)', marginBottom: '1rem' }}>$1,000 Seed Grant Award</h2>
+            <p style={{ color: 'rgba(255,255,255,.85)', fontSize: '1rem', lineHeight: 1.75 }}>
+              {sism.award} — participants compete for a $1,000 Seed Grant to support innovative projects and social impact initiatives. Whether your project is at the conceptual stage, in its pilot phase, under implementation, or fully realized, we welcome you to present your innovation on stage.
+            </p>
+          </div>
+          <div style={{ borderLeft: '1px solid rgba(255,255,255,.15)', paddingLeft: '3rem' }}>
+            <p style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(3rem,8vw,6rem)', lineHeight: 1, color: 'var(--yellow)' }}>$1,000</p>
+            <p style={{ fontSize: '0.9375rem', color: 'rgba(255,255,255,.65)', marginTop: '0.5rem' }}>seed grant for the best project</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CO-HOST ─── */}
+      <section aria-labelledby="cohost-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
+          <div>
+            <h2 id="cohost-hd" className="d2" style={{ color: 'var(--navy-700)', marginBottom: '1.25rem' }}>Co-hosted by UNU Global Health</h2>
+            <p style={{ color: 'var(--n-700)', fontSize: '1rem', lineHeight: 1.75, marginBottom: '1rem' }}>
+              The Global Youth Network (GYN) organizes the SDG Innovation Summit Malaysia, co-hosted by the United Nations University International Institute for Global Health, Malaysia. Participants will have an opportunity to engage with UNU Global Health representatives and UNU Young Leaders during the summit.
+            </p>
+            <p style={{ color: 'var(--n-600)', fontSize: '0.9375rem', lineHeight: 1.65 }}>
+              The United Nations University (UNU) operates the UNU International Institute for Global Health in Kuala Lumpur, which functions as a global research think tank focusing on health equity and sustainable development.
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <Image
+              src={LOGOS['logo.unu-global-health'].src}
+              alt={LOGOS['logo.unu-global-health'].alt}
+              width={LOGOS['logo.unu-global-health'].width}
+              height={LOGOS['logo.unu-global-health'].height}
+              style={{ height: '3.5rem', width: 'auto' }}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ─── APU VISIT ─── */}
+      <section aria-labelledby="apu-hd" style={{ background: 'var(--paper)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
+          <div>
+            <h2 id="apu-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '1.25rem' }}>Exclusive APU institutional visit</h2>
+            <p style={{ color: 'var(--n-700)', fontSize: '1rem', lineHeight: 1.75 }}>
+              Experience an exclusive institutional visit to Asia Pacific University (APU), one of Malaysia&apos;s leading universities. Explore its academic environment and global learning community while connecting with fellow international delegates. Delegates will also explore Petaling Street (Chinatown), GMBB KL, Petronas Twin Towers, KLCC Park and many other spots.
+            </p>
+          </div>
+          <figure style={{ margin: 0 }}>
+            <Image
+              src="/media/events/sism-2026-call-for-applications.webp"
+              alt="Asia Pacific University campus, Kuala Lumpur"
+              width={768}
+              height={512}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              style={{ width: '100%', height: '280px', objectFit: 'cover', display: 'block' }}
+            />
+          </figure>
+        </div>
+      </section>
+
+      {/* ─── WHO CAN APPLY ─── */}
+      <section aria-labelledby="apply-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
+          <div>
+            <h2 id="apply-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '1.25rem' }}>Who can apply</h2>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+              {sism.eligibility.map(item => (
+                <li key={item} style={{ fontSize: '0.9375rem', color: 'var(--n-700)', lineHeight: 1.6, paddingLeft: '1.25rem', position: 'relative' }}>
+                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--blue-deep)', display: 'block' }} />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="d3" style={{ color: 'var(--navy-700)', marginBottom: '1.25rem' }}>Scholarship criteria</h3>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+              {sism.scholarshipCriteria.map(item => (
+                <li key={item} style={{ fontSize: '0.9375rem', color: 'var(--n-600)', lineHeight: 1.6, paddingLeft: '1.25rem', position: 'relative' }}>
+                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--yellow)', display: 'block' }} />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p style={{ fontSize: '0.875rem', color: 'var(--n-500)', marginTop: '1.25rem', lineHeight: 1.6 }}>
+              Scholarship applications closed 11 October 2026. Results announced 16 October 2026.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── TICKETS ─── */}
+      <section id="tickets" aria-labelledby="tick-hd" style={{ background: 'var(--n-50)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap">
+          <h2 id="tick-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '0.75rem' }}>Attend SISM 2026</h2>
+          <p style={{ fontSize: '0.9375rem', color: 'var(--n-600)', marginBottom: '2.5rem', maxWidth: '60ch' }}>
+            100 seats (30 scholarships). Scholarship applications closed. Forum Access and Self-Funded seats open now. Group discounts via{' '}
+            <a href="mailto:contact@thegyn.org" style={{ color: 'var(--blue-deep)', textDecoration: 'underline' }}>contact@thegyn.org</a>.
+          </p>
+          <TicketRail tiers={railTiers} defaultActive={2} />
+        </div>
+      </section>
+
+      {/* ─── SPEAKERS ─── */}
+      <section aria-labelledby="spk-hd" style={{ background: 'var(--blue-ocean)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap">
+          <h2 id="spk-hd" className="d2" style={{ color: 'var(--white)', marginBottom: '2rem' }}>Speakers at SISM 2026</h2>
+          <DeckSlider items={deckSpeakers} heading="SISM 2026 speakers" />
+          {/* Accessible flat list — screen readers bypass the carousel */}
+          <ol aria-label="Full speaker list" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '2.5rem' }}>
+            {sism.speakers.map(spk => (
+              <li key={spk.name} style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,.75)', lineHeight: 1.5 }}>
+                <span style={{ fontWeight: 600, color: 'var(--white)' }}>
+                  {spk.name.charAt(0) + spk.name.slice(1).toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}
+                </span>
+                {' — '}
+                {spk.title}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* ─── SCHEDULE ─── */}
+      <section aria-labelledby="sched-hd" style={{ background: 'var(--navy-900)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap">
+          <h2 id="sched-hd" className="d2" style={{ color: 'var(--white)', marginBottom: '0.5rem' }}>4-day programme</h2>
+          <p style={{ fontSize: '0.9375rem', color: 'var(--navy-300)', marginBottom: '2.5rem' }}>Kuala Lumpur, 19–22 November 2026 (tentative)</p>
+          <ol style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            {sism.schedule.map((day, i) => (
+              <li key={day.day} style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '1.5rem', alignItems: 'start' }}>
+                <div>
+                  <p style={{ fontFamily: 'var(--fd)', fontSize: '0.875rem', color: 'var(--yellow)', marginBottom: '0.25rem' }}>Day {i + 1}</p>
+                  <p style={{ fontSize: '0.8125rem', color: 'var(--navy-300)', lineHeight: 1.4 }}>{day.dateDisplay}</p>
+                </div>
+                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+                  {day.items.map(item => (
+                    <li key={item} style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.55, paddingLeft: '1rem', position: 'relative' }}>
+                      <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '4px', height: '4px', background: 'var(--yellow)', display: 'block' }} />
+                      {item.replace(/:/g, ': ')}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* ─── TESTIMONIAL VIDEOS ─── */}
+      <section aria-labelledby="vid-hd" style={{ background: 'var(--paper)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap">
+          <h2 id="vid-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '0.75rem' }}>Hear from past delegates</h2>
+          <p style={{ fontSize: '0.9375rem', color: 'var(--n-600)', marginBottom: '2rem' }}>
+            Watch past delegates and fellows explain why they recommend applying.
+          </p>
+          <SismVideos />
+        </div>
+      </section>
+
+      {/* ─── APPLICATION PROCESS ─── */}
+      <section aria-labelledby="proc-hd" style={{ background: 'var(--blue-deep)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap">
+          <h2 id="proc-hd" className="d2" style={{ color: 'var(--white)', marginBottom: '2.5rem' }}>How to apply</h2>
+          <ol style={{ listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }} className="sdg-grid">
+            {sism.applicationProcess.map((s, i) => (
+              <li key={s.step} style={{ borderTop: '2px solid var(--yellow)', paddingTop: '1rem' }}>
+                <p style={{ fontFamily: 'var(--fd)', fontSize: '2.5rem', color: 'var(--yellow)', lineHeight: 1, marginBottom: '0.75rem' }}>{i + 1}</p>
+                <p style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--white)', marginBottom: '0.5rem' }}>{s.step}</p>
+                <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,.75)', lineHeight: 1.6 }}>{s.text}</p>
+              </li>
+            ))}
+          </ol>
+          <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <Link href="/sism-forum-access" className="btn btn-y">Book Forum Access, $199</Link>
+            <Link href="/sism-self-funded" className="btn btn-ow">Book Self Funded, $399</Link>
+            <Link href="/sism-invitation-letter" className="btn btn-ow">Get invitation letter, $49</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── FAQ ─── */}
+      <section aria-labelledby="faq-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+        <div className="wrap" style={{ maxWidth: '860px' }}>
+          <h2 id="faq-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '2rem' }}>Frequently asked questions</h2>
+          <dl>
+            {sism.faqs.map((faq, i) => (
+              <details
+                key={i}
+                style={{ borderBottom: '1px solid var(--n-200)' }}
+              >
+                <summary
+                  style={{
+                    padding: '1.125rem 0',
+                    cursor: 'pointer',
+                    fontSize: '1rem',
+                    fontWeight: 600,
+                    color: 'var(--navy-900)',
+                    lineHeight: 1.5,
+                    listStyle: 'none',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    userSelect: 'none',
+                  }}
+                >
+                  {faq.q}
+                  <span aria-hidden="true" style={{ flexShrink: 0, width: '20px', height: '20px', border: '1.5px solid var(--n-300)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', color: 'var(--navy-700)' }}>+</span>
+                </summary>
+                <div style={{ paddingBottom: '1.25rem' }}>
+                  <p style={{ fontSize: '0.9375rem', color: 'var(--n-700)', lineHeight: 1.7 }}>
+                    {faq.a}
+                    {faq.links?.map(l => (
+                      <span key={l.href}> <a href={l.href} target="_blank" rel="noopener" style={{ color: 'var(--blue-deep)', textDecoration: 'underline' }}>{l.label}</a></span>
+                    ))}
+                  </p>
+                </div>
+              </details>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* ─── STICKY MOBILE BAR ─── */}
+      <div
+        aria-label="Quick booking"
+        style={{
+          position: 'fixed', bottom: 0, left: 0, right: 0,
+          background: 'var(--navy-900)', borderTop: '1px solid rgba(255,255,255,.12)',
+          padding: '0.875rem var(--gut)',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem',
+          zIndex: 100,
+        }}
+        className="md:hidden"
+      >
+        <div>
+          <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,.6)', marginBottom: '0.125rem' }}>Confirmed seat from</p>
+          <p style={{ fontFamily: 'var(--fd)', fontSize: '1.25rem', color: 'var(--yellow)' }}>$199</p>
+        </div>
+        <Link href="/sism-forum-access" className="btn btn-y" style={{ flexShrink: 0, minHeight: '44px' }}>
+          Book Forum Access, $199
+        </Link>
+      </div>
+
+      {/* Spacer so sticky bar doesn't cover content on mobile */}
+      <div className="md:hidden" style={{ height: '80px' }} aria-hidden="true" />
+
+    </main>
+  )
+}

@@ -214,7 +214,7 @@ export const LOGOS: Record<string, MediaEntry> = {
   'logo.unu-global-health': {
     src: '/media/logos/unu-global-health-logo.png',
     alt: 'United Nations University – International Institute for Global Health',
-    width: 300, height: 80,
+    width: 620, height: 350,
   },
 }
 

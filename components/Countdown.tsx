@@ -71,7 +71,7 @@ export function Countdown() {
             >
               {mounted ? u.value : '--'}
             </span>
-            <span style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,.55)', letterSpacing: '0.03em' }}>
+            <span style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,0.92)', letterSpacing: '0.03em' }}>
               {u.label}
             </span>
           </div>

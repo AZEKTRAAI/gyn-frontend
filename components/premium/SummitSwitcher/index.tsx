@@ -164,6 +164,7 @@ export function SummitSwitcher({
         <AnimatePresence custom={direction} initial={false} mode="sync">
           <motion.div
             key={summit.id}
+            id={`summit-slide-${summit.id}`}
             custom={direction}
             variants={slideVariants}
             initial="enter"

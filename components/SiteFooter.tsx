@@ -81,7 +81,7 @@ export function SiteFooter({ footer, socials }: Props) {
               style={{
                 fontFamily: 'var(--fd)',
                 fontSize: '0.75rem',
-                color: 'rgba(255,255,255,.35)',
+                color: 'rgba(255,255,255,.7)',
                 marginBottom: '1rem',
               }}
             >
@@ -113,7 +113,7 @@ export function SiteFooter({ footer, socials }: Props) {
               style={{
                 fontFamily: 'var(--fd)',
                 fontSize: '0.75rem',
-                color: 'rgba(255,255,255,.35)',
+                color: 'rgba(255,255,255,.7)',
                 marginBottom: '1rem',
               }}
             >
@@ -139,7 +139,7 @@ export function SiteFooter({ footer, socials }: Props) {
               style={{
                 fontFamily: 'var(--fd)',
                 fontSize: '0.75rem',
-                color: 'rgba(255,255,255,.35)',
+                color: 'rgba(255,255,255,.7)',
                 marginBottom: '1rem',
               }}
             >
@@ -175,7 +175,7 @@ export function SiteFooter({ footer, socials }: Props) {
             paddingTop: '1.5rem',
             borderTop: '1px solid rgba(255,255,255,.08)',
             fontSize: '0.75rem',
-            color: 'rgba(255,255,255,.3)',
+            color: 'rgba(255,255,255,.6)',
           }}
         >
           {copyright?.text}

@@ -178,7 +178,7 @@ a { color: inherit; text-decoration: none; }
 .t-c .stat-n, .t-c .stat-l { color: var(--navy-900); }
 .t-b  { background: var(--blue-deep); }
 .t-b .stat-n { color: var(--yellow); }
-.t-b .stat-l { color: rgba(255, 255, 255, 0.75); }
+.t-b .stat-l { color: var(--white); }
 
 /* === SCREEN READER ONLY === */
 .sr-only {
@@ -198,6 +198,8 @@ a { color: inherit; text-decoration: none; }
 
 @media (max-width: 768px) {
   .hero-grid { grid-template-columns: 1fr !important; }
+  /* Pull globe above text on mobile — largest LCP candidate is visible sooner */
+  .hero-right { order: -1; }
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
   .stats-grid .stat-span2 { grid-column: span 1 !important; }
   .who-grid { grid-template-columns: 1fr !important; }

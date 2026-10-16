@@ -152,9 +152,7 @@ export function CoverflowVideos({ items, onOpen, heading }: CoverflowVideosProps
                 }}
                 transition={{ duration: 0.4, ease: EASE }}
                 onClick={isActive ? () => onOpen(item) : () => go(offset > 0 ? 1 : -1)}
-                role={isActive ? 'button' : undefined}
-                aria-label={isActive ? `Play: ${item.title}` : undefined}
-                tabIndex={isActive ? 0 : -1}
+                tabIndex={-1}
               >
                 <div
                   style={{

@@ -196,7 +196,8 @@ export function TicketRail({ tiers, defaultActive }: TicketRailProps) {
 
       {/* Active-tier dots — mobile only */}
       <div
-        aria-hidden="true"
+        role="group"
+        aria-label="Tier navigation"
         style={{
           display: 'flex',
           justifyContent: 'center',

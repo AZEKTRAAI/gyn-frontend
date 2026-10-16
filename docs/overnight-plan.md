@@ -11,7 +11,7 @@ Built while Azam sleeps. Each line is ticked when it's done and checked.
 - [~] Pages (3 agents in parallel, plus backend): home, SISM 2026, the 3 registration pages, FMS Thailand, about, contact, videos, 3 policy pages, /pitch, /admin preview
 - [~] Registration (shared Zod contract done and tested; form UI and API in progress): multi-step form, Zod, save-and-resume, route handler, Stripe checkout (test mode, stubbed without keys)
 - [~] Red team: review after each milestone, findings in `docs/redteam.md`, every high-severity finding fixed or explained
-  - Pass 1 (round 2 concepts): 44 findings, 6 blocker / 12 high. Fixes in progress (E+G, F+H agents); G fixes also fed into the app build
+  - Pass 1 (round 2 concepts): 44 findings, 6 blocker / 12 high. All blockers and highs fixed in E-H and checked for clipping at 390px; republished as version 3. Rejected: RT-028 (two-click YouTube, host limit), RT-032 (render content)
 - [ ] QA: Playwright screenshots at 375/768/1024/1440, console errors, overflow, accessibility, Lighthouse
 
 ## Needs Azam in the morning

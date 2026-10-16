@@ -8,11 +8,13 @@ Built while Azam sleeps. Each line is ticked when it's done and checked.
 - [x] Payments: Stripe and Payoneer research and design in `docs/payments.md`, provider interface in code (fact-checked against live sources; Payoneer ruled out by its own terms)
 - [x] App scaffold: Next.js + TypeScript strict + Tailwind v4, direction G tokens, layout, nav, footer
 - [x] Motion: signature sliders, carousels and transitions in `components/premium/` (summit wipe, swipe deck, scroll gallery, coverflow videos, ticket rail, headline reveal, page curtain, magnetic CTA)
-- [~] Pages (3 agents in parallel, plus backend): home, SISM 2026, the 3 registration pages, FMS Thailand, about, contact, videos, 3 policy pages, /pitch, /admin preview
-- [~] Registration (shared Zod contract done and tested; form UI and API in progress): multi-step form, Zod, save-and-resume, route handler, Stripe checkout (test mode, stubbed without keys)
+- [x] Pages (all 17 routes build; checked at 360/390/1440 for clipping, console errors and the globe video): home, SISM 2026, the 3 registration pages, FMS Thailand, about, contact, videos, 3 policy pages, /pitch, /admin preview
+- [x] Registration (forum-access flow tested end to end in demo mode; 35 backend/contract tests pass; real Postgres repo written, not yet run against a live DB): multi-step form, Zod, save-and-resume, route handler, Stripe checkout (test mode, stubbed without keys)
 - [~] Red team: review after each milestone, findings in `docs/redteam.md`, every high-severity finding fixed or explained
   - Pass 1 (round 2 concepts): 44 findings, 6 blocker / 12 high. All blockers and highs fixed in E-H and checked for clipping at 390px; republished as version 3. Rejected: RT-028 (two-click YouTube, host limit), RT-032 (render content)
-- [ ] QA: Playwright screenshots at 375/768/1024/1440, console errors, overflow, accessibility, Lighthouse
+- [~] QA: full-route sweep done; Lighthouse baseline mobile 85/88 perf, 88/90 a11y (desktop perf 100); fixes in progress
+- [x] Security review: 16 findings, all critical/high/medium fixed with tests; headers, admin auth and IP handling verified with curl
+- [x] Infrastructure plan: Neon (Singapore) + Vercel Pro, ~$80/month at launch, ~$180 at 10x (docs/infrastructure.md)
 
 ## Needs Azam in the morning
 - Pick a direction (or confirm G)

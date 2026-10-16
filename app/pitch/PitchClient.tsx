@@ -77,7 +77,7 @@ function BeforeAfterSlider() {
     >
       {/* After (new site) — full width, clipped on right */}
       <Image
-        src="/pitch/after.png"
+        src="/pitch/after.webp"
         alt="New GYN website design"
         fill
         sizes="(max-width: 1280px) 100vw, 1280px"
@@ -94,7 +94,7 @@ function BeforeAfterSlider() {
         }}
       >
         <Image
-          src="/pitch/before.png"
+          src="/pitch/before.webp"
           alt="Current live thegyn.org website"
           fill
           sizes="(max-width: 1280px) 100vw, 1280px"
@@ -223,28 +223,60 @@ function AnimatedCounter({ to, suffix = '' }: { to: number; suffix?: string }) {
   )
 }
 
-// ─── Issues list ─────────────────────────────────────────────────────────────
+// ─── Issues list (real live-site findings from crawl of thegyn.org, 15 Oct 2026) ──
 
 const LIVE_ISSUES = [
-  { id: 'RT-001', sev: 'Blocker', text: 'Mobile hero overflow: H1 clipped to "SUMMIT MALAYSI" at 390px' },
-  { id: 'RT-005', sev: 'Blocker', text: 'Mobile collage photos overlap H1, venue and countdown; content unreadable' },
-  { id: 'RT-007', sev: 'High', text: 'Globe animation never plays: IntersectionObserver watches a hidden element' },
-  { id: 'RT-008', sev: 'High', text: 'Header "Light" button does nothing; no CSS for the theme it attempts to set' },
-  { id: 'RT-009', sev: 'High', text: 'No real GYN photo at full scale in the hero; brief required one' },
-  { id: 'RT-010', sev: 'High', text: 'UNU named incorrectly: "Institute" not "International Institute for Global Health"' },
-  { id: 'RT-011', sev: 'High', text: 'Hero meta text at 3.81:1, countdown labels at 2.93:1 — both fail AA' },
-  { id: 'RT-015', sev: 'High', text: '"100 confirmed seats" misleads: confirmed seat is the name of a paid tier' },
-  { id: 'RT-019', sev: 'Medium', text: 'Permanent struck-through prices ("was $249") with no end date — fake-discount pattern' },
-  { id: 'RT-022', sev: 'Medium', text: 'Alt text written without looking at images: hostesses called "delegates in the main conference hall"' },
-  { id: 'RT-024', sev: 'Medium', text: 'Multiple further contrast failures: speaker titles 3.08:1, "Closed" badge 2.05:1' },
-  { id: 'RT-027', sev: 'Medium', text: 'Partner links are href="#"; footer email and phone are plain text, not mailto:/tel: links' },
+  {
+    sev: 'Accessibility',
+    text: 'Brand yellow #FEFF00 on white scores 1.08:1. WCAG AA requires 4.5:1 for normal text. The colour appears in buttons and headings across the site.',
+    source: 'design/palette.md contrast checks',
+  },
+  {
+    sev: 'Conversion',
+    text: 'Both countdown timers show 00:00:00:00 after the 11 Oct deadline, yet the button still reads "Apply now". Visitors see a broken clock and a CTA that goes nowhere.',
+    source: 'Crawl, thegyn.org/sism-2026',
+  },
+  {
+    sev: 'Trust',
+    text: 'Both scholarship cards display a "CLOSED NOW" stamp alongside a live "Apply now" button. Opposite signals on the same card.',
+    source: 'Crawl, thegyn.org/sism-2026',
+  },
+  {
+    sev: 'Revenue',
+    text: 'Forum Access is $199 on the public page, $249 in the Meta Pixel event, and $170 on a hidden form (sism-2026-application-form) with no CAPTCHA. Three prices for one product.',
+    source: 'content/pages/sism-2026-application-form.md',
+  },
+  {
+    sev: 'Content',
+    text: 'Results date is 16 Oct in the FAQ and 15 Oct on the thank-you page. Applicants watching both see conflicting information on the most-watched date of the cycle.',
+    source: 'Crawl, FAQ vs. thank-you page',
+  },
+  {
+    sev: 'Quality',
+    text: 'Five benefit items link to a broken URL (http://i%20class=fa-solid…). All four contact-page hero background images return 404. Two speaker photos return 404.',
+    source: 'Crawl, thegyn.org/contact-us + /sism-2026',
+  },
+  {
+    sev: 'Media',
+    text: 'Nine videos load as default YouTube iframes with no playlist filtering, no deep links, and no poster images. Every embed autoplays its own suggested-videos panel on end.',
+    source: 'Crawl, thegyn.org/videos',
+  },
+  {
+    sev: 'Copy',
+    text: '"PARTIALLY SCHOLARSHIP", "Patronas Twin Tower", "Al" for AI, and a gender field listing sexual orientations (one misspelled). All visible on registration forms.',
+    source: 'Crawl, thegyn.org registration forms',
+  },
 ]
 
 const SEV_COLOURS: Record<string, string> = {
-  Blocker: '#C52035',
-  High: '#F2692C',
-  Medium: '#D6A200',
-  Low: '#48783F',
+  Accessibility: '#C52035',
+  Conversion: '#F2692C',
+  Trust: '#C52035',
+  Revenue: '#F2692C',
+  Content: '#D6A200',
+  Quality: '#D6A200',
+  Media: '#3A4C8C',
+  Copy: '#48783F',
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
@@ -402,14 +434,14 @@ export function PitchClient() {
                   marginBottom: '0.5rem',
                 }}
               >
-                <AnimatedCounter to={57} />
+                <AnimatedCounter to={8} />
               </span>
               <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,.85)', lineHeight: 1.5 }}>
-                Issues found on the live site: 6 blockers, 12 high, 17 medium, 9 low,
-                plus 3 factual errors about photos.
+                Issues found on the live site: accessibility, conversion, trust,
+                revenue, content, quality, media and copy.
               </p>
               <p style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,.5)', marginTop: '0.5rem' }}>
-                Proven — docs/redteam.md
+                Proven — crawl of thegyn.org, 15 Oct 2026
               </p>
             </div>
 
@@ -578,31 +610,23 @@ export function PitchClient() {
               marginBottom: '2rem',
             }}
           >
-            From a Playwright audit of thegyn.org on 16 Oct 2026 (docs/redteam.md). All
-            57 issues are addressed in the new build.
+            From a crawl of thegyn.org on 15 Oct 2026. All 8 are addressed in the new build.
           </p>
 
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {LIVE_ISSUES.map((issue) => (
               <li
-                key={issue.id}
-                className={styles.issueRow}
+                key={issue.sev}
                 style={{
-                  padding: '0.875rem',
+                  padding: '0.875rem 1rem',
                   background: 'var(--white)',
                   borderLeft: `4px solid ${SEV_COLOURS[issue.sev] ?? 'var(--n-300)'}`,
+                  display: 'grid',
+                  gridTemplateColumns: '7rem 1fr',
+                  gap: '0.75rem',
+                  alignItems: 'start',
                 }}
               >
-                <code
-                  style={{
-                    fontSize: '0.75rem',
-                    fontFamily: 'monospace',
-                    color: 'var(--n-500)',
-                    paddingTop: '0.125rem',
-                  }}
-                >
-                  {issue.id}
-                </code>
                 <span
                   style={{
                     fontSize: '0.6875rem',
@@ -615,9 +639,12 @@ export function PitchClient() {
                 >
                   {issue.sev}
                 </span>
-                <p style={{ fontSize: '0.875rem', color: 'var(--n-700)', lineHeight: 1.55 }}>
-                  {issue.text}
-                </p>
+                <div>
+                  <p style={{ fontSize: '0.875rem', color: 'var(--n-700)', lineHeight: 1.55, marginBottom: '0.25rem' }}>
+                    {issue.text}
+                  </p>
+                  <p style={{ fontSize: '0.6875rem', color: 'var(--n-400)' }}>{issue.source}</p>
+                </div>
               </li>
             ))}
           </ul>

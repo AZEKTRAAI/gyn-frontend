@@ -84,7 +84,7 @@ export async function sendRegistrationConfirmation(
   data: RegistrationConfirmationData
 ): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM ?? "GYN Events <events@thegyn.org>";
+  const from = process.env.EMAIL_FROM || "GYN Events <events@thegyn.org>";
 
   const payload = {
     from,

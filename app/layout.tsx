@@ -41,7 +41,7 @@ const bodoniModa = Bodoni_Moda({
 
 export const metadata: Metadata = {
   // absolute URLs for OG/Twitter images
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL ?? 'https://thegyn.org'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://thegyn.org'),
   title: {
     template: '%s | Global Youth Network',
     default: 'Global Youth Network – GYN',

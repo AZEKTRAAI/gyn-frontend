@@ -139,7 +139,7 @@ async function sendConfirmation(
     console.warn({ msg: "webhook/stripe: registration not found for confirmation email", registrationId });
     return;
   }
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://thegyn.org";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://thegyn.org";
   await sendRegistrationConfirmation({
     to: details.email,
     recipientName: details.recipientName,

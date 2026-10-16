@@ -57,6 +57,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   const createCheckout = stripeKey
     ? async (params: {
         reference: string;
+        ticket: string;
         ticketName: string;
         amountCents: number;
         email: string;
@@ -67,8 +68,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         const result = await stripe.createCheckout({
           idempotencyKey: params.idempotencyKey,
           lineItems: [{ name: params.ticketName, amount: money(params.amountCents), quantity: 1 }],
-          successUrl: `${baseUrl}/sism-2026/registered?ref=${encodeURIComponent(params.reference)}&ticket=&session_id={CHECKOUT_SESSION_ID}`,
-          cancelUrl: `${baseUrl}/sism-2026/registration-cancelled?ticket=`,
+          successUrl: `${baseUrl}/sism-2026/registered?ref=${encodeURIComponent(params.reference)}&ticket=${encodeURIComponent(params.ticket)}&session_id={CHECKOUT_SESSION_ID}`,
+          cancelUrl: `${baseUrl}/sism-2026/registration-cancelled?ticket=${encodeURIComponent(params.ticket)}`,
           customerEmail: params.email,
           metadata: { reference: params.reference, paymentId: params.paymentId },
         });

@@ -52,6 +52,7 @@ export interface HandleRegistrationDeps {
   /** Call Stripe / other provider and return redirect URL. Null = demo mode. */
   createCheckout: ((params: {
     reference: string;
+    ticket: string;
     ticketName: string;
     amountCents: number;
     email: string;
@@ -117,7 +118,8 @@ export async function handleRegistration(
     (ref) => deps.repo.referenceExists(ref)
   );
 
-  const idempotencyKey = `reg-${reference}-${Date.now()}`;
+  // Deterministic key: same reference → same key on retry, so Stripe replays the first response.
+  const idempotencyKey = `reg-${reference}`;
   const email = "email" in input.details ? input.details.email : "";
 
   // Build attendee data — never include passportNumber (PII; used only for letter generation)
@@ -144,6 +146,7 @@ export async function handleRegistration(
     try {
       const { checkoutUrl, sessionId } = await deps.createCheckout({
         reference,
+        ticket: input.ticket,
         ticketName: ticket.name,
         amountCents: ticket.amountCents,
         email,

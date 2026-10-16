@@ -93,6 +93,9 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .nav-ham{display:none;flex-direction:column;gap:5px;padding:8px}
 .nav-ham span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;
   transition:transform 200ms,opacity 200ms}
+.nav-ham[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-ham[aria-expanded="true"] span:nth-child(2){opacity:0}
+.nav-ham[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .nav-drawer{display:none;position:fixed;inset:0;z-index:999;background:var(--field);
   padding:76px 24px 40px;flex-direction:column;gap:4px}
 .nav-drawer.open{display:flex}
@@ -154,7 +157,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 }
 
 /* sections */
-.sec{padding:var(--sv) 0}
+.sec{padding:var(--sv) 0;scroll-margin-top:72px}
 .sec-sm{padding:var(--sv-sm) 0}
 .bg-field{background:var(--field)}
 .bg-white{background:#fff}
@@ -219,7 +222,6 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .sdg-media{overflow:hidden}
 .sdg-media video,.sdg-media img{width:100%;height:100%;object-fit:contain;scale:1.22;
   /* edge scrim as a mask, not a visible gradient: hides the codec's colour shift at the cove edge */
-  -webkit-mask-image:radial-gradient(closest-side,#000 72%,transparent);
   mask-image:radial-gradient(closest-side,#000 72%,transparent)}
 
 /* sdg index bar (Rynzhuk, caps usage 1/3); sits on a field pill so it reads over every chapter colour */
@@ -275,23 +277,28 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .bt-6{grid-column:span 6}.bt-4{grid-column:span 4}.bt-3{grid-column:span 3}.bt-2{grid-column:span 2}
 .bt-r2{grid-row:span 2}
 .bt-main{background:var(--ink);color:#fff;position:relative;min-height:260px}
-.bt-main .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.7}
+.bt-main .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .bt-main .scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,21,48,.72) 0%,rgba(14,21,48,.1) 55%,transparent 100%)} /* scrim */
 .bt-main .txt{position:relative;z-index:1}
 .bt-unu{background:var(--field)}
 .bt-grant{background:var(--accent);color:var(--ink)}
-.bt-apu{background:var(--navy);color:#fff}
+.bt-apu{background:#fff;color:var(--ink);border:1px solid rgba(14,21,48,.12)}
 .bt-kl{background:var(--field);overflow:hidden;flex-direction:column;padding:0}
 /* bt-date removed (duplicate of date info in main banner tile) */
 .bento-price{font-size:clamp(2rem,3.5vw,3.25rem);font-weight:600;letter-spacing:-0.02em;line-height:1}
 .bento-lbl{font-size:var(--t-lbl);font-weight:500;opacity:.65;margin-bottom:8px}
 .bento-h3{font-size:clamp(1.0625rem,1.8vw,1.375rem);font-weight:600;line-height:1.2;letter-spacing:-0.01em}
 .bento-body{font-size:12px;line-height:1.5;opacity:.78;margin-top:6px}
-.bento-logo{max-height:44px;width:auto;max-width:150px;margin-bottom:14px}
-.bento-apu{max-height:52px;width:auto;max-width:130px;margin-bottom:10px;
+.bento-logo{height:44px;width:auto;max-width:150px;margin-bottom:14px}
+.bento-apu{height:44px;width:auto;max-width:130px;margin-bottom:10px;
   }
 .bt-kl-render{flex:1;overflow:hidden;min-height:0;display:flex;align-items:center;justify-content:center}
-.bt-kl-render img{width:100%;height:100%;object-fit:contain;display:block}
+/* absolute so the lazy image can't grow the row after load (it pushed #programme 300px) */
+.bt-kl-render{position:relative;min-height:200px}
+.bt-kl-render img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 58%;display:block}
+.bt-grp{background:var(--ink);color:#fff;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;min-height:0}
+.bt-grp .bt-grp-a{color:#fff;border-color:rgba(255,255,255,.4)}
+.bt-grp .bt-grp-a:hover{border-color:#fff}
 .bt-kl-txt{padding:12px 18px;background:var(--field);flex-shrink:0;border-top:1px solid rgba(14,21,48,.08)}
 
 @media(max-width:767px){
@@ -303,9 +310,9 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 .prog{background:var(--field);padding:var(--sv) 0}
 .prog-grid{margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);
   border-top:1px solid rgba(14,21,48,.15);border-left:1px solid rgba(14,21,48,.15)}
+.prog-note{margin-top:12px;font-size:var(--t-lbl);color:var(--navy)}
 .prog-day{border-right:1px solid rgba(14,21,48,.15);border-bottom:1px solid rgba(14,21,48,.15);
   transition:background 200ms}
-.prog-day:hover{background:rgba(14,21,48,.035)}
 .prog-head{padding:20px 20px 12px;border-bottom:1px solid rgba(14,21,48,.12)}
 .prog-num{font-size:clamp(2.5rem,4.5vw,4.5rem);font-weight:300;letter-spacing:-0.03em;
   line-height:1;color:var(--navy);opacity:.22}
@@ -346,7 +353,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 
 /* past summit */
 .past{background:var(--field);padding:var(--sv) 0}
-.vid-wrap{margin-top:36px;border-radius:var(--r);overflow:hidden;position:relative;
+.vid-wrap{display:block;margin-top:36px;border-radius:var(--r);overflow:hidden;position:relative;
   aspect-ratio:16/9;background:var(--ink);cursor:pointer}
 .vid-wrap img{width:100%;height:100%;object-fit:cover}
 .play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
@@ -392,10 +399,12 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 @media(max-width:767px){.tix-open{grid-template-columns:1fr}}
 
 /* closing */
-.closing{background:var(--ink);color:#fff;padding:var(--sv) 0;overflow:hidden}
+.closing{background:var(--ink);color:#fff;padding:var(--sv-sm) 0 var(--sv);overflow:hidden}
 .closing-media{width:clamp(260px,55vw,760px);margin:0 auto clamp(28px,3vw,48px);
   aspect-ratio:16/9;display:block}
-.closing-media video{width:100%;height:100%;object-fit:contain;display:block}
+.closing-media video{width:100%;height:100%;object-fit:contain;display:block;
+  /* edge scrim as a mask: hides the codec's colour shift against the ink field; arms fade into the dark */
+  mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 70%,transparent)}
 .closing-poster{font-size:clamp(3.5rem,12vw,11rem);line-height:.92;letter-spacing:-0.03em;
   font-weight:600;color:#fff;margin-bottom:36px;text-align:center}
 .closing-cta{text-align:center}
@@ -424,20 +433,6 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   .f-bottom{flex-direction:column;align-items:flex-start}
 }
 
-/* modal */
-.modal-bg{display:none;position:fixed;inset:0;z-index:2000;
-  background:rgba(14,21,48,.92);align-items:center;justify-content:center}
-.modal-bg.open{display:flex}
-.modal-box{width:90vw;max-width:720px;background:var(--ink);border-radius:var(--r);overflow:hidden}
-.modal-head{display:flex;align-items:center;justify-content:space-between;
-  padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.09)}
-.modal-ttl{color:#fff;font-size:1rem;font-weight:600}
-.modal-x{color:rgba(255,255,255,.55);font-size:1.25rem;transition:color 150ms;padding:4px}
-.modal-x:hover{color:#fff}
-.modal-body{padding:22px}
-.modal-thumb{width:100%;border-radius:8px;margin-bottom:14px}
-.modal-link{display:inline-flex;align-items:center;gap:8px;background:var(--accent);
-  color:var(--ink);font-size:.9375rem;font-weight:600;padding:12px 22px;border-radius:999px}
 
 /* split reveal: content starts visible, GSAP enhances */
 .split-h .line-w{overflow:hidden}.split-h .line-i{display:inline-block}
@@ -458,15 +453,15 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 
 <!-- NAV -->
 <nav class="nav" role="navigation" aria-label="Site navigation" id="site-nav">
-  <a class="nav-logo" href="#" aria-label="Global Youth Network home">
+  <a class="nav-logo" href="https://thegyn.org/" aria-label="Global Youth Network home">
     <img src="assets/logos/gyn-logo-80.webp" width="127" height="38" alt="GYN, Global Youth Network">
   </a>
   <ul class="nav-links" role="list">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Past events</a></li>
-    <li><a href="#">Upcoming events</a></li>
-    <li><a href="#">About</a></li>
-    <li><a href="#">Contact</a></li>
+    <li><a href="https://thegyn.org/">Home</a></li>
+    <li><a href="https://thegyn.org/fms-thailand/">Past events</a></li>
+    <li><a href="https://thegyn.org/sism-2026/">Upcoming events</a></li>
+    <li><a href="https://thegyn.org/about-us/">About</a></li>
+    <li><a href="https://thegyn.org/contact-us/">Contact</a></li>
   </ul>
   <a class="nav-book" href="https://thegyn.org/sism-forum-access/" target="_blank" rel="noopener">
     Book Forum Access, $199 <span class="arr" aria-hidden="true">&#8594;</span>
@@ -479,11 +474,11 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 
 <!-- mobile drawer -->
 <div class="nav-drawer" id="nav-drawer" aria-hidden="true" role="dialog" aria-label="Navigation menu">
-  <a href="#" tabindex="-1">Home</a>
-  <a href="#" tabindex="-1">Past events</a>
-  <a href="#" tabindex="-1">Upcoming events</a>
-  <a href="#" tabindex="-1">About</a>
-  <a href="#" tabindex="-1">Contact</a>
+  <a href="https://thegyn.org/" tabindex="-1">Home</a>
+  <a href="https://thegyn.org/fms-thailand/" tabindex="-1">Past events</a>
+  <a href="https://thegyn.org/sism-2026/" tabindex="-1">Upcoming events</a>
+  <a href="https://thegyn.org/about-us/" tabindex="-1">About</a>
+  <a href="https://thegyn.org/contact-us/" tabindex="-1">Contact</a>
   <a class="d-book" href="https://thegyn.org/sism-forum-access/" target="_blank" rel="noopener" tabindex="-1">Book Forum Access, $199</a>
 </div>
 
@@ -727,12 +722,12 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
     <h2 class="sec-h2 split-h" id="wwd-h2">Six ways we work on the world.</h2>
     <p class="wwd-poster" role="list" aria-label="Six ways we work on the world">
       <span class="wwd-item wwd-rom" role="listitem" tabindex="0"
-        data-desc="GYN hosts international forums, workshops and summits to promote dialogue on Sustainable Development Goals.">Conferences</span><span class="wwd-sep wwd-s4" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-ser" role="listitem" tabindex="0"
-        data-desc="A collaborative platform of mentorship, technical support and resource sharing for global challenges.">Networking</span><span class="wwd-sep wwd-s5" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-rom" role="listitem" tabindex="0"
-        data-desc="Preparing a new generation of leaders to navigate complexity with foresight and measurable global impact.">Leadership Development</span><span class="wwd-sep wwd-s9" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-ser" role="listitem" tabindex="0"
-        data-desc="Cross-border dialogue and strategic partnerships to solve the world's most complex challenges.">Collaborative Networks</span><span class="wwd-sep wwd-s13" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-rom" role="listitem" tabindex="0"
-        data-desc="Tailor-made, hands-on mentoring to help youth become effective global leaders.">Youth Mentoring</span><span class="wwd-sep wwd-s4" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-ser" role="listitem" tabindex="0"
-        data-desc="Building leadership capacities and policy expertise for future-ready governance.">Workshops &amp; Trainings</span>
+        data-desc="GYN hosts international forums, workshops and summits to promote dialogue on Sustainable Development Goals">Conferences</span><span class="wwd-sep wwd-s4" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-ser" role="listitem" tabindex="0"
+        data-desc="The GYN empowers the next generation by providing a collaborative ecosystem of mentorship, technical support and resource sharing to address the world’s most pressing challenges">Networking</span><span class="wwd-sep wwd-s5" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-rom" role="listitem" tabindex="0"
+        data-desc="Empowering a new generation of leaders to navigate complexity with visionary foresight, unwavering integrity and measurable global impact">Leadership Development</span><span class="wwd-sep wwd-s9" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-ser" role="listitem" tabindex="0"
+        data-desc="Cultivating a global ecosystem of cross-border dialogue and strategic partnerships to unlock innovative solutions for the world’s most complex challenges">Collaborative Networks</span><span class="wwd-sep wwd-s13" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-rom" role="listitem" tabindex="0"
+        data-desc="Providing tailor-made and hands-on mentoring to youth to become effective leaders">Youth Mentoring</span><span class="wwd-sep wwd-s4" aria-hidden="true">&#8226;</span><span class="wwd-item wwd-ser" role="listitem" tabindex="0"
+        data-desc="Building leadership capacities and policy expertise for future-ready governance">Workshops &amp; Trainings</span>
     </p>
     <p class="wwd-cap" id="wwd-cap" aria-live="polite"></p>
   </div>
@@ -742,7 +737,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 <section class="summit sec bg-white" aria-labelledby="summit-h2">
   <div class="container">
     <h2 class="sec-h2 split-h" id="summit-h2">
-      One hundred seats. Four days. <em class="serif-i">Kuala Lumpur.</em>
+      One hundred seats. Four days. Kuala Lumpur.
     </h2>
     <div class="bento" role="list">
 
@@ -794,10 +789,13 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       </div>
 
       <!-- group pricing tile — full row after removing date duplicate -->
-      <div class="bt bt-6" style="background:var(--field)" role="listitem">
-        <div class="bento-lbl">Group pricing</div>
-        <div class="bento-h3">Bring your team.</div>
-        <div class="bento-body">Group discounts available. Email contact@thegyn.org</div>
+      <div class="bt bt-6 bt-grp" role="listitem">
+        <div>
+          <div class="bento-lbl">Group pricing</div>
+          <div class="bento-h3">Bring your team.</div>
+          <div class="bento-body">Group discounts available.</div>
+        </div>
+        <a class="btn-g bt-grp-a" href="mailto:contact@thegyn.org">contact@thegyn.org</a>
       </div>
 
     </div>
@@ -808,6 +806,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 <section class="prog sec" id="programme" aria-labelledby="prog-h2">
   <div class="container">
     <h2 class="sec-h2 split-h" id="prog-h2">Four days in Kuala Lumpur.</h2>
+    <p class="prog-note">Tentative schedule, as published by GYN.</p>
     <div class="prog-grid" role="list">
 
       <div class="prog-day" role="listitem">
@@ -873,49 +872,41 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 <!-- SPEAKERS -->
 <section class="spk sec bg-white" aria-labelledby="spk-h2">
   <div class="container">
-    <h2 class="sec-h2 split-h" id="spk-h2">Eight speakers. <em class="serif-i">One stage.</em></h2>
+    <h2 class="sec-h2 split-h" id="spk-h2">Eight speakers. One stage.</h2>
     <div class="spk-inner">
 
       <div class="spk-list" id="spk-list" role="list">
-        <div class="spk-row on" role="listitem" tabindex="0" data-idx="0"
-          aria-label="Julie Victoire, International Youth Advocate, Speaker, Australian Education Leader, Founder The Rise Edit">
+        <div class="spk-row on" role="listitem" tabindex="0" data-idx="0">
           <div class="spk-nm">Julie Victoire</div>
-          <div class="spk-title" aria-hidden="true">International Youth Advocate, Australian Education Leader, Founder The Rise Edit</div>
+          <div class="spk-title">International Youth Advocate, Australian Education Leader, Founder The Rise Edit</div>
         </div>
-        <div class="spk-row" role="listitem" tabindex="0" data-idx="1"
-          aria-label="Dr Mohd Farid bin Atan, Deputy Director, Sustainability, Universiti Malaysia Sarawak">
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="1">
           <div class="spk-nm">Dr Mohd Farid bin Atan</div>
-          <div class="spk-title" aria-hidden="true">Deputy Director (Sustainability), Universiti Malaysia Sarawak (UNIMAS)</div>
+          <div class="spk-title">Deputy Director (Sustainability), Universiti Malaysia Sarawak (UNIMAS)</div>
         </div>
-        <div class="spk-row" role="listitem" tabindex="0" data-idx="2"
-          aria-label="Ayman William Hermansson, Assistant Professor, Heriot-Watt University Malaysia">
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="2">
           <div class="spk-nm">Ayman William Hermansson</div>
-          <div class="spk-title" aria-hidden="true">Assistant Professor, Heriot-Watt University Malaysia</div>
+          <div class="spk-title">Assistant Professor, Heriot-Watt University Malaysia</div>
         </div>
-        <div class="spk-row" role="listitem" tabindex="0" data-idx="3"
-          aria-label="Syed Bilal Qasim, CEO Techsol Space">
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="3">
           <div class="spk-nm">Syed Bilal Qasim</div>
-          <div class="spk-title" aria-hidden="true">CEO Techsol Space, Project Director CEGA</div>
+          <div class="spk-title">CEO Techsol Space, Project Director CEGA</div>
         </div>
-        <div class="spk-row" role="listitem" tabindex="0" data-idx="4"
-          aria-label="Sapargulay Mahtumov, Youth Coordinator, MySDG Academy">
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="4">
           <div class="spk-nm">Sapargulay Mahtumov</div>
-          <div class="spk-title" aria-hidden="true">Youth Coordinator, MySDG Academy, Malaysia</div>
+          <div class="spk-title">Youth Coordinator, MySDG Academy, Malaysia</div>
         </div>
-        <div class="spk-row" role="listitem" tabindex="0" data-idx="5"
-          aria-label="Jasmine Cannon-Ikurusi, CEO and Founder The Sapphire Employability and Wellbeing Academy">
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="5">
           <div class="spk-nm">Jasmine Cannon-Ikurusi</div>
-          <div class="spk-title" aria-hidden="true">CEO &amp; Founder The Sapphire Employability &amp; Wellbeing Academy, London, UK</div>
+          <div class="spk-title">CEO &amp; Founder The Sapphire Employability &amp; Wellbeing Academy, London, UK</div>
         </div>
-        <div class="spk-row" role="listitem" tabindex="0" data-idx="6"
-          aria-label="Ashley Blake, Head of Partnership vrCAVE Canada">
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="6">
           <div class="spk-nm">Ashley Blake</div>
-          <div class="spk-title" aria-hidden="true">Head of Partnership vrCAVE Canada</div>
+          <div class="spk-title">Head of Partnership vrCAVE Canada</div>
         </div>
-        <div class="spk-row" role="listitem" tabindex="0" data-idx="7"
-          aria-label="Arumita Mitra, Founder Sudhamta Foundation India, TedX Speaker, UN SDG Advocate">
+        <div class="spk-row" role="listitem" tabindex="0" data-idx="7">
           <div class="spk-nm">Arumita Mitra</div>
-          <div class="spk-title" aria-hidden="true">Founder Sudhamta Foundation India, TedX Speaker, UN SDG Advocate</div>
+          <div class="spk-title">Founder Sudhamta Foundation India, TedX Speaker, UN SDG Advocate</div>
         </div>
       </div>
 
@@ -948,16 +939,15 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
 <section class="past sec" aria-labelledby="past-h2">
   <div class="container">
     <h2 class="sec-h2 split-h" id="past-h2">
-      Bangkok, July 2026. <em class="serif-i">We were there.</em>
+      Bangkok, July 2026. We were there.
     </h2>
     <p style="margin-top:16px;font-size:var(--t-lead);color:var(--navy);max-width:560px;line-height:1.4">
       Our first summit, the FutureMinds Summit Thailand, brought over 70 young leaders
       to Bangkok. Kuala Lumpur is next.
     </p>
     <!-- highlight video card -->
-    <div class="vid-wrap" id="vid-wrap" role="button" tabindex="0"
-      aria-label="Play FutureMinds Summit 2026 Day 1 Highlights video"
-      data-id="Aqqo3cL4W6w" data-title="FutureMinds Summit 2026 – Day 1 Highlights">
+    <a class="vid-wrap" id="vid-wrap" href="https://youtu.be/Aqqo3cL4W6w" target="_blank" rel="noopener"
+      aria-label="Watch FutureMinds Summit 2026 Day 1 Highlights on YouTube">
       <img src="assets/video/Aqqo3cL4W6w.jpg"
         alt="FutureMinds Summit 2026 Day 1 Highlights video thumbnail" loading="lazy">
       <div class="play-btn" aria-hidden="true">
@@ -967,7 +957,7 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
           </svg>
         </div>
       </div>
-    </div>
+    </a>
     <!-- photo strip -->
     <div class="past-strip" role="list" tabindex="0" aria-label="FMS Bangkok photos, July 2026">
       <div class="past-img" role="listitem">
@@ -1112,10 +1102,10 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
       <div class="f-col">
         <h2>Links</h2>
         <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About us</a></li>
-          <li><a href="#">FMS Thailand</a></li>
-          <li><a href="#">Contact us</a></li>
+          <li><a href="https://thegyn.org/">Home</a></li>
+          <li><a href="https://thegyn.org/about-us/">About us</a></li>
+          <li><a href="https://thegyn.org/fms-thailand/">FMS Thailand</a></li>
+          <li><a href="https://thegyn.org/contact-us/">Contact us</a></li>
           <li><a href="https://global-youth-network.getrewardful.com/login" target="_blank" rel="noopener">Affiliate login</a></li>
         </ul>
       </div>
@@ -1149,29 +1139,14 @@ h1,h2,h3,h4{font-weight:600;line-height:1.06;letter-spacing:-0.012em;text-wrap:b
   </div>
 </footer>
 
-<!-- VIDEO MODAL -->
-<div class="modal-bg" id="vid-modal" role="dialog" aria-modal="true" aria-labelledby="modal-ttl" aria-hidden="true">
-  <div class="modal-box">
-    <div class="modal-head">
-      <span class="modal-ttl" id="modal-ttl">Video</span>
-      <button class="modal-x" id="modal-close" aria-label="Close video">&#215;</button>
-    </div>
-    <div class="modal-body">
-      <img class="modal-thumb" id="modal-thumb" src="" alt="">
-      <a class="modal-link" id="modal-link" href="#" target="_blank" rel="noopener">
-        Watch on YouTube &#8599;
-      </a>
-    </div>
-  </div>
-</div>
 <script>
-/* ── utility ───────────────────────────────────────────── */
+/* utility */
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const desktop = () => window.innerWidth >= 1024;
 
-/* ── nav scroll ────────────────────────────────────────── */
+/* nav scroll */
 const nav = $('#site-nav');
 const onScroll = () => {
   if (window.scrollY > 40) nav.dataset.s = '1';
@@ -1180,23 +1155,27 @@ const onScroll = () => {
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
-/* ── mobile nav ────────────────────────────────────────── */
+/* mobile nav */
 const ham = $('#nav-ham');
 const drawer = $('#nav-drawer');
 ham.addEventListener('click', () => {
   const open = drawer.classList.toggle('open');
   ham.setAttribute('aria-expanded', open);
+  ham.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  document.documentElement.style.overflow = open ? 'hidden' : '';
+  ['main', 'footer', '.skip'].forEach(sel => { const el = $(sel); if (el) el.inert = open; });
   drawer.setAttribute('aria-hidden', !open);
   $$('a', drawer).forEach(a => a.setAttribute('tabindex', open ? '0' : '-1'));
 });
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && drawer.classList.contains('open')) ham.click();
+  if (e.key === 'Escape' && drawer.classList.contains('open')) { ham.click(); ham.focus(); }
 });
+$$('a', drawer).forEach(a => a.addEventListener('click', () => { if (drawer.classList.contains('open')) ham.click(); }));
 
-/* ── countdown ─────────────────────────────────────────── */
+/* countdown */
 (function countdown() {
-  /* summit start: 19 Nov 2026 09:00 MYT (UTC+8) */
-  const target = new Date('2026-11-19T01:00:00Z').getTime();
+  /* content gives the date only: count to the start of 19 Nov 2026 in KL (UTC+8) */
+  const target = new Date('2026-11-18T16:00:00Z').getTime();
   const tick = () => {
     const diff = target - Date.now();
     if (diff <= 0) {
@@ -1217,7 +1196,7 @@ document.addEventListener('keydown', e => {
   setInterval(tick, 1000);
 })();
 
-/* ── what-we-do type poster: hover/focus reveals caption ─ */
+/* what-we-do type poster: hover/focus reveals caption */
 const wwdCap = document.getElementById('wwd-cap');
 $$('.wwd-item').forEach(item => {
   const show = () => {
@@ -1236,7 +1215,7 @@ $$('.wwd-item').forEach(item => {
   item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(); } });
 });
 
-/* ── speakers photo reveal ─────────────────────────────── */
+/* speakers photo reveal */
 const spkRows = $$('.spk-row');
 const spkImgs = $$('.spk-img');
 function activateSpeaker(idx) {
@@ -1257,42 +1236,13 @@ spkRows.forEach((row, i) => {
   });
 });
 
-/* ── video modal ───────────────────────────────────────── */
-const modal = $('#vid-modal');
-const modalThumb = $('#modal-thumb');
-const modalLink = $('#modal-link');
-const modalTtl = $('#modal-ttl');
-const modalClose = $('#modal-close');
-function openModal(id, title) {
-  modalThumb.src = 'assets/video/' + id + '.jpg';
-  modalThumb.alt = title;
-  modalLink.href = 'https://youtu.be/' + id;
-  modalTtl.textContent = title;
-  modal.classList.add('open');
-  modal.setAttribute('aria-hidden', 'false');
-  modalClose.focus();
-}
-function closeModal() {
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden', 'true');
-}
-$('#vid-wrap').addEventListener('click', function() {
-  openModal(this.dataset.id, this.dataset.title);
-});
-$('#vid-wrap').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(this.dataset.id, this.dataset.title); }
-});
-modalClose.addEventListener('click', closeModal);
-modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-/* ── photo pills entrance ──────────────────────────────── */
+/* photo pills entrance */
 const pillObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
 }, { threshold: 0.3 });
 $$('.photo-pill').forEach(p => pillObs.observe(p));
 
-/* ── SDG video in-view play/pause ──────────────────────── */
+/* SDG video in-view play/pause */
 const vidObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     const v = e.target;
@@ -1328,15 +1278,14 @@ if (closingVid && !reduced) {
   closingObs.observe(closingVid);
 }
 
-/* ── GSAP (loads deferred) ──────────────────────────────── */
+/* GSAP (loads deferred) */
 document.addEventListener('DOMContentLoaded', function() { setTimeout(function initGSAP() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
   /* ── hero canvas sequence ──────────────────────────────
      Desktop ≥1024px only. 72 frames at assets/r3/hero-wheel-seq/NNNN.webp
-     Frames load progressively after first paint.
-  ────────────────────────────────────────────────────────── */
+     Frames load progressively after first paint. */
   if (desktop() && !reduced) {
     const canvas = document.getElementById('hero-canvas');
     const ctx = canvas.getContext('2d');
@@ -1386,6 +1335,10 @@ document.addEventListener('DOMContentLoaded', function() { setTimeout(function i
         /* use will-change:transform only during animation */
         heroText.style.opacity = String(Math.max(1 - p * 1.1, 0));
         heroText.style.transform = 'translateY(' + (-64 * p) + 'px)';
+        /* wheel rises to centre as the headline leaves, so the pinned screen is never half empty */
+        const q = Math.min(self.progress / 0.5, 1);
+        const lift = heroWheel.offsetTop - Math.max((innerHeight - heroWheel.offsetHeight) / 2, 72);
+        heroWheel.style.transform = 'translateY(' + (-lift * q) + 'px)';
         /* scrub canvas frames across full scroll duration */
         const idx = Math.min(
           Math.floor(self.progress * (totalFrames - 1)),
@@ -1398,8 +1351,7 @@ document.addEventListener('DOMContentLoaded', function() { setTimeout(function i
 
   /* ── SDG stacked chapters ──────────────────────────────
      Each chapter is already sticky via CSS.
-     GSAP adds the slide-in for the chapter above as the next arrives.
-  ────────────────────────────────────────────────────────── */
+     GSAP adds the slide-in for the chapter above as the next arrives. */
   if (desktop() && !reduced) {
     const chapters = $$('.sdg-ch');
     chapters.forEach((ch, i) => {
@@ -1408,7 +1360,7 @@ document.addEventListener('DOMContentLoaded', function() { setTimeout(function i
     });
   }
 
-  /* ── SDG index highlight ───────────────────────────────── */
+  /* SDG index highlight */
   const sdgIdx = document.getElementById('sdg-idx');
   const sdgIdxItems = $$('.sdg-idx-i');
   $$('.sdg-ch').forEach(ch => {
@@ -1441,8 +1393,7 @@ document.addEventListener('DOMContentLoaded', function() { setTimeout(function i
 
   /* ── SplitText H2 line reveals ─────────────────────────
      Only on .split-h elements. Content starts visible;
-     GSAP adds a clip-mask reveal that enhances, never hides.
-  ────────────────────────────────────────────────────────── */
+     GSAP adds a clip-mask reveal that enhances, never hides. */
   if (!reduced && typeof SplitText !== 'undefined') {
     gsap.registerPlugin(SplitText);
     $$('.split-h').forEach(el => {
@@ -1471,7 +1422,7 @@ document.addEventListener('DOMContentLoaded', function() { setTimeout(function i
     });
   }
 
-  /* ── hero H1 entrance ──────────────────────────────────── */
+  /* hero H1 entrance */
   if (!reduced) {
     gsap.from('.hero-h1', { y: 40, duration: 0.9, ease: 'power3.out', delay: 0.1 });
     gsap.from('.hero-lead', { y: 28, duration: 0.8, ease: 'power3.out', delay: 0.22 });
@@ -1479,17 +1430,7 @@ document.addEventListener('DOMContentLoaded', function() { setTimeout(function i
     gsap.from('.hero-cd', { opacity: 0, duration: 0.5, delay: 0.5 });
   }
 
-  /* ── programme row highlight follows pointer ───────────── */
-  $$('.prog-day').forEach(day => {
-    day.addEventListener('mouseenter', () => {
-      day.style.background = 'rgba(14,21,48,.04)';
-    });
-    day.addEventListener('mouseleave', () => {
-      day.style.background = '';
-    });
-  });
-
-  /* ── section entrance for non-SDG sections ─────────────── */
+  /* section entrance for non-SDG sections */
   if (!reduced) {
     ['.ppl-desc','.ppl-facts','.ppl-strip',
      '.wwd-list','.bento','.prog-grid',

@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+@theme {
+  /* === COLOUR TOKENS (from G: Deep Field) === */
+  --color-blue-deep: #00689D;
+  --color-blue-ocean: #0A97D9;
+  --color-blue-sky: #26BDE2;
+  --color-navy-900: #0E1530;
+  --color-navy-800: #16204A;
+  --color-navy-700: #202F60;
+  --color-navy-500: #3A4C8C;
+  --color-navy-300: #8E9BCB;
+  --color-navy-100: #E3E7F4;
+  --color-yellow: #FCC30B;
+  --color-yellow-dk: #D6A200;
+  --color-crimson-600: #C52035;
+  --color-crimson-500: #E0334A;
+  --color-ember-500: #F2692C;
+  --color-leaf-600: #48783F;
+  --color-sdg4: #C5192D;
+  --color-sdg5: #FF3A21;
+  --color-sdg9: #FD6925;
+  --color-sdg13: #3F7E44;
+  --color-paper: #F7F7F4;
+  --color-n-0: #FFFFFF;
+  --color-n-50: #F7F7F4;
+  --color-n-100: #EEEEE9;
+  --color-n-200: #DCDCD5;
+  --color-n-300: #BDBDB5;
+  --color-n-400: #9A9A93;
+  --color-n-500: #76766F;
+  --color-n-600: #5A5A55;
+  --color-n-700: #3F3F3C;
+  --color-n-800: #262624;
+  --color-n-900: #141413;
+
+  /* === TYPE === */
+  --font-display: 'Krona One', Georgia, serif;
+  --font-body: 'Schibsted Grotesk', system-ui, sans-serif;
+
+  /* === SPACING SCALE (fluid) === */
+  --spacing-gut: clamp(1rem, 4vw, 3.5rem);
+  --spacing-section: clamp(3rem, 6vw, 6rem);
+
+  /* === RADIUS === */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-logo: 6px;
+
+  /* === MOTION === */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 140ms;
+  --duration-base: 200ms;
+}
+
+/* === CSS CUSTOM PROPERTIES for non-Tailwind use === */
+:root {
+  --blue-deep: #00689D;
+  --blue-ocean: #0A97D9;
+  --blue-sky: #26BDE2;
+  --navy-900: #0E1530;
+  --navy-800: #16204A;
+  --navy-700: #202F60;
+  --yellow: #FCC30B;
+  --yellow-dk: #D6A200;
+  --white: #FFFFFF;
+  --paper: #F7F7F4;
+  --n-100: #EEEEE9;
+  --n-200: #DCDCD5;
+  --n-400: #9A9A93;
+  --n-600: #5A5A55;
+  --n-700: #3F3F3C;
+  --crimson-600: #C52035;
+  --sdg4: #C5192D;
+  --sdg5: #FF3A21;
+  --sdg9: #FD6925;
+  --sdg13: #3F7E44;
+  --fd: 'Krona One', Georgia, serif;
+  --fb: 'Schibsted Grotesk', system-ui, sans-serif;
+  --gut: clamp(1rem, 4vw, 3.5rem);
+  --sp: clamp(3rem, 6vw, 6rem);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fb);
+  background: var(--white);
+  color: var(--navy-900);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Prevent horizontal overflow on sections */
+section, footer { overflow-x: clip; }
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+
+:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+/* Prefers-reduced-motion: disable all transitions and globe video */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High-contrast overrides: ensure borders are visible */
+@media (forced-colors: active) {
+  .btn { border: 2px solid ButtonText; }
+}
+
+/* === LAYOUT === */
+.wrap {
+  width: min(100%, 1280px);
+  margin-inline: auto;
+  padding-inline: var(--gut);
+}
+
+/* === TYPE SCALE === */
+/* Krona One is very wide; at 360px inner width = 328px, "INNOVATION" must fit: clamp bottoms at 1.25rem */
+.d1 { font-family: var(--fd); font-size: clamp(1.25rem, 4vw, 3.75rem); line-height: 1.04; }
+.d2 { font-family: var(--fd); font-size: clamp(1.4rem, 3vw, 2.5rem); line-height: 1.1; }
+.d3 { font-family: var(--fd); font-size: clamp(1rem, 1.8vw, 1.4rem); line-height: 1.2; }
+
+/* === BUTTONS === */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--fb);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.btn-y  { background: var(--yellow); color: var(--navy-900); }
+.btn-y:hover { background: var(--yellow-dk); }
+.btn-ow { background: transparent; color: var(--white); border: 2px solid var(--white); }
+.btn-ow:hover { background: var(--white); color: var(--navy-900); }
+.btn-n  { background: var(--navy-900); color: var(--white); }
+.btn-n:hover { background: var(--navy-800); }
+
+/* === LOGO CHIP === */
+/* Navy wordmark disappears on dark backgrounds, so the logo sits on a white chip */
+.logo-chip {
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* === STAT TILES === */
+.t-y  { background: var(--yellow); }
+.t-y .stat-n, .t-y .stat-l { color: var(--navy-900); }
+.t-w  { background: var(--white); }
+.t-w .stat-n, .t-w .stat-l { color: var(--navy-900); }
+.t-c  { background: var(--blue-sky); }
+.t-c .stat-n, .t-c .stat-l { color: var(--navy-900); }
+.t-b  { background: var(--blue-deep); }
+.t-b .stat-n { color: var(--yellow); }
+.t-b .stat-l { color: rgba(255, 255, 255, 0.75); }
+
+/* === SCREEN READER ONLY === */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* === RESPONSIVE GRIDS === */
+/* These fix overflow on narrow viewports for inline-style grids in page.tsx */
+@media (max-width: 768px) {
+  .hero-grid { grid-template-columns: 1fr !important; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .stats-grid .stat-span2 { grid-column: span 1 !important; }
+  .who-grid { grid-template-columns: 1fr !important; }
+  .sdg-grid { grid-template-columns: 1fr 1fr !important; }
+  .tick-grid { grid-template-columns: 1fr !important; }
+  .spk-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .adv-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .amb-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .gal-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .summits-grid { grid-template-columns: 1fr !important; }
+  .vid-grid { grid-template-columns: 1fr !important; }
+  .ft-grid { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr !important; }
+  .sdg-grid { grid-template-columns: 1fr !important; }
+  .spk-grid { grid-template-columns: 1fr !important; }
+  .ft-grid { grid-template-columns: 1fr !important; }
+}

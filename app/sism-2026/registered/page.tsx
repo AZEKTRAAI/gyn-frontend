@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { TICKETS, type TicketId } from '@/features/registration/schema'
+import { ClearRegistrationStorage } from '@/features/registration/ui/ClearRegistrationStorage'
 
 export const metadata: Metadata = {
   title: 'Registration confirmed — SISM 2026',
@@ -107,6 +108,9 @@ export default async function RegisteredPage({ searchParams }: Props) {
         <Link href="/sism-2026" style={{ fontSize: '0.9375rem', color: 'var(--blue-deep)', textDecoration: 'underline' }}>
           Back to the summit page
         </Link>
+
+        {/* Clear saved form data now that registration succeeded (RT-057) */}
+        {ticketParam && <ClearRegistrationStorage ticket={ticketParam} />}
       </div>
     </main>
   )

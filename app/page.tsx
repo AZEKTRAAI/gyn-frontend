@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Global Youth Network – GYN',
     description: 'SDG Innovation Summit Malaysia 2026: 100 young leaders, 19–22 November, Teedo Hotel, Kuala Lumpur.',
-    images: [{ url: '/media/og/sism-2026-og.jpg', width: 1200, height: 630 }],
+    images: [{ url: '/og/sism-2026-og.jpg', width: 1200, height: 630 }],
   },
 }
 
@@ -61,9 +61,9 @@ export default async function HomePage() {
       id: 'sism-2026',
       label: 'SISM Malaysia 2026',
       title: ['SDG Innovation', 'Summit Malaysia'],
-      meta: `${sism.dates.display} — ${sism.venue}, ${sism.city}`,
+      meta: `${sism.dates.display} / ${sism.venue}, ${sism.city}`,
       imageSrc: '/media/hero/sism-2026-hero-visual.webp',
-      imageAlt: 'SDG Innovation Summit Malaysia 2026 — Kuala Lumpur',
+      imageAlt: 'SDG Innovation Summit Malaysia 2026, Kuala Lumpur',
       accentColor: '#00689D',
       status: 'Next summit',
       cta: { label: 'Book Forum Access, $199', href: '/sism-forum-access' },
@@ -72,7 +72,7 @@ export default async function HomePage() {
       id: 'fmst-2026',
       label: 'FMS Thailand 2026',
       title: ['FutureMinds Summit', 'Thailand'],
-      meta: `${fmst.dates.display} — ${fmst.venue}, ${fmst.city}`,
+      meta: `${fmst.dates.display} / ${fmst.venue}, ${fmst.city}`,
       imageSrc: '/media/gallery/fmst-dsc01881-1.webp',
       imageAlt: 'FutureMinds Summit Thailand, Bangkok 2026',
       accentColor: '#C52035',
@@ -83,9 +83,13 @@ export default async function HomePage() {
 
   const ticketTiers: Tier[] = sism.ticketTypes
     .filter((t: TicketType) => t.id !== 'forum-access-discounted')
+    // open tiers first so $199 is visible without scrolling (RT-054)
+    .sort((a: TicketType, b: TicketType) => (a.status === 'closed' ? 1 : 0) - (b.status === 'closed' ? 1 : 0))
     .map((t: TicketType) => ({
       id: t.id,
-      name: t.name.charAt(0) + t.name.slice(1).toLowerCase(),
+      // "PARTIALLY SCHOLARSHIP" is the client's source name; use our own label (RT-048)
+      name: t.id === 'partially-funded' ? 'Partial scholarship'
+          : t.name.charAt(0) + t.name.slice(1).toLowerCase(),
       price: t.status === 'closed' ? 'Closed' : `$${t.price}`,
       priceLabel: t.status === 'closed' ? 'Applications closed' : 'USD, flights not included',
       description: t.status === 'closed'
@@ -166,11 +170,12 @@ export default async function HomePage() {
               />
               <GlobeVideo />
             </div>
+            {/* anchor right so the photo never overlaps the countdown column (RT-046) */}
             <figure
               style={{
                 position: 'absolute',
                 bottom: '-0.5rem',
-                left: '-0.75rem',
+                right: 0,
                 width: '46%',
                 margin: 0,
                 zIndex: 2,
@@ -194,7 +199,12 @@ export default async function HomePage() {
         {/* Photo strip */}
         <div style={{ background: 'rgba(0,0,0,.28)', paddingBlock: '1.25rem' }}>
           <div className="wrap">
-            <div style={{ display: 'flex', gap: '1rem', overflowX: 'auto', scrollbarWidth: 'none' }}>
+            <div
+              role="region"
+              aria-label="FutureMinds Summit Bangkok photo strip"
+              tabIndex={0}
+              style={{ display: 'flex', gap: '1rem', overflowX: 'auto', scrollbarWidth: 'none' }}
+            >
               {GALLERY.slice(1, 7).map((photo) => (
                 <figure key={photo.src} style={{ flexShrink: 0, width: '110px', margin: 0 }}>
                   <Image
@@ -220,9 +230,10 @@ export default async function HomePage() {
       <section aria-label="Summit at a glance" style={{ background: 'var(--navy-900)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
           <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
+            {/* counts sourced from content/events.json: seats=100, scholarships.total=30, focusSdgs.length=4, speakers.length=8 */}
             <div className="t-y stat-span2" style={{ padding: '1.5rem 1.25rem', gridColumn: 'span 2' }}>
               <span className="d2 stat-n" style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', lineHeight: 1, display: 'block' }}>100</span>
-              <span className="stat-l" style={{ fontSize: '0.8125rem', lineHeight: 1.45, marginTop: '0.5rem', display: 'block' }}>seats (30 scholarships) — Kuala Lumpur, Nov 2026</span>
+              <span className="stat-l" style={{ fontSize: '0.8125rem', lineHeight: 1.45, marginTop: '0.5rem', display: 'block' }}>seats (30 scholarships), Kuala Lumpur, Nov 2026</span>
             </div>
             <div className="t-w" style={{ padding: '1.5rem 1.25rem' }}>
               <span className="d2 stat-n" style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', lineHeight: 1, display: 'block' }}>4</span>
@@ -230,21 +241,19 @@ export default async function HomePage() {
             </div>
             <div className="t-c" style={{ padding: '1.5rem 1.25rem' }}>
               <span className="d2 stat-n" style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', lineHeight: 1, display: 'block' }}>8</span>
-              <span className="stat-l" style={{ fontSize: '0.8125rem', lineHeight: 1.45, marginTop: '0.5rem', display: 'block' }}>confirmed speakers</span>
-            </div>
-            <div className="t-b" style={{ padding: '1.5rem 1.25rem' }}>
-              <span className="d2 stat-n" style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', lineHeight: 1, color: 'var(--yellow)', display: 'block' }}>17</span>
-              <span className="stat-l" style={{ fontSize: '0.8125rem', lineHeight: 1.45, marginTop: '0.5rem', display: 'block', color: 'rgba(255,255,255,.75)' }}>countries represented</span>
+              <span className="stat-l" style={{ fontSize: '0.8125rem', lineHeight: 1.45, marginTop: '0.5rem', display: 'block' }}>speakers</span>
             </div>
             <div className="t-b" style={{ padding: '1.5rem 1.25rem' }}>
               <span className="d2 stat-n" style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', lineHeight: 1, color: 'var(--yellow)', display: 'block' }}>$1,000</span>
-              <span className="stat-l" style={{ fontSize: '0.8125rem', lineHeight: 1.45, marginTop: '0.5rem', display: 'block', color: 'rgba(255,255,255,.75)' }}>seed grant for the best delegate project</span>
+              <span className="stat-l" style={{ fontSize: '0.8125rem', lineHeight: 1.45, marginTop: '0.5rem', display: 'block', color: 'var(--white)' }}>seed grant for the best delegate project</span>
             </div>
             <div className="t-y" style={{ padding: '1.5rem 1.25rem' }}>
-              <span className="d2 stat-n" style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', lineHeight: 1, display: 'block' }}>2</span>
-              <span className="stat-l" style={{ fontSize: '0.8125rem', lineHeight: 1.45, marginTop: '0.5rem', display: 'block' }}>GYN summits since 2026</span>
+              {/* 1 past summit: FMS Thailand held July 2026. SISM is next, not yet held. */}
+              <span className="d2 stat-n" style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', lineHeight: 1, display: 'block' }}>1</span>
+              <span className="stat-l" style={{ fontSize: '0.8125rem', lineHeight: 1.45, marginTop: '0.5rem', display: 'block' }}>past GYN summit (FMS Thailand)</span>
             </div>
             <div className="t-w" style={{ padding: '1.5rem 1.25rem' }}>
+              {/* participants count from content/events.json fmst-2026.participants */}
               <span className="d2 stat-n" style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.8rem, 4vw, 3rem)', lineHeight: 1, display: 'block' }}>70+</span>
               <span className="stat-l" style={{ fontSize: '0.8125rem', lineHeight: 1.45, marginTop: '0.5rem', display: 'block' }}>delegates at FutureMinds Summit Thailand 2026</span>
             </div>
@@ -286,8 +295,9 @@ export default async function HomePage() {
           <SplitReveal id="from-hd" lines={["Where we're from"]} className="d2" as="h2"
             style={{ color: 'var(--navy-900)' }}
           />
+          {/* 12 ambassadors: count of AMBASSADORS entries; 11 countries: distinct country values in AMBASSADORS */}
           <p style={{ fontSize: '0.9375rem', color: 'var(--n-600)', marginBottom: '2rem', marginTop: '0.75rem' }}>
-            12 ambassadors representing 11 countries, alongside 8 advisors from 9 countries.
+            12 ambassadors from 11 countries, with 8 global advisors.
           </p>
           <CountryTablist
             tabs={[

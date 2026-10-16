@@ -7,7 +7,7 @@ import { DeckSlider, type Speaker as DeckSpeaker } from '@/components/premium/De
 import { TransitionLink } from '@/components/premium/PageTransition'
 import { HomeVideosSection } from '@/components/HomeVideosSection'
 import { type VideoItem } from '@/components/premium/CoverflowVideos'
-import { GALLERY, SPEAKERS } from '@/features/media/media'
+import { GALLERY, SPEAKERS, ADVISORY, LOGOS } from '@/features/media/media'
 
 export async function generateMetadata(): Promise<Metadata> {
   const { meta } = await cms.getPage('fms-thailand')
@@ -36,17 +36,21 @@ export default async function FmsThailandPage() {
       return acc
     }, [])
 
-  // Speaker slug → media.ts image mapping (by last name match)
+  // Speaker image lookup: check SPEAKERS manifest, then ADVISORY board, by last name.
+  // Wenbo Li and Sura Fitiani are in ADVISORY (their /media/advisory/ paths 404ed — RT fix).
+  // Speakers with no matching image get the GYN logo placeholder; never a gallery photo.
   const speakerSrcMap: Record<string, string> = {
     'Ashley Blake': SPEAKERS['speaker.ashley-blake']?.src ?? '',
-    'Wenbo Li': '/media/advisory/wenbo-li.webp',
-    'Sura Fitiani': '/media/speakers/sura-fitiani.jpg',
+    'Wenbo Li': ADVISORY['advisory.wenbo-li']?.src ?? '',
+    'Sura Fitiani': ADVISORY['advisory.sura-fitiani']?.src ?? '',
   }
 
-  const deckSpeakers: DeckSpeaker[] = fmst.speakers.map((s, i) => {
+  const deckSpeakers: DeckSpeaker[] = fmst.speakers.map((s) => {
+    const lastName = s.name.split(' ').pop()?.toLowerCase() ?? ''
     const imgSrc = speakerSrcMap[s.name]
-      ?? Object.values(SPEAKERS).find((x) => x.alt.toLowerCase().includes(s.name.split(' ')[1]?.toLowerCase() ?? ''))?.src
-      ?? GALLERY[i % GALLERY.length].src
+      ?? Object.values(SPEAKERS).find((x) => x.alt.toLowerCase().includes(lastName))?.src
+      ?? Object.values(ADVISORY).find((x) => x.alt.toLowerCase().includes(lastName))?.src
+      ?? LOGOS['logo.gyn'].src // no headshot: use GYN logo, never a gallery photo
 
     return {
       id: s.name.toLowerCase().replace(/\s+/g, '-'),
@@ -100,7 +104,15 @@ export default async function FmsThailandPage() {
         </div>
 
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
-          {/* Event badge */}
+          <SplitReveal
+            id="fmst-title"
+            lines={['FutureMinds Summit', 'Thailand 2026']}
+            as="h1"
+            className="d1"
+            style={{ color: 'var(--white)', marginBottom: '0.75rem' }}
+          />
+
+          {/* PAST SUMMIT label sits below H1, not above it (ai-tells rule 3; RT-065) */}
           <span
             style={{
               display: 'inline-block',
@@ -116,20 +128,12 @@ export default async function FmsThailandPage() {
             PAST SUMMIT
           </span>
 
-          <SplitReveal
-            id="fmst-title"
-            lines={['FutureMinds Summit', 'Thailand 2026']}
-            as="h1"
-            className="d1"
-            style={{ color: 'var(--white)', marginBottom: '1rem' }}
-          />
-
           <p style={{ fontSize: 'clamp(.8rem, 1.3vw, .9375rem)', color: 'rgba(255,255,255,.75)', marginBottom: '1.5rem' }}>
-            {fmst.dates.display} — {fmst.venue}, {fmst.city} — {fmst.participants}+ participants
+            {fmst.dates.display} / {fmst.venue}, {fmst.city} / {fmst.participants}+ participants
           </p>
 
           <p style={{ fontSize: 'clamp(.875rem, 1.4vw, 1.0625rem)', color: 'rgba(255,255,255,.9)', lineHeight: 1.65, maxWidth: '56ch', marginBottom: '2.5rem' }}>
-            The inaugural GYN summit. Four days in Bangkok uniting 70+ young leaders, researchers and innovators around four UN Sustainable Development Goals.
+            The inaugural GYN summit. Four days in Bangkok, Thailand, July 2026. Over 70 young leaders, researchers and innovators exploring sustainability through innovative minds.
           </p>
 
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>

@@ -3,7 +3,7 @@
 /**
  * PitchClient — Sunday pitch demo page.
  * (a) Before/after comparison slider (keyboard-operable, role="slider")
- * (b) Metrics cards with animated counters (proven numbers only; Lighthouse pending)
+ * (b) Metrics cards (Lighthouse from docs/lighthouse/*.report.json via props)
  * (c) Premium component showcase
  * (d) Live-site issues found in the 15 Oct 2026 crawl of thegyn.org
  */
@@ -13,6 +13,13 @@ import Image from 'next/image'
 import { DeckSlider } from '@/components/premium/DeckSlider'
 import { ADVISORY } from '@/features/media/media'
 import styles from './pitch.module.css'
+
+interface LhScores { perf: number; a11y: number; bp: number; seo: number; date: string }
+
+interface Props {
+  lhHomeMobile: LhScores
+  lhHomeDesktop: LhScores
+}
 
 // ─── Before/After Slider ────────────────────────────────────────────────────
 
@@ -78,7 +85,7 @@ function BeforeAfterSlider() {
       {/* After (new site) — full width, clipped on right */}
       <Image
         src="/pitch/after.webp"
-        alt="New GYN website design"
+        alt="New thegyn.org design"
         fill
         sizes="(max-width: 1280px) 100vw, 1280px"
         style={{ objectFit: 'cover', objectPosition: 'top left' }}
@@ -159,7 +166,7 @@ function BeforeAfterSlider() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          outline: 'none',
+          outline: '2px solid transparent',
         }}
       >
         <div
@@ -202,7 +209,6 @@ function AnimatedCounter({ to, suffix = '' }: { to: number; suffix?: string }) {
         const start = performance.now()
         const tick = (now: number) => {
           const t = Math.min((now - start) / duration, 1)
-          // ease-out
           const ease = 1 - Math.pow(1 - t, 3)
           setCount(Math.round(ease * to))
           if (t < 1) requestAnimationFrame(tick)
@@ -217,34 +223,35 @@ function AnimatedCounter({ to, suffix = '' }: { to: number; suffix?: string }) {
 
   return (
     <span ref={ref}>
-      {count.toLocaleString()}
+      {count}
       {suffix}
     </span>
   )
 }
 
 // ─── Issues list (real live-site findings from crawl of thegyn.org, 15 Oct 2026) ──
+// Sources: docs/live-site-findings.md. Each item maps to a numbered finding.
 
 const LIVE_ISSUES = [
   {
     sev: 'Accessibility',
-    text: 'Brand yellow #FEFF00 on white scores 1.08:1. WCAG AA requires 4.5:1 for normal text. The colour appears in buttons and headings across the site.',
+    text: 'Brand yellow #FEFF00 on white scores 1.08:1. WCAG AA requires 4.5:1 for text. The colour appears in buttons and headings across the site.',
     source: 'design/palette.md contrast checks',
   },
   {
     sev: 'Conversion',
-    text: 'Both countdown timers show 00:00:00:00 after the 11 Oct deadline, yet the button still reads "Apply now". Visitors see a broken clock and a CTA that goes nowhere.',
-    source: 'Crawl, thegyn.org/sism-2026',
+    text: 'Both countdown timers show 00:00:00:00 after the 11 Oct deadline, yet the button still reads "Apply now". Visitors see a stale clock and a CTA that leads to the scholarship section.',
+    source: 'Crawl, thegyn.org, 15 Oct 2026',
   },
   {
     sev: 'Trust',
-    text: `The summit page's "Apply now" button jumps to the scholarship section, where both cards now say "CLOSED NOW". The call to action leads into a dead end.`,
-    source: 'Crawl, thegyn.org/sism-2026',
+    text: 'The summit page "APPLY NOW" jumps to the scholarship section, where both cards now say "CLOSED NOW". The call to action leads to a closed section.',
+    source: 'Crawl, thegyn.org/sism-2026/',
   },
   {
     sev: 'Revenue',
     text: 'Forum Access is $199 on the public page, $249 in the Meta Pixel event, and $170 on a hidden form (sism-2026-application-form) with no CAPTCHA. Three prices for one product.',
-    source: 'content/pages/sism-2026-application-form.md',
+    source: 'Crawl, thegyn.org/sism-2026-application-form/',
   },
   {
     sev: 'Content',
@@ -253,17 +260,17 @@ const LIVE_ISSUES = [
   },
   {
     sev: 'Quality',
-    text: 'Five benefit items link to a broken URL (http://i%20class=fa-solid…). All four contact-page hero background images return 404. Two speaker photos return 404.',
-    source: 'Crawl, thegyn.org/contact-us + /sism-2026',
+    text: 'Five benefit items link to a broken URL (http://i%20class=fa-solid…). All four contact-page hero background images return 404. Two FMS speaker photos return 404.',
+    source: 'Crawl, thegyn.org/contact-us + /fms-thailand/',
   },
   {
     sev: 'Media',
-    text: 'Nine videos load as default YouTube iframes with no playlist filtering, no deep links, and no poster images. Every embed autoplays its own suggested-videos panel on end.',
-    source: 'Crawl, thegyn.org/videos',
+    text: 'Nine videos sit in default YouTube iframes across the site with no playlist filtering, no deep links, and no poster images. Every embed autoplays its own suggested-videos panel on end.',
+    source: 'Crawl, thegyn.org media pages',
   },
   {
     sev: 'Copy',
-    text: '"PARTIALLY SCHOLARSHIP", "Patronas Twin Tower", "Al" for AI, and a gender field listing sexual orientations (one misspelled). All visible on registration forms.',
+    text: '"PARTIALLY SCHOLARSHIP", "Patronas Twin Tower", "Al" for AI, and a gender field listing sexual orientations (one misspelled "Hetrosexual"). All visible on registration forms.',
     source: 'Crawl, thegyn.org registration forms',
   },
 ]
@@ -281,7 +288,7 @@ const SEV_COLOURS: Record<string, string> = {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export function PitchClient() {
+export function PitchClient({ lhHomeMobile, lhHomeDesktop }: Props) {
   const advisoryItems = Object.entries(ADVISORY).slice(0, 5).map(([key, v]) => {
     const parts = v.alt.split(',')
     return {
@@ -297,27 +304,6 @@ export function PitchClient() {
   return (
     <main id="main" style={{ paddingTop: '3.5rem', background: 'var(--paper)' }}>
 
-      {/* Banner */}
-      <div
-        role="banner"
-        style={{
-          background: 'var(--yellow)',
-          padding: '0.5rem',
-          textAlign: 'center',
-        }}
-      >
-        <p
-          style={{
-            fontSize: '0.8125rem',
-            fontWeight: 700,
-            color: 'var(--navy-900)',
-            letterSpacing: '0.04em',
-          }}
-        >
-          Internal pitch demo — Sunday 19 Oct 2026. Not for public distribution.
-        </p>
-      </div>
-
       {/* ====================================================
           TITLE
           ==================================================== */}
@@ -331,7 +317,7 @@ export function PitchClient() {
             className="d1"
             style={{ color: 'var(--white)', marginBottom: '1rem', maxWidth: '22ch' }}
           >
-            GYN.org — what we built
+            thegyn.org, rebuilt
           </h1>
           <p
             style={{
@@ -341,9 +327,8 @@ export function PitchClient() {
               maxWidth: '60ch',
             }}
           >
-            A full rebuild of thegyn.org: Next.js 16, React 19, Tailwind v4. Direction G
-            (Deep Field). Compare the live site and the new design, see what we fixed, and
-            explore the premium components.
+            A full rebuild of thegyn.org: Next.js 16, React 19, Tailwind v4. Compare the live
+            site and the new design, see what we fixed, and explore the premium components.
           </p>
         </div>
       </section>
@@ -393,13 +378,12 @@ export function PitchClient() {
               marginBottom: '2.5rem',
             }}
           >
-            Proven numbers are from the red-team audit and contrast checks. Lighthouse
-            scores are marked &ldquo;pending&rdquo; — run the audit and fill in
-            public/pitch/metrics.json.
+            Contrast proven by design/palette.md. Lighthouse scores from a production build
+            ({lhHomeMobile.date}).
           </p>
 
           <div className={styles.metricsGrid}>
-            {/* Proven: contrast */}
+            {/* Proven: contrast — static value, not animated to avoid "1,283:1" bug (RT-047) */}
             <div style={{ background: 'var(--blue-deep)', padding: '1.75rem 1.25rem' }}>
               <span
                 style={{
@@ -412,7 +396,7 @@ export function PitchClient() {
                 }}
                 aria-label="12.83 to 1"
               >
-                <AnimatedCounter to={1283} suffix=":1" />
+                12.83:1
               </span>
               <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.5 }}>
                 Primary text contrast (navy on white). Live site yellow on white was 1.08:1.
@@ -445,47 +429,47 @@ export function PitchClient() {
               </p>
             </div>
 
-            {/* Pending: Lighthouse performance */}
-            <div style={{ background: 'rgba(255,255,255,.07)', padding: '1.75rem 1.25rem', border: '1px dashed rgba(255,255,255,.2)' }}>
+            {/* Lighthouse Performance — from docs/lighthouse/home-mobile.report.json */}
+            <div style={{ background: 'var(--blue-deep)', padding: '1.75rem 1.25rem' }}>
               <span
                 style={{
                   fontFamily: 'var(--fd)',
                   fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-                  color: 'rgba(255,255,255,.4)',
+                  color: 'var(--yellow)',
                   display: 'block',
                   lineHeight: 1,
                   marginBottom: '0.5rem',
                 }}
               >
-                —
+                <AnimatedCounter to={lhHomeMobile.perf} />
               </span>
-              <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,.6)', lineHeight: 1.5 }}>
-                Lighthouse Performance score
+              <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.5 }}>
+                Lighthouse Performance (mobile). Desktop: <strong style={{ color: 'var(--white)' }}>{lhHomeDesktop.perf}</strong>.
               </p>
-              <p style={{ fontSize: '0.6875rem', color: 'var(--yellow)', marginTop: '0.5rem', fontWeight: 600 }}>
-                Pending — run Lighthouse, fill metrics.json
+              <p style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,.45)', marginTop: '0.5rem' }}>
+                Production build, {lhHomeMobile.date}
               </p>
             </div>
 
-            {/* Pending: Lighthouse a11y */}
-            <div style={{ background: 'rgba(255,255,255,.07)', padding: '1.75rem 1.25rem', border: '1px dashed rgba(255,255,255,.2)' }}>
+            {/* Lighthouse Accessibility — from docs/lighthouse/home-mobile.report.json */}
+            <div style={{ background: 'var(--blue-deep)', padding: '1.75rem 1.25rem' }}>
               <span
                 style={{
                   fontFamily: 'var(--fd)',
                   fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-                  color: 'rgba(255,255,255,.4)',
+                  color: 'var(--yellow)',
                   display: 'block',
                   lineHeight: 1,
                   marginBottom: '0.5rem',
                 }}
               >
-                —
+                <AnimatedCounter to={lhHomeMobile.a11y} />
               </span>
-              <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,.6)', lineHeight: 1.5 }}>
-                Lighthouse Accessibility score
+              <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.5 }}>
+                Lighthouse Accessibility (mobile). Desktop: <strong style={{ color: 'var(--white)' }}>{lhHomeDesktop.a11y}</strong>.
               </p>
-              <p style={{ fontSize: '0.6875rem', color: 'var(--yellow)', marginTop: '0.5rem', fontWeight: 600 }}>
-                Pending — run Lighthouse, fill metrics.json
+              <p style={{ fontSize: '0.6875rem', color: 'rgba(255,255,255,.45)', marginTop: '0.5rem' }}>
+                Production build, {lhHomeMobile.date}
               </p>
             </div>
           </div>
@@ -528,8 +512,8 @@ export function PitchClient() {
                 lineHeight: 1.6,
               }}
             >
-              Drag to dismiss the top card; velocity-based spring physics. Keyboard: ArrowLeft /
-              ArrowRight. Screen readers see a flat list.
+              Swipe or use ArrowLeft/ArrowRight to browse advisory board members.
+              Screen readers see a flat accessible list.
             </p>
             <div style={{ maxWidth: '420px' }}>
               <DeckSlider items={advisoryItems} heading="Advisory board members" />
@@ -556,7 +540,7 @@ export function PitchClient() {
                 lineHeight: 1.6,
               }}
             >
-              Varied sizes and SDG colours. Each pair passes WCAG AA.
+              Varied sizes and SDG colours.
             </p>
             <div
               className={styles.tilesGrid}
@@ -564,7 +548,7 @@ export function PitchClient() {
               {[
                 { bg: 'var(--blue-deep)', num: '100', label: 'seats', textCol: 'var(--white)', numCol: 'var(--yellow)' },
                 { bg: 'var(--yellow)', num: '4', label: 'focus SDGs', textCol: 'var(--navy-900)', numCol: 'var(--navy-900)' },
-                { bg: 'var(--blue-sky)', num: '17', label: 'countries', textCol: 'var(--navy-900)', numCol: 'var(--navy-900)' },
+                { bg: 'var(--blue-sky)', num: '11', label: 'countries (ambassadors)', textCol: 'var(--navy-900)', numCol: 'var(--navy-900)' },
                 { bg: 'var(--navy-900)', num: '$1k', label: 'seed grant', textCol: 'rgba(255,255,255,.8)', numCol: 'var(--yellow)' },
               ].map((tile) => (
                 <div key={tile.label} style={{ background: tile.bg, padding: '1.5rem 1.25rem' }}>
@@ -620,7 +604,6 @@ export function PitchClient() {
                 style={{
                   padding: '0.875rem 1rem',
                   background: 'var(--white)',
-                  borderLeft: `4px solid ${SEV_COLOURS[issue.sev] ?? 'var(--n-300)'}`,
                   display: 'grid',
                   gridTemplateColumns: '7rem 1fr',
                   gap: '0.75rem',

@@ -20,10 +20,11 @@ const SismVideos = dynamic(() =>
 )
 
 export const metadata: Metadata = {
-  title: 'SDG Innovation Summit Malaysia 2026 | Fully Funded Conference',
-  description: 'Apply for the SDG Innovation Summit Malaysia 2026. Fully funded scholarships available to cover airfare, visa, accommodation and meals.',
+  // scholarships are closed; title must not say "Fully Funded" (RT-052)
+  title: 'SISM 2026, Kuala Lumpur, 19–22 Nov | Forum Access $199',
+  description: 'SDG Innovation Summit Malaysia 2026. Scholarship applications closed. Forum Access ($199) and Self-Funded ($399) seats open. 19–22 November, Kuala Lumpur.',
   openGraph: {
-    images: [{ url: 'https://thegyn.org/wp-content/uploads/2026/08/SISM-06-1-scaled.jpeg' }],
+    images: [{ url: '/og/sism-2026-og.jpg', width: 1200, height: 630 }],
   },
 }
 
@@ -33,6 +34,13 @@ Object.values(SPEAKERS).forEach(s => {
   const last = s.alt.split(',')[0].split(' ').pop()?.toLowerCase() ?? ''
   SPK_BY_LAST[last] = s
 })
+
+/** Title-case a speaker name from content; keeps 'bin' lowercase (RT-050) */
+function toTitleCase(name: string): string {
+  return name.toLowerCase()
+    .replace(/\b\w/g, c => c.toUpperCase())
+    .replace(/\bBin\b/g, 'bin')
+}
 
 interface EventData {
   id: string; name: string
@@ -63,19 +71,8 @@ export default async function Sism2026Page() {
   const openTiers = sism.ticketTypes.filter(t => t.status === 'open')
   const closedTiers = sism.ticketTypes.filter(t => t.status === 'closed')
 
+  // open tiers first so Forum Access is visible without scrolling (RT-054)
   const railTiers: Tier[] = [
-    ...closedTiers.map(t => ({
-      id: t.id,
-      name: t.id === 'fully-funded' ? 'Fully Funded Scholarship' : 'Partial Scholarship',
-      price: t.id === 'fully-funded' ? 'Funded' : 'Partial',
-      description: t.id === 'fully-funded'
-        ? 'Scholarship applications closed 11 October. Results announced 16 October.'
-        : 'Applications closed 11 October. Results announced 16 October.',
-      features: t.includes.slice(0, 5),
-      cta: 'Applications closed',
-      ctaHref: '#tickets',
-      closed: true,
-    })),
     ...openTiers.map(t => ({
       id: t.id,
       name: t.name.replace(/\(.*?\)/g, '').trim(),
@@ -92,6 +89,18 @@ export default async function Sism2026Page() {
         : '/sism-invitation-letter',
       featured: t.id === 'forum-access',
     })),
+    ...closedTiers.map(t => ({
+      id: t.id,
+      name: t.id === 'fully-funded' ? 'Fully Funded Scholarship' : 'Partial Scholarship',
+      price: t.id === 'fully-funded' ? 'Funded' : 'Partial',
+      description: t.id === 'fully-funded'
+        ? 'Scholarship applications closed 11 October. Results announced 16 October.'
+        : 'Applications closed 11 October. Results announced 16 October.',
+      features: t.includes.slice(0, 5),
+      cta: 'Applications closed',
+      ctaHref: '#tickets',
+      closed: true,
+    })),
   ]
 
   const deckSpeakers: Speaker[] = sism.speakers.map((spk, i) => {
@@ -99,7 +108,7 @@ export default async function Sism2026Page() {
     const img = SPK_BY_LAST[lastWord]
     return {
       id: String(i),
-      name: spk.name.charAt(0) + spk.name.slice(1).toLowerCase().replace(/\b\w/g, c => c.toUpperCase()),
+      name: toTitleCase(spk.name),
       role: spk.title.split('|')[0].split('-')[0].trim(),
       organisation: spk.title.split('|').slice(-1)[0].trim(),
       imageSrc: img?.src ?? '/media/events/sism-2026-call-for-applications.webp',
@@ -188,7 +197,7 @@ export default async function Sism2026Page() {
                 <span style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.5rem,3vw,2.5rem)', display: 'block', marginBottom: '0.5rem', color: sdg.sdg === 'SDG 4' ? 'var(--sdg4)' : sdg.sdg === 'SDG 5' ? 'var(--sdg5)' : sdg.sdg === 'SDG 9' ? 'var(--sdg9)' : 'var(--sdg13)' }}>
                   {sdg.sdg}
                 </span>
-                <span style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.5 }}>{sdg.label}</span>
+                <span style={{ fontSize: '0.875rem', color: 'var(--white)', lineHeight: 1.5 }}>{sdg.label}</span>
               </div>
             ))}
           </div>
@@ -201,12 +210,12 @@ export default async function Sism2026Page() {
           <div>
             <h2 id="grant-hd" className="d2" style={{ color: 'var(--yellow)', marginBottom: '1rem' }}>$1,000 Seed Grant Award</h2>
             <p style={{ color: 'rgba(255,255,255,.85)', fontSize: '1rem', lineHeight: 1.75 }}>
-              {sism.award} — participants compete for a $1,000 Seed Grant to support innovative projects and social impact initiatives. Whether your project is at the conceptual stage, in its pilot phase, under implementation, or fully realized, we welcome you to present your innovation on stage.
+              Participants compete for a $1,000 Seed Grant to support innovative projects and social impact initiatives. Whether your project is at the conceptual stage, in its pilot phase, under implementation, or fully realized, we welcome you to present your innovation on stage.
             </p>
           </div>
           <div style={{ borderLeft: '1px solid rgba(255,255,255,.15)', paddingLeft: '3rem' }}>
             <p style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(3rem,8vw,6rem)', lineHeight: 1, color: 'var(--yellow)' }}>$1,000</p>
-            <p style={{ fontSize: '0.9375rem', color: 'rgba(255,255,255,.65)', marginTop: '0.5rem' }}>seed grant for the best project</p>
+            <p style={{ fontSize: '0.9375rem', color: 'var(--white)', marginTop: '0.5rem' }}>seed grant for the best project</p>
           </div>
         </div>
       </section>
@@ -297,7 +306,7 @@ export default async function Sism2026Page() {
             100 seats (30 scholarships). Scholarship applications closed. Forum Access and Self-Funded seats open now. Group discounts via{' '}
             <a href="mailto:contact@thegyn.org" style={{ color: 'var(--blue-deep)', textDecoration: 'underline' }}>contact@thegyn.org</a>.
           </p>
-          <TicketRail tiers={railTiers} defaultActive={2} />
+          <TicketRail tiers={railTiers} defaultActive={0} />
         </div>
       </section>
 
@@ -309,11 +318,11 @@ export default async function Sism2026Page() {
           {/* Accessible flat list — screen readers bypass the carousel */}
           <ol aria-label="Full speaker list" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '2.5rem' }}>
             {sism.speakers.map(spk => (
-              <li key={spk.name} style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,.75)', lineHeight: 1.5 }}>
+              <li key={spk.name} style={{ fontSize: '0.875rem', color: 'var(--white)', lineHeight: 1.5 }}>
                 <span style={{ fontWeight: 600, color: 'var(--white)' }}>
-                  {spk.name.charAt(0) + spk.name.slice(1).toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}
+                  {toTitleCase(spk.name)}
                 </span>
-                {' — '}
+                {', '}
                 {spk.title}
               </li>
             ))}
@@ -335,7 +344,7 @@ export default async function Sism2026Page() {
                 </div>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
                   {day.items.map(item => (
-                    <li key={item} style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.55, paddingLeft: '1rem', position: 'relative' }}>
+                    <li key={item} style={{ fontSize: '0.875rem', color: 'var(--white)', lineHeight: 1.55, paddingLeft: '1rem', position: 'relative' }}>
                       <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '4px', height: '4px', background: 'var(--yellow)', display: 'block' }} />
                       {item.replace(/:/g, ': ')}
                     </li>
@@ -367,7 +376,7 @@ export default async function Sism2026Page() {
               <li key={s.step} style={{ borderTop: '2px solid var(--yellow)', paddingTop: '1rem' }}>
                 <p style={{ fontFamily: 'var(--fd)', fontSize: '2.5rem', color: 'var(--yellow)', lineHeight: 1, marginBottom: '0.75rem' }}>{i + 1}</p>
                 <p style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--white)', marginBottom: '0.5rem' }}>{s.step}</p>
-                <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,.75)', lineHeight: 1.6 }}>{s.text}</p>
+                <p style={{ fontSize: '0.875rem', color: 'var(--white)', lineHeight: 1.6 }}>{s.text}</p>
               </li>
             ))}
           </ol>
@@ -435,7 +444,7 @@ export default async function Sism2026Page() {
         className="md:hidden"
       >
         <div>
-          <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,.6)', marginBottom: '0.125rem' }}>Confirmed seat from</p>
+          <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,.85)', marginBottom: '0.125rem' }}>Confirmed seat from</p>
           <p style={{ fontFamily: 'var(--fd)', fontSize: '1.25rem', color: 'var(--yellow)' }}>$199</p>
         </div>
         <Link href="/sism-forum-access" className="btn btn-y" style={{ flexShrink: 0, minHeight: '44px' }}>

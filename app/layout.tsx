@@ -4,12 +4,14 @@ import dynamic from 'next/dynamic'
 import './globals.css'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
-import { ViewTransitionStyles } from '@/components/premium/PageTransition'
 import { cms } from '@/lib/cms'
 
-// Lenis smooth scroll code-split: renders null on server, runs effect on client
+// Both are pure enhancement — split into async chunks so they don't block initial parse
 const LenisScroll = dynamic(() =>
   import('@/components/LenisScroll').then((m) => ({ default: m.LenisScroll })),
+)
+const ViewTransitionStyles = dynamic(() =>
+  import('@/components/premium/PageTransition').then((m) => ({ default: m.ViewTransitionStyles })),
 )
 
 /*

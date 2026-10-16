@@ -13,10 +13,9 @@
  * No third-party code used.
  */
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect } from 'react';
 import Link, { type LinkProps } from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useReducedMotion } from 'motion/react';
 
 // ─── CSS ─────────────────────────────────────────────────────────────────────
 
@@ -83,12 +82,6 @@ export function TransitionLink({
   ...rest
 }: TransitionLinkProps) {
   const router = useRouter();
-  const prefersReduced = useReducedMotion();
-  // Stable ref so the click handler always sees the latest values
-  const prefersReducedRef = useRef(prefersReduced);
-  useEffect(() => {
-    prefersReducedRef.current = prefersReduced;
-  }, [prefersReduced]);
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -101,10 +94,14 @@ export function TransitionLink({
       e.preventDefault();
       const dest = typeof href === 'string' ? href : String(href.pathname ?? '/');
 
+      // Read reduced-motion preference fresh in the handler — avoids a state subscription
+      const prefersReduced =
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
       if (
-        !prefersReducedRef.current &&
+        !prefersReduced &&
         typeof document !== 'undefined' &&
-        // startViewTransition is defined in the global, check for it
         'startViewTransition' in document
       ) {
         document.startViewTransition(() => {

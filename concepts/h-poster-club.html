@@ -152,6 +152,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--c-yellow);outline-o
 @media(max-width:768px){
   .hero-top{grid-template-columns:1fr}
   .hero-media{grid-template-columns:1fr}
+  /* hide decorative stickers on mobile: single-column H1 fills full width, no clear space */
+  .sticker-field{display:none}
 }
 @media(max-width:640px){
   .hero-h1{font-size:clamp(2rem,10vw,3rem)}

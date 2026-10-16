@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Buy Invitation Letter | SDG Innovation Summit Malaysia 2026',
   description: 'Get your official invitation letter for the SDG Innovation Summit Malaysia for just $49. Receive it within 48 hours, with visa support included.',
   openGraph: {
-    images: [{ url: 'https://thegyn.org/wp-content/uploads/2026/01/WhatsApp-Image-2026-01-21-at-1.49.09-AM.jpeg' }],
+    images: [{ url: '/og/sism-application-og.jpg' }],
   },
 }
 

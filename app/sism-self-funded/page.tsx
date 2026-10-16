@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Self Funded Application | SDG Innovation Summit Malaysia',
   description: 'Self-Funded Application Form (Confirmed Seat with accommodation) — SDG Innovation Summit Malaysia 2026. 19–22 November, Kuala Lumpur.',
   openGraph: {
-    images: [{ url: 'https://thegyn.org/wp-content/uploads/2026/07/SISM-01-1-scaled.jpg' }],
+    images: [{ url: '/og/sism-application-og.jpg' }],
   },
 }
 

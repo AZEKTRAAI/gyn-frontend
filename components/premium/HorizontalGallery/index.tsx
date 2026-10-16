@@ -22,6 +22,7 @@ import {
   useMotionValue,
 } from 'motion/react';
 import { useMediaQuery } from '../useMediaQuery';
+import Image from 'next/image';
 
 export interface GalleryPhoto {
   id: string;
@@ -193,12 +194,7 @@ function GalleryCard({
       }}
     >
       <motion.div style={{ x: imgX, width: '110%', height: '100%', left: '-5%', position: 'absolute' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={photo.src}
-          alt={photo.alt}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        />
+        <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 768px) 60vw, 100vw" style={{ objectFit: 'cover' }} />
       </motion.div>
       {photo.caption && (
         <div
@@ -262,14 +258,11 @@ function NativeScrollRow({ photos, heading }: HorizontalGalleryProps) {
               aspectRatio: '4/3',
               scrollSnapAlign: 'start',
               overflow: 'hidden',
+              position: 'relative',
             }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={photo.src}
-              alt={photo.alt}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
+            {/* phones get a right-sized file instead of the 1600px original (RT-056) */}
+            <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 767px) 85vw, 400px" style={{ objectFit: 'cover' }} />
             {photo.caption && (
               <p style={{ fontSize: '0.75rem', color: 'var(--n-400, #9A9A93)', padding: '0.5rem 0' }}>
                 {photo.caption}

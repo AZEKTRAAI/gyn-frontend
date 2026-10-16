@@ -437,7 +437,8 @@ export default async function Sism2026Page() {
         style={{
           position: 'fixed', bottom: 0, left: 0, right: 0,
           background: 'var(--navy-900)', borderTop: '1px solid rgba(255,255,255,.12)',
-          padding: '0.875rem var(--gut)',
+          // clears the iPhone home indicator
+          padding: '0.875rem var(--gut) calc(0.875rem + env(safe-area-inset-bottom, 0px))',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem',
           zIndex: 100,
         }}

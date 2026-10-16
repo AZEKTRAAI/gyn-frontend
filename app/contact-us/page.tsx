@@ -121,7 +121,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
                 </dt>
                 <dd>
                   <a
-                    href="https://wa.me/13025560064"
+                    href="https://wa.me/message/HGC6MW4HT5YJC1"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
@@ -183,7 +183,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
                   >
                     <li>
                       <a
-                        href="https://www.facebook.com/TheGYNetwork"
+                        href="https://www.facebook.com/thegyn.org/"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ fontSize: '0.875rem', color: 'var(--blue-deep)' }}
@@ -193,7 +193,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
                     </li>
                     <li>
                       <a
-                        href="https://www.instagram.com/thegynetwork/"
+                        href="https://www.instagram.com/gyn_global"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ fontSize: '0.875rem', color: 'var(--blue-deep)' }}
@@ -203,7 +203,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
                     </li>
                     <li>
                       <a
-                        href="https://www.youtube.com/@TheGYNetwork"
+                        href="https://www.youtube.com/@globalyouthnetwork/"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ fontSize: '0.875rem', color: 'var(--blue-deep)' }}
@@ -213,7 +213,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
                     </li>
                     <li>
                       <a
-                        href="https://www.linkedin.com/company/thegynetwork/"
+                        href="https://www.linkedin.com/company/thegyn"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ fontSize: '0.875rem', color: 'var(--blue-deep)' }}

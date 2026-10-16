@@ -188,6 +188,7 @@ export function SiteFooter({ footer, socials }: Props) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp us"
+        className="wa-fab"
         style={{
           position: 'fixed',
           bottom: '1.5rem',

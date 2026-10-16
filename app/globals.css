@@ -93,6 +93,12 @@
   margin: 0;
   padding: 0;
 }
+/* the reset above pins modal dialogs to the top-left; the UA centres them with margin: auto (RT-079) */
+dialog { margin: auto; }
+/* on pages with the sticky booking bar, lift the WhatsApp button above it on phones (RT-081) */
+@media (max-width: 767px) {
+  body:has([aria-label="Quick booking"]) .wa-fab { bottom: calc(6rem + env(safe-area-inset-bottom, 0px)) !important; }
+}
 
 html {
   scroll-behavior: smooth;

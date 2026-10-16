@@ -311,7 +311,7 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── SPEAKERS ─── */}
-      <section aria-labelledby="spk-hd" style={{ background: 'var(--blue-deep)', paddingBlock: 'var(--sp)' }}>
+      <section aria-labelledby="spk-hd" style={{ background: 'var(--blue-deep)', paddingBlock: 'var(--sp)', color: 'var(--white)' }}>
         <div className="wrap">
           <h2 id="spk-hd" className="d2" style={{ color: 'var(--white)', marginBottom: '2rem' }}>Speakers at SISM 2026</h2>
           <DeckSlider items={deckSpeakers} heading="SISM 2026 speakers" />
@@ -439,10 +439,11 @@ export default async function Sism2026Page() {
           background: 'var(--navy-900)', borderTop: '1px solid rgba(255,255,255,.12)',
           // clears the iPhone home indicator
           padding: '0.875rem var(--gut) calc(0.875rem + env(safe-area-inset-bottom, 0px))',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem',
+          alignItems: 'center', justifyContent: 'space-between', gap: '1rem',
           zIndex: 100,
         }}
-        className="md:hidden"
+        // display lives in the classes: an inline display would override md:hidden and show the bar on desktop (RT-081)
+        className="flex md:hidden"
       >
         <div>
           <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,.85)', marginBottom: '0.125rem' }}>Confirmed seat from</p>

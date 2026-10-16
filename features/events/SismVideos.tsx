@@ -67,7 +67,12 @@ export function SismVideos() {
         }}
       >
         {open && (
-          <div style={{ position: 'relative', width: 'min(560px,90vw)', background: 'var(--navy-900)' }}>
+          <div style={{
+            position: 'relative',
+            // 9:16 shorts: width also bounded by viewport height so the close button stays on screen on laptops (RT-080)
+            width: 'min(560px, 90vw, calc((100dvh - 7rem) * 9 / 16))',
+            background: 'var(--navy-900)',
+          }}>
             <button
               onClick={() => setOpen(null)}
               aria-label="Close video"

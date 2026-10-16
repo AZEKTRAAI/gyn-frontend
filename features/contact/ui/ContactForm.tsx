@@ -100,7 +100,8 @@ export function ContactForm({ defaultTopic = 'general' }: Props) {
       const body = (await res.json()) as { fieldErrors?: Record<string, string[]> }
       if (body.fieldErrors) {
         for (const [field, msgs] of Object.entries(body.fieldErrors)) {
-          setError(field as keyof ContactInput, { message: msgs[0] })
+          // "form" errors (e.g. the security check) belong in the form-level message, not on a field (RT-075)
+          setError(field === 'form' ? 'root' : (field as keyof ContactInput), { message: msgs[0] })
         }
       } else {
         setError('root', { message: 'Please check your input and try again.' })

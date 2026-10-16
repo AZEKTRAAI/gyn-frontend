@@ -28,8 +28,12 @@ export function Countdown() {
   // Server renders real digits (as of build time) so the full-size numbers are part of the first paint;
   // a "--" placeholder made the digits a late LCP candidate on mobile. The client corrects them on mount.
   const [units, setUnits] = useState<Unit[]>(compute)
+  // suppressHydrationWarning keeps the build-time digits in the DOM; remounting once after hydration replaces them (RT-077)
+  const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setHydrated(true)
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setUnits(compute())
     const id = setInterval(() => setUnits(compute()), 1000)
@@ -38,6 +42,7 @@ export function Countdown() {
 
   return (
     <div
+      key={hydrated ? 'live' : 'build'}
       className="countdown"
       style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}
       role="timer"

@@ -218,7 +218,11 @@ export function RegistrationForm({ ticket, includes }: RegistrationFormProps) {
       }
       if (res.status === 400) {
         const { fieldErrors } = (await res.json()) as { fieldErrors: Record<string, string[]> }
-        Object.entries(fieldErrors).forEach(([path, msgs]) => {
+        // "form" errors (e.g. the security check) have no field to attach to: show them in the banner and stay put (RT-075)
+        const { form: formErrors, ...perField } = fieldErrors
+        if (formErrors?.length) setServerError(formErrors[0])
+        if (Object.keys(perField).length === 0) return
+        Object.entries(perField).forEach(([path, msgs]) => {
           setError(path.replace('details.', '') as never, { message: msgs[0] })
         })
         setStep(0)

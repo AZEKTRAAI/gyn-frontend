@@ -129,7 +129,7 @@ export default async function HomePage() {
           className="wrap hero-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: '1fr minmax(520px, 42vw)',
+            gridTemplateColumns: 'minmax(0, 1fr) min(42vw, 560px)', // the visual column is capped so the text column never shrinks on wide screens (RT-076)
             gap: '2rem',
             alignItems: 'center',
             paddingBlock: 'clamp(2rem, 5vw, 4rem)',

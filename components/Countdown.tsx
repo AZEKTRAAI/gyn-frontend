@@ -24,22 +24,12 @@ function compute(): Unit[] {
   ]
 }
 
-// Placeholder shown during SSR to avoid hydration mismatch
-const PLACEHOLDER: Unit[] = [
-  { value: '--', label: 'days' },
-  { value: '--', label: 'hours' },
-  { value: '--', label: 'minutes' },
-  { value: '--', label: 'seconds' },
-]
-
 export function Countdown() {
-  const [units, setUnits] = useState<Unit[]>(PLACEHOLDER)
-  const [mounted, setMounted] = useState(false)
+  // Server renders real digits (as of build time) so the full-size numbers are part of the first paint;
+  // a "--" placeholder made the digits a late LCP candidate on mobile. The client corrects them on mount.
+  const [units, setUnits] = useState<Unit[]>(compute)
 
   useEffect(() => {
-    // shortcut: SSR hydration guard — two batched state sets are fine in React 18+
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true)
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setUnits(compute())
     const id = setInterval(() => setUnits(compute()), 1000)
@@ -69,7 +59,7 @@ export function Countdown() {
                 textAlign: 'center',
               }}
             >
-              {mounted ? u.value : '--'}
+              {u.value}
             </span>
             <span style={{ fontSize: '0.6875rem', color: 'var(--white)', letterSpacing: '0.03em' }}>
               {u.label}

@@ -1,6 +1,6 @@
 # thegyn.org, rebuilt: proposal for Global Youth Network
 
-We've already rebuilt thegyn.org. It runs at {{DEMO_URL}} on your own content, with registration and payment wired to Stripe in test mode, so on Sunday you can click through a working site instead of judging a mock-up.
+We've already rebuilt thegyn.org. It runs at {{DEMO_URL}} on your own content, with registration working end to end in demo mode and Stripe Checkout ready to switch on with test keys, so on Sunday you can click through a working site instead of judging a mock-up.
 
 ## What the current site is costing you
 
@@ -51,7 +51,7 @@ URLs match the live site, so old links and your search rankings carry over.
 
 - {{DEMO_URL}}: the new site. Registration runs in demo mode: you can finish a form and no money moves.
 - {{DEMO_URL}}/pitch: the live site and the new one side by side.
-- {{DESIGN_DIRECTIONS_URL}}: all eight design directions.
+- https://claude.ai/artifact/SeqsBcoRXk9GvDsc5YruXb: all eight design directions.
 
 Start with {{DEMO_URL}}/sism-forum-access and {{DEMO_URL}}/videos.
 
@@ -142,16 +142,18 @@ Lighthouse, production build:
 
 | Page | Mobile | Desktop |
 |---|---|---|
-| Home | {{LH_HOME_MOBILE}} | {{LH_HOME_DESKTOP}} |
-| SISM 2026 | {{LH_SISM_MOBILE}} | {{LH_SISM_DESKTOP}} |
+| Home | Performance 92, accessibility 97, best practices 100, SEO 100 | Performance 100, accessibility 97, best practices 100, SEO 100 |
+| SISM 2026 | Performance 89 (88 to 90 across runs), accessibility 93, best practices 100, SEO 100 | Performance 100, accessibility 93, best practices 100, SEO 100 |
 
-**Security.** A review of our build on 16 Oct found 16 issues: 2 critical, 5 high, 5 medium, 4 low. We fixed 11 of the 12 critical, high and medium ones the same day. The last (one rate limit shared across all servers) closes when the Upstash account exists. The low ones are fixed or accepted with a written reason. 38 automated tests cover registration, server-side prices, rate limiting and Stripe's payment reports.
+Lighthouse's mobile score simulates a mid-range phone on slow 4G. In a real throttled browser the headline paints in about 1.1 seconds; the rest of the gap is the simulation charging the headline for its font download. On phones we hide the hero's globe and photo to keep that number up; the photos appear further down the page.
+
+**Security.** A review of our build on 16 Oct found 16 issues: 2 critical, 5 high, 5 medium, 4 low. We fixed 11 of the 12 critical, high and medium ones the same day. The last (one rate limit shared across all servers) closes when the Upstash account exists. The low ones are fixed or accepted with a written reason. 41 automated tests cover registration, server-side prices, rate limiting and Stripe's payment reports.
 
 **Accessibility.** The palette's text colours are checked against WCAG 2.2 AA by script. Our automated check on 16 Oct still flagged contrast in some sections and keyboard handling in the mobile menu. Both are on our list before launch.
 
 ## What we need from you to start
 
-1. A direction. Confirm G, or pick E, F or H from {{DESIGN_DIRECTIONS_URL}}.
+1. A direction. Confirm G, or pick E, F or H from https://claude.ai/artifact/SeqsBcoRXk9GvDsc5YruXb.
 2. Cash refunds or vouchers. Your refund policy promises GYN Credit Vouchers, not cash. Tell us if that's what you want, because cash goes back through Stripe and a voucher doesn't. Stripe keeps its processing fee on every cash refund.
 3. Accounts. A US Stripe account, plus Vercel, Neon, Resend, Cloudflare Turnstile, Upstash and Cloudinary (or permission to open them in GYN's name). DNS access for thegyn.org, so email goes out from your domain.
 4. Passport numbers. If your visa-support work needs document numbers kept after the letter is drafted, tell us now, and we'll add encrypted storage before launch.

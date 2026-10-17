@@ -60,15 +60,22 @@ em{font-family:var(--fs);font-style:italic;font-weight:400}
 .rv.in{opacity:1;transform:none}
 
 /* floating bubble nav */
-.bubble{position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:4px;padding:6px;border-radius:999px;background:#fff;color:var(--ink);box-shadow:0 18px 50px rgba(14,21,48,.28),0 2px 6px rgba(14,21,48,.12);transition:transform .5s var(--spring),box-shadow .3s;max-width:calc(100% - 32px)}
-.bubble.squish{transform:translateX(-50%) scale(.96,.9)}
+/* left:0;right:0 + auto margins, not left:50% + translate: a fixed box with left:50% only gets half the viewport to shrink-to-fit in */
+.bubble{position:fixed;left:0;right:0;margin-inline:auto;width:fit-content;top:16px;z-index:60;display:flex;align-items:center;gap:4px;padding:6px;border-radius:999px;background:#fff;color:var(--ink);box-shadow:0 18px 50px rgba(14,21,48,.28),0 2px 6px rgba(14,21,48,.12);transition:transform .5s var(--spring),box-shadow .3s;max-width:calc(100% - 32px)}
+.bubble.squish{transform:scale(.96,.9)}
 .bubble .logo{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;overflow:hidden;background:#fff;border:1px solid var(--line);flex:none}
 .bubble .logo img{height:26px;width:auto}
 .bubble .where{display:flex;flex-direction:column;justify-content:center;padding:0 10px 0 6px;min-width:0}
 .bubble .where small{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--sdg4);line-height:1}
 .bubble .where b{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;line-height:1.2}
 .bubble .links{display:flex;gap:2px;overflow:hidden;max-width:0;opacity:0;transition:max-width .6s var(--ease),opacity .3s}
-.bubble:hover .links,.bubble:focus-within .links,.bubble.open .links{max-width:520px;opacity:1}
+.bubble:hover .links,.bubble:focus-within .links,.bubble.open .links,.bubble.top .links{max-width:620px;opacity:1}
+/* at the top of the page the pill is the full navbar: brand name, links, apply. Scrolled, it shrinks to where-you-are + apply */
+.bubble.top{padding:8px 8px 8px 10px;gap:10px}
+.bubble.top .where small{display:none}
+.bubble.top .where b{font-weight:800;letter-spacing:-.01em;max-width:none}
+.bubble.top .links{max-width:none}
+.bubble.top .links a{padding:10px 14px;font-size:15px}
 .bubble .links a{padding:10px 12px;border-radius:999px;font-size:14px;font-weight:500;white-space:nowrap}
 .bubble .links a:hover,.bubble .links a.on{background:var(--field)}
 .bubble .go{min-height:44px;padding:10px 18px;flex:none}
@@ -85,6 +92,8 @@ em{font-family:var(--fs);font-style:italic;font-weight:400}
   .bubble{top:auto;bottom:calc(16px + env(safe-area-inset-bottom,0px))}
   .bubble .links{display:none}.bubble .menu{display:grid}.bubble .go .long{display:none}
   .bubble .where b{max-width:120px}
+  .bubble.top{padding:6px;gap:4px}
+  .bubble.top .where b{max-width:140px;font-weight:600}
 }
 
 /* 1 hero: typographic, spotlight, film strip */
@@ -313,7 +322,7 @@ footer{background:var(--ink);color:#fff;padding-block:56px 110px;font-size:14px}
   <div class="links">
     <a href="#get" data-sec="get">What you get</a><a href="#network" data-sec="network">Ambassadors</a><a href="#past" data-sec="past">Bangkok</a><a href="#event" data-sec="event">SISM 2026</a><a href="#speakers" data-sec="speakers">Speakers</a><a href="#programme" data-sec="programme">Programme</a>
   </div>
-  <a class="btn btn-y go" href="#event">Apply<span class="long"> for SISM 2026</span> <span class="ar" aria-hidden="true">&#8594;</span></a>
+  <a class="btn btn-y go" href="#event">Apply<span class="long">for SISM 2026</span><span class="ar" aria-hidden="true">&#8594;</span></a>
   <button class="menu" id="menu" aria-label="Open menu" aria-expanded="false" aria-controls="sheet"><span></span><span></span><span></span></button>
 </nav>
 <div class="sheet" id="sheet">
@@ -576,8 +585,9 @@ if(!reduced){
 /* bubble nav: knows where you are, squishes on fast scroll, opens a sheet on phones */
 const bubble=$('#bubble'),where=$('#where'),menu=$('#menu'),sheet=$('#sheet');
 const secs=$$('section[data-name]');
-const whereObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){where.textContent=e.target.dataset.name;$$('[data-sec]').forEach(a=>a.classList.toggle('on',a.dataset.sec===e.target.id))}}),{rootMargin:'-45% 0px -50% 0px'});secs.forEach(s=>whereObs.observe(s));
-let lastY=scrollY,sq;addEventListener('scroll',()=>{const v=Math.abs(scrollY-lastY);lastY=scrollY;if(v>30&&!reduced){bubble.classList.add('squish');clearTimeout(sq);sq=setTimeout(()=>bubble.classList.remove('squish'),180)}},{passive:true});
+const whereObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){if(!bubble.classList.contains('top'))where.textContent=e.target.dataset.name;$$('[data-sec]').forEach(a=>a.classList.toggle('on',a.dataset.sec===e.target.id))}}),{rootMargin:'-45% 0px -50% 0px'});secs.forEach(s=>whereObs.observe(s));
+const BRAND=innerWidth<900?'GYN':'Global Youth Network';const setTop=()=>{const t=scrollY<120;bubble.classList.toggle('top',t);if(t){where.textContent=BRAND}};setTop();
+let lastY=scrollY,sq;addEventListener('scroll',()=>{setTop();const v=Math.abs(scrollY-lastY);lastY=scrollY;if(v>30&&!reduced){bubble.classList.add('squish');clearTimeout(sq);sq=setTimeout(()=>bubble.classList.remove('squish'),180)}},{passive:true});
 const toggle=o=>{const open=o??!sheet.classList.contains('open');sheet.classList.toggle('open',open);bubble.classList.toggle('open',open);menu.setAttribute('aria-expanded',open);menu.setAttribute('aria-label',open?'Close menu':'Open menu')};
 menu.addEventListener('click',()=>toggle());$$('a',sheet).forEach(a=>a.addEventListener('click',()=>toggle(false)));
 addEventListener('keydown',e=>{if(e.key==='Escape'&&sheet.classList.contains('open')){toggle(false);menu.focus()}});

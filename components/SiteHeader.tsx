@@ -103,24 +103,30 @@ export function SiteHeader({ nav }: Props) {
   return (
     <>
       <style>{`
+        /* the navbar is one long floating pill; the page shows through around it */
         .site-header {
           position: fixed;
           inset-block-start: 0;
           inset-inline: 0;
           z-index: 1000;
-          /* always solid: inner pages have dark photo heroes the dark nav text would vanish on */
-          background: #EEF2F6;
-          transition: background 240ms cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 240ms cubic-bezier(0.25,0.46,0.45,0.94);
+          padding-top: 10px;
+          pointer-events: none;
         }
-        .site-header[data-scrolled] {
-          background: rgba(238,242,246,.96);
-          box-shadow: 0 1px 0 rgba(14,21,48,.08);
-        }
+        .site-header > * { pointer-events: auto; }
         .nav-inner {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          height: 3.5rem;
+          gap: 12px;
+          min-height: 3.5rem;
+          padding: 6px 8px 6px 18px;
+          background: #fff;
+          border-radius: 999px;
+          box-shadow: 0 10px 30px rgba(14,21,48,.14), 0 1px 3px rgba(14,21,48,.1);
+          transition: box-shadow 240ms cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .site-header[data-scrolled] .nav-inner {
+          box-shadow: 0 18px 50px rgba(14,21,48,.24), 0 2px 6px rgba(14,21,48,.12);
         }
         .nav-desktop { display: flex; align-items: center; list-style: none; gap: 0; }
         .nav-cta-wrap { display: flex; align-items: center; gap: 0.75rem; }

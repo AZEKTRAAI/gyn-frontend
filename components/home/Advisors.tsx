@@ -130,14 +130,14 @@ export function Advisors({ data }: { data: HomeContent['advisors'] }) {
             {data.people.map((person, i) => {
               const d = normDist(i, activeIdx, total)
               const absD = Math.abs(d)
-              if (absD > 2) return null
+              if (absD > 3) return null
               return (
                 <div
                   key={person.name}
                   className="adv-card-pos"
                   aria-hidden={d !== 0}
                   style={{
-                    transform: `translateX(calc(-50% + ${d * 110}%)) rotateY(${-d * 35}deg) scale(${d === 0 ? 1 : 0.85})`,
+                    transform: `translateX(calc(-50% + ${d * 108}%)) rotateY(${-d * 32}deg) scale(${d === 0 ? 1 : 0.86})`,
                     opacity: d === 0 ? 1 : Math.max(0.38, 1 - absD * 0.3),
                     zIndex: 10 - absD,
                     pointerEvents: d === 0 ? 'auto' : 'none',
@@ -276,20 +276,14 @@ export function Advisors({ data }: { data: HomeContent['advisors'] }) {
           transition: clip-path 1s cubic-bezier(.2,.8,.2,1);
         }
         .adv-wipe-in { clip-path: inset(0 0 0 0); }
-        .adv-layout {
-          display: grid;
-          grid-template-columns: .7fr 1.3fr;
-          gap: clamp(24px, 5vw, 64px);
-          align-items: start;
-        }
-        @media (max-width: 860px) {
-          .adv-layout { grid-template-columns: 1fr; }
-        }
-        .adv-cf { min-width: 0; }
+        .adv-layout { display: grid; gap: clamp(28px, 4vw, 48px); }
+        .adv-text { max-width: 60ch; }
+        /* the coverflow breaks out of the column and runs the full width of the screen */
+        .adv-cf { min-width: 0; width: 100vw; margin-left: calc(50% - 50vw); }
         .adv-stage {
           position: relative;
           overflow: hidden;
-          height: calc(clamp(220px, 22vw, 280px) * 1.25 + 80px);
+          height: calc(clamp(200px, 20vw, 300px) * 1.25 + 80px);
           perspective: 1000px;
           transform-style: preserve-3d;
         }
@@ -300,7 +294,7 @@ export function Advisors({ data }: { data: HomeContent['advisors'] }) {
           position: absolute;
           left: 50%;
           top: 0;
-          width: clamp(180px, 22vw, 260px);
+          width: clamp(200px, 20vw, 300px);
           transition: transform 0.45s cubic-bezier(.2,.8,.2,1), opacity 0.45s;
         }
         @media (max-width: 860px) {

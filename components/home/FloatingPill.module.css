@@ -92,6 +92,13 @@
 }
 
 @media (max-width: 900px) {
+  /* left-aligned on phones so it never sits under the WhatsApp button at bottom-right */
+  .pill {
+    margin-inline: 0;
+    left: 1rem;
+    right: auto;
+    max-width: calc(100vw - 6.5rem);
+  }
   .whereName {
     max-width: 120px;
   }

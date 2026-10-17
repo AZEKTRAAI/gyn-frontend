@@ -1,0 +1,206 @@
+/* Direction J — ticket stub + video card. Concept: .past, .ticket, .vid */
+.section {
+  padding-block: clamp(72px, 9vw, 136px);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: center;
+}
+
+.kicker {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #C5192D;
+  margin-bottom: 12px;
+}
+
+.heading {
+  font-size: clamp(2.1rem, 4.8vw, 3.9rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  text-wrap: balance;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1s cubic-bezier(.2, .8, .2, 1);
+}
+
+.heading.in { clip-path: inset(0 0% 0 0); }
+
+.accent {
+  font-family: var(--fs, var(--font-bodoni));
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Ticket stub with perforated mask at ~72% height */
+.ticket {
+  position: relative;
+  background: #fff;
+  border-radius: 20px;
+  padding: 26px;
+  display: grid;
+  gap: 14px;
+  border: 1px solid #D3DAE6;
+  margin-top: 26px;
+  /* perforation: radial mask — circles cut into the sides */
+  --tear: 72%;
+  -webkit-mask:
+    radial-gradient(circle 11px at 0 var(--tear), transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 11px at 100% var(--tear), transparent 98%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle 11px at 0 var(--tear), transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 11px at 100% var(--tear), transparent 98%, #000) right / 51% 100% no-repeat;
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.8s cubic-bezier(.2, .8, .2, 1), transform 0.8s cubic-bezier(.2, .8, .2, 1);
+}
+
+.ticket.in { opacity: 1; transform: none; }
+
+.ticketTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #4A5370;
+}
+
+.ticketTitle {
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.ticketText {
+  font-size: 15px;
+  color: #4A5370;
+}
+
+/* Dashed tear line */
+.tear {
+  border-top: 2px dashed #D3DAE6;
+  margin-top: 8px;
+  padding-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  font-size: 15px;
+}
+
+.tear b {
+  font-weight: 800;
+  font-size: 1.35rem;
+  margin-right: 6px;
+  letter-spacing: -0.02em;
+}
+
+/* Rotated red stamp */
+.stamp {
+  position: absolute;
+  right: 22px;
+  top: 18px;
+  border: 3px solid #C5192D;
+  color: #C5192D;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+}
+
+.note {
+  margin-top: 14px;
+  font-size: 14px;
+  color: #4A5370;
+  opacity: 0;
+  transition: opacity 0.8s 0.2s cubic-bezier(.2, .8, .2, 1);
+}
+
+.note.in { opacity: 1; }
+
+/* Video card */
+.vidCard {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--ink, #0E1530);
+  display: block;
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.8s 0.1s cubic-bezier(.2, .8, .2, 1), transform 0.8s 0.1s cubic-bezier(.2, .8, .2, 1);
+}
+
+.vidCard.in { opacity: 1; transform: none; }
+
+.vidCard:hover .vidImage { transform: scale(1.04); }
+
+.vidImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.92;
+  transition: transform 1.2s cubic-bezier(.2, .8, .2, 1);
+}
+
+.playOverlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.playBtn {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--y, #FCC30B);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.vidCard:hover .playBtn { transform: scale(1.12); }
+
+/* Past editions tab list (if more than one edition) */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #D3DAE6;
+  color: #4A5370;
+  background: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-family: inherit;
+}
+
+.tab.active, .tab:hover {
+  background: var(--ink, #0E1530);
+  color: #fff;
+  border-color: var(--ink, #0E1530);
+}
+
+@media (max-width: 860px) {
+  .inner { grid-template-columns: 1fr; }
+}

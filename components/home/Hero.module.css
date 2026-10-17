@@ -1,0 +1,189 @@
+/* Direction J "Echo stack" hero — navy, typographic, film strip.
+   Concept CSS: .hero, .hero .ring, .hero .spot, .film in j-echo-stack.html */
+
+.hero {
+  background: var(--navy, #202F60);
+  color: #fff;
+  position: relative;
+  overflow: clip;
+  padding-top: clamp(96px, 14vh, 150px);
+}
+
+/* scrim: moving spotlight, darkens everything outside the beam */
+.spot {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle 320px at var(--mx, 70%) var(--my, 40%), transparent 0, rgba(14, 21, 48, .55) 100%); /* scrim */
+}
+
+/* SDG wheel: 17-wedge SVG, slow spin, top-right, drop shadow */
+.ring {
+  position: absolute;
+  right: -6%;
+  top: -2%;
+  width: min(52vw, 600px);
+  opacity: 0.95;
+  animation: spin 120s linear infinite;
+  pointer-events: none;
+  filter: drop-shadow(0 30px 50px rgba(0, 0, 0, .35));
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.heroText {
+  position: relative;
+  display: grid;
+  gap: 26px;
+  max-width: 980px;
+  padding-bottom: clamp(40px, 6vw, 72px);
+}
+
+.headline {
+  font-family: var(--fd, var(--font-host-grotesk));
+  font-size: clamp(3rem, 9vw, 8.4rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  position: relative;
+}
+
+/* words start invisible; JS adds .go to reveal them */
+.word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em) rotate(2deg);
+  transition: opacity 0.5s cubic-bezier(.2, .8, .2, 1), transform 0.7s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.headline.go .word {
+  opacity: 1;
+  transform: none;
+}
+
+/* The italic accent word (e.g. "stage") uses Bodoni, NOT uppercase */
+.accent {
+  font-family: var(--fs, var(--font-bodoni));
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 1.08em;
+  color: var(--y, #FCC30B);
+}
+
+/* The real period after the accent word, hidden during the ball-lands animation */
+.period {
+  display: inline-block;
+  /* visible by default; Hero.tsx sets opacity:0 during the animation */
+}
+
+.lead {
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  max-width: 58ch;
+  color: rgba(255, 255, 255, .88);
+  /* hidden until phase 5 of the animation */
+}
+
+.factsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.chip {
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.chipHot {
+  background: var(--y, #FCC30B);
+  color: var(--ink, #0E1530);
+  border-color: var(--y, #FCC30B);
+  font-weight: 700;
+}
+
+.btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Film strip */
+.film {
+  position: relative;
+  margin-top: clamp(40px, 6vw, 72px);
+  padding-block: 22px 0;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  animation: crawl 60s linear infinite;
+}
+
+.film:hover .track {
+  animation-play-state: paused;
+}
+
+.filmFigure {
+  position: relative;
+  flex: none;
+  width: clamp(200px, 24vw, 320px);
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 4px solid #fff;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .35);
+}
+
+.filmFigure:nth-child(odd)  { transform: rotate(-2deg); }
+.filmFigure:nth-child(even) { transform: rotate(2deg); margin-top: 14px; }
+
+.filmCaption {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  background: var(--y, #FCC30B);
+  color: var(--ink, #0E1530);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 5px 9px;
+  border-radius: 7px;
+  text-transform: uppercase;
+}
+
+@keyframes crawl {
+  to { transform: translateX(-50%); }
+}
+
+/* SVG animation overlay — ruler, ball, handles */
+.animOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+@media (max-width: 860px) {
+  .ring {
+    width: 80vw;
+    right: -30%;
+    top: -8%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring { animation: none; }
+  .track { animation: none; }
+  .word { opacity: 1; transform: none; transition: none; }
+}

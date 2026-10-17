@@ -1,202 +1,144 @@
 {
   "seo": {
     "title": "Global Youth Network - GYN",
-    "description": "GYN hosts international conferences to support the UN Sustainable Development Goals. Next: SDG Innovation Summit Malaysia 2026, 19 to 22 November, Teedo Hotel, Kuala Lumpur."
+    "description": "GYN brings 100 young leaders, students and founders to one summit a year. Next: SDG Innovation Summit Malaysia, Kuala Lumpur, 19 to 22 November 2026."
   },
   "hero": {
-    "headline": "Seventeen goals.\n*Four* in our hands.",
-    "eventName": "GYN presents SDG Innovation Summit Malaysia 2026 (SISM)",
-    "dateVenue": "19–22 November 2026, Teedo Hotel, Kuala Lumpur",
-    "note": "Co-hosted by UNU Global Health.",
+    "headline": "Your first\nglobal *stage*.",
+    "lead": "GYN brings 100 young leaders, students and founders to one summit a year. Workshops, a speaking slot, a certificate, a $1,000 grant to pitch for, and 30 funded seats. Next stop: Kuala Lumpur, 19 to 22 November 2026.",
+    "facts": [
+      {
+        "label": "30 funded seats",
+        "hot": true
+      },
+      {
+        "label": "Confirmed seats from $199",
+        "hot": false
+      },
+      {
+        "label": "Ages 17 to 50",
+        "hot": false
+      },
+      {
+        "label": "No IELTS needed",
+        "hot": false
+      },
+      {
+        "label": "Any field, any country",
+        "hot": false
+      }
+    ],
     "primaryCta": {
-      "label": "Book Forum Access, $199",
-      "href": "/sism-forum-access"
-    },
-    "secondaryCta": {
-      "label": "See the summit",
+      "label": "Apply for SISM 2026",
       "href": "/sism-2026"
     },
-    "countdownTo": "2026-11-19T00:00",
-    "utcOffset": "+08:00"
-  },
-  "about": {
-    "visible": true,
-    "heading": "Who we are & what we do",
-    "body": "Global Youth Network (GYN) is an international organization dedicated to connecting and empowering young people worldwide. We bring together students, professionals, and innovators to collaborate across borders, develop leadership skills, and create meaningful global impact.",
-    "services": [
+    "secondaryCta": {
+      "label": "See what you get",
+      "href": "#get"
+    },
+    "film": [
       {
-        "name": "Conferences",
-        "description": "GYN hosts international forums, workshops and summits to promote dialogue on Sustainable Development Goals"
+        "image": {
+          "src": "/media/gallery/fmst-dsc01881-1.webp",
+          "alt": "Delegates at the FutureMinds Summit, Bangkok"
+        },
+        "caption": "Bangkok, July 2026"
       },
       {
-        "name": "Networking",
-        "description": "The GYN empowers the next generation by providing a collaborative ecosystem of mentorship, technical support and resource sharing to address the world’s most pressing challenges"
+        "image": {
+          "src": "/media/gallery/fmst-dsc02172-1.webp",
+          "alt": "Delegates at the FutureMinds Summit, Bangkok"
+        },
+        "caption": "70 delegates"
       },
       {
-        "name": "Leadership Development",
-        "description": "Empowering a new generation of leaders to navigate complexity with visionary foresight, unwavering integrity and measurable global impact"
+        "image": {
+          "src": "/media/gallery/fmst-dsc01976-1.webp",
+          "alt": "A panel at the FutureMinds Summit"
+        },
+        "caption": "12 speakers"
       },
       {
-        "name": "Collaborative Networks",
-        "description": "Cultivating a global ecosystem of cross-border dialogue and strategic partnerships to unlock innovative solutions for the world’s most complex challenges"
+        "image": {
+          "src": "/media/gallery/fmst-dsc02243-1.webp",
+          "alt": "Cultural night at the FutureMinds Summit"
+        },
+        "caption": "Cultural night"
       },
       {
-        "name": "Youth Mentoring",
-        "description": "Providing tailor-made and hands-on mentoring to youth to become effective leaders"
+        "image": {
+          "src": "/media/gallery/fmst-dsc01945-1.webp",
+          "alt": "A workshop at the FutureMinds Summit"
+        },
+        "caption": "Workshops"
       },
       {
-        "name": "Workshops & Trainings",
-        "description": "Building leadership capacities and policy expertise for future-ready governance"
+        "image": {
+          "src": "/media/gallery/fmst-dsc02120-1.webp",
+          "alt": "Delegates presenting at the FutureMinds Summit"
+        },
+        "caption": "World Got a Problem"
       }
     ]
   },
-  "focus": {
+  "strip": {
+    "label": "Next summit:",
+    "eventName": "SDG Innovation Summit Malaysia",
+    "dateVenue": "19 to 22 Nov 2026, Teedo Hotel, Kuala Lumpur",
+    "cohost": "Co-hosted by UNU Global Health",
+    "link": {
+      "label": "Confirmed seats from $199",
+      "href": "/sism-forum-access"
+    }
+  },
+  "benefits": {
     "visible": true,
-    "heading": "4 SDGs, 1 sustainable future",
-    "quote": "At GYN, we focus on four Sustainable Development Goals (SDGs) as education, gender equality, industry – innovation & Infrastructure, and climate action, uniting young leaders worldwide to create impactful solutions and drive positive change for a sustainable future.",
-    "goals": [
+    "kicker": "What you leave with",
+    "heading": "More than *photos*.",
+    "intro": "Every GYN delegate goes home with a stage they spoke on, a certificate, a hundred new contacts and a shot at seed money. Scholars and paid delegates get the same four days.",
+    "photo": {
+      "src": "/media/gallery/fmst-dsc02243-1.webp",
+      "alt": "Delegates at the FutureMinds Summit in Bangkok"
+    },
+    "photoBig": "100",
+    "photoText": "young leaders in one room. Students, founders, researchers and volunteers from every continent.",
+    "tiles": [
       {
+        "big": "Stage",
+        "text": "A speaking opportunity to present your project, in every ticket.",
         "sdg": "4",
-        "label": "SDG 4: Quality Education",
-        "claim": "Learning that travels.",
-        "text": "Empowering through Quality Education."
+        "render": ""
       },
       {
-        "sdg": "5",
-        "label": "SDG 5: Gender Equality",
-        "claim": "Equal is the baseline.",
-        "text": "Breaking barriers for Gender Equality."
-      },
-      {
+        "big": "$1,000",
+        "text": "Seed grant for the best project, pitched on stage.",
         "sdg": "9",
-        "label": "SDG 9: Industry, Innovation and Infrastructure",
-        "claim": "Ideas need infrastructure.",
-        "text": "Driving Innovation & Resilient Infrastructure."
+        "render": "/renders/r3/sdg9-gears-poster.webp"
       },
       {
+        "big": "30",
+        "text": "Funded seats. The top 15 applicants fly free: airfare, visa, hotel and meals.",
         "sdg": "13",
-        "label": "SDG 13: Climate Action",
-        "claim": "The climate cannot wait.",
-        "text": "Taking urgent action for our Climate."
+        "render": "/renders/r3/sdg13-leaf-poster.webp"
+      },
+      {
+        "big": "Certificate",
+        "text": "Of participation, from a summit co-hosted by UNU Global Health.",
+        "sdg": "5",
+        "render": ""
       }
     ]
   },
-  "objectives": {
+  "network": {
     "visible": true,
-    "heading": "Objectives",
-    "items": [
-      {
-        "title": "Empowerment",
-        "text": "Priming young leaders with skills, mindset, and confidence to drive systemic change."
-      },
-      {
-        "title": "Data Unification",
-        "text": "To collect and unify data and research ideas from across the globe related to SDG 4, SDG 5, SDG 9 and SDG 13"
-      },
-      {
-        "title": "Research Exploration",
-        "text": "Exploring fields, sharing research, and volunteer work"
-      },
-      {
-        "title": "Capacity Building",
-        "text": "Bringing scientists, students, NGOs, and legal professionals together through sessions and trainings to foster innovation and peace."
-      },
-      {
-        "title": "Policy Round-ups",
-        "text": "To provide a platform for bridging gaps, bringing cross-functional ideas from AI experts, businesses, NGOs, and volunteers through policy & ideas"
-      },
-      {
-        "title": "Global Collaboration",
-        "text": "Providing a forum for international networking (cross-border dialogue) and cultural exchange."
-      },
-      {
-        "title": "Sustainable Impact",
-        "text": "Advancing the UN Sustainable Development Goals (SDGs 4, 5, 9, and 13) through youth-led innovation and leadership skills."
-      }
-    ]
-  },
-  "advisors": {
-    "visible": true,
-    "heading": "Our global advisory board",
-    "people": [
-      {
-        "name": "Wenbo Li",
-        "role": "CEO Poly-Gamma, China",
-        "bio": "Mr. Li is a technology entrepreneur in the global advertising technology industry. Through his work with Poly-Gamma, he contributes to building innovative and transparent digital advertising solutions that empower businesses and publishers.",
-        "photo": {
-          "src": "/media/advisory-board/wenbo-li.webp",
-          "alt": "Wenbo Li"
-        }
-      },
-      {
-        "name": "Sura Fitiani",
-        "role": "Intersect Innovation Hub, Palestine",
-        "bio": "Ms. Fitiani works with startups and entrepreneurs to support innovation, partnerships, and growth within Palestine’s evolving technology and entrepreneurship landscape.",
-        "photo": {
-          "src": "/media/advisory-board/sura-fitiani.webp",
-          "alt": "Sura Fitiani"
-        }
-      },
-      {
-        "name": "Dr. Salah",
-        "role": "Senior Government Official, Oman",
-        "bio": "Dr. Salah has experience in public policy and national development. He has contributed to initiatives focused on governance, strategic planning, and sustainable growth.",
-        "photo": {
-          "src": "/media/advisory-board/dr-salah.webp",
-          "alt": "Dr. Salah"
-        }
-      },
-      {
-        "name": "Sidra Riaz",
-        "role": "Presidential Doctoral Fellow at Florida University, United States",
-        "bio": "COP 29 & COP30 Fellow. UN Youth Delegate.",
-        "photo": {
-          "src": "/media/advisory-board/sidra-riaz.webp",
-          "alt": "Sidra Riaz"
-        }
-      },
-      {
-        "name": "Dr. Mona Al Kadi",
-        "role": "Life Transformative Coach, UAE",
-        "bio": "Dr. Mona empowers individuals through coaching and mentorship to achieve personal growth and unlock their full potential.",
-        "photo": {
-          "src": "/media/advisory-board/dr-mona-al-kadi.webp",
-          "alt": "Dr. Mona Al Kadi"
-        }
-      },
-      {
-        "name": "Mr. Elam",
-        "role": "CEO Axxon group, UK",
-        "bio": "Mr. Elam is actively advancing the global technology ecosystem by driving innovation and enabling scalable opportunities for emerging tech entrepreneurs.",
-        "photo": {
-          "src": "/media/advisory-board/mr-elam.webp",
-          "alt": "Mr. Elam"
-        }
-      },
-      {
-        "name": "Dr. Suman Roy",
-        "role": "UN SDG Advocate",
-        "bio": "Dr. Suman Roy is an internationally recognized leader in food security, sustainability, and global development, dedicated to advancing the United Nations Sustainable Development Goals.",
-        "photo": {
-          "src": "/media/advisory-board/dr-suman-roy.webp",
-          "alt": "Dr. Suman Roy"
-        }
-      },
-      {
-        "name": "Ashley Blake",
-        "role": "Head of Partnership vrCAVE Canada",
-        "bio": "Leads strategic partnerships and community collaborations, fostering innovation and growth across the immersive technology and XR ecosystem.",
-        "photo": {
-          "src": "/media/advisory-board/ashley-blake.webp",
-          "alt": "Ashley Blake"
-        }
-      }
-    ]
-  },
-  "ambassadors": {
-    "visible": true,
-    "heading": "GYN global ambassadors",
-    "intro": "",
+    "kicker": "GYN global ambassadors",
+    "heading": "Twelve ambassadors. *Eleven* countries. One stage.",
+    "intro": "Every line on this map is a route to Kuala Lumpur. Wherever you are, someone from GYN is near, and they're the first people you meet when you land.",
+    "hub": {
+      "label": "Kuala Lumpur",
+      "lon": 101.7,
+      "lat": 3.1
+    },
     "people": [
       {
         "name": "Helga Tongi",
@@ -204,63 +146,9 @@
         "photo": {
           "src": "/media/ambassadors/helga-tongi.webp",
           "alt": "Helga Tongi"
-        }
-      },
-      {
-        "name": "Yara Shamas",
-        "country": "Lebanon",
-        "photo": {
-          "src": "/media/ambassadors/yara-shamas.webp",
-          "alt": "Yara Shamas"
-        }
-      },
-      {
-        "name": "Patee",
-        "country": "Thailand",
-        "photo": {
-          "src": "/media/ambassadors/patee.webp",
-          "alt": "Patee"
-        }
-      },
-      {
-        "name": "Kritika Ghimire",
-        "country": "Nepal",
-        "photo": {
-          "src": "/media/ambassadors/kritika-ghimire.webp",
-          "alt": "Kritika Ghimire"
-        }
-      },
-      {
-        "name": "Lim Pei En",
-        "country": "Malaysia",
-        "photo": {
-          "src": "/media/ambassadors/lim-pei-en.webp",
-          "alt": "Lim Pei En"
-        }
-      },
-      {
-        "name": "Dr Righteous",
-        "country": "Nigeria",
-        "photo": {
-          "src": "/media/ambassadors/dr-righteous.webp",
-          "alt": "Dr Righteous"
-        }
-      },
-      {
-        "name": "Md Nafi",
-        "country": "Bangladesh",
-        "photo": {
-          "src": "/media/ambassadors/md-nafi.webp",
-          "alt": "Md Nafi"
-        }
-      },
-      {
-        "name": "Diba",
-        "country": "Australia",
-        "photo": {
-          "src": "/media/ambassadors/diba.webp",
-          "alt": "Diba"
-        }
+        },
+        "lon": -77,
+        "lat": 39
       },
       {
         "name": "Casey",
@@ -268,7 +156,79 @@
         "photo": {
           "src": "/media/ambassadors/casey.webp",
           "alt": "Casey"
-        }
+        },
+        "lon": -118,
+        "lat": 34
+      },
+      {
+        "name": "Yara Shamas",
+        "country": "Lebanon",
+        "photo": {
+          "src": "/media/ambassadors/yara-shamas.webp",
+          "alt": "Yara Shamas"
+        },
+        "lon": 35.8,
+        "lat": 33.9
+      },
+      {
+        "name": "Patee",
+        "country": "Thailand",
+        "photo": {
+          "src": "/media/ambassadors/patee.webp",
+          "alt": "Patee"
+        },
+        "lon": 100.5,
+        "lat": 13.7
+      },
+      {
+        "name": "Kritika Ghimire",
+        "country": "Nepal",
+        "photo": {
+          "src": "/media/ambassadors/kritika-ghimire.webp",
+          "alt": "Kritika Ghimire"
+        },
+        "lon": 85.3,
+        "lat": 27.7
+      },
+      {
+        "name": "Lim Pei En",
+        "country": "Malaysia",
+        "photo": {
+          "src": "/media/ambassadors/lim-pei-en.webp",
+          "alt": "Lim Pei En"
+        },
+        "lon": 101.7,
+        "lat": 3.1
+      },
+      {
+        "name": "Dr Righteous",
+        "country": "Nigeria",
+        "photo": {
+          "src": "/media/ambassadors/dr-righteous.webp",
+          "alt": "Dr Righteous"
+        },
+        "lon": 7.5,
+        "lat": 9.1
+      },
+      {
+        "name": "Md Nafi",
+        "country": "Bangladesh",
+        "photo": {
+          "src": "/media/ambassadors/md-nafi.webp",
+          "alt": "Md Nafi"
+        },
+        "lon": 90.4,
+        "lat": 23.8
+      },
+      {
+        "name": "Diba",
+        "country": "Australia",
+        "photo": {
+          "src": "/media/ambassadors/diba.webp",
+          "alt": "Diba"
+        },
+        "lon": 151.2,
+        "lat": -33.9
       },
       {
         "name": "Ashif",
@@ -276,7 +236,9 @@
         "photo": {
           "src": "/media/ambassadors/ashif.webp",
           "alt": "Ashif"
-        }
+        },
+        "lon": 77.2,
+        "lat": 28.6
       },
       {
         "name": "Boling",
@@ -284,7 +246,9 @@
         "photo": {
           "src": "/media/ambassadors/boling.webp",
           "alt": "Boling"
-        }
+        },
+        "lon": 102.6,
+        "lat": 17.9
       },
       {
         "name": "Abdul Ahad",
@@ -292,58 +256,467 @@
         "photo": {
           "src": "/media/ambassadors/abdul-ahad.webp",
           "alt": "Abdul Ahad"
+        },
+        "lon": 73,
+        "lat": 33.7
+      }
+    ],
+    "primaryCta": {
+      "label": "Meet the ambassadors",
+      "href": "/about-us"
+    },
+    "secondaryCta": {
+      "label": "Coming as a group?",
+      "href": "mailto:contact@thegyn.org"
+    }
+  },
+  "past": {
+    "visible": true,
+    "kicker": "Our previous summit",
+    "heading": "Bangkok, July 2026. *We were there.*",
+    "editions": [
+      {
+        "name": "FutureMinds Summit, edition 01",
+        "edition": "Edition 01",
+        "stamp": "Admitted",
+        "dates": "Thailand, 16 to 19 July 2026",
+        "text": "Le Srivaree Suvarnabhumi Hotel, Bangkok. GYN's first summit: keynotes, policy workshops, the World Got a Problem challenge, an AI corner and a cultural night.",
+        "facts": [
+          {
+            "n": "70",
+            "label": "participants"
+          },
+          {
+            "n": "12",
+            "label": "speakers"
+          },
+          {
+            "n": "4",
+            "label": "days"
+          }
+        ],
+        "videoUrl": "https://youtu.be/Aqqo3cL4W6w",
+        "videoPoster": {
+          "src": "/media/video/Aqqo3cL4W6w.jpg",
+          "alt": "FutureMinds Summit 2026, Day 1 highlights"
+        }
+      }
+    ],
+    "note": "Edition 02 is Kuala Lumpur. Your ticket is below."
+  },
+  "event": {
+    "visible": true,
+    "kicker": "Next summit",
+    "heading": "Next: *Kuala Lumpur*.",
+    "text": "SDG Innovation Summit Malaysia 2026. 19 to 22 November, Teedo Hotel, Kuala Lumpur. Co-hosted by UNU Global Health. Theme: Innovative Ideas for Social Impact.",
+    "countdownTo": "2026-11-19T00:00",
+    "utcOffset": "+08:00",
+    "primaryCta": {
+      "label": "Confirm my seat, $199",
+      "href": "/sism-forum-access"
+    },
+    "secondaryCta": {
+      "label": "All four ways in",
+      "href": "/sism-2026"
+    },
+    "note": "Scholarship applications closed 11 October. Confirmed seats are open: $199 forum access, $399 with hotel, $49 invitation letter.",
+    "seats": {
+      "total": 100,
+      "full": 15,
+      "partial": 15,
+      "fullLabel": "15 fully funded",
+      "partialLabel": "15 partially funded",
+      "restLabel": "70 confirmed seats, from $199"
+    }
+  },
+  "speakers": {
+    "visible": true,
+    "kicker": "Speakers at SISM 2026",
+    "heading": "Who you'll *learn* from.",
+    "intro": "Eight speakers from universities, UN-linked programmes and startups. You sit in their workshops, then present to them.",
+    "people": [
+      {
+        "name": "Julie Victoire",
+        "org": "The Rise Edit",
+        "role": "International youth advocate, Australia",
+        "photo": {
+          "src": "/media/speakers/julie-victoire.webp",
+          "alt": "Julie Victoire"
+        },
+        "sdg": "4"
+      },
+      {
+        "name": "Dr Mohd Farid bin Atan",
+        "org": "Universiti Malaysia Sarawak",
+        "role": "Deputy Director, Sustainability",
+        "photo": {
+          "src": "/media/speakers/dr-mohd-farid-bin-atan.webp",
+          "alt": "Dr Mohd Farid bin Atan"
+        },
+        "sdg": "5"
+      },
+      {
+        "name": "Ayman William Hermansson",
+        "org": "Heriot-Watt University Malaysia",
+        "role": "Assistant Professor",
+        "photo": {
+          "src": "/media/speakers/ayman-william-hermansson.webp",
+          "alt": "Ayman William Hermansson"
+        },
+        "sdg": "9"
+      },
+      {
+        "name": "Syed Bilal Qasim",
+        "org": "Techsol Space",
+        "role": "CEO, Project Director CEGA",
+        "photo": {
+          "src": "/media/speakers/syed-bilal-qasim.webp",
+          "alt": "Syed Bilal Qasim"
+        },
+        "sdg": "13"
+      },
+      {
+        "name": "Sapargulay Mahtumov",
+        "org": "MySDG Academy",
+        "role": "Youth Coordinator, Malaysia",
+        "photo": {
+          "src": "/media/speakers/sapargulay-mahtumov.webp",
+          "alt": "Sapargulay Mahtumov"
+        },
+        "sdg": "13"
+      },
+      {
+        "name": "Jasmine Cannon-Ikurusi",
+        "org": "Sapphire Employability & Wellbeing Academy",
+        "role": "CEO and founder, London",
+        "photo": {
+          "src": "/media/speakers/jasmine-cannon-ikurusi.webp",
+          "alt": "Jasmine Cannon-Ikurusi"
+        },
+        "sdg": "4"
+      },
+      {
+        "name": "Ashley Blake",
+        "org": "vrCAVE",
+        "role": "Head of Partnership, Canada",
+        "photo": {
+          "src": "/media/speakers/ashley-blake.webp",
+          "alt": "Ashley Blake"
+        },
+        "sdg": "5"
+      },
+      {
+        "name": "Arumita Mitra",
+        "org": "Sudhamta Foundation",
+        "role": "Founder, TEDx speaker, India",
+        "photo": {
+          "src": "/media/speakers/arumita-mitra.webp",
+          "alt": "Arumita Mitra"
+        },
+        "sdg": "9"
+      }
+    ]
+  },
+  "programme": {
+    "visible": true,
+    "kicker": "The programme",
+    "heading": "Four days, *hour by hour*.",
+    "days": [
+      {
+        "date": "Thursday, 19 November",
+        "title": "Arrive, check in, meet everyone",
+        "items": [
+          "Hotel check-in at the Teedo Hotel",
+          "Delegate registration and welcome kit",
+          "Free evening to explore Kuala Lumpur"
+        ],
+        "sdg": "13",
+        "render": "/renders/r3/sdg13-leaf-poster.webp"
+      },
+      {
+        "date": "Friday, 20 November",
+        "title": "Learn, then meet the room",
+        "items": [
+          "Event opening and ice-breaking",
+          "Delegate introductions and country showcase",
+          "Workshop 1: Understanding SDGs",
+          "Workshop 2: Social Ventures, and Panel 1",
+          "Summit Entrepreneurship Activity A",
+          "Free city tour"
+        ],
+        "sdg": "4",
+        "render": "/renders/r3/sdg4-books-poster.webp"
+      },
+      {
+        "date": "Saturday, 21 November",
+        "title": "Your turn on the stage",
+        "items": [
+          "Workshop 3: Policy Impact",
+          "Workshop 4: SDG Case Studies",
+          "Hear You Out: youth-led presentations",
+          "Summit Entrepreneurship Activity B",
+          "Cultural night and dinner"
+        ],
+        "sdg": "9",
+        "render": "/renders/r3/sdg9-gears-poster.webp"
+      },
+      {
+        "date": "Sunday, 22 November",
+        "title": "Certificates and the group photo",
+        "items": [
+          "Certification ceremony",
+          "Group photo",
+          "Check-out",
+          "APU campus visit sits in the programme too"
+        ],
+        "sdg": "5",
+        "render": "/renders/r3/sdg5-balance-poster.webp"
+      }
+    ],
+    "note": "Tentative schedule, as published by GYN."
+  },
+  "advisors": {
+    "visible": true,
+    "kicker": "Global advisory board",
+    "heading": "The people *behind* it.",
+    "intro": "Eight advisors across China, Palestine, Oman, the US, the UAE, the UK and Canada shape the programme and sit on the selection panel.",
+    "cta": {
+      "label": "About GYN",
+      "href": "/about-us"
+    },
+    "people": [
+      {
+        "name": "Wenbo Li",
+        "where": "China",
+        "bio": "CEO, Poly-Gamma. A technology entrepreneur in global advertising technology.",
+        "photo": {
+          "src": "/media/advisory-board/wenbo-li.webp",
+          "alt": "Wenbo Li"
+        }
+      },
+      {
+        "name": "Sura Fitiani",
+        "where": "Palestine",
+        "bio": "Intersect Innovation Hub. Works with startups and entrepreneurs on innovation and growth.",
+        "photo": {
+          "src": "/media/advisory-board/sura-fitiani.webp",
+          "alt": "Sura Fitiani"
+        }
+      },
+      {
+        "name": "Dr. Salah",
+        "where": "Oman",
+        "bio": "Senior government official. Public policy, governance and national development.",
+        "photo": {
+          "src": "/media/advisory-board/dr-salah.webp",
+          "alt": "Dr. Salah"
+        }
+      },
+      {
+        "name": "Sidra Riaz",
+        "where": "United States",
+        "bio": "Presidential Doctoral Fellow at Florida University. COP29 and COP30 Fellow, UN Youth Delegate.",
+        "photo": {
+          "src": "/media/advisory-board/sidra-riaz.webp",
+          "alt": "Sidra Riaz"
+        }
+      },
+      {
+        "name": "Dr. Mona Al Kadi",
+        "where": "UAE",
+        "bio": "Life transformative coach. Coaching and mentorship for personal growth.",
+        "photo": {
+          "src": "/media/advisory-board/dr-mona-al-kadi.webp",
+          "alt": "Dr. Mona Al Kadi"
+        }
+      },
+      {
+        "name": "Mr. Elam",
+        "where": "UK",
+        "bio": "CEO, Axxon Group. Scalable opportunities for emerging tech entrepreneurs.",
+        "photo": {
+          "src": "/media/advisory-board/mr-elam.webp",
+          "alt": "Mr. Elam"
+        }
+      },
+      {
+        "name": "Dr. Suman Roy",
+        "where": "UN SDG Advocate",
+        "bio": "Food security, sustainability and global development.",
+        "photo": {
+          "src": "/media/advisory-board/dr-suman-roy.webp",
+          "alt": "Dr. Suman Roy"
+        }
+      },
+      {
+        "name": "Ashley Blake",
+        "where": "Canada",
+        "bio": "Head of Partnership, vrCAVE. Partnerships across immersive technology and XR.",
+        "photo": {
+          "src": "/media/advisory-board/ashley-blake.webp",
+          "alt": "Ashley Blake"
         }
       }
     ]
   },
-  "events": {
+  "gallery": {
     "visible": true,
-    "heading": "Our upcoming events",
+    "kicker": "The wall",
+    "heading": "See it. Then *picture yourself* in it.",
+    "intro": "Pinned up the way delegates keep them. Hover to pick one up.",
     "items": [
       {
-        "kicker": "Call for Applications!",
-        "title": "SDG Innovation Summit Malaysia 2026",
-        "dates": "19–22 November 2026",
-        "venue": "Teedo Hotel, Kuala Lumpur",
-        "description": "The SDG Innovation Summit Malaysia 2026 brings together 100 young leaders, innovators, entrepreneurs, students, professionals, and changemakers from around the world to exchange ideas, build connections, and drive sustainable impact aligned with the UN Sustainable Development Goals (SDGs).",
         "image": {
-          "src": "/media/events/web-banner-sism.webp",
-          "alt": "SDG Innovation Summit Malaysia 2026 banner"
+          "src": "/media/video/FwjXKiF4QJ0.jpg",
+          "alt": "FutureMinds Summit Day 2 highlights"
         },
-        "cta": {
-          "label": "SIS Malaysia 2026, apply",
-          "href": "/sism-2026"
+        "title": "Day 2 highlights",
+        "caption": "Bangkok, July 2026. Video",
+        "videoUrl": "https://youtu.be/FwjXKiF4QJ0"
+      },
+      {
+        "image": {
+          "src": "/media/gallery/fmst-dsc02172-1.webp",
+          "alt": "Delegates at the FutureMinds Summit"
+        },
+        "title": "Seventy of us",
+        "caption": "Le Srivaree Hotel, Bangkok",
+        "videoUrl": ""
+      },
+      {
+        "image": {
+          "src": "/media/gallery/fmst-dsc01894-1.webp",
+          "alt": "Policy workshop"
+        },
+        "title": "Policy workshop",
+        "caption": "Chapter 2",
+        "videoUrl": ""
+      },
+      {
+        "image": {
+          "src": "/media/gallery/fmst-dsc02159-1.webp",
+          "alt": "World Got a Problem challenge"
+        },
+        "title": "World Got a Problem",
+        "caption": "The delegate-led chapter",
+        "videoUrl": ""
+      },
+      {
+        "image": {
+          "src": "/media/video/TjnrswlwX8k.jpg",
+          "alt": "FutureMinds Summit Day 3 highlights"
+        },
+        "title": "Day 3 highlights",
+        "caption": "Video",
+        "videoUrl": "https://youtu.be/TjnrswlwX8k"
+      },
+      {
+        "image": {
+          "src": "/media/gallery/fmst-dsc03736-1.webp",
+          "alt": "Cultural night"
+        },
+        "title": "Cultural night",
+        "caption": "Certificates and performances",
+        "videoUrl": ""
+      },
+      {
+        "image": {
+          "src": "/media/gallery/fmst-dsc01976-1.webp",
+          "alt": "Keynotes and panels"
+        },
+        "title": "Keynotes and panels",
+        "caption": "12 speakers",
+        "videoUrl": ""
+      },
+      {
+        "image": {
+          "src": "/media/gallery/fmst-dsc01960-1.webp",
+          "alt": "Between sessions"
+        },
+        "title": "Between sessions",
+        "caption": "Bangkok, July 2026",
+        "videoUrl": ""
+      }
+    ]
+  },
+  "stories": {
+    "visible": true,
+    "kicker": "Stories of impact",
+    "heading": "Delegates, in their *own* words.",
+    "intro": "What Bangkok delegates posted afterwards, and what they said on camera.",
+    "quotes": [
+      {
+        "name": "Delegate name",
+        "status": "FMS Thailand '26, partially funded delegate",
+        "country": "Country",
+        "quote": "Placeholder for a real quote. The SISM page embeds seven LinkedIn posts from Bangkok delegates. Each becomes a card like this one, with the delegate's name, photo, funding status and the first lines of their post, once they've given permission.",
+        "photo": {
+          "src": "/media/gallery/fmst-dsc01881-1.webp",
+          "alt": ""
+        },
+        "link": "https://thegyn.org/sism-2026/"
+      }
+    ],
+    "videos": [
+      {
+        "url": "https://youtube.com/shorts/cO1D5dJFops",
+        "poster": {
+          "src": "/media/video/cO1D5dJFops.jpg",
+          "alt": "Delegate testimonial"
+        }
+      },
+      {
+        "url": "https://youtube.com/shorts/eeFq13x-_rQ",
+        "poster": {
+          "src": "/media/video/eeFq13x-_rQ.jpg",
+          "alt": "Delegate testimonial"
+        }
+      },
+      {
+        "url": "https://youtube.com/shorts/-UwHA0DhXkA",
+        "poster": {
+          "src": "/media/video/-UwHA0DhXkA.jpg",
+          "alt": "Delegate testimonial"
         }
       }
     ]
   },
   "partners": {
     "visible": true,
+    "cohost": {
+      "name": "UNU Global Health",
+      "logo": {
+        "src": "/media/logos/unu-global-health-logo.png",
+        "alt": "UNU Global Health"
+      },
+      "text": "Co-hosted by UNU Global Health, the United Nations University institute in Kuala Lumpur.",
+      "note": "Delegates meet UNU Global Health representatives and UNU Young Leaders during the summit."
+    },
     "heading": "Our partners",
     "logos": [
-      {
-        "name": "",
-        "logo": "/media/partners/oc.png",
-        "href": ""
-      },
       {
         "name": "Opportunities Radar",
         "logo": "/media/partners/opportunities-radar.png",
         "href": ""
       },
       {
-        "name": "",
+        "name": "Axxon",
+        "logo": "/media/partners/axxon.png",
+        "href": ""
+      },
+      {
+        "name": "Techgzr",
         "logo": "/media/partners/tehgzr.png",
         "href": ""
       },
       {
-        "name": "",
+        "name": "Techsol Space",
         "logo": "/media/partners/tss.png",
         "href": ""
       },
       {
-        "name": "Axxon",
-        "logo": "/media/partners/axxon.png",
+        "name": "",
+        "logo": "/media/partners/oc.png",
         "href": ""
       },
       {
@@ -355,10 +728,15 @@
   },
   "closing": {
     "visible": true,
-    "headline": "See you in *Kuala Lumpur.*",
-    "cta": {
-      "label": "Book Forum Access, $199",
-      "href": "/sism-forum-access"
+    "headline": "See you in\n*Kuala Lumpur*.",
+    "text": "Twelve ambassadors in *11 countries*, eight advisors and *70 Bangkok delegates* already carry the GYN badge. The next hundred seats are in Kuala Lumpur.",
+    "primaryCta": {
+      "label": "Apply for SISM 2026",
+      "href": "/sism-2026"
+    },
+    "secondaryCta": {
+      "label": "Become an ambassador",
+      "href": "mailto:contact@thegyn.org"
     }
   }
 }

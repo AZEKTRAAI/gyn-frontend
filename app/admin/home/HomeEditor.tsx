@@ -44,6 +44,7 @@ function blank(n: JsonNode): unknown {
   if (n.type === 'object') return Object.fromEntries(Object.entries(n.properties ?? {}).map(([k, v]) => [k, blank(v)]))
   if (n.type === 'array') return []
   if (n.type === 'boolean') return true
+  if (n.type === 'number' || n.type === 'integer') return 0
   return ''
 }
 
@@ -101,6 +102,25 @@ function Field(props: FieldProps) {
   }
 
   if (node.widget === 'image') return <ImageField {...props} id={id} label={label} hint={hint} err={err} describedBy={describedBy} />
+
+  if (node.type === 'number' || node.type === 'integer') {
+    return (
+      <div className={styles.field}>
+        <label htmlFor={id}>{label}</label>
+        {hint}
+        <input
+          id={id}
+          type="number"
+          step={node.type === 'integer' ? 1 : 'any'}
+          value={typeof value === 'number' ? value : ''}
+          aria-describedby={describedBy}
+          aria-invalid={error ? true : undefined}
+          onChange={(e) => onChange(path, e.target.value === '' ? '' : Number(e.target.value))}
+        />
+        {err}
+      </div>
+    )
+  }
 
   const str = typeof value === 'string' ? value : ''
   const common = {

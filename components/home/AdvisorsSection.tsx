@@ -2,10 +2,23 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import type { HomeContent } from '@/features/home/schema'
+
+// Local prop type — not tied to HomeContent — so about-us/page.tsx can pass {name, role, bio, photo}
+// while the home page Advisors.tsx uses HomeContent['advisors'] directly.
+interface AdvisorsPerson {
+  name: string
+  /** about-us uses `role`; home schema uses `where` — accept either. */
+  role?: string
+  bio: string
+  photo: { src: string; alt: string }
+}
 
 interface Props {
-  advisors: HomeContent['advisors']
+  advisors: {
+    visible?: boolean
+    heading: string
+    people: AdvisorsPerson[]
+  }
 }
 
 export function AdvisorsSection({ advisors }: Props) {

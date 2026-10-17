@@ -1,0 +1,101 @@
+/* Direction J "Echo stack" — floating where-you-are pill, bottom-centre.
+   Concept: .bubble in j-echo-stack.html. This is ONLY the compact scrolled version
+   (not the full navbar mode — SiteHeader handles that). */
+
+.pill {
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: fit-content;
+  max-width: min(calc(100% - 2rem), 70vw);
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink, #0E1530);
+  box-shadow: 0 18px 50px rgba(14, 21, 48, .28), 0 2px 6px rgba(14, 21, 48, .12);
+  /* translateY(100px) hides it below viewport; spring transition in/out */
+  transition: transform 0.5s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.3s;
+}
+
+.pill.hidden {
+  transform: translateY(140px);
+  pointer-events: none;
+}
+
+.pill.squish {
+  transform: scale(0.96, 0.9);
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #D3DAE6;
+  flex: none;
+}
+
+.where {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10px 0 6px;
+  min-width: 0;
+}
+
+.whereLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #C5192D; /* SDG4 red */
+  line-height: 1;
+}
+
+.whereName {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  line-height: 1.2;
+}
+
+.apply {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--y, #FCC30B);
+  color: var(--ink, #0E1530);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex: none;
+  transition: background 0.2s;
+}
+
+.apply:hover {
+  background: var(--yellow-dk, #D6A200);
+}
+
+@media (max-width: 900px) {
+  .whereName {
+    max-width: 120px;
+  }
+  .applyLong {
+    display: none;
+  }
+}

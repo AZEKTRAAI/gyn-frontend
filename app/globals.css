@@ -92,6 +92,7 @@
   --navy: #202F60;
   --gut: clamp(1rem, 4vw, 3.5rem);
   --sp: clamp(3rem, 6vw, 6rem);
+  --y: #FCC30B;
 }
 
 *, *::before, *::after {

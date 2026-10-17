@@ -1,8 +1,8 @@
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { cms } from '@/lib/cms'
 import { HorizontalGallery, type GalleryPhoto } from '@/components/premium/HorizontalGallery'
-import { TransitionLink } from '@/components/premium/PageTransition'
 import { HomeVideosSection } from '@/components/HomeVideosSection'
 import { type VideoItem } from '@/components/premium/CoverflowVideos'
 import { GALLERY, SPEAKERS, ADVISORY, LOGOS } from '@/features/media/media'
@@ -298,9 +298,9 @@ export default async function FmsThailandPage() {
             </p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignSelf: 'center' }}>
-            <TransitionLink href="/sism-forum-access" className="btn btn-n">
+            <Link href="/sism-forum-access" className="btn btn-n">
               Book Forum Access, $199
-            </TransitionLink>
+            </Link>
             <a href="/sism-2026" className="btn btn-n">
               Full SISM 2026 programme
             </a>

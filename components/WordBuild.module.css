@@ -1,0 +1,24 @@
+.line { display: inline-block; }
+.w { display: inline-block; }
+/* base (no JS / reduced motion): accent words already in the accent colour */
+.accent { color: var(--accent); }
+
+.armed .w { opacity: 0; }
+
+/* each word snaps in on the beat: quick drop + slight overshoot, then holds */
+.play .w { animation: wordIn 280ms cubic-bezier(.2, .9, .25, 1.15) both; animation-delay: calc(var(--i) * var(--beat)); }
+@keyframes wordIn {
+  0% { opacity: 0; transform: translateY(.42em) scale(1.12); }
+  45% { opacity: 1; }
+  100% { opacity: 1; transform: none; }
+}
+/* accent words land in the text colour, then turn to the accent once the whole line is in */
+.play .accent {
+  animation: wordIn 280ms cubic-bezier(.2, .9, .25, 1.15) both, accentOn 380ms ease both;
+  animation-delay: calc(var(--i) * var(--beat)), calc(var(--n) * var(--beat) + 160ms);
+}
+@keyframes accentOn { from { color: inherit; } to { color: var(--accent); } }
+
+/* the camera pull-back: the line starts a touch large and settles as the last word lands */
+.play { animation: pullBack calc(var(--n) * var(--beat) + 500ms) cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes pullBack { from { transform: scale(1.06); } to { transform: none; } }

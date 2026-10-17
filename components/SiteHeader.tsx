@@ -267,6 +267,7 @@ export function SiteHeader({ nav }: Props) {
       <header
         className="site-header"
         role="banner"
+        style={{ viewTransitionName: 'site-header' }}
         data-scrolled={scrolled ? '' : undefined}
       >
         <div className="wrap">

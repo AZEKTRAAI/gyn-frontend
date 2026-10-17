@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { ContactForm } from '@/features/contact/ui/ContactForm'
 import { PageHero } from '@/components/PageHero'
+import { LoopVideo } from '@/components/LoopVideo'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
@@ -35,6 +36,12 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
       <PageHero
         title="Get in *touch*"
         lead="Have a question, a partnership idea, or want to book for a group? We would love to hear from you."
+        media={
+          // seamless 3D loop rendered on the same #EEF2F6 as the hero, so it has no visible edge
+          <div style={{ aspectRatio: '1 / 1', width: 'min(100%, 520px)', marginInline: 'auto' }}>
+            <LoopVideo base="/renders/r3/morph-loop" />
+          </div>
+        }
       />
 
       {/* Contact details + form */}

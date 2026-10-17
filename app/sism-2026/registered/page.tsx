@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { TICKETS, type TicketId } from '@/features/registration/schema'
 import { ClearRegistrationStorage } from '@/features/registration/ui/ClearRegistrationStorage'
+import { WheelComplete } from '@/components/WheelComplete'
 
 export const metadata: Metadata = {
   title: 'Registration confirmed, SISM 2026',
@@ -42,11 +43,8 @@ export default async function RegisteredPage({ searchParams }: Props) {
         )}
 
         {/* Confirmation */}
-        <div style={{ marginBottom: '0.5rem' }}>
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true" style={{ marginBottom: '1.5rem' }}>
-            <circle cx="24" cy="24" r="24" fill="var(--leaf-600, #48783F)" />
-            <path d="M14 24l8 8 12-16" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+        <div style={{ marginBottom: '1.75rem' }}>
+          <WheelComplete size={128} />
         </div>
         <h1 className="d2" style={{ color: 'var(--navy-900)', marginBottom: '1rem' }}>
           {demo ? 'Booking confirmed (demo)' : 'Booking confirmed'}

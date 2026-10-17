@@ -10,9 +10,6 @@ import { cms } from '@/lib/cms'
 const LenisScroll = dynamic(() =>
   import('@/components/LenisScroll').then((m) => ({ default: m.LenisScroll })),
 )
-const ViewTransitionStyles = dynamic(() =>
-  import('@/components/premium/PageTransition').then((m) => ({ default: m.ViewTransitionStyles })),
-)
 
 /*
   Host Grotesk: contemporary variable grotesk; not on any AI-reflex list.
@@ -68,7 +65,6 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body>
-        <ViewTransitionStyles />
         <LenisScroll />
         <a href="#main" className="sr-only focus:not-sr-only">
           Skip to main content

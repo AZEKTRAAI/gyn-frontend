@@ -13,6 +13,7 @@ so the page background can match the backdrop exactly.
 """
 import argparse
 import os
+import struct
 import subprocess
 import time
 
@@ -37,6 +38,7 @@ SCENES = {
     "sdg13-leaf": (["sdg13_leaf.py"], R3, "cove", "#3F7E44", {}),
     "hands-wheel": (["hands_wheel.py"], R3, "cove", "#0E1530", {}),
     "kl-towers": (["kl_towers.py"], R3, "still", "#EEF2F6", {}),
+    "morph-loop": (["morph_loop.py"], R3, "cove", "#EEF2F6", {"fps": 30}),
 }
 
 
@@ -56,6 +58,42 @@ def edge_colour(path, hex_):
     t = [int(hex_[i:i + 2], 16) for i in (1, 3, 5)]
     dev = sorted(max(abs(c[i] - t[i]) for i in range(3)) for c in band)
     return "#%02X%02X%02X" % tuple(med), dev[int(len(dev) * 0.95)], dev[-1]
+
+
+def faststart(path):
+    """Move the mp4 'moov' box ahead of 'mdat' (ffmpeg -movflags +faststart) and shift chunk offsets."""
+    d = open(path, "rb").read()
+    boxes, i = [], 0
+    while i < len(d):
+        size, typ = struct.unpack(">I4s", d[i:i + 8])
+        size = size or len(d) - i
+        assert size >= 8, "64-bit box sizes not handled"
+        boxes.append((typ, d[i:i + size]))
+        i += size
+    names = [t for t, _ in boxes]
+    mi, di = names.index(b"moov"), names.index(b"mdat")
+    if mi < di:
+        return
+    moov = bytearray(boxes[mi][1])
+    shift = len(moov)
+
+    def patch(lo, hi):  # walk containers down to stco / co64
+        j = lo
+        while j < hi:
+            size, typ = struct.unpack(">I4s", moov[j:j + 8])
+            if typ in (b"trak", b"mdia", b"minf", b"stbl"):
+                patch(j + 8, j + size)
+            elif typ in (b"stco", b"co64"):
+                n, w = struct.unpack(">I", moov[j + 12:j + 16])[0], 4 if typ == b"stco" else 8
+                f = ">I" if w == 4 else ">Q"
+                for k in range(n):
+                    o = j + 16 + k * w
+                    moov[o:o + w] = struct.pack(f, struct.unpack(f, moov[o:o + w])[0] + shift)
+            j += size
+
+    patch(8, len(moov))
+    order = boxes[:di] + [(b"moov", bytes(moov))] + [b for k, b in enumerate(boxes[di:], di) if k != mi]
+    open(path, "wb").write(b"".join(b for _, b in order))
 
 
 def webp(src, dst, q, size=0):
@@ -118,7 +156,10 @@ def main():
     webm_crf = a.webm_crf or (28 if kind == "alpha" else 24)  # flat coves compress well: spend it on detail
     for src, ext, crf in ((frames, "webm", webm_crf), (flat, "mp4", a.mp4_crf)):
         dst = os.path.join(out, f"{a.name}.{ext}")
-        blender("encode.py", "--src", src, "--dst", dst, "--crf", str(crf), "--size", str(a.size))
+        blender("encode.py", "--src", src, "--dst", dst, "--crf", str(crf), "--size", str(a.size),
+                "--fps", str(extra.get("fps", 24)))
+        if ext == "mp4":
+            faststart(dst)
         print(f"{dst}: {os.path.getsize(dst) / 1e6:.2f} MB")
 
 

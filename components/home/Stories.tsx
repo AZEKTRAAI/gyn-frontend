@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useId } from 'react'
 import Image from 'next/image'
 import { accentRuns } from '@/features/home/schema'
 import type { HomeContent } from '@/features/home/schema'
+import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 
 function useWipeReveal() {
   const ref = useRef<HTMLHeadingElement>(null)
@@ -26,19 +27,59 @@ function useWipeReveal() {
   return { ref, inView }
 }
 
-function PlayIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M8 5v14l11-7z" fill="var(--ink)" />
-    </svg>
-  )
-}
-
 /** First sentence larger; rest in body size. */
 function splitFirstSentence(text: string): [string, string] {
   const m = text.match(/^([^.!?]+[.!?]+\s*)(.*)$/s)
   if (!m) return [text, '']
   return [m[1].trim(), m[2].trim()]
+}
+
+type VideoItem = HomeContent['stories']['videos'][0]
+
+/**
+ * One Shorts poster card that plays inline on click.
+ * Removes the hover CSS scale while the video is playing (visual clarity).
+ */
+function VideoStoryCard({ v, i }: { v: VideoItem; i: number }) {
+  const id = useId()
+  const [isPlaying, setIsPlaying] = useState(false)
+  const rot = ([-2, 0, 2] as const)[i % 3]
+
+  // Another video started — reset visual hover state (YouTubeEmbed resets itself via the same event)
+  useEffect(() => {
+    function h(e: Event) {
+      if ((e as CustomEvent<string>).detail !== id) setIsPlaying(false)
+    }
+    window.addEventListener('yt:play', h)
+    return () => window.removeEventListener('yt:play', h)
+  }, [id])
+
+  return (
+    <div
+      // Remove hover CSS class while playing so the scale/unspin doesn't distract from playback
+      className={isPlaying ? undefined : 'sto-vid-link'}
+      style={{
+        display: 'block',
+        position: 'relative',
+        aspectRatio: '9/16',
+        borderRadius: '14px',
+        overflow: 'hidden',
+        background: 'var(--ink)',
+        transform: `rotate(${rot}deg)`,
+        marginTop: i === 1 ? '18px' : '0',
+      }}
+    >
+      <YouTubeEmbed
+        videoUrl={v.url}
+        posterSrc={v.poster.src}
+        posterAlt={v.poster.alt || 'Delegate testimonial'}
+        instanceId={id}
+        onPlay={() => setIsPlaying(true)}
+        overlayClassName="sto-play-overlay"
+        playBtnClassName="sto-play-btn"
+      />
+    </div>
+  )
 }
 
 export function Stories({ data }: { data: HomeContent['stories'] }) {
@@ -245,57 +286,12 @@ export function Stories({ data }: { data: HomeContent['stories'] }) {
             </div>
           )}
 
-          {/* Video posters: three tall 9:14 cards, slightly rotated */}
+          {/* Video posters: three tall 9:16 Shorts cards, slightly rotated, play inline */}
           {videos.length > 0 && (
             <div className="sto-vids" aria-label="Delegate video testimonials">
-              {videos.map((v, i) => {
-                const rotations = [-2, 0, 2]
-                const rot = rotations[i % 3]
-                return (
-                  <a
-                    key={v.url}
-                    href={v.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="sto-vid-link"
-                    aria-label="Delegate testimonial on YouTube"
-                    style={{
-                      display: 'block',
-                      position: 'relative',
-                      aspectRatio: '9/14',
-                      borderRadius: '14px',
-                      overflow: 'hidden',
-                      background: 'var(--ink)',
-                      transform: `rotate(${rot}deg)`,
-                      marginTop: i === 1 ? '18px' : '0',
-                    }}
-                  >
-                    <Image
-                      src={v.poster.src}
-                      alt={v.poster.alt || ''}
-                      fill
-                      sizes="(max-width: 860px) 28vw, 15vw"
-                      style={{ objectFit: 'cover' }}
-                      loading="lazy"
-                    />
-                    <span
-                      aria-hidden="true"
-                      style={{
-                        position: 'absolute',
-                        left: '50%', top: '50%',
-                        transform: 'translate(-50%,-50%)',
-                        width: '44px', height: '44px',
-                        borderRadius: '50%',
-                        background: 'var(--yellow)',
-                        display: 'grid',
-                        placeItems: 'center',
-                      }}
-                    >
-                      <PlayIcon />
-                    </span>
-                  </a>
-                )
-              })}
+              {videos.map((v, i) => (
+                <VideoStoryCard key={v.url} v={v} i={i} />
+              ))}
             </div>
           )}
         </div>
@@ -349,6 +345,21 @@ export function Stories({ data }: { data: HomeContent['stories'] }) {
           transition: background 0.2s, transform 0.2s;
         }
         .sto-dot-on { background: var(--ink); transform: scale(1.3); }
+
+        .sto-play-overlay {
+          position: absolute;
+          inset: 0;
+          display: grid;
+          place-items: center;
+        }
+        .sto-play-btn {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: var(--yellow);
+          display: grid;
+          place-items: center;
+        }
       `}</style>
     </section>
   )

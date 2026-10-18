@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 import { cms } from '@/lib/cms'
 import { Countdown } from '@/components/Countdown'
 import { PageHero } from '@/components/PageHero'
@@ -80,8 +81,20 @@ export default async function Sism2026Page() {
   const openTiers = sism.ticketTypes.filter(t => t.status === 'open')
   const closedTiers = sism.ticketTypes.filter(t => t.status === 'closed')
 
-  // open tiers first so Forum Access is visible without scrolling (RT-054)
+  // scholarships first per client request (18 Oct 2026); overrides RT-054
   const railTiers: Tier[] = [
+    ...closedTiers.map(t => ({
+      id: t.id,
+      name: t.id === 'fully-funded' ? 'Fully Funded Scholarship' : 'Partial Scholarship',
+      price: t.id === 'fully-funded' ? 'Funded' : 'Partial',
+      description: t.id === 'fully-funded'
+        ? 'Scholarship applications closed 11 October. Results announced 16 October.'
+        : 'Applications closed 11 October. Results announced 16 October.',
+      features: t.includes.slice(0, 5),
+      cta: 'Applications closed',
+      ctaHref: '#tickets',
+      closed: true,
+    })),
     ...openTiers.map(t => ({
       id: t.id,
       name: t.name.replace(/\(.*?\)/g, '').trim(),
@@ -97,18 +110,6 @@ export default async function Sism2026Page() {
         : t.id === 'self-funded' ? '/sism-self-funded'
         : '/sism-invitation-letter',
       featured: t.id === 'forum-access',
-    })),
-    ...closedTiers.map(t => ({
-      id: t.id,
-      name: t.id === 'fully-funded' ? 'Fully Funded Scholarship' : 'Partial Scholarship',
-      price: t.id === 'fully-funded' ? 'Funded' : 'Partial',
-      description: t.id === 'fully-funded'
-        ? 'Scholarship applications closed 11 October. Results announced 16 October.'
-        : 'Applications closed 11 October. Results announced 16 October.',
-      features: t.includes.slice(0, 5),
-      cta: 'Applications closed',
-      ctaHref: '#tickets',
-      closed: true,
     })),
   ]
 
@@ -173,9 +174,16 @@ export default async function Sism2026Page() {
             <p style={{ color: 'var(--n-600)', fontSize: '0.9375rem', lineHeight: 1.7, marginBottom: '1rem' }}>
               Through keynote addresses, high-level panel discussions, leadership workshops, innovation labs, strategic networking, cultural exchange activities, and an exclusive institutional visit to Asia Pacific University (APU), Malaysia, delegates will gain valuable knowledge, practical skills, global perspectives, and meaningful international connections.
             </p>
-            <Link href="https://youtu.be/Aqqo3cL4W6w" target="_blank" rel="noopener" className="btn btn-g" style={{ display: 'inline-flex' }}>
-              Watch the summit video
-            </Link>
+            {/* Click-to-load embed — plays inside the page, no YouTube link-out */}
+            <div style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', aspectRatio: '16/9', background: 'var(--ink)' }}>
+              <YouTubeEmbed
+                videoUrl="https://youtu.be/Aqqo3cL4W6w"
+                posterSrc="/media/video/Aqqo3cL4W6w.jpg"
+                posterAlt="SDG Innovation Summit, FutureMinds Summit 2026 highlights"
+                overlayClassName="absolute inset-0 flex items-center justify-center"
+                playBtnClassName="w-[72px] h-[72px] rounded-full bg-[#FCC30B] flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,.35)]"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -255,15 +263,24 @@ export default async function Sism2026Page() {
               The United Nations University (UNU) operates the UNU International Institute for Global Health in Kuala Lumpur, which functions as a global research think tank focusing on health equity and sustainable development.
             </p>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            {/* width: 6.2rem = 3.5rem × (620/350) — correct aspect ratio */}
-            <Image
-              src={LOGOS['logo.unu-global-health'].src}
-              alt={LOGOS['logo.unu-global-health'].alt}
-              width={620}
-              height={350}
-              style={{ height: '3.5rem', width: '6.2rem' }}
-            />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{
+              background: '#fff',
+              border: '1px solid var(--n-200, #dcdcd5)',
+              borderRadius: '20px',
+              padding: '1.75rem 2.25rem',
+              boxShadow: '0 2px 8px rgba(0,0,0,.06)',
+              maxWidth: '320px',
+              width: '100%',
+            }}>
+              <Image
+                src={LOGOS['logo.unu-global-health'].src}
+                alt={LOGOS['logo.unu-global-health'].alt}
+                width={620}
+                height={350}
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -340,7 +357,8 @@ export default async function Sism2026Page() {
             100 seats (30 scholarships). Scholarship applications closed. Forum Access and Self-Funded seats open now. Group discounts via{' '}
             <a href="mailto:contact@thegyn.org" style={{ color: 'var(--navy)', textDecoration: 'underline' }}>contact@thegyn.org</a>.
           </p>
-          <TicketRail tiers={railTiers} defaultActive={0} />
+          {/* defaultActive={2}: Forum Access is at index 2 after the 2 closed tiers */}
+          <TicketRail tiers={railTiers} defaultActive={2} groupBreakAfter={1} />
         </div>
       </section>
 

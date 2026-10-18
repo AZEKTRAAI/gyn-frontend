@@ -1,19 +1,69 @@
 'use client'
 
+import { useState, useEffect, useId } from 'react'
 import Image from 'next/image'
 import { motion } from 'motion/react'
 import { accentRuns } from '@/features/home/schema'
 import type { HomeContent } from '@/features/home/schema'
+import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 
 // Rotations and top offsets match the concept's staggered polaroid layout.
 const ROTATIONS = [-3, 2, -1.5, 3, 2.5, -2, 1.5, -3]
 const OFFSETS   = [0, 28, 0, 18, -10, 0, 22, 0]
 
-function PlayIcon() {
+type GalleryItem = HomeContent['gallery']['items'][0]
+
+/**
+ * Polaroid card for items with a videoUrl.
+ * Uses a 16:9 photo box so the youtube-nocookie player fits without black bars.
+ * Disables hover lift while the video is playing (hover on a playing card is distracting).
+ */
+function VideoPolaroid({ item, rot, mt, idx }: { item: GalleryItem; rot: number; mt: number; idx: number }) {
+  const id = useId()
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  // Another video started — reset our visual state (YouTubeEmbed resets itself via the same event)
+  useEffect(() => {
+    function h(e: Event) {
+      if ((e as CustomEvent<string>).detail !== id) setIsPlaying(false)
+    }
+    window.addEventListener('yt:play', h)
+    return () => window.removeEventListener('yt:play', h)
+  }, [id])
+
+  const label = `${item.title}${item.caption ? `, ${item.caption}` : ''}`
+
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M8 5v14l11-7z" fill="var(--ink)" />
-    </svg>
+    <div style={{ marginTop: mt }}>
+      <motion.div
+        className="wall-pol"
+        initial={{ opacity: 0, y: -30, rotate: 0 }}
+        whileInView={{ opacity: 1, y: 0, rotate: rot }}
+        viewport={{ once: true }}
+        transition={{ type: 'spring', bounce: 0.28, delay: idx * 0.07 }}
+        // No lift/tilt while the video plays
+        whileHover={isPlaying ? undefined : { rotate: 0, y: -10, scale: 1.04, zIndex: 4, boxShadow: '0 30px 70px rgba(0,0,0,.45)' }}
+      >
+        {/* 16:9 box — fits the YouTube player cleanly; non-video polaroids keep aspectRatio 1 */}
+        <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden', background: '#2a3560' }}>
+          <YouTubeEmbed
+            videoUrl={item.videoUrl!}
+            posterSrc={item.image.src}
+            posterAlt={label}
+            instanceId={id}
+            onPlay={() => setIsPlaying(true)}
+            overlayClassName="wall-play-overlay"
+            playBtnClassName="wall-play-btn"
+          />
+        </div>
+        <span className="wall-cap">
+          {item.title || item.caption}
+          {item.caption && item.title && (
+            <small className="wall-cap-small">{item.caption}</small>
+          )}
+        </span>
+      </motion.div>
+    </div>
   )
 }
 
@@ -80,77 +130,43 @@ export function Wall({ data }: { data: HomeContent['gallery'] }) {
             const rot = ROTATIONS[i % ROTATIONS.length]
             const mt = OFFSETS[i % OFFSETS.length]
             const isVideo = !!item.videoUrl
-            // the accessible name must contain the visible title and caption, in order
-            const ariaLabel = isVideo
-              ? `${item.title}${item.caption ? `, ${item.caption}` : ''}, watch on YouTube`
-              : item.image.alt || item.title || ''
 
-            const polaroid = (
-              <motion.div
-                className="wall-pol"
-                // drops in from above with a slight rotation settle
-                initial={{ opacity: 0, y: -30, rotate: 0 }}
-                whileInView={{ opacity: 1, y: 0, rotate: rot }}
-                viewport={{ once: true }}
-                transition={{ type: 'spring', bounce: 0.28, delay: i * 0.07 }}
-                // hover: lift, straighten, deeper shadow
-                whileHover={{ rotate: 0, y: -10, scale: 1.04, zIndex: 4, boxShadow: '0 30px 70px rgba(0,0,0,.45)' }}
-              >
-                <div
-                  style={{ position: 'relative', aspectRatio: '1', overflow: 'hidden', background: '#2a3560' }}
-                >
-                  <Image
-                    src={item.image.src}
-                    alt={item.image.alt || ''}
-                    fill
-                    sizes="(max-width: 760px) 45vw, 22vw"
-                    style={{ objectFit: 'cover' }}
-                    loading="lazy"
-                  />
-                  {isVideo && (
-                    <div
-                      aria-hidden="true"
-                      style={{
-                        position: 'absolute',
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translate(-50%,-50%)',
-                        width: '48px',
-                        height: '48px',
-                        borderRadius: '50%',
-                        background: 'var(--yellow)',
-                        display: 'grid',
-                        placeItems: 'center',
-                      }}
-                    >
-                      <PlayIcon />
-                    </div>
-                  )}
-                </div>
-                <span className="wall-cap">
-                  {item.title || item.caption}
-                  {item.caption && item.title && (
-                    <small className="wall-cap-small">{item.caption}</small>
-                  )}
-                </span>
-              </motion.div>
-            )
+            if (isVideo) {
+              return (
+                <VideoPolaroid key={item.image.src} item={item} rot={rot} mt={mt} idx={i} />
+              )
+            }
 
+            // Non-video polaroid — unchanged
             return (
               <div key={item.image.src} style={{ marginTop: mt }}>
-                {isVideo ? (
-                  <a
-                    href={item.videoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={isVideo ? undefined : ariaLabel}
-                    style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
+                <motion.div
+                  className="wall-pol"
+                  initial={{ opacity: 0, y: -30, rotate: 0 }}
+                  whileInView={{ opacity: 1, y: 0, rotate: rot }}
+                  viewport={{ once: true }}
+                  transition={{ type: 'spring', bounce: 0.28, delay: i * 0.07 }}
+                  whileHover={{ rotate: 0, y: -10, scale: 1.04, zIndex: 4, boxShadow: '0 30px 70px rgba(0,0,0,.45)' }}
+                >
+                  <div
+                    style={{ position: 'relative', aspectRatio: '1', overflow: 'hidden', background: '#2a3560' }}
                   >
-                    {polaroid}
-                  </a>
-                ) : (
-                  polaroid
-                )}
+                    <Image
+                      src={item.image.src}
+                      alt={item.image.alt || ''}
+                      fill
+                      sizes="(max-width: 760px) 45vw, 22vw"
+                      style={{ objectFit: 'cover' }}
+                      loading="lazy"
+                    />
+                  </div>
+                  <span className="wall-cap">
+                    {item.title || item.caption}
+                    {item.caption && item.title && (
+                      <small className="wall-cap-small">{item.caption}</small>
+                    )}
+                  </span>
+                </motion.div>
               </div>
             )
           })}
@@ -179,7 +195,6 @@ export function Wall({ data }: { data: HomeContent['gallery'] }) {
           will-change: transform;
           cursor: default;
         }
-        a .wall-pol { cursor: pointer; }
         .wall-cap {
           display: block;
           padding-top: 10px;
@@ -193,6 +208,20 @@ export function Wall({ data }: { data: HomeContent['gallery'] }) {
           font-size: 11.5px;
           color: var(--n-500);
           margin-top: 3px;
+        }
+        .wall-play-overlay {
+          position: absolute;
+          inset: 0;
+          display: grid;
+          place-items: center;
+        }
+        .wall-play-btn {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: var(--yellow);
+          display: grid;
+          place-items: center;
         }
       `}</style>
     </section>

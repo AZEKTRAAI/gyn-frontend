@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useId, useEffect } from 'react'
 import Image from 'next/image'
 
 interface Props {
@@ -13,10 +13,18 @@ interface Props {
   overlayClassName?: string
   /** CSS class for the yellow play button circle */
   playBtnClassName?: string
+  /** Called when the video starts playing (before the iframe mounts) */
+  onPlay?: () => void
+  /**
+   * Stable ID shared with the caller for the yt:play broadcast.
+   * Lets a parent component know whether this instance triggered the event.
+   * If omitted, an internal useId() value is used.
+   */
+  instanceId?: string
 }
 
 /** Parse a YouTube video ID from youtu.be, watch?v=, /shorts/, or /embed/ URLs. */
-function parseYouTubeId(url: string): string | null {
+export function parseYouTubeId(url: string): string | null {
   try {
     const u = new URL(url)
     if (u.hostname === 'youtu.be') return u.pathname.slice(1).split('?')[0] || null
@@ -44,6 +52,9 @@ const fillStyle: React.CSSProperties = {
  * Facade YouTube embed — renders inside a positioned container.
  * Shows a poster + play button; on click/Enter/Space swaps in a youtube-nocookie iframe
  * with no layout shift. Falls back to a plain link for non-YouTube URLs.
+ *
+ * Dispatches window event 'yt:play' (detail = instance id) when activated so only one
+ * video plays at a time across the page. Other instances listen and reset themselves.
  */
 export function YouTubeEmbed({
   videoUrl,
@@ -52,14 +63,29 @@ export function YouTubeEmbed({
   imageClassName,
   overlayClassName,
   playBtnClassName,
+  onPlay,
+  instanceId,
 }: Props) {
   const [playing, setPlaying] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const internalId = useId()
+  const id = instanceId ?? internalId
 
   const ytId = parseYouTubeId(videoUrl)
 
+  // Reset if another YouTubeEmbed on the page starts playing
+  useEffect(() => {
+    function handleOtherPlay(e: Event) {
+      if ((e as CustomEvent<string>).detail !== id) setPlaying(false)
+    }
+    window.addEventListener('yt:play', handleOtherPlay)
+    return () => window.removeEventListener('yt:play', handleOtherPlay)
+  }, [id])
+
   function activate() {
+    onPlay?.()
     setPlaying(true)
+    window.dispatchEvent(new CustomEvent('yt:play', { detail: id }))
     requestAnimationFrame(() => iframeRef.current?.focus())
   }
 

@@ -12,7 +12,7 @@
  * Source: native CSS scroll-snap — no library needed.
  */
 
-import { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { useReducedMotion } from 'motion/react';
 
 export interface Tier {
@@ -35,9 +35,11 @@ export interface TicketRailProps {
   tiers: Tier[];
   /** Index of initially active tier on mobile. Default: first featured or 0 */
   defaultActive?: number;
+  /** Insert a flex line-break on desktop after this zero-based tier index (creates two rows) */
+  groupBreakAfter?: number;
 }
 
-export function TicketRail({ tiers, defaultActive }: TicketRailProps) {
+export function TicketRail({ tiers, defaultActive, groupBreakAfter }: TicketRailProps) {
   const initialActive =
     defaultActive ??
     Math.max(
@@ -53,7 +55,9 @@ export function TicketRail({ tiers, defaultActive }: TicketRailProps) {
     (idx: number) => {
       setActive(idx);
       if (!railRef.current) return;
-      const card = railRef.current.children[idx] as HTMLElement | undefined;
+      // querySelectorAll skips the line-break div that groupBreakAfter injects
+      const cards = railRef.current.querySelectorAll<HTMLElement>('article[role="listitem"]');
+      const card = cards[idx];
       if (!card) return;
       card.scrollIntoView({
         behavior: prefersReduced ? 'auto' : 'smooth',
@@ -99,8 +103,12 @@ export function TicketRail({ tiers, defaultActive }: TicketRailProps) {
         className="md:overflow-x-visible md:flex-wrap md:justify-center"
       >
         {tiers.map((tier, i) => (
+          <React.Fragment key={tier.id}>
+          {groupBreakAfter === i - 1 && (
+            // flex line-break: forces closed and open tiers onto separate rows on desktop
+            <div aria-hidden="true" className="hidden md:block" style={{ flexBasis: '100%', height: 0, flexShrink: 0 }} />
+          )}
           <article
-            key={tier.id}
             role="listitem"
             aria-current={i === active ? 'true' : undefined}
             style={{
@@ -190,9 +198,10 @@ export function TicketRail({ tiers, defaultActive }: TicketRailProps) {
                 transition: 'background-color 160ms ease',
               }}
             >
-              {tier.closed ? 'Closed' : tier.cta}
+              {tier.cta}
             </a>
           </article>
+          </React.Fragment>
         ))}
       </div>
 

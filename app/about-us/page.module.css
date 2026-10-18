@@ -1,39 +1,93 @@
-/* Responsive layout for about-us page — Direction J */
+/* About us, Direction J */
+.band { padding-block: var(--sp); }
+.band :global(.d2) { color: inherit; margin-bottom: clamp(20px, 2.5vw, 32px); }
+.lede { font-size: clamp(1.2rem, 1.9vw, 1.5rem); line-height: 1.45; color: var(--ink); max-width: 46ch; margin-bottom: 1rem; }
+.body { font-size: clamp(1rem, 1.3vw, 1.125rem); line-height: 1.65; color: #4A5370; max-width: 62ch; margin-bottom: clamp(24px, 3vw, 40px); }
 
-.missionGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(2rem, 5vw, 4rem);
-  align-items: start;
+/* who we are */
+.who { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(32px, 5vw, 80px); align-items: center; color: var(--ink); }
+.forLabel { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--navy); margin-bottom: 10px; }
+.chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.chips li { border: 1.5px solid rgba(32, 47, 96, .25); border-radius: 999px; padding: 8px 15px; font-size: 15px; color: var(--navy); }
+.chips .chipMore { background: var(--y); border-color: var(--y); color: var(--ink); font-weight: 700; }
+.photoStack { display: grid; gap: 0; }
+.photoStack :global(.pol) { width: 82%; }
+.photoStack :global(.pol):last-child { justify-self: end; margin-top: -18%; }
+
+/* numbers bento */
+.numbers { list-style: none; display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+.numbers li { display: grid; align-content: end; gap: 6px; min-height: 180px; grid-column: span 2; }
+.numbers li:first-child { grid-column: span 3; grid-row: span 2; min-height: 300px; }
+.numbers li:nth-child(2) { grid-column: span 3; }
+.numbers li:nth-child(n+3) { grid-column: span 1; }
+.bigN { font-family: var(--fd); font-size: clamp(3rem, 7vw, 6rem); line-height: .9; }
+.numbers li:first-child .bigN { font-size: clamp(5rem, 13vw, 11rem); }
+.numText { font-size: 15px; line-height: 1.35; max-width: 26ch; }
+
+/* mission and vision */
+.mv { display: grid; grid-template-columns: 1.25fr 1fr; gap: 14px; }
+.mission, .vision { border-radius: 20px; padding: clamp(24px, 3.5vw, 44px); display: grid; align-content: start; gap: 18px; }
+.mission { background: #fff; color: var(--ink); }
+.vision { background: var(--y); color: var(--ink); }
+.mvLabel { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--sdg4); }
+.vision .mvLabel { color: var(--ink); }
+.mission p { font-size: clamp(1.1rem, 1.6vw, 1.35rem); line-height: 1.55; }
+.vision p { font-family: var(--fd); font-size: clamp(2rem, 3.6vw, 3.2rem); line-height: 1.02; text-transform: uppercase; }
+
+/* five objectives */
+.objectives { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.objectives li { display: grid; align-content: start; gap: 10px; min-height: 260px; }
+.objN { font-family: var(--fd); font-size: clamp(2.6rem, 4vw, 3.6rem); line-height: 1; opacity: .9; }
+.objTitle { font-size: clamp(1.4rem, 2vw, 1.75rem); line-height: 1.05; text-transform: uppercase; margin-top: auto; }
+.objBody { font-size: 15px; line-height: 1.45; }
+
+/* four goals */
+.goals { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.goalImg { display: block; width: 100%; height: auto; aspect-ratio: 10 / 7; object-fit: cover; }
+.goalText { padding: 18px 20px 22px; display: grid; gap: 6px; }
+.goalN { font-family: var(--fd); font-size: clamp(2rem, 3vw, 2.6rem); line-height: 1; }
+.goalName { font-family: var(--fb); font-size: 16px; font-weight: 700; line-height: 1.25; }
+.goalBody { font-size: 14px; line-height: 1.45; }
+
+/* story timeline */
+.timeline { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: clamp(32px, 4vw, 56px); }
+.stop { display: grid; align-content: start; gap: 10px; padding: clamp(24px, 3vw, 36px); }
+.stop :global(.btn) { justify-self: start; margin-top: 6px; }
+.next { background: var(--navy); color: #fff; }
+.stamp { justify-self: start; border: 3px solid var(--sdg4); color: var(--sdg4); border-radius: 8px; padding: 3px 10px; font-family: var(--fd); font-size: 14px; letter-spacing: .06em; text-transform: uppercase; transform: rotate(-4deg); }
+.stampNext { border-color: var(--y); color: var(--y); }
+.stopName { font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 1; text-transform: uppercase; }
+.stopWhen { font-weight: 700; font-size: 15px; }
+.stop .body { margin-bottom: 0; }
+.nextBody { font-size: clamp(1rem, 1.3vw, 1.125rem); line-height: 1.6; color: rgba(255, 255, 255, .88); }
+.stopFacts { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 15px; color: var(--navy); }
+.stopFacts b { font-family: var(--fd); font-weight: 400; font-size: 1.6rem; color: var(--ink); margin-right: 4px; }
+.strip { list-style: none; display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 28px 8px 36px; }
+.strip:focus-visible { outline: 3px solid var(--y); outline-offset: 2px; border-radius: 12px; }
+.strip li { flex: 0 0 min(64vw, 260px); scroll-snap-align: start; }
+
+/* closing */
+.close { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, .6fr); gap: clamp(28px, 4vw, 64px); align-items: end; }
+.closeHd { font-family: var(--fd); font-size: clamp(2.6rem, 6vw, 5.4rem); line-height: .95; text-transform: uppercase; margin-bottom: 18px; }
+.closeBody { font-size: clamp(1rem, 1.3vw, 1.125rem); line-height: 1.6; max-width: 56ch; margin-bottom: 24px; }
+.closeBtns { display: flex; flex-wrap: wrap; gap: 12px; }
+.office { font-style: normal; font-size: 15px; line-height: 1.6; background: #fff; border-radius: 20px; padding: 22px 24px; }
+.office a { color: var(--ink); text-decoration: underline; }
+.officeLabel { display: block; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--sdg4); margin-bottom: 6px; }
+
+@media (max-width: 1100px) {
+  .objectives { grid-template-columns: repeat(3, 1fr); }
+  .goals { grid-template-columns: repeat(2, 1fr); }
 }
-
-/* Gap changed from 2px (old ruled look) to tile-friendly spacing */
-.sdgGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(8px, 1.5vw, 16px);
+@media (max-width: 900px) {
+  .who, .mv, .timeline, .close { grid-template-columns: 1fr; }
+  .numbers { grid-template-columns: 1fr 1fr; }
+  .numbers li, .numbers li:nth-child(n) { grid-column: span 1; grid-row: auto; min-height: 150px; }
+  .numbers li:first-child { grid-column: span 2; min-height: 200px; }
+  .objectives { grid-template-columns: 1fr 1fr; }
+  .objectives li { min-height: 0; }
+  .photoStack { max-width: 480px; }
 }
-
-.objGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
-  gap: 1.25rem;
-}
-
-.ambGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  list-style: none;
-}
-
-@media (max-width: 768px) {
-  .missionGrid { grid-template-columns: 1fr; }
-  .sdgGrid { grid-template-columns: 1fr 1fr; }
-  .objGrid { grid-template-columns: 1fr 1fr; }
-  .ambGrid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 480px) {
-  .objGrid { grid-template-columns: 1fr; }
+@media (max-width: 520px) {
+  .objectives, .goals { grid-template-columns: 1fr; }
 }

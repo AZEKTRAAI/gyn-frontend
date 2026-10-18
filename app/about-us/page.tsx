@@ -1,314 +1,224 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { AdvisorsSection } from '@/components/home/AdvisorsSection'
 import { PageHero } from '@/components/PageHero'
-import {
-  ADVISORY,
-  AMBASSADORS,
-  PARTNERS,
-  LOGOS,
-} from '@/features/media/media'
-import styles from './page.module.css'
+import { Network } from '@/components/home/Network'
+import { Advisors } from '@/components/home/Advisors'
+import { Partners } from '@/components/home/Partners'
+import { getHome } from '@/features/home/store'
+import { GALLERY } from '@/features/media/media'
+import s from './page.module.css'
 
 export const metadata: Metadata = {
   title: 'About Us',
   description:
     'The Global Youth Network (GYN) is a US-based organization connecting youth with people from various backgrounds. Through international conferences and leadership programs we target students, professionals, innovators, and community leaders.',
   openGraph: {
-    title: 'About Us – Global Youth Network',
+    title: 'About Us | Global Youth Network',
     description:
       'GYN provides youth with an opportunity to connect with people from various backgrounds and collaborate on global challenges via interactive forums.',
   },
 }
 
+// Everyone the GYN mission statement names, shown as chips
+const WHO_FOR = ['Students', 'Scientists', 'Researchers', 'Policymakers', 'Legal professionals', 'Volunteers', 'Entrepreneurs']
+
+// The five objectives from thegyn.org, each on an SDG colour (ink text where white fails contrast)
 const OBJECTIVES = [
-  {
-    title: 'Conferences',
-    body: 'GYN hosts international forums, workshops and summits to promote dialogue on Sustainable Development Goals.',
-  },
-  {
-    title: 'Networking',
-    body: 'Providing a collaborative space of mentorship, technical support and resource sharing to address pressing global challenges.',
-  },
-  {
-    title: 'Leadership development',
-    body: 'Building a new generation of leaders with the foresight, integrity and skills for measurable global impact.',
-  },
-  {
-    title: 'Youth mentoring',
-    body: 'Providing tailor-made, hands-on mentoring to help youth become effective leaders.',
-  },
-  {
-    title: 'Workshops and training',
-    body: 'Building leadership capacities and policy expertise for future-ready governance.',
-  },
+  { title: 'Conferences', body: 'GYN hosts international forums, workshops and summits to promote dialogue on the Sustainable Development Goals.', bg: 'var(--sdg4)', fg: '#fff' },
+  { title: 'Networking', body: 'A collaborative space of mentorship, technical support and resource sharing to address pressing global challenges.', bg: 'var(--sdg9)', fg: 'var(--ink)' },
+  { title: 'Leadership', body: 'Building a new generation of leaders with the foresight, integrity and skills for measurable global impact.', bg: 'var(--navy)', fg: '#fff' },
+  { title: 'Mentoring', body: 'Tailor-made, hands-on mentoring to help young people become effective leaders.', bg: 'var(--sdg13)', fg: '#fff' },
+  { title: 'Training', body: 'Workshops that build leadership capacity and policy expertise for future-ready governance.', bg: 'var(--y)', fg: 'var(--ink)' },
 ]
 
-const SDG_FOCUS = [
-  { id: 'SDG 4', label: 'Quality Education', color: '#C5192D', textColor: '#fff' },
-  { id: 'SDG 5', label: 'Gender Equality', color: '#FF3A21', textColor: 'var(--ink)' },
-  { id: 'SDG 9', label: 'Industry, Innovation and Infrastructure', color: '#FD6925', textColor: 'var(--ink)' },
-  { id: 'SDG 13', label: 'Climate Action', color: '#3F7E44', textColor: '#fff' },
+// UN goal statements, verbatim from sdgs.un.org
+const GOALS = [
+  { n: '4', name: 'Quality Education', goal: 'Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all.', bg: 'var(--sdg4)', fg: '#fff', poster: '/renders/r3/sdg4-books-poster.webp' },
+  { n: '5', name: 'Gender Equality', goal: 'Achieve gender equality and empower all women and girls.', bg: 'var(--sdg5)', fg: 'var(--ink)', poster: '/renders/r3/sdg5-balance-poster.webp' },
+  { n: '9', name: 'Industry, Innovation and Infrastructure', goal: 'Build resilient infrastructure, promote inclusive and sustainable industrialization and foster innovation.', bg: 'var(--sdg9)', fg: 'var(--ink)', poster: '/renders/r3/sdg9-gears-poster.webp' },
+  { n: '13', name: 'Climate Action', goal: 'Take urgent action to combat climate change and its impacts.', bg: 'var(--sdg13)', fg: '#fff', poster: '/renders/r3/sdg13-leaf-poster.webp' },
 ]
 
-export default function AboutUsPage() {
-  // Map ADVISORY manifest to the shape AdvisorsSection expects
-  const advisorPeople = Object.values(ADVISORY).map((v) => {
-    const parts = v.alt.split(',')
-    return {
-      name: parts[0].trim(),
-      role: parts.slice(1).join(',').trim(),
-      bio: '',
-      photo: { src: v.src, alt: v.alt },
-    }
-  })
+export default async function AboutUsPage() {
+  // network, advisors, partners and the Bangkok facts come from the home content, so admin edits show here too
+  const c = await getHome()
+  const bangkok = c.past.editions[0]
+  const fact = (label: string) => bangkok?.facts.find((f) => f.label === label)?.n
+  const countries = new Set(c.network.people.map((p) => p.country)).size
 
-  const ambassadorEntries = Object.values(AMBASSADORS)
+  const numbers = [
+    { n: fact('participants') ?? '70', text: 'delegates at our first summit, Bangkok 2026', bg: 'var(--sdg4)', fg: '#fff' },
+    { n: String(c.network.people.length), text: `ambassadors in ${countries} countries`, bg: 'var(--navy)', fg: '#fff' },
+    { n: String(c.advisors.people.length), text: 'advisors on the global advisory board', bg: 'var(--sdg13)', fg: '#fff' },
+    { n: fact('speakers') ?? '12', text: 'speakers on the Bangkok stage', bg: 'var(--sdg9)', fg: 'var(--ink)' },
+    { n: '4', text: 'Sustainable Development Goals we work on', bg: 'var(--y)', fg: 'var(--ink)' },
+  ]
 
   return (
     <main id="main">
-
-      {/* Hero — navy, hands-wheel render on the right */}
       <PageHero
-        title="*About* GYN"
+        id="about-h1"
         kicker="About GYN"
-        lead="The Global Youth Network connects young people worldwide through international summits, leadership programs and four Sustainable Development Goal focus areas."
+        title="One network for *young* leaders"
+        lead="The Global Youth Network connects students, professionals, innovators and community leaders from around the world through international summits and leadership programs."
+        chips={['Focus: SDGs 4, 5, 9 and 13', 'US-based, global reach', `${c.network.people.length} ambassadors in ${countries} countries`]}
+        actions={
+          <>
+            <Link href="/sism-2026" className="btn btn-y">Join us in Kuala Lumpur <span aria-hidden="true">&#8594;</span></Link>
+            <Link href="#story" className="btn btn-g">Our story</Link>
+          </>
+        }
         media={
           <Image
-            src="/renders/r3/hands-wheel-poster.webp"
-            alt="Four hands holding the SDG wheel, representing GYN's four focus goals"
-            width={640}
-            height={640}
+            src="/media/gallery/fmst-dsc02172-1.webp"
+            alt="Delegates together at the FutureMinds Summit in Bangkok"
+            width={768}
+            height={512}
+            sizes="(max-width: 900px) 100vw, 40vw"
             priority
           />
         }
       />
 
-      {/* =====================================================
-          MISSION + VISION — white band
-          ===================================================== */}
-      <section
-        aria-labelledby="mission-hd"
-        data-name="Our mission"
-        style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}
-      >
-        <div className={`wrap ${styles.missionGrid}`}>
+      {/* WHO WE ARE: the thegyn.org text, with the people the mission names */}
+      <section aria-labelledby="who-hd" data-name="Who we are" className={s.band} style={{ background: '#fff' }}>
+        <div className={`wrap ${s.who}`}>
           <div>
-            <p className="kick">GYN Mission</p>
-            <h2
-              id="mission-hd"
-              className="d2"
-              style={{ color: 'var(--ink)', marginBottom: '1.5rem' }}
-            >
-              Our mission
-            </h2>
-            {/* Pull quote as a large upright Newsreader quote on a navy card */}
-            <blockquote
-              style={{
-                background: 'var(--navy)',
-                borderRadius: '20px',
-                padding: '2rem',
-                margin: 0,
-              }}
-            >
-              <p
-                style={{
-                  fontSize: 'clamp(1rem, 1.3vw, 1.125rem)',
-                  color: '#fff',
-                  lineHeight: 1.75,
-                }}
-              >
-                &ldquo;Empowering youth by cultivating leadership skills via a goal-driven network
-                of GYN, the dedicated platform bringing sustainable change in communities via global
-                interactions through cross-functional ideas ranging from, but not limited to,
-                students, scientists, researchers, policymakers, legal professionals, volunteers,
-                and entrepreneurs.&rdquo;
-              </p>
-            </blockquote>
-          </div>
-          <div>
-            <p className="kick">GYN Vision</p>
-            <h2
-              className="d2"
-              style={{ color: 'var(--ink)', marginBottom: '1.25rem' }}
-            >
-              Our vision
-            </h2>
-            <p
-              style={{
-                fontSize: 'clamp(0.9375rem, 1.3vw, 1.0625rem)',
-                color: 'var(--n-700)',
-                lineHeight: 1.75,
-              }}
-            >
-              GYN is a global platform for young people connecting students, professionals,
-              researchers and innovators. The platform will be organizing various collaborative
-              activities where individuals will be able to utilize their skills, communicate and
-              learn from diverse knowledge based network. Its goal is to bring inspiration to young
-              and responsible leaders of tomorrow.
+            <span className="kick">Who we are</span>
+            <h2 id="who-hd" className="d2">Connecting youth across <span className="accent">borders</span>.</h2>
+            <p className={`rise ${s.lede}`}>
+              The Global Youth Network (GYN) is a US-based organization that gives young people the chance to connect with people from different backgrounds and every part of the world.
             </p>
+            <p className={`rise ${s.body}`}>
+              Through our international conferences and leadership programs, students, professionals, innovators and community leaders share their ideas and work together on global challenges in interactive forums. With our focus on four SDGs (4, 5, 9 and 13), we hope to bring sustainable change from local communities to global outreach.
+            </p>
+            <p className={s.forLabel}>GYN is for</p>
+            <ul className={s.chips}>
+              {WHO_FOR.map((w) => <li key={w}>{w}</li>)}
+              <li className={s.chipMore}>and you</li>
+            </ul>
+          </div>
+          <div className={s.photoStack} aria-hidden="true">
+            <figure className="pol"><Image src="/media/gallery/fmst-dsc01894-1.webp" alt="" width={768} height={512} sizes="(max-width: 900px) 80vw, 30vw" /><figcaption>Policy workshop, Bangkok</figcaption></figure>
+            <figure className="pol"><Image src="/media/gallery/fmst-dsc02159-1.webp" alt="" width={768} height={512} sizes="(max-width: 900px) 80vw, 30vw" /><figcaption>World Got a Problem challenge</figcaption></figure>
           </div>
         </div>
       </section>
 
-      {/* =====================================================
-          OBJECTIVES — field band, J card tiles
-          ===================================================== */}
-      <section
-        aria-labelledby="obj-hd"
-        data-name="What we do"
-        style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}
-      >
+      {/* GYN IN NUMBERS */}
+      <section aria-labelledby="num-hd" data-name="GYN in numbers" className={s.band} style={{ background: 'var(--field)' }}>
         <div className="wrap">
-          <p className="kick">What we do</p>
-          <h2
-            id="obj-hd"
-            className="d2"
-            style={{ color: 'var(--ink)', marginBottom: 'clamp(2rem, 3vw, 3rem)' }}
-          >
-            Five ways GYN works
-          </h2>
-          <div className={styles.objGrid} role="list">
-            {OBJECTIVES.map((item) => (
-              <div key={item.title} role="listitem" className="card">
-                <p
-                  style={{
-                    fontFamily: 'var(--fd)',
-                    fontSize: '1.25rem',
-                    color: 'var(--ink)',
-                    marginBottom: '0.75rem',
-                  }}
-                >
-                  {item.title}
-                </p>
-                <p
-                  style={{
-                    fontSize: '0.9375rem',
-                    color: 'var(--navy)',
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {item.body}
-                </p>
-              </div>
+          <span className="kick">GYN in numbers</span>
+          <h2 id="num-hd" className="d2">Young, and already <span className="accent">global</span>.</h2>
+          <ul className={s.numbers}>
+            {numbers.map((x) => (
+              <li key={x.text} className="tile" style={{ background: x.bg, color: x.fg }}>
+                <span className={s.bigN}>{x.n}</span>
+                <span className={s.numText}>{x.text}</span>
+              </li>
             ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* MISSION AND VISION: both verbatim from thegyn.org */}
+      <section aria-labelledby="mv-hd" data-name="Mission and vision" className={`${s.band} band-navy on-navy`}>
+        <div className="wrap">
+          <span className="kick">Why we exist</span>
+          <h2 id="mv-hd" className="d2">Mission and vision</h2>
+          <div className={s.mv}>
+            <figure className={s.mission}>
+              <figcaption className={s.mvLabel}>Our mission</figcaption>
+              <blockquote>
+                <p>&ldquo;Empowering youth by cultivating leadership skills via a goal-driven network of GYN, the dedicated platform bringing sustainable change in communities via global interactions through cross-functional ideas ranging from, but not limited to, students, scientists, researchers, policymakers, legal professionals, volunteers, and entrepreneurs.&rdquo;</p>
+              </blockquote>
+            </figure>
+            <figure className={s.vision}>
+              <figcaption className={s.mvLabel}>Our vision</figcaption>
+              <blockquote>
+                <p>&ldquo;Mitigating change through small and sustainable efforts in a world driven by AI&rdquo;</p>
+              </blockquote>
+            </figure>
           </div>
         </div>
       </section>
 
-      {/* =====================================================
-          SDG FOCUS — navy band, four SDG colour tiles
-          ===================================================== */}
-      <section
-        aria-labelledby="sdg-hd"
-        data-name="Our focus"
-        className="band-navy"
-        style={{ paddingBlock: 'var(--sp)' }}
-      >
+      {/* WHAT WE DO: the five objectives */}
+      <section aria-labelledby="do-hd" data-name="What we do" className={s.band} style={{ background: '#fff' }}>
         <div className="wrap">
-          <p className="kick kick-y">SDG Focus</p>
-          <h2
-            id="sdg-hd"
-            className="d2"
-            style={{ color: 'var(--white)', marginBottom: '0.75rem' }}
-          >
-            Four goals we focus on
-          </h2>
-          <p
-            className="rise"
-            style={{
-              fontSize: '0.9375rem',
-              color: 'rgba(255,255,255,.75)',
-              lineHeight: 1.65,
-              marginBottom: '2.5rem',
-              maxWidth: '60ch',
-            }}
-          >
-            With our target focus on four SDGs (4, 5, 9 and 13), we hope to bring sustainable
-            change through local communities to global outreach.
+          <span className="kick">What we do</span>
+          <h2 id="do-hd" className="d2">Five ways GYN <span className="accent">works</span></h2>
+          <p className={`rise ${s.body}`}>
+            GYN is a global platform for young people. It organizes collaborative activities where people use their skills, communicate and learn from a diverse, knowledge-based network, to inspire the young and responsible leaders of tomorrow.
           </p>
-          <div className={styles.sdgGrid}>
-            {SDG_FOCUS.map((sdg) => (
-              <div
-                key={sdg.id}
-                className="tile"
-                style={{ background: sdg.color, color: sdg.textColor }}
-              >
-                <span className="tile-n">{sdg.id}</span>
-                <p
-                  style={{
-                    fontSize: '0.875rem',
-                    lineHeight: 1.4,
-                    marginTop: '0.5rem',
-                  }}
-                >
-                  {sdg.label}
-                </p>
-              </div>
+          <ol className={s.objectives}>
+            {OBJECTIVES.map((o, i) => (
+              <li key={o.title} className="tile" style={{ background: o.bg, color: o.fg }}>
+                <span className={s.objN} aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <h3 className={s.objTitle}>{o.title}</h3>
+                <p className={s.objBody}>{o.body}</p>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
-      {/* =====================================================
-          ADVISORY BOARD — white band, sticky-photo pattern
-          (reuses AdvisorsSection from home, mapped from ADVISORY manifest)
-          ===================================================== */}
-      <AdvisorsSection
-        kicker="Advisory Board"
-        advisors={{ visible: true, heading: 'Global advisory board', people: advisorPeople }}
-      />
-
-      {/* =====================================================
-          AMBASSADORS — field band, polaroid photo grid
-          12 ambassadors, 11 countries
-          ===================================================== */}
-      <section
-        aria-labelledby="amb-hd"
-        data-name="Our ambassadors"
-        style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}
-      >
+      {/* THE FOUR GOALS */}
+      <section aria-labelledby="sdg-hd" data-name="Our four goals" className={s.band} style={{ background: 'var(--field)' }}>
         <div className="wrap">
-          <p className="kick">Ambassadors</p>
-          <h2
-            id="amb-hd"
-            className="d2"
-            style={{ color: 'var(--ink)', marginBottom: '0.75rem' }}
-          >
-            GYN ambassadors
-          </h2>
-          <p
-            className="rise"
-            style={{
-              fontSize: '0.9375rem',
-              color: 'var(--n-600)',
-              marginBottom: '2.5rem',
-            }}
-          >
-            12 ambassadors representing 11 countries.
+          <span className="kick">Our focus</span>
+          <h2 id="sdg-hd" className="d2">Four goals. <span className="accent">Every</span> summit.</h2>
+          <p className={`rise ${s.body}`}>
+            Every GYN programme, workshop and pitch is built around four of the United Nations Sustainable Development Goals.
           </p>
-          <ul aria-label="GYN ambassadors" className={styles.ambGrid}>
-            {ambassadorEntries.map((v) => (
-              <li key={v.alt}>
+          <ul className={s.goals}>
+            {GOALS.map((g) => (
+              <li key={g.n} className="tile" style={{ background: g.bg, color: g.fg, padding: 0 }}>
+                <Image src={g.poster} alt="" width={400} height={280} className={s.goalImg} />
+                <div className={s.goalText}>
+                  <span className={s.goalN}>SDG {g.n}</span>
+                  <h3 className={s.goalName}>{g.name}</h3>
+                  <p className={s.goalBody}>{g.goal}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* OUR STORY: the summits so far and next */}
+      <section id="story" aria-labelledby="story-hd" data-name="Our story" className={s.band} style={{ background: '#fff' }}>
+        <div className="wrap">
+          <span className="kick">Our story so far</span>
+          <h2 id="story-hd" className="d2">From Bangkok to <span className="accent">Kuala Lumpur</span></h2>
+          <ol className={s.timeline}>
+            {bangkok && (
+              <li className={`card ${s.stop}`}>
+                <span className={s.stamp}>{bangkok.edition}</span>
+                <h3 className={s.stopName}>FutureMinds Summit Thailand</h3>
+                <p className={s.stopWhen}>{bangkok.dates}</p>
+                <p className={s.body}>{bangkok.text}</p>
+                <ul className={s.stopFacts}>
+                  {bangkok.facts.map((f) => <li key={f.label}><b>{f.n}</b> {f.label}</li>)}
+                </ul>
+                <Link href="/fms-thailand" className="btn btn-g">See the Bangkok summit</Link>
+              </li>
+            )}
+            <li className={`tile ${s.stop} ${s.next}`}>
+              <span className={`${s.stamp} ${s.stampNext}`}>Edition 02, next</span>
+              <h3 className={s.stopName}>{c.strip.eventName}</h3>
+              <p className={s.stopWhen}>{c.strip.dateVenue}</p>
+              <p className={s.nextBody}>{c.strip.cohost}. 100 seats for young leaders, innovators and changemakers, with a $1,000 seed grant for the best project.</p>
+              <Link href="/sism-2026" className="btn btn-y">Explore SISM 2026 <span aria-hidden="true">&#8594;</span></Link>
+            </li>
+          </ol>
+          {/* Bangkok photos as a row of polaroids that scrolls sideways */}
+          <ul className={s.strip} aria-label="Photos from the FutureMinds Summit in Bangkok" tabIndex={0}>
+            {GALLERY.map((g) => (
+              <li key={g.src}>
                 <figure className="pol">
-                  <Image
-                    src={v.src}
-                    alt={v.alt}
-                    width={400}
-                    height={400}
-                    sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 22vw"
-                    style={{ width: '100%', aspectRatio: '1', objectFit: 'cover' }}
-                    loading="lazy"
-                  />
-                  <figcaption>
-                    <p style={{ fontFamily: 'var(--fd)', fontSize: '0.875rem', color: 'var(--ink)' }}>
-                      {v.alt.split(',')[0].replace('GYN Ambassador', '').trim()}
-                    </p>
-                    <p style={{ fontSize: '0.75rem', color: 'var(--n-600)', marginTop: '0.2rem' }}>
-                      {v.country}
-                    </p>
-                  </figcaption>
+                  <Image src={g.src} alt={g.alt} width={g.width} height={g.height} sizes="260px" loading="lazy" />
                 </figure>
               </li>
             ))}
@@ -316,115 +226,29 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* =====================================================
-          PARTNERS — navy band, white logos via CSS invert filter
-          (matches PartnersSection.tsx pattern from home page)
-          ===================================================== */}
-      <section
-        aria-labelledby="par-hd"
-        data-name="Partners"
-        className="band-navy"
-        style={{ paddingBlock: 'clamp(56px,7vw,112px)' }}
-      >
-        <div className="wrap">
-          <p className="kick kick-y">Our Partners</p>
-          <h2
-            id="par-hd"
-            className="d2"
-            style={{ color: 'var(--white)', marginBottom: 'clamp(24px,3vw,40px)' }}
-          >
-            Our partners
-          </h2>
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '2.5rem',
-              alignItems: 'center',
-              marginBottom: '2.5rem',
-            }}
-            role="list"
-          >
-            {PARTNERS.map((p) => (
-              <div key={p.src} role="listitem">
-                <Image
-                  src={p.src}
-                  alt={p.alt}
-                  width={p.width}
-                  height={p.height}
-                  style={{ height: '2.5rem', width: 'auto', filter: 'brightness(0) invert(1)', opacity: 0.8 }}
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
-          <div
-            style={{
-              paddingTop: '2rem',
-              borderTop: '1px solid rgba(255,255,255,.12)',
-            }}
-          >
-            <p
-              style={{
-                fontSize: '0.8125rem',
-                color: 'rgba(255,255,255,.8)',
-                marginBottom: '1rem',
-              }}
-            >
-              Co-hosted with
-            </p>
-            <Image
-              src={LOGOS['logo.unu-global-health'].src}
-              alt={LOGOS['logo.unu-global-health'].alt}
-              width={LOGOS['logo.unu-global-health'].width}
-              height={LOGOS['logo.unu-global-health'].height}
-              style={{ height: '3rem', width: 'auto', filter: 'brightness(0) invert(1)', opacity: 0.85 }}
-            />
-          </div>
-        </div>
-      </section>
+      {c.network.people.length > 0 && <Network data={c.network} />}
+      {c.advisors.people.length > 0 && <Advisors data={{ ...c.advisors, cta: { label: 'Apply for SISM 2026', href: '/sism-2026' } }} />}
+      <Partners data={c.partners} />
 
-      {/* =====================================================
-          PARTNER WITH US CTA — yellow band-y closing section
-          ===================================================== */}
-      <section
-        aria-labelledby="partner-cta-hd"
-        data-name="Partner with us"
-        className="band-y"
-        style={{ paddingBlock: 'var(--sp)' }}
-      >
-        <div
-          className="wrap"
-          style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: '1.5rem' }}
-        >
-          <p className="kick">Get in touch</p>
-          <h2
-            id="partner-cta-hd"
-            className="d2"
-          >
-            Partner with us
-          </h2>
-          <p
-            style={{
-              fontSize: '1rem',
-              color: 'var(--ink)',
-              lineHeight: 1.7,
-              maxWidth: '60ch',
-              opacity: 0.85,
-            }}
-          >
-            GYN brings together youth leaders, researchers and organizations from across the globe.
-            If your organization shares our commitment to the Sustainable Development Goals, we would
-            welcome a conversation about how we can work together.
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-            <Link href="/contact-us?topic=partnership" className="btn btn-n">
-              Get in touch about partnership
-            </Link>
-            <Link href="/sism-2026" className="btn btn-n">
-              Explore SISM 2026
-            </Link>
+      {/* CLOSING */}
+      <section aria-labelledby="close-hd" data-name="Join GYN" className={`${s.band} band-y`}>
+        <div className={`wrap ${s.close}`}>
+          <div>
+            <span className="kick">Be part of it</span>
+            <h2 id="close-hd" className={s.closeHd}>Your first global stage is in Kuala Lumpur.</h2>
+            <p className={s.closeBody}>
+              Come as a delegate, or bring your organization in as a partner. GYN works with youth leaders, researchers and organizations that share our commitment to the Sustainable Development Goals.
+            </p>
+            <div className={s.closeBtns}>
+              <Link href="/sism-2026" className="btn btn-n">Apply for SISM 2026 <span aria-hidden="true">&#8594;</span></Link>
+              <Link href="/contact-us?topic=partnership" className="btn btn-g">Partner with us</Link>
+            </div>
           </div>
+          <address className={s.office}>
+            <span className={s.officeLabel}>GYN office</span>
+            1001 S Main St, Suite 500<br />Kalispell, Montana 59901, USA<br />
+            <a href="tel:+13025560064">+1 (302) 556-0064</a>
+          </address>
         </div>
       </section>
     </main>

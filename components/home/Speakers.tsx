@@ -101,8 +101,47 @@ function SpeakerBadge({ person, delay }: SpeakerBadgeProps) {
   )
 }
 
+/**
+ * On phones the grid becomes a swipe carousel (after the echochange mentor carousel): one badge centred,
+ * neighbours peeking and hanging back on their lanyards. Native scroll-snap does the moving; this only
+ * tracks the centred badge for the counter and dots, and scrolls on button press.
+ */
+function useCarousel(count: number) {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+    const onScroll = () => {
+      const mid = track.scrollLeft + track.clientWidth / 2
+      let best = 0
+      let bestD = Infinity
+      Array.from(track.children).forEach((el, i) => {
+        const c = (el as HTMLElement).offsetLeft + (el as HTMLElement).offsetWidth / 2
+        const d = Math.abs(c - mid)
+        if (d < bestD) { bestD = d; best = i }
+      })
+      setIndex(best)
+    }
+    track.addEventListener('scroll', onScroll, { passive: true })
+    return () => track.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const goTo = (i: number) => {
+    const track = trackRef.current
+    const el = track?.children[Math.max(0, Math.min(count - 1, i))] as HTMLElement | undefined
+    if (!track || !el) return
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    track.scrollTo({ left: el.offsetLeft - (track.clientWidth - el.offsetWidth) / 2, behavior: reduced ? 'auto' : 'smooth' })
+  }
+
+  return { trackRef, index, goTo }
+}
+
 export function Speakers({ data }: { data: HomeContent['speakers'] }) {
   const { ref, inView } = useWipeReveal()
+  const { trackRef, index, goTo } = useCarousel(data.people.length)
 
   return (
     <section
@@ -155,10 +194,36 @@ export function Speakers({ data }: { data: HomeContent['speakers'] }) {
           )}
         </div>
 
-        <div className="spk-grid">
+        <div
+          ref={trackRef}
+          className="spk-grid"
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Speakers"
+          tabIndex={0}
+        >
           {data.people.map((person, i) => (
             <SpeakerBadge key={person.name} person={person} delay={i * 0.6} />
           ))}
+        </div>
+
+        {/* phone-only controls; on wider screens the badges sit in a grid */}
+        <div className="spk-ctrl">
+          <button type="button" className="spk-arrow" onClick={() => goTo(index - 1)} disabled={index === 0} aria-label="Previous speaker">
+            <span aria-hidden="true">&#8592;</span>
+          </button>
+          {/* progress dots only; the arrows and swiping do the moving */}
+          <div className="spk-dots" aria-hidden="true">
+            {data.people.map((p, i) => (
+              <span key={p.name} className={i === index ? 'spk-dot on' : 'spk-dot'} />
+            ))}
+          </div>
+          <p className="spk-count" aria-live="polite">
+            <b>{String(index + 1).padStart(2, '0')}</b> / {String(data.people.length).padStart(2, '0')}
+          </p>
+          <button type="button" className="spk-arrow" onClick={() => goTo(index + 1)} disabled={index === data.people.length - 1} aria-label="Next speaker">
+            <span aria-hidden="true">&#8594;</span>
+          </button>
         </div>
       </div>
 
@@ -182,7 +247,45 @@ export function Speakers({ data }: { data: HomeContent['speakers'] }) {
           gap: 22px 18px;
         }
         @media (max-width: 900px) { .spk-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 480px) { .spk-grid { grid-template-columns: 1fr 1fr; gap: 16px 12px; } }
+        .spk-ctrl { display: none; }
+
+        /* phones: swipe carousel, one badge centred, neighbours peeking */
+        @media (max-width: 760px) {
+          .spk-grid {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            /* bleed to the screen edges and pad so the first and last badge can centre */
+            margin-inline: calc(-1 * var(--gut));
+            padding: 6px calc(50vw - min(37vw, 150px)) 26px;
+            overscroll-behavior-x: contain;
+          }
+          .spk-grid::-webkit-scrollbar { display: none; }
+          .spk-grid:focus-visible { outline: 3px solid var(--y); outline-offset: -3px; border-radius: 16px; }
+          .spk-badge { flex: 0 0 min(74vw, 300px); scroll-snap-align: center; scroll-snap-stop: always; }
+          .spk-ctrl { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
+          .spk-dots { display: flex; align-items: center; gap: 6px; flex: 1; justify-content: center; min-width: 0; }
+          .spk-dot { width: 7px; height: 7px; border-radius: 999px; background: rgba(14,21,48,.25); transition: width .3s cubic-bezier(.2,.8,.2,1), background .3s; }
+          .spk-dot.on { width: 20px; background: var(--ink); }
+          .spk-count { font-size: 14px; color: var(--n-600); min-width: 52px; text-align: right; }
+          .spk-count b { font-family: var(--fd); font-weight: 400; font-size: 18px; color: var(--ink); }
+          .spk-arrow { width: 44px; height: 44px; flex: none; border-radius: 999px; border: 1.5px solid rgba(32,47,96,.3); background: #fff; color: var(--ink); font-size: 18px; cursor: pointer; }
+          .spk-arrow:not(:disabled):hover { background: var(--y); border-color: var(--y); }
+          .spk-arrow:disabled { opacity: .35; cursor: default; }
+        }
+        /* badges off-centre hang back on their lanyards and swing upright as they reach the middle */
+        @supports (animation-timeline: view()) {
+          @media (max-width: 760px) and (prefers-reduced-motion: no-preference) {
+            .spk-badge { transform-origin: 50% 0; animation: spk-focus linear both; animation-timeline: view(inline); }
+          }
+        }
+        @keyframes spk-focus {
+          0%   { transform: rotate(7deg) scale(.86); }
+          50%  { transform: none; }
+          100% { transform: rotate(-7deg) scale(.86); }
+        }
 
         .spk-badge {
           display: grid;

@@ -230,8 +230,8 @@ em, i { font-style: normal; }
    CSS scroll timelines only; browsers without them show everything at once. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .d2, .wipe { animation: j-wipe linear both; animation-timeline: view(); animation-range: entry 10% cover 30%; }
-    .rise { animation: j-rise linear both; animation-timeline: view(); animation-range: entry 0% cover 25%; }
+    .d2, .wipe { animation: j-wipe linear both; animation-timeline: view(); animation-range: entry 0px entry 180px; }
+    .rise { animation: j-rise linear both; animation-timeline: view(); animation-range: entry 0px entry 180px; }
   }
 }
 @keyframes j-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }

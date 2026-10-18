@@ -24,7 +24,7 @@
 .heading {
   font-size: clamp(2.1rem, 4.8vw, 3.9rem);
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   line-height: 1.02;
   text-wrap: balance;
   clip-path: inset(0 100% 0 0);
@@ -34,9 +34,8 @@
 .heading.in { clip-path: inset(0 0% 0 0); }
 
 .accent {
-  font-family: var(--fs, var(--font-bodoni));
-  font-style: italic;
-  font-weight: 400;
+  font-style: normal;
+  color: var(--y, #FCC30B);
 }
 
 .intro {

@@ -55,7 +55,7 @@ export function Countdown({ serverNow, target = null }: { serverNow: number; tar
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.25rem' }}>
             <span
               style={{
-                fontFamily: 'var(--font-host-grotesk, var(--fb))',
+                fontFamily: 'var(--fd)',
                 fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
                 lineHeight: 1,
                 color: 'var(--ink, var(--navy-900))',

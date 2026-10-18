@@ -183,8 +183,6 @@ export function Wall({ data }: { data: HomeContent['gallery'] }) {
         .wall-cap {
           display: block;
           padding-top: 10px;
-          font-family: var(--fs);
-          font-style: italic;
           font-size: 15px;
           line-height: 1.2;
         }

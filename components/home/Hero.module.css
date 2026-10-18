@@ -42,11 +42,11 @@
 }
 
 .headline {
-  font-family: var(--fd, var(--font-host-grotesk));
+  font-family: var(--fd);
   font-size: clamp(3rem, 9vw, 8.4rem);
-  font-weight: 800;
+  font-weight: 400;
   line-height: 0.92;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
   text-transform: uppercase;
   position: relative;
 }
@@ -64,13 +64,9 @@
   transform: none;
 }
 
-/* The italic accent word (e.g. "stage") uses Bodoni, NOT uppercase */
+/* The accent word (e.g. "stage") is the same face, upright, in yellow */
 .accent {
-  font-family: var(--fs, var(--font-bodoni));
-  font-style: italic;
-  font-weight: 400;
-  text-transform: none;
-  font-size: 1.08em;
+  font-style: normal;
   color: var(--y, #FCC30B);
 }
 

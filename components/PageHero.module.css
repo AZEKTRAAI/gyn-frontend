@@ -19,7 +19,7 @@
   font-weight: 600;
   font-size: clamp(2.75rem, 6vw, 5rem);
   line-height: 1.03;
-  letter-spacing: -0.022em;
+  letter-spacing: 0;
   text-wrap: balance;
   overflow-wrap: break-word;
 }

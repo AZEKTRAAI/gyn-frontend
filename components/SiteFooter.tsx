@@ -59,7 +59,7 @@ export function SiteFooter({ footer, socials }: Props) {
 
           {/* Useful links */}
           <div>
-            <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#fff', marginBottom: '0.875rem', fontFamily: 'var(--font-host-grotesk, var(--fb))' }}>
+            <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#fff', marginBottom: '0.875rem', fontFamily: 'var(--fd)' }}>
               Links
             </p>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -83,7 +83,7 @@ export function SiteFooter({ footer, socials }: Props) {
 
           {/* Policies */}
           <div>
-            <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#fff', marginBottom: '0.875rem', fontFamily: 'var(--font-host-grotesk, var(--fb))' }}>
+            <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#fff', marginBottom: '0.875rem', fontFamily: 'var(--fd)' }}>
               Policies
             </p>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -102,7 +102,7 @@ export function SiteFooter({ footer, socials }: Props) {
 
           {/* Contact */}
           <div>
-            <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#fff', marginBottom: '0.875rem', fontFamily: 'var(--font-host-grotesk, var(--fb))' }}>
+            <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#fff', marginBottom: '0.875rem', fontFamily: 'var(--fd)' }}>
               Contact
             </p>
             <address style={{ fontStyle: 'normal', fontSize: '0.8125rem', color: 'rgba(255,255,255,.55)', lineHeight: 1.85, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>

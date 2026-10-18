@@ -222,7 +222,7 @@ export function Speakers({ data }: { data: HomeContent['speakers'] }) {
         .spk-nm { font-weight: 800; font-size: 16px; line-height: 1.15; letter-spacing: -.01em; color: var(--ink); }
         .spk-org { font-size: 13px; color: var(--n-500); line-height: 1.3; }
         .spk-org strong { display: block; color: var(--ink); font-weight: 600; }
-        .spk-role { font-family: var(--fs); font-style: italic; font-size: 14px; color: var(--n-500); }
+        .spk-role { font-size: 14px; color: var(--n-500); }
       `}</style>
     </section>
   )

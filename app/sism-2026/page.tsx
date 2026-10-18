@@ -363,7 +363,7 @@ export default async function Sism2026Page() {
                 <div style={{ padding: '20px 20px 12px', borderBottom: '1px solid rgba(14,21,48,.12)' }}>
                   <div
                     aria-hidden="true"
-                    style={{ fontSize: 'clamp(2.5rem,4.5vw,4.5rem)', fontWeight: 300, letterSpacing: '-0.03em', lineHeight: 1, color: 'var(--navy)', opacity: 0.22 }}
+                    style={{ fontSize: 'clamp(2.5rem,4.5vw,4.5rem)', fontWeight: 300, letterSpacing: 0, lineHeight: 1, color: 'var(--navy)', opacity: 0.22 }}
                   >
                     {i + 1}
                   </div>

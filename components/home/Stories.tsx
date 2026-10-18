@@ -34,7 +34,7 @@ function PlayIcon() {
   )
 }
 
-/** First sentence larger in Bodoni italic; rest in body size. */
+/** First sentence larger; rest in body size. */
 function splitFirstSentence(text: string): [string, string] {
   const m = text.match(/^([^.!?]+[.!?]+\s*)(.*)$/s)
   if (!m) return [text, '']
@@ -189,8 +189,6 @@ export function Stories({ data }: { data: HomeContent['stories'] }) {
                     {first && (
                       <p
                         style={{
-                          fontFamily: 'var(--fs)',
-                          fontStyle: 'italic',
                           fontSize: 'clamp(1rem,1.6vw,1.25rem)',
                           lineHeight: 1.45,
                           color: 'var(--ink)',

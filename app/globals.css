@@ -35,9 +35,9 @@
   --color-n-900: #141413;
 
   /* === TYPE (Direction I) === */
-  --font-display: var(--font-host-grotesk), system-ui, sans-serif;
-  --font-body: var(--font-host-grotesk), system-ui, sans-serif;
-  --font-serif: var(--font-bodoni), Georgia, serif;
+  --font-display: var(--font-heading), Impact, sans-serif;
+  --font-body: var(--font-text), Georgia, serif;
+  --font-serif: var(--font-text), Georgia, serif;
 
   /* === SPACING SCALE (fluid) === */
   --spacing-gut: clamp(1rem, 4vw, 3.5rem);
@@ -83,10 +83,10 @@
   --sdg5: #FF3A21;
   --sdg9: #FD6925;
   --sdg13: #3F7E44;
-  /* Direction I: one grotesk for display and text, Bodoni italic only for the accent word */
-  --fd: var(--font-host-grotesk), system-ui, sans-serif;
-  --fb: var(--font-host-grotesk), system-ui, sans-serif;
-  --fs: var(--font-bodoni), Georgia, serif;
+  /* Anton for headings (free stand-in for Conthic), Newsreader for everything else, no italics */
+  --fd: var(--font-heading), Impact, sans-serif;
+  --fb: var(--font-text), Georgia, serif;
+  --fs: var(--fb);
   --field: #EEF2F6;
   --ink: #0E1530;
   --navy: #202F60;
@@ -158,11 +158,16 @@ a { color: inherit; text-decoration: none; }
 
 /* === TYPE SCALE === */
 /* Direction I scale (Apple-style weights and tracking). overflow-wrap stops long words clipping under overflow-x:clip. */
-.d1 { font-family: var(--fd); font-weight: 600; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.04; letter-spacing: -0.022em; overflow-wrap: break-word; text-wrap: balance; }
-.d2 { font-family: var(--fd); font-weight: 600; font-size: clamp(1.875rem, 3.6vw, 3rem); line-height: 1.08; letter-spacing: -0.012em; overflow-wrap: break-word; text-wrap: balance; }
-.d3 { font-family: var(--fd); font-weight: 600; font-size: clamp(1.125rem, 1.8vw, 1.5rem); line-height: 1.2; letter-spacing: -0.008em; overflow-wrap: break-word; }
-/* the one italic accent word in a headline */
-.accent { font-family: var(--fs); font-style: italic; font-weight: 400; }
+.d1 { font-family: var(--fd); font-weight: 400; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.04; letter-spacing: 0; overflow-wrap: break-word; text-wrap: balance; }
+.d2 { font-family: var(--fd); font-weight: 400; font-size: clamp(1.875rem, 3.6vw, 3rem); line-height: 1.08; letter-spacing: 0; overflow-wrap: break-word; text-wrap: balance; }
+.d3 { font-family: var(--fd); font-weight: 400; font-size: clamp(1.125rem, 1.8vw, 1.5rem); line-height: 1.2; letter-spacing: 0.01em; overflow-wrap: break-word; }
+/* the accent word in a headline: same face, upright (no italics anywhere) */
+.accent { font-style: normal; text-decoration: underline var(--y) 0.12em; text-underline-offset: 0.1em; text-decoration-skip-ink: none; }
+/* Anton has one weight and no italic: never fake bold or slanted versions */
+html { font-synthesis: none; }
+/* every heading is Anton unless a component says otherwise; em/i stay upright */
+h1, h2, h3, h4 { font-family: var(--fd); font-weight: 400; }
+em, i { font-style: normal; }
 
 /* === BUTTONS === */
 .btn {

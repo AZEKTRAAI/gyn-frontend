@@ -36,7 +36,7 @@ export const linkSchema = z
 const optionalLink = linkSchema.meta({ title: 'Second button (leave text empty to hide)' })
 const visible = z.boolean().meta({ title: 'Show this section' })
 const kicker = str('Small label above the heading', 60)
-const heading = str('Heading', 120, 'Wrap words in *stars* for the italic serif.')
+const heading = str('Heading', 120, 'Wrap words in *stars* to highlight them.')
 
 export const SDG_GOALS = ['4', '5', '9', '13'] as const
 const sdg = z.enum(SDG_GOALS).meta({ title: 'Colour (SDG goal)', description: '4 red, 5 orange-red, 9 orange, 13 green.' })
@@ -51,7 +51,7 @@ export const homeSchema = z
 
     hero: z
       .object({
-        headline: long('Headline', 120, 'Wrap one word in *stars* for the italic serif, e.g. "global *stage*." Press Enter for a line break. Shown in capitals.'),
+        headline: long('Headline', 120, 'Wrap one word in *stars* to highlight it, e.g. "global *stage*." Press Enter for a line break. Shown in capitals.'),
         lead: long('Lead paragraph', 400),
         facts: z
           .array(z.object({ label: str('Text', 40), hot: z.boolean().meta({ title: 'Yellow highlight' }) }).meta({ title: 'Fact chip' }))
@@ -298,7 +298,7 @@ export const homeSchema = z
     closing: z
       .object({
         visible,
-        headline: long('Headline', 80, 'Wrap words in *stars* for the italic serif. Press Enter for a line break.'),
+        headline: long('Headline', 80, 'Wrap words in *stars* to highlight them. Press Enter for a line break.'),
         text: long('Text', 300, 'Wrap words in *stars* to highlight them in yellow.'),
         primaryCta: linkSchema.meta({ title: 'Main button' }),
         secondaryCta: optionalLink,

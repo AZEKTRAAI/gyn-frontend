@@ -24,7 +24,7 @@
 .heading {
   font-size: clamp(2.1rem, 4.8vw, 3.9rem);
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   line-height: 1.02;
   text-wrap: balance;
   /* clip-path wipe reveal — Chrome counts clip-path as zero intersection, use threshold 0 + rootMargin */
@@ -37,9 +37,10 @@
 }
 
 .accent {
-  font-family: var(--fs, var(--font-bodoni));
-  font-style: italic;
-  font-weight: 400;
+  font-style: normal;
+  text-decoration: underline var(--y, #FCC30B) 0.12em;
+  text-underline-offset: 0.1em;
+  text-decoration-skip-ink: none;
 }
 
 .intro {
@@ -83,10 +84,11 @@
 }
 
 .n {
+  font-family: var(--fd);
   font-size: clamp(2.2rem, 4.4vw, 3.8rem);
   font-weight: 800;
   line-height: 0.95;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   font-variant-numeric: tabular-nums;
   position: relative;
   z-index: 1;

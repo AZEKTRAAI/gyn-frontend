@@ -100,7 +100,7 @@ export default function AboutUsPage() {
             >
               Our mission
             </h2>
-            {/* Bodoni italic for the pull quote, per Direction I */}
+            {/* larger pull quote */}
             <blockquote
               style={{
                 borderLeft: '4px solid var(--sdg4)',
@@ -110,9 +110,7 @@ export default function AboutUsPage() {
             >
               <p
                 style={{
-                  fontFamily: 'var(--fs)',
                   fontSize: 'clamp(1rem, 1.3vw, 1.125rem)',
-                  fontStyle: 'italic',
                   color: 'var(--n-700)',
                   lineHeight: 1.75,
                 }}
@@ -360,7 +358,7 @@ export default function AboutUsPage() {
           <h2
             id="par-hd"
             style={{
-              fontFamily: 'var(--font-host-grotesk, var(--fb))',
+              fontFamily: 'var(--fd)',
               fontSize: 'clamp(1.125rem,1.8vw,1.375rem)',
               fontWeight: 600,
               color: 'rgba(255,255,255,.55)',

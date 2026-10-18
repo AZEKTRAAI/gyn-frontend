@@ -50,7 +50,7 @@ export function AdvisorsSection({ advisors }: Props) {
         <h2
           id="adv-hd"
           style={{
-            fontFamily: 'var(--font-host-grotesk, var(--fb))',
+            fontFamily: 'var(--fd)',
             fontSize: 'clamp(1.875rem,3.5vw,3rem)',
             fontWeight: 600,
             letterSpacing: '-0.008em',
@@ -83,7 +83,7 @@ export function AdvisorsSection({ advisors }: Props) {
               >
                 <p
                   style={{
-                    fontFamily: 'var(--font-host-grotesk, var(--fb))',
+                    fontFamily: 'var(--fd)',
                     fontSize: 'clamp(1.125rem,2vw,1.625rem)',
                     fontWeight: 600,
                     letterSpacing: '-0.01em',

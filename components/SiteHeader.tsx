@@ -146,7 +146,7 @@ export function SiteHeader({ nav }: Props) {
           background: none;
           border: none;
           cursor: pointer;
-          font-family: var(--font-host-grotesk, var(--fb));
+          font-family: var(--fb);
           transition: color 150ms;
           white-space: nowrap;
           min-height: 44px;
@@ -192,7 +192,7 @@ export function SiteHeader({ nav }: Props) {
           padding: 0.625rem 1.25rem;
           border-radius: 999px;
           transition: transform 160ms cubic-bezier(0.23,1,0.32,1);
-          font-family: var(--font-host-grotesk, var(--fb));
+          font-family: var(--fb);
           min-height: 44px;
         }
         .nav-book-pill:hover { transform: scale(1.02); }
@@ -241,7 +241,7 @@ export function SiteHeader({ nav }: Props) {
           padding: 14px 0;
           border-bottom: 1px solid rgba(14,21,48,.1);
           display: block;
-          font-family: var(--font-host-grotesk, var(--fb));
+          font-family: var(--fb);
           min-height: 44px;
         }
         .nav-drawer a:focus-visible { outline: 2px solid #FCC30B; outline-offset: 4px; }

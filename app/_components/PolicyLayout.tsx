@@ -7,16 +7,19 @@
  */
 
 import { useEffect, useState } from 'react'
+import { PageHero } from '@/components/PageHero'
 import type { TocEntry } from '@/lib/md-render'
 
 interface Props {
   title: string
+  /** Small label above the hero headline, e.g. "Legal". Defaults to "Legal". */
+  kicker?: string
   toc: TocEntry[]
   lastUpdated: string | null
   children: React.ReactNode
 }
 
-export function PolicyLayout({ title, toc, lastUpdated, children }: Props) {
+export function PolicyLayout({ title, kicker = 'Legal', toc, lastUpdated, children }: Props) {
   const [activeId, setActiveId] = useState<string>('')
 
   // Update active TOC item on scroll
@@ -42,101 +45,84 @@ export function PolicyLayout({ title, toc, lastUpdated, children }: Props) {
   }, [toc])
 
   return (
-    <main id="main" style={{ paddingTop: '3.5rem' }}>
-      {/* Page title bar — field tone */}
-      <div
-        style={{
-          background: 'var(--field)',
-          paddingBlock: 'clamp(2rem, 5vw, 4rem)',
-          borderBottom: '1px solid rgba(14,21,48,.12)',
-        }}
-      >
-        <div className="wrap">
-          <h1
-            className="d2"
-            style={{ color: 'var(--ink)', marginBottom: lastUpdated ? '0.75rem' : 0 }}
-          >
-            {title}
-          </h1>
-          {lastUpdated && (
-            <p style={{ fontSize: '0.875rem', color: 'var(--n-600)' }}>
-              Last updated {lastUpdated}
-            </p>
+    <main id="main">
+      <PageHero
+        title={title}
+        kicker={kicker}
+        chips={lastUpdated ? [lastUpdated] : undefined}
+      />
+
+      {/* Content area — field background, article in a white card */}
+      <div style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
+        <div
+          className={`wrap pol-grid${toc.length ? ' pol-grid-toc' : ''}`}
+          style={{ alignItems: 'start' }}
+        >
+          {/* Body in a white rounded card */}
+          <article className="card policy-body">
+            {children}
+          </article>
+
+          {/* Sticky TOC card — desktop only */}
+          {toc.length > 0 && (
+            <nav
+              aria-label="Table of contents"
+              className="card policy-toc"
+              style={{
+                position: 'sticky',
+                top: 'calc(3.5rem + 1.5rem)',
+                padding: '1.25rem 1.5rem',
+                display: 'none', // hidden on mobile, shown via media query below
+              }}
+            >
+              <p
+                style={{
+                  fontSize: '0.8125rem',
+                  fontWeight: 700,
+                  color: 'var(--n-500)',
+                  marginBottom: '0.875rem',
+                }}
+              >
+                On this page
+              </p>
+              <ul style={{ listStyle: 'none' }}>
+                {toc.map(({ id, text }) => (
+                  <li key={id} style={{ marginBottom: '0.25rem' }}>
+                    <a
+                      href={`#${id}`}
+                      style={{
+                        fontSize: '0.8125rem',
+                        lineHeight: 1.5,
+                        color: activeId === id ? 'var(--navy)' : 'var(--n-600)',
+                        fontWeight: activeId === id ? 600 : 400,
+                        display: 'block',
+                        padding: '0.25rem 0',
+                        borderLeft: `2px solid ${activeId === id ? 'var(--navy)' : 'transparent'}`,
+                        paddingLeft: '0.75rem',
+                        transition: 'color 150ms ease, border-color 150ms ease',
+                      }}
+                    >
+                      {text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           )}
         </div>
       </div>
 
-      {/* Content area */}
-      <div
-        className="wrap"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: toc.length ? '1fr 220px' : '1fr',
-          gap: 'clamp(2rem, 4vw, 4rem)',
-          alignItems: 'start',
-          paddingBlock: 'var(--sp)',
-        }}
-      >
-        {/* Body */}
-        <article
-          className="policy-body"
-          style={{ maxWidth: '72ch' }}
-        >
-          {children}
-        </article>
-
-        {/* Sticky TOC — desktop only */}
-        {toc.length > 0 && (
-          <nav
-            aria-label="Table of contents"
-            style={{
-              position: 'sticky',
-              top: 'calc(3.5rem + 1.5rem)',
-              display: 'none', // hidden on mobile via class
-            }}
-            className="policy-toc"
-          >
-            <p
-              style={{
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                color: 'var(--n-500)',
-                letterSpacing: '0.07em',
-                marginBottom: '0.875rem',
-              }}
-            >
-              On this page
-            </p>
-            <ul style={{ listStyle: 'none' }}>
-              {toc.map(({ id, text }) => (
-                <li key={id} style={{ marginBottom: '0.25rem' }}>
-                  <a
-                    href={`#${id}`}
-                    style={{
-                      fontSize: '0.8125rem',
-                      lineHeight: 1.5,
-                      color: activeId === id ? 'var(--navy)' : 'var(--n-600)',
-                      fontWeight: activeId === id ? 600 : 400,
-                      display: 'block',
-                      padding: '0.25rem 0',
-                      borderLeft: `2px solid ${activeId === id ? 'var(--navy)' : 'transparent'}`,
-                      paddingLeft: '0.75rem',
-                      transition: 'color 150ms ease, border-color 150ms ease',
-                    }}
-                  >
-                    {text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
-      </div>
-
       <style>{`
+        .pol-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: clamp(2rem, 4vw, 4rem);
+        }
         @media (min-width: 900px) {
+          .pol-grid-toc { grid-template-columns: 1fr 260px; }
           .policy-toc { display: block !important; }
         }
+        .policy-body { padding: clamp(1.5rem, 4vw, 2.5rem); max-width: 65ch; }
         .policy-body h1 { font-family: var(--fd); font-size: clamp(1.4rem, 3vw, 2rem); color: var(--ink); margin-top: 2.5rem; margin-bottom: 1rem; line-height: 1.15; }
         .policy-body h2 { font-family: var(--fd); font-size: clamp(1.1rem, 2vw, 1.5rem); color: var(--ink); margin-top: 2.5rem; margin-bottom: 0.875rem; scroll-margin-top: calc(3.5rem + 1.5rem); }
         .policy-body h3, .policy-body h4 { font-family: var(--fd); font-size: 1rem; color: var(--navy); margin-top: 2rem; margin-bottom: 0.625rem; scroll-margin-top: calc(3.5rem + 1.5rem); }

@@ -8,3 +8,9 @@
 @media (max-width: 768px) {
   .contactGrid { grid-template-columns: 1fr; }
 }
+
+.tileStack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

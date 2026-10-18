@@ -76,76 +76,70 @@ export function VideosClient({ videos }: Props) {
         ))}
       </div>
 
-      {/* Video grid — ruled, not identical lifted cards */}
-      <div
-        style={{
-          borderTop: '1px solid rgba(14,21,48,.12)',
-          borderLeft: '1px solid rgba(14,21,48,.12)',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-        }}
-        className="vid-grid"
-      >
+      {/* Video grid — rounded cards with yellow pill category label */}
+      <div className="vid-grid">
         {filtered.map((v) => (
-          <button
-            key={v.youtubeId}
-            onClick={() => setOpenId(v.youtubeId)}
-            style={{
-              all: 'unset',
-              cursor: 'pointer',
-              display: 'block',
-              borderRight: '1px solid rgba(14,21,48,.12)',
-              borderBottom: '1px solid rgba(14,21,48,.12)',
-            }}
-          >
-            <div style={{ position: 'relative', aspectRatio: '16/9', background: 'var(--field)' }}>
-              <Image
-                src={v.thumbnail || `https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`}
-                alt=""
-                fill
-                sizes="(max-width: 768px) 90vw, (max-width: 1280px) 33vw, 400px"
-                style={{ objectFit: 'cover' }}
-                loading="lazy"
-              />
-              {/* Play icon overlay */}
-              <span
-                aria-hidden="true"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: 'rgba(14,21,48,.18)', /* scrim */
-                  transition: 'background 160ms ease',
-                }}
-                className="vid-play-overlay"
-              >
-                <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true">
-                  <circle cx="22" cy="22" r="22" fill="rgba(255,255,255,.92)" />
-                  <polygon points="18,14 34,22 18,30" fill="var(--ink)" />
-                </svg>
-              </span>
-            </div>
-            <div style={{ padding: '1rem 1.25rem' }}>
-              <span
-                style={{
-                  fontFamily: 'var(--fd)',
-                  fontSize: '0.625rem',
-                  fontWeight: 600,
-                  color: 'var(--crimson-600)',
-                  letterSpacing: '0.06em',
-                  display: 'block',
-                  marginBottom: '0.375rem',
-                }}
-              >
-                {v.category.toUpperCase()}
-              </span>
-              <span style={{ fontFamily: 'var(--fd)', fontSize: '0.9375rem', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.3, display: 'block' }}>
-                {v.title}
-              </span>
-            </div>
-          </button>
+          <div key={v.youtubeId} className="card" style={{ padding: 0, overflow: 'hidden' }}>
+            <button
+              onClick={() => setOpenId(v.youtubeId)}
+              style={{
+                all: 'unset',
+                cursor: 'pointer',
+                display: 'block',
+                width: '100%',
+              }}
+            >
+              <div style={{ position: 'relative', aspectRatio: '16/9', background: 'var(--field)' }}>
+                <Image
+                  src={v.thumbnail || `https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`}
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 90vw, (max-width: 1280px) 33vw, 400px"
+                  style={{ objectFit: 'cover' }}
+                  loading="lazy"
+                />
+                {/* Play icon overlay */}
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'rgba(14,21,48,.18)', /* scrim */
+                    transition: 'background 160ms ease',
+                  }}
+                  className="vid-play-overlay"
+                >
+                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+                    <circle cx="22" cy="22" r="22" fill="rgba(255,255,255,.92)" />
+                    <polygon points="18,14 34,22 18,30" fill="var(--ink)" />
+                  </svg>
+                </span>
+              </div>
+              <div style={{ padding: '1rem 1.25rem 1.25rem' }}>
+                {/* Yellow pill category label */}
+                <span
+                  style={{
+                    display: 'inline-block',
+                    background: 'var(--yellow)',
+                    color: 'var(--ink)',
+                    borderRadius: '999px',
+                    padding: '0.2rem 0.75rem',
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  {v.category.charAt(0).toUpperCase() + v.category.slice(1)}
+                </span>
+                <span style={{ fontFamily: 'var(--fd)', fontSize: '0.9375rem', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.3, display: 'block' }}>
+                  {v.title}
+                </span>
+              </div>
+            </button>
+          </div>
         ))}
       </div>
 
@@ -166,6 +160,8 @@ export function VideosClient({ videos }: Props) {
           width: '100%',
           border: 'none',
           padding: 0,
+          borderRadius: '20px',
+          overflow: 'hidden',
         }}
       >
         <div
@@ -212,12 +208,17 @@ export function VideosClient({ videos }: Props) {
 
       <style>{`
         dialog::backdrop { background: rgba(14,21,48,.92); }
+        .vid-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
+        }
         @media (max-width: 768px) {
           dialog { max-width: 95vw; }
-          .vid-grid { grid-template-columns: 1fr !important; }
+          .vid-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 1024px) and (min-width: 769px) {
-          .vid-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .vid-grid { grid-template-columns: repeat(2, 1fr); }
         }
         .vid-play-overlay:hover { background: rgba(14,21,48,.32) !important; }
       `}</style>

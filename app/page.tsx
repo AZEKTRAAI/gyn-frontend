@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { getHome } from '@/features/home/store'
-import { FloatingPill } from '@/components/home/FloatingPill'
 import { Hero } from '@/components/home/Hero'
 import { EventStrip } from '@/components/home/EventStrip'
 import { Benefits } from '@/components/home/Benefits'
@@ -28,7 +27,6 @@ export default async function HomePage() {
   const c = await getHome()
   return (
     <main id="main">
-      <FloatingPill apply={c.hero.primaryCta} />
       <Hero hero={c.hero} />
       <EventStrip strip={c.strip} />
       {c.benefits.visible && <Benefits data={c.benefits} />}

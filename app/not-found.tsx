@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { SdgWheel } from '@/components/SdgWheel'
 
 export const metadata: Metadata = {
   title: 'Page not found',
@@ -11,19 +12,31 @@ export default function NotFound() {
     <main id="main" style={{ paddingTop: 'calc(3.5rem + clamp(2rem, 5vw, 4.5rem))' }}>
       <section
         aria-labelledby="nf-title"
+        data-name="Not found"
         style={{
-          background: 'var(--ink)',
+          background: 'var(--navy)',
           paddingBlock: 'var(--sp)',
           minHeight: '60vh',
           display: 'flex',
           alignItems: 'center',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
-        <div className="wrap" style={{ textAlign: 'center' }}>
+        {/* Decorative SDG wheel, partially off-screen like the page heroes */}
+        <div
+          aria-hidden="true"
+          className="nf-ring"
+        >
+          <SdgWheel className="nf-wheel" />
+        </div>
+
+        <div className="wrap" style={{ position: 'relative', textAlign: 'center' }}>
+          <p className="kick kick-y" style={{ marginBottom: '0.5rem' }}>Error</p>
           <p
             style={{
               fontFamily: 'var(--fd)',
-              fontSize: 'clamp(4rem, 15vw, 10rem)',
+              fontSize: 'clamp(6rem, 20vw, 14rem)',
               lineHeight: 1,
               color: 'var(--yellow)',
               marginBottom: '1rem',
@@ -60,7 +73,10 @@ export default function NotFound() {
               justifyContent: 'center',
             }}
           >
-            <Link href="/sism-2026" className="btn btn-y">
+            <Link href="/" className="btn btn-y">
+              Go home
+            </Link>
+            <Link href="/sism-2026" className="btn btn-ow">
               SISM 2026
             </Link>
             <Link href="/videos" className="btn btn-ow">
@@ -72,6 +88,27 @@ export default function NotFound() {
           </div>
         </div>
       </section>
+
+      <style>{`
+        @keyframes nf-spin { to { transform: rotate(360deg); } }
+        .nf-ring {
+          position: absolute;
+          right: -10%;
+          top: -14%;
+          width: min(44vw, 520px);
+          opacity: 0.9;
+          animation: nf-spin 120s linear infinite;
+          pointer-events: none;
+          filter: drop-shadow(0 30px 50px rgba(0,0,0,.35));
+        }
+        .nf-wheel { display: block; width: 100%; height: auto; }
+        @media (max-width: 900px) {
+          .nf-ring { width: 70vw; right: -32%; top: -6%; opacity: 0.55; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .nf-ring { animation: none; }
+        }
+      `}</style>
     </main>
   )
 }

@@ -36,7 +36,7 @@ export default async function RegisteredPage({ searchParams }: Props) {
         {demo && (
           <div
             role="note"
-            style={{ padding: '0.875rem 1.25rem', background: 'var(--yellow)', marginBottom: '2rem', fontSize: '0.9375rem', fontWeight: 600, color: 'var(--navy-900)' }}
+            style={{ padding: '0.875rem 1.25rem', background: 'var(--yellow)', marginBottom: '2rem', fontSize: '0.9375rem', fontWeight: 600, color: 'var(--navy-900)', borderRadius: '12px' }}
           >
             Demo mode: no payment was taken. This is a preview of the confirmation page.
           </div>
@@ -66,7 +66,7 @@ export default async function RegisteredPage({ searchParams }: Props) {
         </p>
 
         {/* What happens next */}
-        <div style={{ background: 'var(--n-100)', padding: '1.5rem', marginBottom: '2.5rem' }}>
+        <div className="card" style={{ marginBottom: '2.5rem' }}>
           <p style={{ fontWeight: 700, fontSize: '0.9375rem', color: 'var(--navy-900)', marginBottom: '1rem' }}>What happens next</p>
           <ol style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
             {[
@@ -96,8 +96,8 @@ export default async function RegisteredPage({ searchParams }: Props) {
           <a
             href="/api/calendar/sism-2026.ics"
             download="sism-2026.ics"
-            className="btn"
-            style={{ background: 'transparent', color: 'var(--navy-900)', border: '2px solid var(--n-300)', minHeight: '44px' }}
+            className="btn btn-g"
+            style={{ minHeight: '44px' }}
           >
             Download .ics file
           </a>

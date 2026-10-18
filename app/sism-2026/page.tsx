@@ -65,6 +65,14 @@ interface EventData {
   coHost: string
 }
 
+// SDG colours for application steps (cycles if > 4 steps)
+const STEP_COLS = [
+  { bg: 'var(--sdg4)', fg: '#fff' },
+  { bg: 'var(--sdg13)', fg: '#fff' },
+  { bg: 'var(--sdg9)', fg: 'var(--ink)' },
+  { bg: 'var(--sdg5)', fg: 'var(--ink)' },
+]
+
 export default async function Sism2026Page() {
   const eventsData = await cms.getEvents() as { events: EventData[] }
   const sism = eventsData.events.find(e => e.id === 'sism-2026') as EventData
@@ -122,9 +130,10 @@ export default async function Sism2026Page() {
       {/* ─── HERO ─── */}
       <PageHero
         id="sism-title"
+        kicker="SISM 2026"
         title="SDG *Innovation* Summit Malaysia 2026"
         lead={<>100 seats, {sism.scholarships.total} scholarships. Join young leaders, innovators and professionals from around the world in Kuala Lumpur.</>}
-        meta={<>{sism.dates.displayAlt} / {sism.venue}, {sism.city} / Co-hosted by UNU Global Health</>}
+        chips={[sism.dates.displayAlt, `${sism.venue}, ${sism.city}`, `Co-hosted by ${sism.coHost}`]}
         actions={
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%' }}>
             {/* Hard-coded target: 19 Nov 2026 00:00 MYT = UTC+8 */}
@@ -144,13 +153,13 @@ export default async function Sism2026Page() {
             sizes="(max-width: 768px) 100vw, 45vw"
           />
         }
-        tone="field"
       />
 
       {/* ─── WHAT IT IS ─── */}
-      <section aria-labelledby="what-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="What is SISM 2026" aria-labelledby="what-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(2rem,5vw,4rem)', alignItems: 'start' }}>
           <div>
+            <p className="kick">About the summit</p>
             <h2 id="what-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '1.5rem' }}>What is the SDG Innovation Summit 2026?</h2>
             <p style={{ color: 'var(--n-700)', fontSize: '1rem', lineHeight: 1.75, marginBottom: '1rem' }}>
               The SDG Innovation Summit Malaysia 2026 is a premier international youth summit designed to bring together 100 young leaders, innovators, students, entrepreneurs, professionals, researchers, and changemakers from around the world to explore innovative ideas, foster meaningful collaboration, and create sustainable impact in support of the United Nations Sustainable Development Goals (SDGs).
@@ -172,8 +181,9 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── THEME & PURPOSE ─── */}
-      <section aria-labelledby="theme-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="Forum Theme" aria-labelledby="theme-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
+          <p className="kick">Theme</p>
           <h2 id="theme-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '0.5rem' }}>Forum theme</h2>
           <p style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.5rem,4vw,3rem)', color: 'var(--ink)', lineHeight: 1.1, marginBottom: '2rem' }}>
             Innovative Ideas for Social Impact
@@ -193,7 +203,7 @@ export default async function Sism2026Page() {
                 : sdg.sdg === 'SDG 9' ? '/renders/r3/sdg9-gears-poster.webp'
                 : '/renders/r3/sdg13-leaf-poster.webp'
               return (
-                <div key={sdg.sdg} style={{ background: tileColor, overflow: 'hidden' }}>
+                <div key={sdg.sdg} className="tile" style={{ background: tileColor, color: textColor, padding: 0, overflow: 'hidden' }}>
                   <Image
                     src={poster}
                     alt=""
@@ -203,10 +213,10 @@ export default async function Sism2026Page() {
                     aria-hidden="true"
                   />
                   <div style={{ padding: '1.25rem 1rem' }}>
-                    <span style={{ fontFamily: 'var(--fd)', fontSize: 'clamp(1.25rem,2.5vw,2rem)', display: 'block', marginBottom: '0.375rem', color: textColor, fontWeight: 700, lineHeight: 1 }}>
+                    <span className="tile-n" style={{ color: textColor, display: 'block', marginBottom: '0.375rem' }}>
                       {sdg.sdg}
                     </span>
-                    <span style={{ fontSize: '0.8125rem', color: textColor, lineHeight: 1.5, display: 'block' }}>{sdg.label}</span>
+                    <span style={{ fontSize: '0.8125rem', lineHeight: 1.5, display: 'block' }}>{sdg.label}</span>
                   </div>
                 </div>
               )
@@ -216,9 +226,10 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── SEED GRANT ─── */}
-      <section aria-labelledby="grant-hd" style={{ background: 'var(--navy-900)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="Seed Grant" aria-labelledby="grant-hd" className="band-navy" style={{ paddingBlock: 'var(--sp)' }}>
         <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
           <div>
+            <p className="kick kick-y">Award</p>
             <h2 id="grant-hd" className="d2" style={{ color: 'var(--yellow)', marginBottom: '1rem' }}>$1,000 Seed Grant Award</h2>
             <p style={{ color: 'rgba(255,255,255,.85)', fontSize: '1rem', lineHeight: 1.75 }}>
               Participants compete for a $1,000 Seed Grant to support innovative projects and social impact initiatives. Whether your project is at the conceptual stage, in its pilot phase, under implementation, or fully realized, we welcome you to present your innovation on stage.
@@ -232,9 +243,10 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── CO-HOST ─── */}
-      <section aria-labelledby="cohost-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="Co-host" aria-labelledby="cohost-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
           <div>
+            <p className="kick">Partners</p>
             <h2 id="cohost-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '1.25rem' }}>Co-hosted by UNU Global Health</h2>
             <p style={{ color: 'var(--n-700)', fontSize: '1rem', lineHeight: 1.75, marginBottom: '1rem' }}>
               The Global Youth Network (GYN) organizes the SDG Innovation Summit Malaysia, co-hosted by the United Nations University International Institute for Global Health, Malaysia. Participants will have an opportunity to engage with UNU Global Health representatives and UNU Young Leaders during the summit.
@@ -257,9 +269,10 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── APU VISIT ─── */}
-      <section aria-labelledby="apu-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="APU Visit" aria-labelledby="apu-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
           <div>
+            <p className="kick">Venue experience</p>
             <h2 id="apu-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '1.25rem' }}>Exclusive APU institutional visit</h2>
             <p style={{ color: 'var(--n-700)', fontSize: '1rem', lineHeight: 1.75 }}>
               Experience an exclusive institutional visit to Asia Pacific University (APU), one of Malaysia&apos;s leading universities. Explore its academic environment and global learning community while connecting with fellow international delegates. Delegates will also explore Petaling Street (Chinatown), GMBB KL, Petronas Twin Towers, KLCC Park and many other spots.
@@ -287,14 +300,15 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── WHO CAN APPLY ─── */}
-      <section aria-labelledby="apply-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="Eligibility" aria-labelledby="apply-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
           <div>
+            <p className="kick">Eligibility</p>
             <h2 id="apply-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '1.25rem' }}>Who can apply</h2>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
               {sism.eligibility.map(item => (
                 <li key={item} style={{ fontSize: '0.9375rem', color: 'var(--n-700)', lineHeight: 1.6, paddingLeft: '1.25rem', position: 'relative' }}>
-                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--ink)', display: 'block' }} />
+                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--ink)', borderRadius: '50%', display: 'block' }} />
                   {item}
                 </li>
               ))}
@@ -305,7 +319,7 @@ export default async function Sism2026Page() {
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
               {sism.scholarshipCriteria.map(item => (
                 <li key={item} style={{ fontSize: '0.9375rem', color: 'var(--n-600)', lineHeight: 1.6, paddingLeft: '1.25rem', position: 'relative' }}>
-                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--yellow)', display: 'block' }} />
+                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--yellow)', borderRadius: '50%', display: 'block' }} />
                   {item}
                 </li>
               ))}
@@ -318,8 +332,9 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── TICKETS ─── */}
-      <section id="tickets" aria-labelledby="tick-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
+      <section id="tickets" data-name="Tickets" aria-labelledby="tick-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
+          <p className="kick">Tickets</p>
           <h2 id="tick-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '0.75rem' }}>Attend SISM 2026</h2>
           <p style={{ fontSize: '0.9375rem', color: 'var(--n-600)', marginBottom: '2.5rem', maxWidth: '60ch' }}>
             100 seats (30 scholarships). Scholarship applications closed. Forum Access and Self-Funded seats open now. Group discounts via{' '}
@@ -330,59 +345,72 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── SPEAKERS ─── */}
-      <section aria-labelledby="spk-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="Speakers" aria-labelledby="spk-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
+          <p className="kick">Confirmed speakers</p>
           <h2 id="spk-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: 'clamp(32px,4vw,48px)' }}>Speakers at SISM 2026</h2>
           <SismSpeakers speakers={speakerItems} />
         </div>
       </section>
 
       {/* ─── SCHEDULE ─── */}
-      <section aria-labelledby="sched-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="Programme" aria-labelledby="sched-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
+          <p className="kick">Schedule</p>
           <h2 id="sched-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '0.5rem' }}>4-day programme</h2>
           <p style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--navy)', marginBottom: '3rem' }}>Kuala Lumpur, 19–22 November 2026 (tentative)</p>
 
-          {/* Ruled 4-column grid per concept i-in-our-hands.html */}
+          {/* J-style rounded cards — replaces the old ruled grid */}
           <div
             className="prog-grid-sism"
             role="list"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(4, 1fr)',
-              borderTop: '1px solid rgba(14,21,48,.15)',
-              borderLeft: '1px solid rgba(14,21,48,.15)',
+              gap: '1rem',
             }}
           >
             {sism.schedule.map((day, i) => (
               <div
                 key={day.day}
                 role="listitem"
-                style={{ borderRight: '1px solid rgba(14,21,48,.15)', borderBottom: '1px solid rgba(14,21,48,.15)' }}
+                className="card"
+                style={{ padding: 0, overflow: 'hidden', position: 'relative' }}
               >
-                <div style={{ padding: '20px 20px 12px', borderBottom: '1px solid rgba(14,21,48,.12)' }}>
+                <div style={{ padding: '20px 20px 8px' }}>
+                  {/* Faded Anton day number */}
                   <div
                     aria-hidden="true"
-                    style={{ fontSize: 'clamp(2.5rem,4.5vw,4.5rem)', fontWeight: 300, letterSpacing: 0, lineHeight: 1, color: 'var(--navy)', opacity: 0.22 }}
-                  >
-                    {i + 1}
-                  </div>
-                  <div style={{ fontSize: '12px', fontWeight: 500, color: 'var(--navy)', marginTop: '2px' }}>
+                    className="day-n"
+                    data-n={String(i + 1).padStart(2, '0')}
+                    style={{
+                      fontFamily: 'var(--fd)',
+                      fontSize: 'clamp(3rem,5vw,4.5rem)',
+                      lineHeight: 1,
+                      color: 'var(--navy)',
+                      opacity: 0.1,
+                      userSelect: 'none',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                  <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--navy)', marginTop: '-4px' }}>
                     {day.dateDisplay}
                   </div>
                 </div>
-                <ul style={{ padding: '14px 18px', listStyle: 'none' }} aria-label={`Day ${i + 1} sessions`}>
+                <ul style={{ padding: '8px 20px 20px', listStyle: 'none' }} aria-label={`Day ${i + 1} sessions`}>
                   {day.items.map((item, j) => (
                     <li
                       key={item}
                       style={{
                         fontSize: '12px',
-                        lineHeight: 1.45,
-                        color: 'var(--navy)',
-                        padding: '5px 0',
-                        borderBottom: j < day.items.length - 1 ? '1px solid rgba(14,21,48,.05)' : 'none',
+                        lineHeight: 1.5,
+                        color: 'var(--n-700)',
+                        padding: '4px 0 4px 14px',
+                        position: 'relative',
+                        borderBottom: j < day.items.length - 1 ? '1px solid var(--n-100)' : 'none',
                       }}
                     >
+                      <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.7em', width: '5px', height: '5px', background: 'var(--navy)', borderRadius: '50%', opacity: 0.4 }} />
                       {item.replace(/:/g, ': ')}
                     </li>
                   ))}
@@ -399,8 +427,9 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── TESTIMONIAL VIDEOS ─── */}
-      <section aria-labelledby="vid-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="Delegate Stories" aria-labelledby="vid-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
+          <p className="kick">Testimonials</p>
           <h2 id="vid-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '0.75rem' }}>Hear from past delegates</h2>
           <p style={{ fontSize: '0.9375rem', color: 'var(--n-600)', marginBottom: '2rem' }}>
             Watch past delegates and fellows explain why they recommend applying.
@@ -410,17 +439,22 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── APPLICATION PROCESS ─── */}
-      <section aria-labelledby="proc-hd" style={{ background: 'var(--ink)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="How to Apply" aria-labelledby="proc-hd" className="band-navy" style={{ paddingBlock: 'var(--sp)' }}>
         <div className="wrap">
+          <p className="kick kick-y">Application</p>
           <h2 id="proc-hd" className="d2" style={{ color: 'var(--white)', marginBottom: '2.5rem' }}>How to apply</h2>
-          <ol style={{ listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }} className="sdg-grid">
-            {sism.applicationProcess.map((s, i) => (
-              <li key={s.step} style={{ borderTop: '2px solid var(--yellow)', paddingTop: '1rem' }}>
-                <p style={{ fontFamily: 'var(--fd)', fontSize: '2.5rem', color: 'var(--yellow)', lineHeight: 1, marginBottom: '0.75rem' }}>{i + 1}</p>
-                <p style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--white)', marginBottom: '0.5rem' }}>{s.step}</p>
-                <p style={{ fontSize: '0.875rem', color: 'var(--white)', lineHeight: 1.6 }}>{s.text}</p>
-              </li>
-            ))}
+          {/* SDG-coloured tiles with big Anton step numbers */}
+          <ol style={{ listStyle: 'none', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }} className="sdg-grid">
+            {sism.applicationProcess.map((s, i) => {
+              const col = STEP_COLS[i % STEP_COLS.length]
+              return (
+                <li key={s.step} className="tile" style={{ background: col.bg, color: col.fg }}>
+                  <span className="tile-n">{i + 1}</span>
+                  <p style={{ fontSize: '0.9375rem', fontWeight: 700, marginTop: '0.5rem', marginBottom: '0.375rem' }}>{s.step}</p>
+                  <p style={{ fontSize: '0.875rem', lineHeight: 1.6 }}>{s.text}</p>
+                </li>
+              )
+            })}
           </ol>
           <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             <Link href="/sism-forum-access" className="btn btn-y">Book Forum Access, $199</Link>
@@ -431,8 +465,9 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── FAQ ─── */}
-      <section aria-labelledby="faq-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="FAQ" aria-labelledby="faq-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap" style={{ maxWidth: '860px' }}>
+          <p className="kick">Questions</p>
           <h2 id="faq-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '2rem' }}>Frequently asked questions</h2>
           <div>
             {sism.faqs.map((faq, i) => (
@@ -457,7 +492,8 @@ export default async function Sism2026Page() {
                   }}
                 >
                   {faq.q}
-                  <span aria-hidden="true" style={{ flexShrink: 0, width: '20px', height: '20px', border: '1.5px solid var(--n-300)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', color: 'var(--navy-700)' }}>+</span>
+                  {/* round pill marker replaces old square */}
+                  <span aria-hidden="true" style={{ flexShrink: 0, width: '24px', height: '24px', border: '1.5px solid var(--n-300)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', color: 'var(--navy-700)' }}>+</span>
                 </summary>
                 <div style={{ paddingBottom: '1.25rem' }}>
                   <p style={{ fontSize: '0.9375rem', color: 'var(--n-700)', lineHeight: 1.7 }}>
@@ -469,6 +505,22 @@ export default async function Sism2026Page() {
                 </div>
               </details>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CLOSING CTA ─── */}
+      <section data-name="Book your seat" aria-labelledby="cta-close-hd" className="band-y" style={{ paddingBlock: 'var(--sp)', textAlign: 'center' }}>
+        <div className="wrap">
+          <h2 id="cta-close-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: '1.5rem' }}>
+            Join us in Kuala Lumpur
+          </h2>
+          <p className="rise" style={{ color: 'var(--navy)', margin: '0 auto 2rem', fontSize: '1.0625rem', maxWidth: '50ch' }}>
+            19&#8211;22 November 2026. 100 seats. Forum Access from $199.
+          </p>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <Link href="/sism-forum-access" className="btn btn-n">Book Forum Access, $199</Link>
+            <Link href="/sism-self-funded" className="btn btn-n">Book Self Funded, $399</Link>
           </div>
         </div>
       </section>

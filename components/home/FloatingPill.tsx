@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import type { HomeContent } from '@/features/home/schema'
 import s from './FloatingPill.module.css'
 
@@ -17,6 +18,7 @@ interface Props {
  * Squishes slightly on fast scroll. Respects reduced motion.
  */
 export function FloatingPill({ apply }: Props) {
+  const pathname = usePathname()
   const [visible, setVisible] = useState(false)
   const [sectionName, setSectionName] = useState('Your first global stage')
   const [squish, setSquish] = useState(false)
@@ -70,7 +72,11 @@ export function FloatingPill({ apply }: Props) {
 
     sections.forEach((s) => obs.observe(s))
     return () => obs.disconnect()
-  }, [])
+    // the pill lives in the layout, so re-scan the sections on every page change
+  }, [pathname])
+
+  // the admin, the pitch page and the booking forms have their own calls to action
+  if (/^\/(admin|pitch|sism-(forum-access|self-funded|invitation-letter))/.test(pathname)) return null
 
   const classes = [s.pill, !visible ? s.hidden : '', squish ? s.squish : ''].filter(Boolean).join(' ')
 

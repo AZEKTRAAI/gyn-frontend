@@ -111,6 +111,7 @@ export function TicketRail({ tiers, defaultActive }: TicketRailProps) {
                 ? 'none'
                 : 'border-color 200ms cubic-bezier(0.23,1,0.32,1)',
               padding: '1.5rem',
+              borderRadius: '20px',
               background: tier.featured ? 'var(--navy-900, #0E1530)' : 'var(--white, #fff)',
               color: tier.featured ? 'var(--white, #fff)' : 'var(--navy-900, #0E1530)',
             }}
@@ -169,7 +170,8 @@ export function TicketRail({ tiers, defaultActive }: TicketRailProps) {
               style={{
                 display: 'block',
                 textAlign: 'center',
-                padding: '0.625rem 1rem',
+                padding: '0.75rem 1rem',
+                borderRadius: '999px',
                 background: tier.closed
                   ? 'var(--n-200, #DCDCD5)'
                   : tier.featured

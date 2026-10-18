@@ -24,7 +24,7 @@ export default function RegistrationCancelledPage() {
           <Link href="/sism-forum-access" className="btn btn-y" style={{ minHeight: '44px' }}>
             Try again, $199
           </Link>
-          <Link href="/sism-2026" className="btn" style={{ background: 'transparent', color: 'var(--navy-900)', border: '2px solid var(--n-300)', minHeight: '44px' }}>
+          <Link href="/sism-2026" className="btn btn-g" style={{ minHeight: '44px' }}>
             Back to summit page
           </Link>
         </div>

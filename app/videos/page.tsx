@@ -6,9 +6,9 @@
  */
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
+import Link from 'next/link'
 import { cms } from '@/lib/cms'
 import { PageHero } from '@/components/PageHero'
-import { LoopVideo } from '@/components/LoopVideo'
 import { VideosClient } from './_client'
 
 export const metadata: Metadata = {
@@ -43,19 +43,20 @@ export default async function VideosPage() {
   return (
     <main id="main">
       <PageHero
+        kicker="GYN films"
         title="*Summit* videos"
         lead="Highlights, speaker sessions, and delegate testimonials from GYN summits."
-        tone="field"
-        media={
-          // seamless 3D loop rendered on the same #EEF2F6 as the hero, so it has no visible edge
-          <div style={{ aspectRatio: '1 / 1', width: 'min(100%, 520px)', marginInline: 'auto' }}>
-            <LoopVideo base="/renders/r3/morph-loop" />
-          </div>
-        }
       />
 
-      <section style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+      <section
+        aria-labelledby="videos-hd"
+        data-name="All videos"
+        style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}
+      >
         <div className="wrap">
+          <h2 id="videos-hd" className="d2" style={{ marginBottom: '2rem' }}>
+            All videos
+          </h2>
           {/* VideosClient reads ?v= from the URL, so it renders client-side; the fallback keeps the list in the static HTML */}
           <Suspense
             fallback={
@@ -70,6 +71,24 @@ export default async function VideosPage() {
           >
             <VideosClient videos={videos} />
           </Suspense>
+        </div>
+      </section>
+
+      {/* Yellow closing band — links to SISM 2026 registration */}
+      <section
+        className="band-y"
+        data-name="Join SISM 2026"
+        aria-labelledby="vid-cta-hd"
+        style={{ paddingBlock: 'var(--sp)', textAlign: 'center' }}
+      >
+        <div className="wrap">
+          <p className="kick">Register now</p>
+          <h2 id="vid-cta-hd" className="d2" style={{ marginBottom: '1.5rem' }}>
+            See it for yourself
+          </h2>
+          <Link href="/sism-2026" className="btn btn-n">
+            See the 2026 programme
+          </Link>
         </div>
       </section>
     </main>

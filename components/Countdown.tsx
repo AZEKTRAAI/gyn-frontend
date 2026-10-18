@@ -58,7 +58,7 @@ export function Countdown({ serverNow, target = null }: { serverNow: number; tar
                 fontFamily: 'var(--fd)',
                 fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
                 lineHeight: 1,
-                color: 'var(--ink, var(--navy-900))',
+                color: 'currentColor',
                 fontWeight: 600,
                 minWidth: '2ch',
                 textAlign: 'center',
@@ -66,7 +66,7 @@ export function Countdown({ serverNow, target = null }: { serverNow: number; tar
             >
               {u.value}
             </span>
-            <span style={{ fontSize: '0.6875rem', color: 'var(--navy, var(--navy-700))', letterSpacing: '0.03em' }}>
+            <span style={{ fontSize: '0.6875rem', color: 'currentColor', letterSpacing: '0.03em' }}>
               {u.label}
             </span>
           </div>
@@ -75,7 +75,7 @@ export function Countdown({ serverNow, target = null }: { serverNow: number; tar
               aria-hidden="true"
               style={{
                 fontSize: 'clamp(1.25rem, 3vw, 2rem)',
-                color: 'rgba(14,21,48,.3)',
+                color: 'currentColor', opacity: 0.35,
                 alignSelf: 'flex-start',
                 paddingTop: '0.1em',
                 fontWeight: 300,

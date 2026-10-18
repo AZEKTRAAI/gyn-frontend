@@ -25,28 +25,28 @@ export default async function SelfFundedPage() {
   return (
     <main id="main">
       <PageHero
+        kicker="Self Funded"
         title="Self *Funded* application"
         lead="Confirmed seat with twin-sharing accommodation at Teedo Hotel, Kuala Lumpur."
-        meta={<>19–22 November 2026 / Teedo Hotel, Kuala Lumpur / <strong>$399 USD</strong></>}
+        chips={['19–22 November 2026', 'Teedo Hotel, Kuala Lumpur', '$399 USD']}
         actions={
           <Link href="/sism-2026" style={{ fontSize: '0.875rem', color: 'var(--navy)', textDecoration: 'underline' }}>
             Back to summit page
           </Link>
         }
-        tone="field"
       />
 
       {/* Info + Form */}
-      <section style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="Book your seat" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
 
           {/* Left: includes + facts */}
-          <div>
+          <div className="card">
             <h2 className="d3" style={{ color: 'var(--ink)', marginBottom: '1rem' }}>What is included</h2>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.375rem', marginBottom: '1.5rem' }}>
               {ticket.includes.map(item => (
                 <li key={item} style={{ fontSize: '0.9375rem', color: 'var(--n-700)', paddingLeft: '1.25rem', position: 'relative', lineHeight: 1.55 }}>
-                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--ink)', display: 'block' }} />
+                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--ink)', borderRadius: '50%', display: 'block' }} />
                   {item}
                 </li>
               ))}

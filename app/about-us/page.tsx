@@ -47,8 +47,8 @@ const OBJECTIVES = [
 
 const SDG_FOCUS = [
   { id: 'SDG 4', label: 'Quality Education', color: '#C5192D', textColor: '#fff' },
-  { id: 'SDG 5', label: 'Gender Equality', color: '#FF3A21', textColor: '#0E1530' },
-  { id: 'SDG 9', label: 'Industry, Innovation and Infrastructure', color: '#FD6925', textColor: '#0E1530' },
+  { id: 'SDG 5', label: 'Gender Equality', color: '#FF3A21', textColor: 'var(--ink)' },
+  { id: 'SDG 9', label: 'Industry, Innovation and Infrastructure', color: '#FD6925', textColor: 'var(--ink)' },
   { id: 'SDG 13', label: 'Climate Action', color: '#3F7E44', textColor: '#fff' },
 ]
 
@@ -69,9 +69,10 @@ export default function AboutUsPage() {
   return (
     <main id="main">
 
-      {/* Hero — field tone, hands-wheel render on the right */}
+      {/* Hero — navy, hands-wheel render on the right */}
       <PageHero
         title="*About* GYN"
+        kicker="About GYN"
         lead="The Global Youth Network connects young people worldwide through international summits, leadership programs and four Sustainable Development Goal focus areas."
         media={
           <Image
@@ -85,33 +86,36 @@ export default function AboutUsPage() {
       />
 
       {/* =====================================================
-          MISSION + VISION — white
+          MISSION + VISION — white band
           ===================================================== */}
       <section
         aria-labelledby="mission-hd"
+        data-name="Our mission"
         style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}
       >
         <div className={`wrap ${styles.missionGrid}`}>
           <div>
+            <p className="kick">GYN Mission</p>
             <h2
               id="mission-hd"
               className="d2"
-              style={{ color: 'var(--ink)', marginBottom: '1.25rem' }}
+              style={{ color: 'var(--ink)', marginBottom: '1.5rem' }}
             >
               Our mission
             </h2>
-            {/* larger pull quote */}
+            {/* Pull quote as a large upright Newsreader quote on a navy card */}
             <blockquote
               style={{
-                borderLeft: '4px solid var(--sdg4)',
-                paddingLeft: '1.25rem',
+                background: 'var(--navy)',
+                borderRadius: '20px',
+                padding: '2rem',
                 margin: 0,
               }}
             >
               <p
                 style={{
                   fontSize: 'clamp(1rem, 1.3vw, 1.125rem)',
-                  color: 'var(--n-700)',
+                  color: '#fff',
                   lineHeight: 1.75,
                 }}
               >
@@ -124,6 +128,7 @@ export default function AboutUsPage() {
             </blockquote>
           </div>
           <div>
+            <p className="kick">GYN Vision</p>
             <h2
               className="d2"
               style={{ color: 'var(--ink)', marginBottom: '1.25rem' }}
@@ -148,47 +153,31 @@ export default function AboutUsPage() {
       </section>
 
       {/* =====================================================
-          OBJECTIVES — field + ruled grid (Direction I pattern)
+          OBJECTIVES — field band, J card tiles
           ===================================================== */}
       <section
         aria-labelledby="obj-hd"
-        style={{ background: '#EEF2F6', paddingBlock: 'var(--sp)' }}
+        data-name="What we do"
+        style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}
       >
         <div className="wrap">
+          <p className="kick">What we do</p>
           <h2
             id="obj-hd"
             className="d2"
             style={{ color: 'var(--ink)', marginBottom: 'clamp(2rem, 3vw, 3rem)' }}
           >
-            What we do
+            Five ways GYN works
           </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))',
-              borderTop: '1px solid rgba(14,21,48,.15)',
-              borderLeft: '1px solid rgba(14,21,48,.15)',
-            }}
-            role="list"
-          >
+          <div className={styles.objGrid} role="list">
             {OBJECTIVES.map((item) => (
-              <div
-                key={item.title}
-                role="listitem"
-                style={{
-                  borderRight: '1px solid rgba(14,21,48,.15)',
-                  borderBottom: '1px solid rgba(14,21,48,.15)',
-                  padding: '1.5rem 1.75rem',
-                }}
-              >
+              <div key={item.title} role="listitem" className="card">
                 <p
                   style={{
                     fontFamily: 'var(--fd)',
-                    fontSize: '1.0625rem',
-                    fontWeight: 600,
+                    fontSize: '1.25rem',
                     color: 'var(--ink)',
-                    marginBottom: '0.5rem',
-                    letterSpacing: '-0.01em',
+                    marginBottom: '0.75rem',
                   }}
                 >
                   {item.title}
@@ -197,7 +186,7 @@ export default function AboutUsPage() {
                   style={{
                     fontSize: '0.9375rem',
                     color: 'var(--navy)',
-                    lineHeight: 1.55,
+                    lineHeight: 1.6,
                   }}
                 >
                   {item.body}
@@ -209,13 +198,16 @@ export default function AboutUsPage() {
       </section>
 
       {/* =====================================================
-          SDG FOCUS — ink band with four colored goal cells
+          SDG FOCUS — navy band, four SDG colour tiles
           ===================================================== */}
       <section
         aria-labelledby="sdg-hd"
-        style={{ background: 'var(--ink)', paddingBlock: 'var(--sp)' }}
+        data-name="Our focus"
+        className="band-navy"
+        style={{ paddingBlock: 'var(--sp)' }}
       >
         <div className="wrap">
+          <p className="kick kick-y">SDG Focus</p>
           <h2
             id="sdg-hd"
             className="d2"
@@ -224,6 +216,7 @@ export default function AboutUsPage() {
             Four goals we focus on
           </h2>
           <p
+            className="rise"
             style={{
               fontSize: '0.9375rem',
               color: 'rgba(255,255,255,.75)',
@@ -239,34 +232,19 @@ export default function AboutUsPage() {
             {SDG_FOCUS.map((sdg) => (
               <div
                 key={sdg.id}
-                style={{
-                  background: sdg.color,
-                  padding: '2rem 1.5rem',
-                }}
+                className="tile"
+                style={{ background: sdg.color, color: sdg.textColor }}
               >
-                <span
-                  style={{
-                    fontFamily: 'var(--fd)',
-                    fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
-                    fontWeight: 700,
-                    color: sdg.textColor,
-                    display: 'block',
-                    marginBottom: '0.5rem',
-                    letterSpacing: '-0.01em',
-                  }}
-                >
-                  {sdg.id}
-                </span>
-                <span
+                <span className="tile-n">{sdg.id}</span>
+                <p
                   style={{
                     fontSize: '0.875rem',
-                    fontWeight: 500,
-                    color: sdg.textColor,
                     lineHeight: 1.4,
+                    marginTop: '0.5rem',
                   }}
                 >
                   {sdg.label}
-                </span>
+                </p>
               </div>
             ))}
           </div>
@@ -274,21 +252,25 @@ export default function AboutUsPage() {
       </section>
 
       {/* =====================================================
-          ADVISORY BOARD — Direction I name-list + sticky photo
+          ADVISORY BOARD — white band, sticky-photo pattern
           (reuses AdvisorsSection from home, mapped from ADVISORY manifest)
           ===================================================== */}
       <AdvisorsSection
+        kicker="Advisory Board"
         advisors={{ visible: true, heading: 'Global advisory board', people: advisorPeople }}
       />
 
       {/* =====================================================
-          AMBASSADORS — 12 people, 11 countries
+          AMBASSADORS — field band, polaroid photo grid
+          12 ambassadors, 11 countries
           ===================================================== */}
       <section
         aria-labelledby="amb-hd"
-        style={{ background: '#EEF2F6', paddingBlock: 'var(--sp)' }}
+        data-name="Our ambassadors"
+        style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}
       >
         <div className="wrap">
+          <p className="kick">Ambassadors</p>
           <h2
             id="amb-hd"
             className="d2"
@@ -297,49 +279,37 @@ export default function AboutUsPage() {
             GYN ambassadors
           </h2>
           <p
+            className="rise"
             style={{
               fontSize: '0.9375rem',
               color: 'var(--n-600)',
-              marginBottom: '2rem',
+              marginBottom: '2.5rem',
             }}
           >
             12 ambassadors representing 11 countries.
           </p>
-          <ul
-            aria-label="GYN ambassadors"
-            style={{ listStyle: 'none' }}
-            className={styles.ambGrid}
-          >
+          <ul aria-label="GYN ambassadors" className={styles.ambGrid}>
             {ambassadorEntries.map((v) => (
               <li key={v.alt}>
-                <Image
-                  src={v.src}
-                  alt={v.alt}
-                  width={400}
-                  height={400}
-                  sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 22vw"
-                  style={{
-                    width: '100%',
-                    aspectRatio: '1',
-                    objectFit: 'cover',
-                    borderRadius: '28px',
-                    marginBottom: '0.75rem',
-                  }}
-                  loading="lazy"
-                />
-                <p
-                  style={{
-                    fontFamily: 'var(--fd)',
-                    fontSize: '0.875rem',
-                    color: 'var(--ink)',
-                    marginBottom: '0.25rem',
-                  }}
-                >
-                  {v.alt.split(',')[0].replace('GYN Ambassador', '').trim()}
-                </p>
-                <p style={{ fontSize: '0.75rem', color: 'var(--n-600)' }}>
-                  {v.country}
-                </p>
+                <figure className="pol">
+                  <Image
+                    src={v.src}
+                    alt={v.alt}
+                    width={400}
+                    height={400}
+                    sizes="(max-width: 480px) 45vw, (max-width: 768px) 30vw, 22vw"
+                    style={{ width: '100%', aspectRatio: '1', objectFit: 'cover' }}
+                    loading="lazy"
+                  />
+                  <figcaption>
+                    <p style={{ fontFamily: 'var(--fd)', fontSize: '0.875rem', color: 'var(--ink)' }}>
+                      {v.alt.split(',')[0].replace('GYN Ambassador', '').trim()}
+                    </p>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--n-600)', marginTop: '0.2rem' }}>
+                      {v.country}
+                    </p>
+                  </figcaption>
+                </figure>
               </li>
             ))}
           </ul>
@@ -347,23 +317,21 @@ export default function AboutUsPage() {
       </section>
 
       {/* =====================================================
-          PARTNERS — ink band, white logos via CSS invert filter
+          PARTNERS — navy band, white logos via CSS invert filter
           (matches PartnersSection.tsx pattern from home page)
           ===================================================== */}
       <section
         aria-labelledby="par-hd"
-        style={{ background: '#0E1530', paddingBlock: 'clamp(56px,7vw,112px)' }}
+        data-name="Partners"
+        className="band-navy"
+        style={{ paddingBlock: 'clamp(56px,7vw,112px)' }}
       >
         <div className="wrap">
+          <p className="kick kick-y">Our Partners</p>
           <h2
             id="par-hd"
-            style={{
-              fontFamily: 'var(--fd)',
-              fontSize: 'clamp(1.125rem,1.8vw,1.375rem)',
-              fontWeight: 600,
-              color: 'rgba(255,255,255,.55)',
-              marginBottom: 'clamp(24px,3vw,40px)',
-            }}
+            className="d2"
+            style={{ color: 'var(--white)', marginBottom: 'clamp(24px,3vw,40px)' }}
           >
             Our partners
           </h2>
@@ -399,7 +367,7 @@ export default function AboutUsPage() {
             <p
               style={{
                 fontSize: '0.8125rem',
-                color: 'rgba(255,255,255,.5)',
+                color: 'rgba(255,255,255,.8)',
                 marginBottom: '1rem',
               }}
             >
@@ -417,41 +385,46 @@ export default function AboutUsPage() {
       </section>
 
       {/* =====================================================
-          PARTNER WITH US CTA — ink band
+          PARTNER WITH US CTA — yellow band-y closing section
           ===================================================== */}
       <section
         aria-labelledby="partner-cta-hd"
-        style={{ background: 'var(--ink)', paddingBlock: 'var(--sp)' }}
+        data-name="Partner with us"
+        className="band-y"
+        style={{ paddingBlock: 'var(--sp)' }}
       >
         <div
           className="wrap"
           style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: '1.5rem' }}
         >
+          <p className="kick">Get in touch</p>
           <h2
             id="partner-cta-hd"
             className="d2"
-            style={{ color: 'var(--white)' }}
           >
             Partner with us
           </h2>
           <p
             style={{
               fontSize: '1rem',
-              color: 'rgba(255,255,255,.85)',
+              color: 'var(--ink)',
               lineHeight: 1.7,
               maxWidth: '60ch',
+              opacity: 0.85,
             }}
           >
             GYN brings together youth leaders, researchers and organizations from across the globe.
             If your organization shares our commitment to the Sustainable Development Goals, we would
             welcome a conversation about how we can work together.
           </p>
-          <Link
-            href="/contact-us?topic=partnership"
-            className="btn btn-y"
-          >
-            Get in touch about partnership
-          </Link>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+            <Link href="/contact-us?topic=partnership" className="btn btn-n">
+              Get in touch about partnership
+            </Link>
+            <Link href="/sism-2026" className="btn btn-n">
+              Explore SISM 2026
+            </Link>
+          </div>
         </div>
       </section>
     </main>

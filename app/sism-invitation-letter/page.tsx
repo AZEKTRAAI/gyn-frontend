@@ -25,28 +25,28 @@ export default async function InvitationLetterPage() {
   return (
     <main id="main">
       <PageHero
+        kicker="Invitation Letter"
         title="*Invitation* letter application"
         lead="Official invitation letter for your Malaysian visa application. Delivered within 48 hours of payment."
-        meta={<>For SISM 2026 / 19–22 November, Teedo Hotel, Kuala Lumpur / <strong>$49 USD</strong></>}
+        chips={['For SISM 2026', '19–22 Nov, Teedo Hotel, Kuala Lumpur', '$49 USD']}
         actions={
           <Link href="/sism-2026" style={{ fontSize: '0.875rem', color: 'var(--navy)', textDecoration: 'underline' }}>
             Back to summit page
           </Link>
         }
-        tone="field"
       />
 
       {/* Info + Form */}
-      <section style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+      <section data-name="Get your letter" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
         <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
 
           {/* Left: includes + note */}
-          <div>
+          <div className="card">
             <h2 className="d3" style={{ color: 'var(--ink)', marginBottom: '1rem' }}>What you receive</h2>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.375rem', marginBottom: '1.5rem' }}>
               {ticket.includes.map(item => (
                 <li key={item} style={{ fontSize: '0.9375rem', color: 'var(--n-700)', paddingLeft: '1.25rem', position: 'relative', lineHeight: 1.55 }}>
-                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--ink)', display: 'block' }} />
+                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--ink)', borderRadius: '50%', display: 'block' }} />
                   {item}
                 </li>
               ))}

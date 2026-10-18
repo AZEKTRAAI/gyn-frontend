@@ -1,4 +1,4 @@
-/* Responsive overrides for about-us page */
+/* Responsive layout for about-us page — Direction J */
 
 .missionGrid {
   display: grid;
@@ -7,39 +7,33 @@
   align-items: start;
 }
 
+/* Gap changed from 2px (old ruled look) to tile-friendly spacing */
 .sdgGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2px;
+  gap: clamp(8px, 1.5vw, 16px);
 }
 
-.advGrid {
+.objGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(2rem, 5vw, 4rem);
-  align-items: start;
-}
-
-.advPersonGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 1.25rem;
 }
 
 .ambGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
+  list-style: none;
 }
 
 @media (max-width: 768px) {
   .missionGrid { grid-template-columns: 1fr; }
   .sdgGrid { grid-template-columns: 1fr 1fr; }
-  .advGrid { grid-template-columns: 1fr; }
+  .objGrid { grid-template-columns: 1fr 1fr; }
   .ambGrid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 480px) {
-  .sdgGrid { grid-template-columns: 1fr 1fr; }
-  .ambGrid { grid-template-columns: repeat(2, 1fr); }
+  .objGrid { grid-template-columns: 1fr; }
 }

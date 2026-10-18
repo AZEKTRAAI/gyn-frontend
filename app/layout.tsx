@@ -5,6 +5,8 @@ import './globals.css'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { cms } from '@/lib/cms'
+import { getHome } from '@/features/home/store'
+import { FloatingPill } from '@/components/home/FloatingPill'
 
 // Both are pure enhancement — split into async chunks so they don't block initial parse
 const LenisScroll = dynamic(() =>
@@ -37,7 +39,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const sitemap = await cms.getSitemap()
+  const [sitemap, home] = await Promise.all([cms.getSitemap(), getHome()])
 
   return (
     <html lang="en" className={`${anton.variable} ${newsreader.variable}`}>
@@ -52,6 +54,7 @@ export default async function RootLayout({
         </a>
         <SiteHeader nav={sitemap.nav} />
         {children}
+        <FloatingPill apply={home.hero.primaryCta} />
         <SiteFooter footer={sitemap.footer} socials={sitemap.socials} />
       </body>
     </html>

@@ -76,19 +76,18 @@ export default async function FmsThailandPage() {
       {/* HERO */}
       <PageHero
         title="FutureMinds *Summit* Thailand 2026"
+        kicker="FutureMinds Summit"
         lead="The inaugural GYN summit. Four days in Bangkok exploring sustainability through innovative minds."
-        meta={
-          <>
-            <span>July 16–19, 2026</span>
-            <span>{fmst.venue}, {fmst.city}</span>
-            <span>70+ participants</span>
-            <span>{speakerCount} speakers</span>
-          </>
-        }
+        chips={[
+          'July 16–19, 2026',
+          `${fmst.venue}, ${fmst.city}`,
+          '70+ participants',
+          `${speakerCount} speakers`,
+        ]}
         actions={
           <>
             <a href="#chapters" className="btn btn-y">Programme chapters</a>
-            <a href="#schedule" className="btn btn-g">4-day schedule</a>
+            <a href="#schedule" className="btn btn-ow">4-day schedule</a>
           </>
         }
         media={
@@ -102,67 +101,41 @@ export default async function FmsThailandPage() {
             style={{ objectFit: 'cover' }}
           />
         }
-        tone="field"
       />
 
-      {/* PAST SUMMIT label */}
-      <div style={{ background: 'var(--field)', paddingTop: 0, paddingBottom: 0 }}>
-        <div className="wrap" style={{ paddingBlock: '0.75rem 0' }}>
-          <span
-            style={{
-              display: 'inline-block',
-              background: 'var(--crimson-600)',
-              color: 'var(--white)',
-              fontFamily: 'var(--fd)',
-              fontSize: '0.6875rem',
-              fontWeight: 600,
-              padding: '0.25rem 0.75rem',
-              letterSpacing: '0.08em',
-            }}
-          >
-            PAST SUMMIT
-          </span>
-        </div>
-      </div>
-
       {/* CHAPTERS */}
-      <section id="chapters" aria-labelledby="chap-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+      <section
+        id="chapters"
+        aria-labelledby="chap-hd"
+        data-name="Programme chapters"
+        style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}
+      >
         <div className="wrap">
-          <h2 id="chap-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: 'clamp(32px,4vw,48px)' }}>
+          {/* "Past summit" label folded into kick */}
+          <p className="kick">Past summit programme</p>
+          <h2
+            id="chap-hd"
+            className="d2"
+            style={{ color: 'var(--ink)', marginBottom: 'clamp(32px,4vw,48px)' }}
+          >
             Programme chapters
           </h2>
-          {/* Ruled grid */}
-          <div
-            style={{
-              borderTop: '1px solid rgba(14,21,48,.12)',
-              borderLeft: '1px solid rgba(14,21,48,.12)',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 480px), 1fr))',
-            }}
-          >
+          <div className="chap-grid">
             {fmst.chapters.map((ch: FmstChapter) => (
-              <div
-                key={ch.label}
-                style={{
-                  borderRight: '1px solid rgba(14,21,48,.12)',
-                  borderBottom: '1px solid rgba(14,21,48,.12)',
-                  padding: '1.75rem 2rem',
-                }}
-              >
+              <div key={ch.label} className="card">
                 <p style={{
                   fontFamily: 'var(--fd)',
                   fontSize: '0.6875rem',
-                  fontWeight: 600,
                   color: 'var(--crimson-600)',
                   letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
                   marginBottom: '0.5rem',
                 }}>
-                  {ch.label.toUpperCase()}
+                  {ch.label}
                 </p>
                 <h3 style={{
                   fontFamily: 'var(--fd)',
                   fontSize: 'clamp(1rem,1.6vw,1.25rem)',
-                  fontWeight: 600,
                   color: 'var(--ink)',
                   lineHeight: 1.2,
                   marginBottom: '0.5rem',
@@ -178,12 +151,12 @@ export default async function FmsThailandPage() {
                       <span style={{
                         fontFamily: 'var(--fd)',
                         fontSize: '0.625rem',
-                        fontWeight: 600,
                         color: 'var(--n-600)',
                         letterSpacing: '0.05em',
+                        textTransform: 'uppercase',
                         paddingTop: '0.15em',
                       }}>
-                        {s.type.toUpperCase()}
+                        {s.type}
                       </span>
                       <span style={{ color: 'var(--ink)', lineHeight: 1.5 }}>{s.title}</span>
                     </li>
@@ -199,9 +172,18 @@ export default async function FmsThailandPage() {
       <HorizontalGallery photos={galleryPhotos} heading="A glimpse into FMST 2026" />
 
       {/* SPEAKERS */}
-      <section aria-labelledby="spk-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+      <section
+        aria-labelledby="spk-hd"
+        data-name="Speakers"
+        style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}
+      >
         <div className="wrap">
-          <h2 id="spk-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: 'clamp(32px,4vw,48px)' }}>
+          <p className="kick">The Speakers</p>
+          <h2
+            id="spk-hd"
+            className="d2"
+            style={{ color: 'var(--ink)', marginBottom: 'clamp(32px,4vw,48px)' }}
+          >
             {speakerCount} speakers. One summit.
           </h2>
           <FmstSpeakers speakers={fmstSpeakers} />
@@ -209,57 +191,64 @@ export default async function FmsThailandPage() {
       </section>
 
       {/* SCHEDULE */}
-      <section id="schedule" aria-labelledby="sched-hd" style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}>
+      <section
+        id="schedule"
+        aria-labelledby="sched-hd"
+        data-name="Schedule"
+        style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}
+      >
         <div className="wrap">
-          <h2 id="sched-hd" className="d2" style={{ color: 'var(--ink)', marginBottom: 'clamp(32px,4vw,48px)' }}>
+          <p className="kick">Four days</p>
+          <h2
+            id="sched-hd"
+            className="d2"
+            style={{ color: 'var(--ink)', marginBottom: 'clamp(32px,4vw,48px)' }}
+          >
             Four days on the ground
           </h2>
-          {/* Ruled 4-column grid */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              borderTop: '1px solid rgba(14,21,48,.15)',
-              borderLeft: '1px solid rgba(14,21,48,.15)',
-            }}
-            className="sched-grid"
-          >
-            {fmst.schedule.map((day: FmstScheduleDay) => (
-              <div
-                key={day.day}
-                style={{
-                  borderRight: '1px solid rgba(14,21,48,.15)',
-                  borderBottom: '1px solid rgba(14,21,48,.15)',
-                  padding: '1.5rem',
-                  background: 'var(--white)',
-                }}
-              >
+          <div className="sched-grid">
+            {fmst.schedule.map((day: FmstScheduleDay, idx: number) => (
+              <div key={day.day} className="card" style={{ position: 'relative', overflow: 'hidden' }}>
+                {/* Big faded day number — decorative Direction J touch */}
+                <span aria-hidden="true" style={{
+                  position: 'absolute',
+                  top: '-0.1em',
+                  right: '0.2em',
+                  fontFamily: 'var(--fd)',
+                  fontSize: 'clamp(4rem,8vw,6rem)',
+                  lineHeight: 1,
+                  color: 'var(--navy)',
+                  opacity: 0.07,
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                }}>
+                  {idx + 1}
+                </span>
                 <p style={{
                   fontFamily: 'var(--fd)',
                   fontSize: '0.6875rem',
-                  fontWeight: 600,
                   color: 'var(--n-600)',
                   letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
                   marginBottom: '0.25rem',
                 }}>
-                  {(day.dateDisplay ?? day.date).toUpperCase()}
+                  {day.dateDisplay ?? day.date}
                 </p>
                 <h3 style={{
                   fontFamily: 'var(--fd)',
-                  fontSize: '0.9375rem',
-                  fontWeight: 600,
+                  fontSize: '1rem',
                   color: 'var(--ink)',
                   lineHeight: 1.2,
                   marginBottom: '1rem',
-                  borderBottom: '2px solid var(--navy)',
                   paddingBottom: '0.75rem',
+                  borderBottom: '2px solid var(--navy)',
                 }}>
                   {day.day}
                 </h3>
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   {day.items.map((item: FmstScheduleItem) => (
                     <li key={item.title}>
-                      <p style={{ fontFamily: 'var(--fd)', fontSize: '0.8125rem', fontWeight: 600, color: 'var(--ink)', marginBottom: '0.2rem' }}>
+                      <p style={{ fontFamily: 'var(--fd)', fontSize: '0.8125rem', color: 'var(--ink)', marginBottom: '0.2rem' }}>
                         {item.title}
                       </p>
                       <p style={{ fontSize: '0.75rem', color: 'var(--n-600)', lineHeight: 1.5 }}>
@@ -276,9 +265,19 @@ export default async function FmsThailandPage() {
 
       {/* HIGHLIGHT VIDEOS */}
       {pageVideos.length > 0 && (
-        <section aria-labelledby="vid-hd-fmst" style={{ background: 'var(--ink)', paddingBlock: 'var(--sp)' }}>
+        <section
+          aria-labelledby="vid-hd-fmst"
+          data-name="Highlights"
+          className="band-navy"
+          style={{ paddingBlock: 'var(--sp)' }}
+        >
           <div className="wrap">
-            <h2 id="vid-hd-fmst" className="d2" style={{ color: 'var(--white)', marginBottom: '2rem' }}>
+            <p className="kick kick-y">Highlights</p>
+            <h2
+              id="vid-hd-fmst"
+              className="d2"
+              style={{ color: 'var(--white)', marginBottom: '2rem' }}
+            >
               Bangkok, July 2026. We were there.
             </h2>
             <HomeVideosSection items={pageVideos} heading="FMST 2026 videos" />
@@ -286,35 +285,57 @@ export default async function FmsThailandPage() {
         </section>
       )}
 
-      {/* CTA TO SISM 2026 */}
-      <section aria-label="Join us at SISM 2026" style={{ background: 'var(--yellow)', paddingBlock: 'var(--sp)' }}>
-        <div className="wrap cta-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center' }}>
+      {/* CTA TO SISM 2026 — yellow band-y closing section */}
+      <section
+        aria-labelledby="fmst-cta-hd"
+        data-name="The next chapter"
+        className="band-y"
+        style={{ paddingBlock: 'var(--sp)' }}
+      >
+        <div className="wrap cta-grid">
           <div>
-            <h2 className="d2" style={{ color: 'var(--ink)', marginBottom: '1rem' }}>
+            <p className="kick">What&apos;s next</p>
+            <h2 id="fmst-cta-hd" className="d2" style={{ marginBottom: '1rem' }}>
               The next chapter
             </h2>
-            <p style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.7, opacity: 0.8 }}>
+            <p style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.7, opacity: 0.85, maxWidth: '50ch' }}>
               Building on what we started in Bangkok, SISM Malaysia 2026 brings 100 delegates to Kuala Lumpur. 19 to 22 November 2026.
             </p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignSelf: 'center' }}>
+            <Link href="/sism-2026" className="btn btn-n">
+              Full SISM 2026 programme
+            </Link>
             <Link href="/sism-forum-access" className="btn btn-n">
               Book Forum Access, $199
             </Link>
-            <a href="/sism-2026" className="btn btn-n">
-              Full SISM 2026 programme
-            </a>
           </div>
         </div>
       </section>
 
       <style>{`
+        .chap-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr));
+          gap: 1.25rem;
+        }
+        .sched-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.25rem;
+        }
+        .cta-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+          align-items: center;
+        }
         @media (max-width: 767px) {
-          .sched-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .cta-grid { grid-template-columns: 1fr !important; }
+          .sched-grid { grid-template-columns: repeat(2, 1fr); }
+          .cta-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
-          .sched-grid { grid-template-columns: 1fr !important; }
+          .sched-grid { grid-template-columns: 1fr; }
         }
       `}</style>
     </main>

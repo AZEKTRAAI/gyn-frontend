@@ -121,7 +121,7 @@ export function ContactForm({ defaultTopic = 'general' }: Props) {
           padding: '2rem',
           background: '#f0f9ee',
           border: '1px solid var(--leaf-600)',
-          borderRadius: '8px',
+          borderRadius: '12px',
         }}
       >
         <p
@@ -279,7 +279,7 @@ export function ContactForm({ defaultTopic = 'general' }: Props) {
                 padding: '0.875rem 1rem',
                 background: '#fff0f1',
                 border: '1px solid var(--crimson-600)',
-                borderRadius: '8px',
+                borderRadius: '12px',
               }}
             >
               <p style={{ fontSize: '0.9375rem', color: 'var(--n-800)' }}>
@@ -323,7 +323,7 @@ function inputStyle(hasError: boolean): React.CSSProperties {
     color: 'var(--n-900)',
     background: 'var(--white)',
     border: `1.5px solid ${hasError ? 'var(--crimson-600)' : 'var(--n-300)'}`,
-    borderRadius: '8px',
+    borderRadius: '12px',
     transition: 'border-color 150ms cubic-bezier(0.23, 1, 0.32, 1)',
   }
 }

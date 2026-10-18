@@ -65,8 +65,6 @@ export function FmstSpeakers({ speakers }: Props) {
               style={{
                 fontFamily: 'var(--fd)',
                 fontSize: 'clamp(1.0625rem,1.8vw,1.5rem)',
-                fontWeight: 600,
-                letterSpacing: '-0.01em',
                 lineHeight: 1.1,
                 color: i === activeIdx ? 'var(--crimson-600)' : 'var(--ink)',
                 transition: 'color 200ms',

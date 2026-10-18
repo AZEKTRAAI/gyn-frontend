@@ -14,6 +14,8 @@ interface AdvisorsPerson {
 }
 
 interface Props {
+  /** Small red kicker label above the heading, e.g. "Advisory Board". */
+  kicker?: string
   advisors: {
     visible?: boolean
     heading: string
@@ -21,7 +23,7 @@ interface Props {
   }
 }
 
-export function AdvisorsSection({ advisors }: Props) {
+export function AdvisorsSection({ kicker, advisors }: Props) {
   const [activeIdx, setActiveIdx] = useState(0)
 
   const active = advisors.people[activeIdx]
@@ -43,18 +45,16 @@ export function AdvisorsSection({ advisors }: Props) {
 
   return (
     <section
-      style={{ background: '#fff', paddingBlock: 'clamp(80px,9vw,144px)' }}
+      style={{ background: '#fff', paddingBlock: 'var(--sp)' }}
+      data-name={advisors.heading}
       aria-labelledby="adv-hd"
     >
       <div className="wrap">
+        {kicker && <p className="kick">{kicker}</p>}
         <h2
           id="adv-hd"
+          className="d2"
           style={{
-            fontFamily: 'var(--fd)',
-            fontSize: 'clamp(1.875rem,3.5vw,3rem)',
-            fontWeight: 600,
-            letterSpacing: '-0.008em',
-            lineHeight: 1.08,
             color: '#0E1530',
             marginBottom: 'clamp(32px,4vw,48px)',
           }}
@@ -85,8 +85,6 @@ export function AdvisorsSection({ advisors }: Props) {
                   style={{
                     fontFamily: 'var(--fd)',
                     fontSize: 'clamp(1.125rem,2vw,1.625rem)',
-                    fontWeight: 600,
-                    letterSpacing: '-0.01em',
                     lineHeight: 1.1,
                     color: i === activeIdx ? '#C52035' : '#0E1530',
                     transition: 'color 200ms',
@@ -101,7 +99,7 @@ export function AdvisorsSection({ advisors }: Props) {
                 )}
                 {/* Mobile: show inline photo in row */}
                 {i === activeIdx && (
-                  <div className="adv-mobile-photo" style={{ display: 'none', marginTop: '0.75rem', borderRadius: '28px', overflow: 'hidden', maxWidth: '280px', aspectRatio: '3/4' }}>
+                  <div className="adv-mobile-photo" style={{ display: 'none', marginTop: '0.75rem', borderRadius: '20px', overflow: 'hidden', maxWidth: '280px', aspectRatio: '3/4' }}>
                     <Image
                       src={person.photo.src}
                       alt={person.photo.alt || person.name}
@@ -119,7 +117,7 @@ export function AdvisorsSection({ advisors }: Props) {
           {/* Sticky photo — desktop only */}
           <div
             className="adv-photo-wrap"
-            style={{ position: 'sticky', top: '6rem', aspectRatio: '3/4', borderRadius: '28px', overflow: 'hidden', background: '#EEF2F6' }}
+            style={{ position: 'sticky', top: '6rem', aspectRatio: '3/4', borderRadius: '20px', overflow: 'hidden', background: '#EEF2F6' }}
             aria-hidden="true"
           >
             {advisors.people.map((person, i) => (

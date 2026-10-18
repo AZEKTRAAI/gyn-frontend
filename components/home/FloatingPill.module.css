@@ -13,12 +13,12 @@
   z-index: 60;
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 6px;
+  gap: 6px;
+  padding: 5px;
   border-radius: 999px;
   background: #fff;
   color: var(--ink, #0E1530);
-  box-shadow: 0 18px 50px rgba(14, 21, 48, .28), 0 2px 6px rgba(14, 21, 48, .12);
+  box-shadow: 0 12px 40px rgba(14, 21, 48, .22), 0 1px 4px rgba(14, 21, 48, .10);
   /* translateY(100px) hides it below viewport; spring transition in/out */
   transition: transform 0.5s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.3s;
 }
@@ -32,67 +32,91 @@
   transform: scale(0.96, 0.9);
 }
 
-.logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+/* progress ring container */
+.ring {
+  width: 36px;
+  height: 36px;
+  flex: none;
   display: grid;
   place-items: center;
-  overflow: hidden;
-  background: #fff;
-  border: 1px solid #D3DAE6;
-  flex: none;
+}
+
+/* smooth arc fill transition */
+.ringArc {
+  transition: stroke-dashoffset 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .where {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 10px 0 6px;
+  padding: 0 10px 0 4px;
   min-width: 0;
 }
 
 .whereLabel {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: #C5192D; /* SDG4 red */
   line-height: 1;
 }
 
 .whereName {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 200px;
-  line-height: 1.2;
+  line-height: 1.25;
+  /* fade-slide in when section changes (key= triggers remount) */
+  animation: wn-in 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes wn-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
 }
 
 .apply {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 44px;
-  padding: 10px 18px;
+  gap: 5px;
+  min-height: 40px;
+  padding: 9px 16px;
   border-radius: 999px;
   background: var(--y, #FCC30B);
   color: var(--ink, #0E1530);
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   white-space: nowrap;
   flex: none;
-  transition: background 0.2s;
+  transition: background-color 0.15s;
 }
 
 .apply:hover {
   background: var(--yellow-dk, #D6A200);
 }
 
+.apply:focus-visible {
+  outline: 2px solid var(--ink, #0E1530);
+  outline-offset: 2px;
+}
+
+.applyArrow {
+  flex: none;
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.apply:hover .applyArrow {
+  transform: translateX(2px);
+}
+
 @media (max-width: 900px) {
-  /* left-aligned on phones so it never sits under the WhatsApp button at bottom-right */
+  /* left-aligned on phones so it never covers the WhatsApp button at bottom-right */
   .pill {
     margin-inline: 0;
     left: 1rem;
@@ -100,7 +124,7 @@
     max-width: calc(100vw - 6.5rem);
   }
   .whereName {
-    max-width: 120px;
+    max-width: 110px;
   }
   .applyLong {
     display: none;

@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
 import type { HomeContent } from '@/features/home/schema'
 import { accentRuns } from '@/features/home/schema'
+import { YouTubeEmbed } from '@/components/YouTubeEmbed'
 import s from './PastSummit.module.css'
 
 interface Props {
@@ -14,7 +14,7 @@ export function PastSummit({ data }: Props) {
   const headingRef = useRef<HTMLHeadingElement>(null)
   const ticketRef = useRef<HTMLDivElement>(null)
   const noteRef = useRef<HTMLParagraphElement>(null)
-  const vidRef = useRef<HTMLAnchorElement>(null)
+  const vidRef = useRef<HTMLDivElement>(null)
   const [activeEdition, setActiveEdition] = useState(0)
 
   const ed = data.editions[activeEdition]
@@ -70,9 +70,9 @@ export function PastSummit({ data }: Props) {
         <div className={s.inner}>
           <div>
             <div ref={ticketRef} className={s.ticket}>
-              <span className={s.stamp}>{ed.stamp}</span>
               <div className={s.ticketTop}>
                 <span>{ed.name}</span>
+                <span className={s.stamp}>{ed.stamp}</span>
               </div>
               <h3 className={s.ticketTitle}>{ed.dates}</h3>
               <p className={s.ticketText}>{ed.text}</p>
@@ -108,30 +108,17 @@ export function PastSummit({ data }: Props) {
             )}
           </div>
 
-          <a
-            ref={vidRef}
-            href={ed.videoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={s.vidCard}
-            aria-label={`Watch ${ed.name} highlights on YouTube (opens in new tab)`}
-          >
-            <Image
-              src={ed.videoPoster.src}
-              alt={ed.videoPoster.alt}
-              fill
-              className={s.vidImage}
-              sizes="(max-width: 860px) 100vw, 50vw"
-              style={{ objectFit: 'cover', opacity: 0.92 }}
+          <div ref={vidRef} className={s.vidCard}>
+            <YouTubeEmbed
+              key={ed.videoUrl}
+              videoUrl={ed.videoUrl}
+              posterSrc={ed.videoPoster.src}
+              posterAlt={ed.videoPoster.alt}
+              imageClassName={s.vidImage}
+              overlayClassName={s.playOverlay}
+              playBtnClassName={s.playBtn}
             />
-            <span className={s.playOverlay} aria-hidden="true">
-              <span className={s.playBtn}>
-                <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M8 5v14l11-7z" fill="#0E1530" />
-                </svg>
-              </span>
-            </span>
-          </a>
+          </div>
         </div>
       </div>
     </section>

@@ -105,12 +105,11 @@
   letter-spacing: 0;
 }
 
-/* Rotated red stamp */
+/* Rotated red stamp — in-flow inside .ticketTop so it never overlaps text */
 .stamp {
   font-family: var(--fd);
-  position: absolute;
-  right: 22px;
-  top: 18px;
+  flex-shrink: 0;
+  align-self: flex-start;
   border: 3px solid #C5192D;
   color: #C5192D;
   border-radius: 8px;

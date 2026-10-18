@@ -139,17 +139,31 @@ export function Network({ data }: Props) {
     return () => observers.forEach((o) => o.disconnect())
   }, [])
 
-  // Position popup based on active pin
+  // Position popup based on active pin, clamped inside the map wrapper
   const positionPopup = (index: number) => {
     const popup = popupRef.current
-    if (!popup) return
+    const wrap = mapWrapRef.current
+    if (!popup || !wrap) return
     const p = data.people[index]
-    const left = ((p.lon + 180) / 360 * 100)
-    const top = ((90 - p.lat) / 180 * 100)
-    popup.style.left = `${left}%`
-    popup.style.top = `${top}%`
-    const flipX = p.lon > 110 ? '-88%' : p.lon < -60 ? '-12%' : '-50%'
-    popup.style.transform = `translate(${flipX}, calc(-100% - 16px))`
+    const leftPct = (p.lon + 180) / 360 * 100
+    const topPct = (90 - p.lat) / 180 * 100
+
+    popup.style.top = `${topPct}%`
+    popup.style.left = `${leftPct}%`
+    popup.style.transform = `translate(-50%, calc(-100% - 16px))`
+
+    // Clamp so the card never escapes the map area (uses actual layout measurements)
+    const pr = popup.getBoundingClientRect()
+    const mr = wrap.getBoundingClientRect()
+    if (pr.width === 0) return
+    let sx = 0
+    let sy = 0
+    if (pr.right > mr.right - 4) sx = mr.right - 4 - pr.right
+    if (pr.left < mr.left + 4) sx = mr.left + 4 - pr.left
+    if (pr.top < mr.top + 4) sy = mr.top + 4 - pr.top
+    if (sx !== 0 || sy !== 0) {
+      popup.style.transform = `translate(calc(-50% + ${sx}px), calc(-100% - 16px + ${sy}px))`
+    }
   }
 
   const handlePinClick = (index: number) => {
@@ -269,7 +283,7 @@ export function Network({ data }: Props) {
                   height={44}
                   style={{ borderRadius: 10, objectFit: 'cover', width: 44, height: 44 }}
                 />
-                <span>
+                <span className={s.popupText}>
                   <b className={s.popupName}>{activeAmbassador.name}</b>
                   <small className={s.popupCountry}>{activeAmbassador.country}</small>
                 </span>

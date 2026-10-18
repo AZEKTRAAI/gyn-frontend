@@ -166,7 +166,9 @@
   gap: 10px;
   box-shadow: 0 14px 34px rgba(0, 0, 0, .35);
   pointer-events: none;
-  white-space: nowrap;
+  /* width:max-content overrides shrink-to-fit when the pin is near the right edge */
+  width: max-content;
+  max-width: 200px;
   z-index: 3;
   transition: opacity 0.2s;
 }
@@ -174,16 +176,31 @@
 .popup.hidden { opacity: 0; }
 .popup.on { opacity: 1; }
 
+/* Text column: natural size, shrinks only when popup hits max-width */
+.popupText {
+  min-width: 0;
+  flex: 0 1 auto;
+}
+
 .popupName {
   display: block;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.15;
+  font-family: var(--fd, Impact, sans-serif);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .popupCountry {
+  display: block;
   font-size: 12px;
   color: #4A5370;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
 }
 
 @media (max-width: 860px) {

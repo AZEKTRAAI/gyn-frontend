@@ -55,13 +55,16 @@
 .lead { font-size: clamp(1.1rem, 1.6vw, 1.35rem); line-height: 1.5; color: rgba(255, 255, 255, 0.88); max-width: 58ch; }
 .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
 .chips li {
-  border: 1px solid rgba(255, 255, 255, .35);
-  border-radius: 999px;
-  padding: 7px 14px;
-  font-size: 14px;
+  background: rgba(255, 255, 255, .08);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 13px;
   font-weight: 500;
+  color: rgba(255, 255, 255, .85);
+  /* no border: faint fill distinguishes facts from pill action buttons */
 }
-.chips .hot { background: var(--y); color: var(--ink); border-color: var(--y); font-weight: 700; }
+/* Hot fact: yellow text + subtle tint; yellow fill is reserved for action buttons. */
+.chips .hot { background: rgba(252, 195, 11, .15); color: var(--y); font-weight: 700; }
 .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 0.9375rem; font-weight: 500; color: rgba(255, 255, 255, 0.86); }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
 /* ghost buttons are drawn for light bands; on navy they turn white */

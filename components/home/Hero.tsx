@@ -355,7 +355,9 @@ export function Hero({ hero }: Props) {
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible', pointerEvents: 'none' }}
       />
 
-      <div className={`wrap ${s.heroText}`}>
+      {/* wrap aligns text to the same left edge as the navbar and all other sections */}
+      <div className="wrap">
+      <div className={s.heroText}>
         {/* Headline — words in DOM from the start (opacity 0); LCP paint is not delayed */}
         <h1 id="hero-h1" ref={headlineRef} className={s.headline}>
           <span className="sr-only">{hero.headline.replace(/\*/g, '').replace(/\n/g, ' ')}</span>
@@ -372,7 +374,9 @@ export function Hero({ hero }: Props) {
           className={s.lead}
           style={{ opacity: showLead ? undefined : 0 }}
         >
-          {leadText || ' '}
+          {/* Invisible sizer reserves full final height at first paint — prevents film-strip CLS. */}
+          <span aria-hidden="true" className={s.leadSizer}>{hero.lead}</span>
+          <span aria-hidden="true" className={s.leadTyped}>{leadText || ' '}</span>
           <span className="sr-only">{hero.lead}</span>
         </p>
 
@@ -403,6 +407,7 @@ export function Hero({ hero }: Props) {
           )}
         </div>
       </div>
+      </div>{/* end .wrap */}
 
       {/* Film strip */}
       <div

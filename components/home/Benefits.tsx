@@ -198,7 +198,7 @@ export function Benefits({ data }: Props) {
             return (
               <div
                 key={i}
-                className={`${s.tile} ${colours.fg === '#0E1530' ? s.inkText : ''}`}
+                className={`${s.tile} ${colours.fg === '#0E1530' ? s.inkText : ''}${tile.render ? ` ${s.hasObj}` : ''}`}
                 style={{ background: colours.bg }}
               >
                 {tile.render && (

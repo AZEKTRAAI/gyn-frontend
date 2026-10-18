@@ -37,8 +37,8 @@
   position: relative;
   display: grid;
   gap: 26px;
-  max-width: 980px;
-  padding-bottom: clamp(40px, 6vw, 72px);
+  max-width: 860px;
+  padding-bottom: clamp(32px, 5vw, 56px);
 }
 
 .headline {
@@ -80,7 +80,22 @@
   font-size: clamp(1.1rem, 1.6vw, 1.35rem);
   max-width: 58ch;
   color: rgba(255, 255, 255, .88);
+  position: relative;
   /* hidden until phase 5 of the animation */
+}
+/* Invisible sizer keeps the paragraph at its full final height from first paint (prevents CLS). */
+.leadSizer {
+  visibility: hidden;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+/* Visible typed text overlays the sizer exactly. */
+.leadTyped {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .factsRow {
@@ -91,17 +106,19 @@
 }
 
 .chip {
-  border: 1px solid rgba(255, 255, 255, .35);
-  border-radius: 999px;
-  padding: 7px 14px;
-  font-size: 14px;
+  background: rgba(255, 255, 255, .08);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 13px;
   font-weight: 500;
+  color: rgba(255, 255, 255, .85);
+  /* no border: faint fill makes facts clearly distinct from pill buttons */
 }
 
+/* Hot fact: yellow text + subtle tint — yellow fill is reserved for the action buttons. */
 .chipHot {
-  background: var(--y, #FCC30B);
-  color: var(--ink, #0E1530);
-  border-color: var(--y, #FCC30B);
+  background: rgba(252, 195, 11, .15);
+  color: var(--y, #FCC30B);
   font-weight: 700;
 }
 
@@ -114,7 +131,7 @@
 /* Film strip */
 .film {
   position: relative;
-  margin-top: clamp(40px, 6vw, 72px);
+  margin-top: clamp(32px, 5vw, 56px);
   padding-block: 22px 0;
   overflow: hidden;
 }
@@ -176,6 +193,9 @@
     right: -30%;
     top: -8%;
   }
+  /* Tighten the gap between hero text and film strip on phones. */
+  .heroText { padding-bottom: 16px; }
+  .film { margin-top: 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

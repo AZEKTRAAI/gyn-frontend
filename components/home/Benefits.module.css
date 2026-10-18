@@ -128,14 +128,20 @@
   z-index: 1;
 }
 
-/* 3D object render top-right */
+/* 3D object render: pinned to top-right of the tile's padding area.
+   .hasObj adds padding-top: 44% so the render sits above the text content with no overlap. */
 .obj {
   position: absolute;
-  right: -6%;
-  top: -8%;
-  width: 56%;
+  right: 0;
+  top: 0;
+  width: 44%;
+  height: auto;
   opacity: 0.95;
   pointer-events: none;
+}
+/* Reserves exactly the render's height (44% of tile width) above the text rows. */
+.hasObj {
+  padding-top: 44%;
 }
 
 @media (max-width: 760px) {

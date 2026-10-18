@@ -173,6 +173,8 @@ em, i { font-style: normal; }
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 0.5rem;
   min-height: 44px;
   padding: 0.875rem 1.625rem;

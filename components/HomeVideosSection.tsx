@@ -14,9 +14,11 @@ import type { VideoItem } from '@/components/premium/CoverflowVideos'
 interface Props {
   items: VideoItem[]
   heading?: string
+  /** Text colour for the title and counter. Default: var(--white) for dark-bg sections. Pass var(--navy-900) for light sections. */
+  textColor?: string
 }
 
-export function HomeVideosSection({ items, heading }: Props) {
+export function HomeVideosSection({ items, heading, textColor = 'var(--white)' }: Props) {
   const [active, setActive] = useState(0)
   // Bumping videoKey remounts YouTubeEmbed, which resets its playing state
   const [videoKey, setVideoKey] = useState(0)
@@ -135,7 +137,7 @@ export function HomeVideosSection({ items, heading }: Props) {
           style={{
             fontFamily: 'var(--fb)',
             fontSize: 'clamp(0.9375rem, 1.4vw, 1.125rem)',
-            color: 'var(--white)',
+            color: textColor,
             lineHeight: 1.4,
             marginBottom: '1.25rem',
             maxWidth: '60ch',
@@ -175,7 +177,7 @@ export function HomeVideosSection({ items, heading }: Props) {
             style={{
               fontFamily: 'var(--fd)',
               fontSize: '1rem',
-              color: 'var(--white)',
+              color: textColor,
               minWidth: '4ch',
               textAlign: 'center',
             }}

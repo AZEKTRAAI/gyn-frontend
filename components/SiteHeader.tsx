@@ -14,15 +14,79 @@ interface Props {
 export function SiteHeader({ nav }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [openDrop, setOpenDrop] = useState<string | null>(null)
   const pathname = usePathname()
 
   const hamburgerRef = useRef<HTMLButtonElement>(null)
   const drawerRef = useRef<HTMLDivElement>(null)
+  /** Ref to the button that last opened a dropdown — for returning focus on Escape */
+  const dropTriggerRef = useRef<HTMLButtonElement | null>(null)
+  /** Was the currently-open dropdown opened by a click (vs. hover)? */
+  const openedByClickRef = useRef(false)
+  /** Labels where hover-reopen is suppressed after a click-close (until pointer leaves) */
+  const suppressHoverRef = useRef(new Set<string>())
+  /** Debounce timer for hover-leave close */
+  const hoverCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const closeMenu = useCallback(() => {
     setMenuOpen(false)
     hamburgerRef.current?.focus()
   }, [])
+
+  const clearHoverTimer = useCallback(() => {
+    if (hoverCloseTimerRef.current) {
+      clearTimeout(hoverCloseTimerRef.current)
+      hoverCloseTimerRef.current = null
+    }
+  }, [])
+
+  /** Mouse enters a dropdown nav-item — open unless suppressed after a click-close. */
+  const onNavItemEnter = useCallback((e: React.PointerEvent, label: string) => {
+    if (e.pointerType !== 'mouse') return
+    clearHoverTimer()
+    if (suppressHoverRef.current.has(label)) return
+    // Only change openedBy if we're actually switching items
+    setOpenDrop((prev) => {
+      if (prev !== label) openedByClickRef.current = false
+      return label
+    })
+  }, [clearHoverTimer])
+
+  /** Mouse leaves a dropdown nav-item — schedule a close if hover-opened; clear suppression. */
+  const onNavItemLeave = useCallback((e: React.PointerEvent, label: string) => {
+    if (e.pointerType !== 'mouse') return
+    // Pointer has left — next enter is a fresh hover, so clear suppression
+    suppressHoverRef.current.delete(label)
+    // Only auto-close if this item was hover-opened (not click-opened)
+    if (openedByClickRef.current) return
+    hoverCloseTimerRef.current = setTimeout(() => {
+      hoverCloseTimerRef.current = null
+      if (!openedByClickRef.current) {
+        setOpenDrop((prev) => (prev === label ? null : prev))
+      }
+    }, 150)
+  }, [])
+
+  /** Click the dropdown trigger — toggle open/close; after click-close suppress hover-reopen. */
+  const onTriggerClick = useCallback((e: React.MouseEvent, label: string) => {
+    e.stopPropagation()
+    clearHoverTimer()
+    setOpenDrop((prev) => {
+      if (prev === label) {
+        // Close by click: suppress hover until pointer leaves the item
+        openedByClickRef.current = false
+        suppressHoverRef.current.add(label)
+        return null
+      }
+      // Open by click
+      openedByClickRef.current = true
+      suppressHoverRef.current.delete(label)
+      return label
+    })
+  }, [clearHoverTimer])
+
+  // Cleanup hover timer on unmount
+  useEffect(() => clearHoverTimer, [clearHoverTimer])
 
   // Scroll: compact pill once past 40px
   useEffect(() => {
@@ -41,6 +105,28 @@ export function SiteHeader({ nav }: Props) {
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [menuOpen, closeMenu])
+
+  // Close open dropdown on Escape or outside click
+  useEffect(() => {
+    if (!openDrop) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpenDrop(null)
+        dropTriggerRef.current?.focus()
+      }
+    }
+    const onClick = (e: MouseEvent) => {
+      const header = document.querySelector<HTMLElement>('.site-header')
+      if (!header?.contains(e.target as Node)) setOpenDrop(null)
+    }
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('click', onClick, { capture: true })
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('click', onClick, { capture: true })
+    }
+  }, [openDrop])
+
 
   // Scroll lock + inert when drawer open
   useEffect(() => {
@@ -246,8 +332,6 @@ export function SiteHeader({ nav }: Props) {
           border-radius: 12px;
           box-shadow: 0 8px 32px rgba(14,21,48,.12);
         }
-        .nav-item:hover .nav-drop,
-        .nav-item:focus-within .nav-drop { display: block; }
         .nav-drop[data-open="true"] { display: block; }
         .nav-drop-link {
           display: block;
@@ -270,11 +354,13 @@ export function SiteHeader({ nav }: Props) {
         .nav-book-pill {
           display: inline-flex;
           align-items: center;
+          justify-content: center;
           gap: 7px;
           background: #FCC30B;
           color: #0E1530;
           font-size: 0.875rem;
           font-weight: 700;
+          line-height: 1;
           padding: 0.625rem 1.125rem;
           border-radius: 999px;
           font-family: var(--fb);
@@ -298,10 +384,12 @@ export function SiteHeader({ nav }: Props) {
           color: #0E1530;
           font-size: 0.8125rem;
           font-weight: 700;
+          line-height: 1;
           padding: 0.5rem 1rem;
           border-radius: 999px;
           min-height: 44px;
           align-items: center;
+          justify-content: center;
           transition: background-color 140ms;
         }
         .nav-m-book:hover { background: #D6A200; }
@@ -356,6 +444,7 @@ export function SiteHeader({ nav }: Props) {
           color: #0E1530 !important;
           font-size: 1.0625rem !important;
           font-weight: 700 !important;
+          line-height: 1 !important;
           padding: 16px 32px !important;
           border-radius: 999px;
           text-align: center;
@@ -402,14 +491,21 @@ export function SiteHeader({ nav }: Props) {
             {/* Desktop nav — centred between logo and CTA */}
             <ul className="nav-desktop" role="list">
               {nav.map((item) => (
-                <li key={item.label} className="nav-item">
+                <li
+                  key={item.label}
+                  className="nav-item"
+                  onPointerEnter={item.children ? (e) => onNavItemEnter(e, item.label) : undefined}
+                  onPointerLeave={item.children ? (e) => onNavItemLeave(e, item.label) : undefined}
+                >
                   {item.children ? (
                     <>
                       <button
+                        ref={(el) => { if (openDrop === item.label) dropTriggerRef.current = el }}
                         className="nav-item-btn"
                         aria-haspopup="true"
-                        aria-expanded={false}
+                        aria-expanded={openDrop === item.label}
                         data-active={isDropdownActive(item) ? 'true' : undefined}
+                        onClick={(e) => onTriggerClick(e, item.label)}
                       >
                         {item.label}
                         {/* chevron */}
@@ -424,12 +520,17 @@ export function SiteHeader({ nav }: Props) {
                           <path d="M2 4.5l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       </button>
-                      <ul className="nav-drop" role="list">
+                      <ul
+                        className="nav-drop"
+                        role="list"
+                        data-open={openDrop === item.label ? 'true' : undefined}
+                      >
                         {item.children.map((child) => (
                           <li key={child.label}>
                             <Link
                               href={child.href.replace('https://thegyn.org', '') || '/'}
                               className="nav-drop-link"
+                              onClick={() => setOpenDrop(null)}
                             >
                               {child.label.replace(/[\u{1F1E0}-\u{1F1FF}]{2}/gu, '').trim()}
                             </Link>
@@ -467,7 +568,7 @@ export function SiteHeader({ nav }: Props) {
             </div>
 
             {/* Mobile: compact pill + hamburger */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Link href="/sism-forum-access" className="nav-m-book" aria-label="Book Forum Access, $199">
                 $199
               </Link>

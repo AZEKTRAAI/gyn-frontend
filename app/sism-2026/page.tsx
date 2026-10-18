@@ -445,11 +445,12 @@ export default async function Sism2026Page() {
       </section>
 
       {/* ─── TESTIMONIAL VIDEOS ─── */}
-      <section data-name="Delegate Stories" aria-labelledby="vid-hd" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
+      {/* shortcut: tighter paddingBlock than var(--sp) — vertical video cards are tall, this keeps section ≤800px at 1440 */}
+      <section data-name="Delegate Stories" aria-labelledby="vid-hd" style={{ background: 'var(--white)', paddingBlock: 'clamp(24px, 3vw, 40px)' }}>
         <div className="wrap">
           <p className="kick">Testimonials</p>
           <h2 id="vid-hd" className="d2" style={{ color: 'var(--navy-900)', marginBottom: '0.75rem' }}>Hear from past delegates</h2>
-          <p style={{ fontSize: '0.9375rem', color: 'var(--n-600)', marginBottom: '2rem' }}>
+          <p style={{ fontSize: '0.9375rem', color: 'var(--n-600)', marginBottom: '1.25rem' }}>
             Watch past delegates and fellows explain why they recommend applying.
           </p>
           <SismVideos />

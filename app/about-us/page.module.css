@@ -71,9 +71,12 @@
 .closeHd { font-family: var(--fd); font-size: clamp(2.6rem, 6vw, 5.4rem); line-height: .95; text-transform: uppercase; margin-bottom: 18px; }
 .closeBody { font-size: clamp(1rem, 1.3vw, 1.125rem); line-height: 1.6; max-width: 56ch; margin-bottom: 24px; }
 .closeBtns { display: flex; flex-wrap: wrap; gap: 12px; }
-.office { font-style: normal; font-size: 15px; line-height: 1.6; background: #fff; border-radius: 20px; padding: 22px 24px; }
-.office a { color: var(--ink); text-decoration: underline; }
-.officeLabel { display: block; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--sdg4); margin-bottom: 6px; }
+/* polaroid stack in right column */
+.closePols { display: grid; align-self: center; }
+.closePols :global(.pol) { width: 80%; }
+.closePols :global(.pol):nth-child(1) { transform: rotate(-3deg); }
+.closePols :global(.pol):nth-child(2) { justify-self: end; margin-top: -26%; transform: rotate(2.5deg); }
+.closePols :global(.pol):nth-child(3) { justify-self: start; margin-left: 8%; margin-top: -22%; transform: rotate(-1.5deg); }
 
 @media (max-width: 1100px) {
   .objectives { grid-template-columns: repeat(3, 1fr); }
@@ -87,6 +90,9 @@
   .objectives { grid-template-columns: 1fr 1fr; }
   .objectives li { min-height: 0; }
   .photoStack { max-width: 480px; }
+  /* two polaroids on phones, smaller */
+  .closePols { max-width: 340px; }
+  .closePols :global(.pol):nth-child(3) { display: none; }
 }
 @media (max-width: 520px) {
   .objectives, .goals { grid-template-columns: 1fr; }

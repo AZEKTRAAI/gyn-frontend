@@ -178,6 +178,7 @@ export function TicketRail({ tiers, defaultActive, groupBreakAfter }: TicketRail
               style={{
                 display: 'block',
                 textAlign: 'center',
+                lineHeight: 1,
                 padding: '0.75rem 1rem',
                 borderRadius: '999px',
                 background: tier.closed

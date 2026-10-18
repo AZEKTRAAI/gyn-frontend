@@ -244,11 +244,20 @@ export default async function AboutUsPage() {
               <Link href="/contact-us?topic=partnership" className="btn btn-g">Partner with us</Link>
             </div>
           </div>
-          <address className={s.office}>
-            <span className={s.officeLabel}>GYN office</span>
-            1001 S Main St, Suite 500<br />Kalispell, Montana 59901, USA<br />
-            <a href="tel:+13025560064">+1 (302) 556-0064</a>
-          </address>
+          <div className={s.closePols} aria-hidden="true">
+            <figure className="pol">
+              <Image src="/media/gallery/fmst-dsc02172-1.webp" alt="" width={768} height={512} sizes="(max-width: 900px) 55vw, 20vw" loading="lazy" />
+              <figcaption>Bangkok, July 2026</figcaption>
+            </figure>
+            <figure className="pol">
+              <Image src="/media/gallery/fmst-dsc02159-1.webp" alt="" width={768} height={512} sizes="(max-width: 900px) 55vw, 20vw" loading="lazy" />
+              <figcaption>FutureMinds Summit Thailand</figcaption>
+            </figure>
+            <figure className="pol">
+              <Image src="/media/gallery/fmst-dsc01894-1.webp" alt="" width={768} height={512} sizes="(max-width: 900px) 55vw, 20vw" loading="lazy" />
+              <figcaption>Panel session, Bangkok</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
     </main>

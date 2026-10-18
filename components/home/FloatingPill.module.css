@@ -85,6 +85,7 @@
 .apply {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   min-height: 40px;
   padding: 9px 16px;
@@ -93,6 +94,7 @@
   color: var(--ink, #0E1530);
   font-size: 13px;
   font-weight: 700;
+  line-height: 1;
   white-space: nowrap;
   flex: none;
   transition: background-color 0.15s;

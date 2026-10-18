@@ -83,12 +83,13 @@ export function Partners({ data }: { data: HomeContent['partners'] }) {
             textTransform: 'uppercase',
             color: 'var(--yellow)',
             marginBottom: '20px',
+            textAlign: 'center',
           }}
         >
           {data.heading}
         </p>
         <div
-          style={{ display: 'flex', flexWrap: 'wrap', gap: '20px 40px', alignItems: 'center' }}
+          style={{ display: 'flex', flexWrap: 'wrap', gap: '20px 40px', alignItems: 'center', justifyContent: 'center' }}
           role="list"
         >
           {data.logos.map((logo) => {

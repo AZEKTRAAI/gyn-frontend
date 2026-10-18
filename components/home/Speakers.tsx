@@ -271,7 +271,7 @@ export function Speakers({ data }: { data: HomeContent['speakers'] }) {
           .spk-dot.on { width: 20px; background: var(--ink); }
           .spk-count { font-size: 14px; color: var(--n-600); min-width: 52px; text-align: right; }
           .spk-count b { font-family: var(--fd); font-weight: 400; font-size: 18px; color: var(--ink); }
-          .spk-arrow { width: 44px; height: 44px; flex: none; border-radius: 999px; border: 1.5px solid rgba(32,47,96,.3); background: #fff; color: var(--ink); font-size: 18px; cursor: pointer; }
+          .spk-arrow { width: 44px; height: 44px; flex: none; border-radius: 999px; border: 1.5px solid rgba(32,47,96,.3); background: #fff; color: var(--ink); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
           .spk-arrow:not(:disabled):hover { background: var(--y); border-color: var(--y); }
           .spk-arrow:disabled { opacity: .35; cursor: default; }
         }

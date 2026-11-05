@@ -1,0 +1,216 @@
+# Production stack for the GYN website on the Netcup VPS.
+# Start: docker compose up -d
+# Update: deploy/deploy.sh
+#
+# Services: db, migrate (one-shot), app, worker, caddy.
+# Networks: db_net (internal, no internet routing), web_net (caddy <-> app).
+# Only caddy publishes ports 80 and 443.
+
+name: gyn
+
+services:
+
+  # --------------------------------------------------------------------------
+  # PostgreSQL 17 — internal only, never published to the host
+  # --------------------------------------------------------------------------
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: gyn
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: gyn
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    # Tunable via .env without rebuilding. Safe small-RAM defaults (128 MB / 50 conn)
+    # suit a 2 GB VPS; raise shared_buffers to ~25% of RAM and max_connections to 100
+    # once you know the server specs.
+    command: >
+      postgres
+      -c shared_buffers=${PG_SHARED_BUFFERS:-128MB}
+      -c max_connections=${PG_MAX_CONNECTIONS:-50}
+      -c log_timezone=UTC
+      -c timezone=UTC
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - db_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gyn -d gyn"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+
+  # --------------------------------------------------------------------------
+  # migrate — one-shot: runs prisma migrate deploy, then exits.
+  # app and worker depend on this completing successfully.
+  # --------------------------------------------------------------------------
+  migrate:
+    build:
+      context: .
+      target: migrate
+    image: gyn-migrate:latest
+    environment:
+      DIRECT_URL: ${DIRECT_URL}
+    networks:
+      - db_net
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  # --------------------------------------------------------------------------
+  # app — Next.js standalone server (node server.js)
+  # --------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      target: runner
+      args:
+        NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+        NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+    image: gyn-app:latest
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      NODE_ENV: production
+      STORAGE_DIR: /data/uploads
+      FIELD_ENCRYPTION_KEYS: ${FIELD_ENCRYPTION_KEYS}
+      FIELD_ENCRYPTION_KEY_ID: ${FIELD_ENCRYPTION_KEY_ID}
+      MIN_FREE_BYTES: ${MIN_FREE_BYTES:-524288000}
+      DB_POOL_MAX: ${DB_POOL_MAX:-10}
+      NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+      # Temporary: the current /admin/home editor is guarded by this until phase 3 adds real admin accounts. Empty locks /admin.
+      ADMIN_BASIC_AUTH: ${ADMIN_BASIC_AUTH:-}
+      PITCH_BASIC_AUTH: ${PITCH_BASIC_AUTH:-}
+      TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID}
+      PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET}
+      PAYPAL_WEBHOOK_ID: ${PAYPAL_WEBHOOK_ID}
+      PAYPAL_ENV: ${PAYPAL_ENV:-sandbox}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      SMTP_FROM: ${SMTP_FROM}
+    volumes:
+      - uploads:/data/uploads
+    # read_only root fs: Next.js writes cache to .next/cache; temp files go to /tmp.
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /app/.next/cache:uid=1001,gid=1001,mode=0750
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      - db_net
+      - web_net
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      # node:22-bookworm-slim has no wget or curl, so the check is a one-line Node script (Node 22 has fetch built in).
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  # --------------------------------------------------------------------------
+  # worker — background job processor (email, letters, payment re-checks)
+  # --------------------------------------------------------------------------
+  worker:
+    build:
+      context: .
+      target: worker
+    image: gyn-worker:latest
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      NODE_ENV: production
+      STORAGE_DIR: /data/uploads
+      FIELD_ENCRYPTION_KEYS: ${FIELD_ENCRYPTION_KEYS}
+      FIELD_ENCRYPTION_KEY_ID: ${FIELD_ENCRYPTION_KEY_ID}
+      DB_POOL_MAX: ${DB_POOL_MAX:-10}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      SMTP_FROM: ${SMTP_FROM}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      PAYPAL_CLIENT_ID: ${PAYPAL_CLIENT_ID}
+      PAYPAL_CLIENT_SECRET: ${PAYPAL_CLIENT_SECRET}
+      PAYPAL_ENV: ${PAYPAL_ENV:-sandbox}
+    volumes:
+      - uploads:/data/uploads
+    read_only: true
+    tmpfs:
+      - /tmp:uid=1001,gid=1001,mode=0750
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    # db_net is internal (no internet). The worker also needs web_net for outbound calls: SMTP, Stripe, PayPal.
+    networks:
+      - db_net
+      - web_net
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    # Healthcheck: worker/index.ts must touch /tmp/worker-heartbeat every ~15 s.
+    # We check that the file exists and its mtime is under 60 seconds old.
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/worker-heartbeat && test $(( $(date +%s) - $(stat -c %Y /tmp/worker-heartbeat) )) -lt 60"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+
+  # --------------------------------------------------------------------------
+  # caddy — HTTPS termination, /media/* static files, 25 MB body limit
+  # --------------------------------------------------------------------------
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"  # HTTP/3 QUIC
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      # uploads volume mounted read-only; Caddy only serves /srv/uploads/public via /media/*.
+      # /srv/uploads/private is never exposed (handle_path /media/* roots at /srv/uploads/public).
+      - uploads:/srv/uploads:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - web_net
+    depends_on:
+      app:
+        condition: service_healthy
+
+# --------------------------------------------------------------------------
+# Named volumes
+# --------------------------------------------------------------------------
+volumes:
+  pgdata:
+  uploads:
+  caddy_data:
+  caddy_config:
+
+# --------------------------------------------------------------------------
+# Networks
+# --------------------------------------------------------------------------
+networks:
+  db_net:
+    # internal: db, migrate, app, worker connect here. No internet routing.
+    internal: true
+  web_net:
+    # caddy and app connect here. caddy needs internet access for ACME certificates.

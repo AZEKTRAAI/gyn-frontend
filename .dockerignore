@@ -1,0 +1,40 @@
+# Build outputs
+.next/
+node_modules/
+
+# Version control
+.git/
+.gitignore
+
+# Secrets and local config
+.env
+.env.*
+!.env.production.example
+
+# Backups and runtime data
+backups/
+data/
+
+# Documentation and design (not needed in image)
+docs/
+design/
+deliverables/
+concepts/
+
+# Compose and deploy scripts (not part of the app)
+docker-compose*.yml
+deploy/
+
+# Large binary assets
+*.pdf
+
+# Dev notes
+prompts.md
+README.md
+
+# TypeScript incremental cache
+tsconfig.tsbuildinfo
+
+# OS artifacts
+.DS_Store
+Thumbs.db

@@ -1,0 +1,25 @@
+# Local development database. Start: npm run db:up
+# Data checksums are on from the first start (the same setting production uses), so page corruption is detected, not silently kept.
+name: gyn-dev
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: gyn
+      POSTGRES_PASSWORD: gyn
+      POSTGRES_DB: gyn
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    ports:
+      # 5433 on the host so it never clashes with another Postgres on 5432
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - gyn_dev_pgdata:/var/lib/postgresql/data
+      - ./docker/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gyn -d gyn"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+volumes:
+  gyn_dev_pgdata:

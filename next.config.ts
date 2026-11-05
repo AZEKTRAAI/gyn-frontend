@@ -33,6 +33,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Self-hosting on the Netcup VPS: .next/standalone is a self-contained server (node server.js) for the Docker image.
+  output: 'standalone',
   poweredByHeader: false,
   images: {
     remotePatterns: [

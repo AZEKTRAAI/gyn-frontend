@@ -20,3 +20,6 @@ tsconfig.tsbuildinfo
 
 # admin editor uploads in development (production uses Cloudinary)
 /public/uploads/
+
+# local uploads and worker files (dev and test)
+/data/

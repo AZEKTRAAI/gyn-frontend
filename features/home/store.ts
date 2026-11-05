@@ -1,5 +1,5 @@
 // Home page content storage.
-// With DATABASE_URL: Page "home" + one ContentBlock per section (blockType = section key).
+// With DATABASE_URL: Page "home" + one PageSection per section (blockType = section key).
 // Without it: content/home.json, which is also the seed and the per-section fallback.
 // Saving without a database only works in development (it rewrites content/home.json).
 import fs from 'node:fs/promises'
@@ -30,10 +30,10 @@ export async function getHome(): Promise<HomeContent> {
   if (prisma) {
     const page = await prisma.page.findUnique({
       where: { slug: SLUG },
-      include: { contentBlocks: { orderBy: { order: 'asc' } } },
+      include: { sections: { orderBy: { sortOrder: 'asc' } } },
     })
     if (!page) return seedContent
-    return mergeOverSeed(Object.fromEntries(page.contentBlocks.map((b) => [b.blockType, b.data])))
+    return mergeOverSeed(Object.fromEntries(page.sections.map((b) => [b.blockType, b.data])))
   }
   if (process.env.NODE_ENV !== 'production') {
     return mergeOverSeed(JSON.parse(await fs.readFile(SEED_FILE, 'utf8')))
@@ -58,12 +58,12 @@ export async function saveHome(content: HomeContent, meta: { actor: string; ip: 
   await prisma.$transaction(async (tx) => {
     const page = await tx.page.upsert({
       where: { slug: SLUG },
-      create: { slug: SLUG, title: 'Home', publishedAt: new Date() },
-      update: { publishedAt: new Date() },
+      create: { slug: SLUG, title: 'Home', status: 'PUBLISHED', isSystem: true, publishedAt: new Date() },
+      update: { status: 'PUBLISHED', publishedAt: new Date() },
     })
-    await tx.contentBlock.deleteMany({ where: { pageId: page.id } })
-    await tx.contentBlock.createMany({
-      data: HOME_SECTIONS.map((key, order) => ({ pageId: page.id, blockType: key, order, data: content[key] })),
+    await tx.pageSection.deleteMany({ where: { pageId: page.id } })
+    await tx.pageSection.createMany({
+      data: HOME_SECTIONS.map((key, sortOrder) => ({ pageId: page.id, blockType: key, sortOrder, data: content[key] })),
     })
     // Old and new versions are kept so a bad edit can be rolled back by hand.
     await tx.auditLog.create({
@@ -73,7 +73,8 @@ export async function saveHome(content: HomeContent, meta: { actor: string; ip: 
         entityId: page.id,
         oldValue: { actor: meta.actor, content: previous },
         newValue: content,
-        ipAddress: meta.ip,
+        userEmail: meta.actor,
+        ip: meta.ip,
       },
     })
   })

@@ -1,3 +1,5 @@
+> **Superseded in part on 6 Nov 2026.** Hosting is now a Netcup VPS (no Vercel, Neon, Cloudinary or Resend), admin login is our own accounts with roles and two-step login (not Auth.js), and the admin follows SRS v1.2. See `docs/backend-plan.md`. The home page editor section below is still accurate.
+
 # Admin panel plan
 
 ## Built: home page editor (`/admin/home`)

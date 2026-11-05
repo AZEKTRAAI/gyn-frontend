@@ -1,3 +1,5 @@
+> **Superseded on 6 Nov 2026.** The database design is now `prisma/schema.prisma`, explained in `docs/backend-plan.md`. This file describes the earlier fixed-ticket schema and is kept for history.
+
 # Database schema
 
 Prisma schema: `prisma/schema.prisma` · Provider: PostgreSQL

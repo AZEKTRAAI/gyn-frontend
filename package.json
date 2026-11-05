@@ -11,7 +11,17 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "seed": "node --experimental-strip-types prisma/seed.ts"
+    "seed": "node --experimental-strip-types prisma/seed.ts",
+    "db:up": "docker compose -f docker-compose.dev.yml up -d",
+    "db:down": "docker compose -f docker-compose.dev.yml down",
+    "db:migrate": "node --env-file=.env.local ./node_modules/prisma/build/index.js migrate dev",
+    "db:deploy": "node --env-file=.env.local ./node_modules/prisma/build/index.js migrate deploy",
+    "db:generate": "prisma generate",
+    "db:seed": "node --env-file=.env.local --experimental-strip-types prisma/seed.ts",
+    "db:test:prepare": "node --env-file=.env.test ./node_modules/prisma/build/index.js migrate deploy",
+    "worker": "node --env-file=.env.local --experimental-strip-types worker/index.ts",
+    "test": "node --experimental-strip-types --test \"lib/**/*.test.ts\" \"features/**/*.test.ts\" \"prisma/**/*.test.ts\" lib/server/tests.ts",
+    "test:integration": "node --env-file=.env.test --experimental-strip-types --test --test-concurrency=1 \"tests/integration/*.test.ts\""
   },
   "dependencies": {
     "@hookform/resolvers": "5.9.1",

@@ -38,6 +38,8 @@
   ],
   "exclude": [
     "node_modules",
+    "admin",
+    "packages",
     "concepts",
     "features/payments/stripe.test.ts",
     "features/registration/schema.test.ts",

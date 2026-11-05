@@ -6,7 +6,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { Pool } from "pg";
-import { recoverStaleJobs } from "../lib/server/jobs.ts";
+import { recoverStaleJobs } from "@gyn/core/jobs";
 import { handlers } from "./handlers.ts";
 import { runOnce } from "./runner.ts";
 

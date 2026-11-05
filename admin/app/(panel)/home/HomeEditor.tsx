@@ -3,7 +3,7 @@
 // Form editor for the home page. The form is generated from the JSON Schema of features/home/schema.ts,
 // so adding a field to the schema adds it here with no editor changes.
 import { useEffect, useId, useMemo, useState, useTransition } from 'react'
-import { homeSchema, type HomeContent } from '@/features/home/schema'
+import { homeSchema, type HomeContent } from '@gyn/core/home-schema'
 import { saveHomeAction, uploadImageAction } from './actions'
 import styles from './editor.module.css'
 

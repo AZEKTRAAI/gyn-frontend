@@ -5,7 +5,7 @@ import './globals.css'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { cms } from '@/lib/cms'
-import { getHome } from '@/features/home/store'
+import { getHome } from '@gyn/core/home-store'
 import { FloatingPill } from '@/components/home/FloatingPill'
 
 // Both are pure enhancement — split into async chunks so they don't block initial parse

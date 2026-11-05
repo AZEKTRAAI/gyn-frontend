@@ -1,0 +1,19 @@
+{
+  "name": "@gyn/admin",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "next build",
+    "start": "next start -p 3100"
+  },
+  "dependencies": {
+    "@gyn/core": "*",
+    "@prisma/client": "7.10.1",
+    "next": "16.4.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "4.6.7",
+    "pg": "8.23.1"
+  }
+}

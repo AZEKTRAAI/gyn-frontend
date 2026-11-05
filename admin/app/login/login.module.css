@@ -1,0 +1,48 @@
+.page {
+  min-height: 100dvh;
+  display: grid;
+  place-content: center;
+  gap: 20px;
+  padding: 24px 16px;
+}
+.card {
+  width: min(100%, 380px);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 28px;
+}
+.sub { color: var(--muted); }
+.form { display: grid; gap: 6px; }
+.form label { font-weight: 600; margin-top: 8px; }
+.form input {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 12px;
+  min-height: 44px;
+  background: #fff;
+}
+.form button {
+  margin-top: 16px;
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+  cursor: pointer;
+}
+.form button:disabled { opacity: 0.6; cursor: default; }
+.error { color: var(--bad); margin: 8px 0 0; }
+.demo {
+  width: min(100%, 380px);
+  background: var(--warn-bg);
+  border: 1px solid #f0d9a8;
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 0.9rem;
+}
+.demo ul { margin: 0; padding-left: 18px; }
+.demo li { margin: 2px 0; }
+.demo li span { color: var(--muted); }
+.demo code { background: rgba(0, 0, 0, 0.06); border-radius: 4px; padding: 1px 5px; }

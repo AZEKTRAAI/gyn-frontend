@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getHome } from '@/features/home/store'
+import { getHome } from '@gyn/core/home-store'
 import { Hero } from '@/components/home/Hero'
 import { EventStrip } from '@/components/home/EventStrip'
 import { Benefits } from '@/components/home/Benefits'
@@ -13,6 +13,9 @@ import { Wall } from '@/components/home/Wall'
 import { Stories } from '@/components/home/Stories'
 import { Partners } from '@/components/home/Partners'
 import { Closing } from '@/components/home/Closing'
+
+// The admin app tells this site to refresh when content is published; this is the safety net if that call is missed.
+export const revalidate = 300
 
 // RENDERED_AT is the server's render time (build time for this static page); Countdown hydrates from it.
 const RENDERED_AT = Date.now()

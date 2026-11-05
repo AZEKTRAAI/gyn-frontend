@@ -1,6 +1,5 @@
-// HTTP Basic Auth guard for /admin and /pitch routes.
-// Set ADMIN_BASIC_AUTH="user:password" and PITCH_BASIC_AUTH="user:password" in env.
-// When the env var is absent: /pitch is unguarded; /admin is unguarded in dev and locked in production.
+// HTTP Basic Auth guard for /pitch. Set PITCH_BASIC_AUTH="user:password" in env; unset leaves /pitch open.
+// The admin is a separate app now (admin/), with its own sign-in. Nothing admin-related is served by this site.
 import { NextRequest, NextResponse } from "next/server";
 
 function basicAuthResponse(): NextResponse {
@@ -13,8 +12,6 @@ function basicAuthResponse(): NextResponse {
 function checkBasicAuth(req: NextRequest, envVar: string): NextResponse | null {
   const expected = process.env[envVar];
   if (!expected) {
-    // Unguarded in dev/demo; production fails closed for /admin (it can edit the live site).
-    if (process.env.NODE_ENV === "production" && envVar === "ADMIN_BASIC_AUTH") return basicAuthResponse();
     return null;
   }
   const auth = req.headers.get("authorization");
@@ -26,10 +23,6 @@ function checkBasicAuth(req: NextRequest, envVar: string): NextResponse | null {
 
 export function proxy(req: NextRequest): NextResponse {
   const { pathname } = req.nextUrl;
-  if (pathname.startsWith("/admin")) {
-    const res = checkBasicAuth(req, "ADMIN_BASIC_AUTH");
-    if (res) return res;
-  }
   if (pathname.startsWith("/pitch")) {
     const res = checkBasicAuth(req, "PITCH_BASIC_AUTH");
     if (res) return res;
@@ -38,5 +31,5 @@ export function proxy(req: NextRequest): NextResponse {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/pitch/:path*"],
+  matcher: ["/pitch/:path*"],
 };

@@ -1,0 +1,29 @@
+/* The admin is an internal tool, so it uses the system font and one calm colour scheme. No downloads, no decoration. */
+:root {
+  --bg: #f4f5f7;
+  --panel: #ffffff;
+  --ink: #14171f;
+  --muted: #5b6270;
+  --line: #dfe2e8;
+  --accent: #1f3a8a;
+  --accent-ink: #ffffff;
+  --ok: #17673a;
+  --bad: #b42318;
+  --warn-bg: #fff6e5;
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 15px/1.5 var(--font);
+}
+h1, h2, h3 { margin: 0 0 8px; line-height: 1.2; }
+h1 { font-size: 1.5rem; }
+h2 { font-size: 1.1rem; }
+p { margin: 0 0 12px; }
+a { color: var(--accent); }
+button, input, select, textarea { font: inherit; }
+:focus-visible { outline: 3px solid #f2b705; outline-offset: 2px; }

@@ -10,7 +10,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p admin && tsc --noEmit -p packages/core",
     "seed": "node --experimental-strip-types prisma/seed.ts",
     "db:up": "docker compose -f docker-compose.dev.yml up -d",
     "db:down": "docker compose -f docker-compose.dev.yml down",
@@ -20,18 +20,21 @@
     "db:seed": "node --env-file=.env.local --experimental-strip-types prisma/seed.ts",
     "db:test:prepare": "node --env-file=.env.test ./node_modules/prisma/build/index.js migrate deploy",
     "worker": "node --env-file=.env.local --experimental-strip-types worker/index.ts",
-    "test": "node --experimental-strip-types --test \"lib/**/*.test.ts\" \"features/**/*.test.ts\" \"prisma/**/*.test.ts\" lib/server/tests.ts",
-    "test:integration": "node --env-file=.env.test --experimental-strip-types --test --test-concurrency=1 \"tests/integration/*.test.ts\""
+    "test": "node --experimental-strip-types --test \"packages/**/*.test.ts\" \"admin/**/*.test.ts\" \"features/**/*.test.ts\" \"prisma/**/*.test.ts\" lib/server/tests.ts",
+    "test:integration": "node --env-file=.env.test --experimental-strip-types --test --test-concurrency=1 \"tests/integration/*.test.ts\"",
+    "dev:admin": "npm run dev -w @gyn/admin",
+    "build:admin": "npm run build -w @gyn/admin"
   },
   "dependencies": {
+    "@gyn/core": "*",
     "@hookform/resolvers": "5.9.1",
     "@prisma/adapter-pg": "7.10.1",
     "@prisma/client": "7.10.1",
-    "pg": "8.23.1",
     "gray-matter": "4.0.3",
     "lenis": "1.3.27",
     "motion": "14.3.0",
     "next": "16.4.2",
+    "pg": "8.23.1",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "react-hook-form": "7.90.0",
@@ -50,5 +53,9 @@
     "prisma": "7.10.1",
     "tailwindcss": "4.3.3",
     "typescript": "^5.9.3"
-  }
+  },
+  "workspaces": [
+    "admin",
+    "packages/*"
+  ]
 }

@@ -25,7 +25,8 @@ const KEY_PATTERN = /^(public|private)\/[0-9a-f]{2}\/[0-9a-f]{2}\/[0-9a-f]{32}(\
 const DEFAULT_MIN_FREE = 1024 ** 3;
 
 export function storageRoot(): string {
-  return path.resolve(process.env.STORAGE_DIR ?? "./data/uploads");
+  // The upload folder is chosen at run time and is never part of the build, so the bundler must not try to trace it.
+  return path.resolve(/*turbopackIgnore: true*/ process.env.STORAGE_DIR ?? "./data/uploads");
 }
 
 function minFreeBytes(): number {
@@ -36,7 +37,7 @@ function minFreeBytes(): number {
 /** Turn a storage key into an absolute path, refusing anything that is not a key we generated. */
 export function resolveKey(key: string): string {
   if (!KEY_PATTERN.test(key)) throw new StorageError("Not a valid storage key.");
-  return path.join(storageRoot(), ...key.split("/"));
+  return path.join(/*turbopackIgnore: true*/ storageRoot(), ...key.split("/"));
 }
 
 function newKey(visibility: Visibility, ext: string): string {
@@ -112,5 +113,37 @@ export async function fileExists(key: string): Promise<boolean> {
     return true;
   } catch {
     return false;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Serving public files (both apps expose /media/*; in production Caddy answers first)
+// ---------------------------------------------------------------------------
+
+const TYPES: Record<string, string> = {
+  webp: "image/webp", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", avif: "image/avif",
+  mp4: "video/mp4", webm: "video/webm",
+};
+
+/**
+ * A Response for /media/<ab>/<cd>/<id>.<ext>. Only files under public/ are ever readable here, and only types we
+ * allow, so a private document can never be fetched through this route even if someone guesses its key.
+ */
+export async function mediaResponse(segments: string[]): Promise<Response> {
+  const key = `public/${segments.join("/")}`;
+  const ext = key.split(".").pop() ?? "";
+  try {
+    const data = await fs.readFile(resolveKey(key));
+    const type = TYPES[ext];
+    if (!type) return new Response("Not found", { status: 404 });
+    return new Response(new Uint8Array(data), {
+      headers: {
+        "Content-Type": type,
+        "Cache-Control": "public, max-age=31536000, immutable",
+        "X-Content-Type-Options": "nosniff",
+      },
+    });
+  } catch {
+    return new Response("Not found", { status: 404 });
   }
 }

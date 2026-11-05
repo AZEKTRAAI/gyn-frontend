@@ -16,7 +16,7 @@ const config = [
   },
   {
     // concepts are throwaway HTML prototypes, not part of the app
-    ignores: ['concepts/**', 'node_modules/**', '.next/**'],
+    ignores: ['concepts/**', 'node_modules/**', '.next/**', 'admin/.next/**'],
   },
   {
     linterOptions: {

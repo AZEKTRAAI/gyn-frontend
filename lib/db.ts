@@ -1,34 +1,18 @@
-// Node runtime: Prisma Client requires @prisma/adapter-pg (not available in Edge Runtime).
-// Exports getRepo() — returns a DemoStore when DATABASE_URL is absent,
-// or a PrismaRepo-backed PrismaClient when DATABASE_URL is set.
+// Node runtime. Exports getRepo(): the legacy fixed-ticket repository (DemoStore without a database, PrismaRepo with one).
+// The shared Prisma client itself lives in @gyn/core/db. Phase 6 of docs/backend-plan.md replaces the legacy repository.
 
-import { Pool } from "pg";
-import type { PrismaClient } from "@prisma/client";
-import { createPrismaClient } from "./server/prisma-client.ts";
+import { getPrisma } from "@gyn/core/db";
 import { DemoStore, type Repo } from "./server/repo.ts";
 import { PrismaRepo } from "./server/prisma-repo.ts";
 
-const globalForDb = globalThis as unknown as { _repo?: Repo; _prisma?: PrismaClient };
+export { getPrisma };
 
-/** Shared Prisma client, or null when DATABASE_URL is absent (demo mode). */
-export function getPrisma(): PrismaClient | null {
-  if (!process.env.DATABASE_URL) return null;
-  if (!globalForDb._prisma) {
-    // One long-lived server on the VPS: a fixed pool, sized to the server (Postgres allows 100 connections; the worker takes a few).
-    const pool = new Pool({ connectionString: process.env.DATABASE_URL, max: Number(process.env.DB_POOL_MAX) || 10 });
-    globalForDb._prisma = createPrismaClient(pool);
-  }
-  return globalForDb._prisma;
-}
+const globalForDb = globalThis as unknown as { _repo?: Repo };
 
 export function getRepo(): Repo {
   if (globalForDb._repo) return globalForDb._repo;
 
-  if (!process.env.DATABASE_URL) {
-    globalForDb._repo = new DemoStore();
-    return globalForDb._repo;
-  }
-
-  globalForDb._repo = new PrismaRepo(getPrisma()!);
+  const prisma = getPrisma();
+  globalForDb._repo = prisma ? new PrismaRepo(prisma) : new DemoStore();
   return globalForDb._repo;
 }

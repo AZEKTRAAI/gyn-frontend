@@ -1,7 +1,7 @@
 // The job queue against a real database.
 import assert from "node:assert/strict";
 import { after, beforeEach, test } from "node:test";
-import { claimJobs, enqueueJob, failJob, recoverStaleJobs } from "../../lib/server/jobs.ts";
+import { claimJobs, enqueueJob, failJob, recoverStaleJobs } from "@gyn/core/jobs";
 import { PermanentJobError, runOnce } from "../../worker/runner.ts";
 import { closeDb, pool, prisma, resetDb } from "./helpers.ts";
 

@@ -4,7 +4,7 @@
 import { randomBytes } from "node:crypto";
 import { Pool } from "pg";
 import type { Prisma } from "@prisma/client";
-import { createPrismaClient } from "../../lib/server/prisma-client.ts";
+import { createPrismaClient } from "@gyn/core/prisma-client";
 
 const url = process.env.DATABASE_URL ?? "";
 if (!/\/[A-Za-z0-9_]*_test(\?|$)/.test(url)) {

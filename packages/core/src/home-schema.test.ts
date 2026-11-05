@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
-import { homeSchema, accentRuns, countdownTarget } from './schema.ts'
+import { homeSchema, accentRuns, countdownTarget } from './home-schema.ts'
 
 const seed = () => JSON.parse(fs.readFileSync('content/home.json', 'utf8'))
 

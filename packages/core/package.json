@@ -1,0 +1,10 @@
+{
+  "name": "@gyn/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Code shared by the public website, the admin app and the worker: database client, encryption, storage, job queue, home content schema.",
+  "exports": {
+    "./*": "./src/*.ts"
+  }
+}

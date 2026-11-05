@@ -70,3 +70,18 @@ test("deleting works and deleting a missing file is fine", async () => {
   assert.ok(!(await s.fileExists(f.key)));
   await s.deleteFile(f.key);
 });
+
+test("the media route serves public files and nothing else", async () => {
+  const s = await load();
+  const pub = await s.putPublic(Buffer.from("fake webp"), "webp");
+  const ok = await s.mediaResponse(pub.key.replace("public/", "").split("/"));
+  assert.equal(ok.status, 200);
+  assert.equal(ok.headers.get("content-type"), "image/webp");
+  assert.match(ok.headers.get("cache-control") ?? "", /immutable/);
+
+  const priv = await s.putPrivate(Buffer.from("passport"), "pdf", "registration:r1:file");
+  // Asking for a private key through /media just maps to a public path that does not exist.
+  assert.equal((await s.mediaResponse(priv.key.replace("private/", "").split("/"))).status, 404);
+  assert.equal((await s.mediaResponse(["..", "private", "x"])).status, 404);
+  assert.equal((await s.mediaResponse(["aa", "bb", "nothing.webp"])).status, 404);
+});

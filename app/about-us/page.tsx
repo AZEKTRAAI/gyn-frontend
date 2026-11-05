@@ -5,9 +5,12 @@ import { PageHero } from '@/components/PageHero'
 import { Network } from '@/components/home/Network'
 import { Advisors } from '@/components/home/Advisors'
 import { Partners } from '@/components/home/Partners'
-import { getHome } from '@/features/home/store'
+import { getHome } from '@gyn/core/home-store'
 import { GALLERY } from '@/features/media/media'
 import s from './page.module.css'
+
+// The admin app tells this site to refresh when content is published; this is the safety net if that call is missed.
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'About Us',

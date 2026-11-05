@@ -1,7 +1,7 @@
 // What happens when many people submit at once. These are the properties the load targets in docs/backend-plan.md depend on.
 import assert from "node:assert/strict";
 import { after, beforeEach, test } from "node:test";
-import { claimJobs, enqueueJob } from "../../lib/server/jobs.ts";
+import { claimJobs, enqueueJob } from "@gyn/core/jobs";
 import { closeDb, makeForm, pool, prisma, registrationData, resetDb } from "./helpers.ts";
 
 beforeEach(resetDb);

@@ -3,9 +3,10 @@
 // Roles, users and form definitions are seeded by their own phases (docs/backend-plan.md).
 
 import { Pool } from "pg";
-import { createPrismaClient } from "../lib/server/prisma-client.ts";
+import { createPrismaClient } from "@gyn/core/prisma-client";
 import eventsJson from "../content/events.json" with { type: "json" };
 import { buildSeed } from "./seed-data.ts";
+import { seedRoles, seedDemoUsers, DEMO_USERS, DEMO_PASSWORD } from "@gyn/core/access-seed";
 
 async function seed(): Promise<void> {
   const url = process.env.DATABASE_URL ?? process.env.DIRECT_URL;
@@ -15,6 +16,14 @@ async function seed(): Promise<void> {
   const prisma = createPrismaClient(pool);
 
   try {
+    await seedRoles(prisma);
+    console.log("seed: six admin roles");
+    // Dummy accounts, development only (see packages/core/src/access-seed.ts).
+    if (process.env.ALLOW_DEMO_ACCOUNTS === "1") {
+      await seedDemoUsers(prisma);
+      console.log(`seed: demo accounts, password ${DEMO_PASSWORD}`);
+      for (const u of DEMO_USERS) console.log(`seed:   ${u.email}  (${u.role})`);
+    }
     for (const e of buildSeed(eventsJson)) {
       const { categories, ...fields } = e;
       const event = await prisma.event.upsert({

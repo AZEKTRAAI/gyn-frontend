@@ -2,7 +2,7 @@
 // Kept apart from index.ts (the endless loop) so tests can run a single pass against a real database.
 
 import type { Pool } from "pg";
-import { claimJobs, completeJob, failJob, type JobRow } from "../lib/server/jobs.ts";
+import { claimJobs, completeJob, failJob, type JobRow } from "@gyn/core/jobs";
 
 export type JobHandler = (job: JobRow, ctx: { pool: Pool }) => Promise<void>;
 export type Handlers = Record<string, JobHandler>;

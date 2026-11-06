@@ -39,6 +39,8 @@ With `ALLOW_DEMO_ACCOUNTS=1` in `.env.local`, `npm run db:seed` creates one acco
 | `content@gyn.test` | Content Editor |
 | `viewer@gyn.test` | Viewer (read only) |
 
+To try the real-account route locally: copy `deploy/first-admins.env.example` to `first-admins.env`, fill in slot 1, run `npm run db:create-admins`, then delete the file. Accounts are never deleted once they have signed in (the audit log is append-only); deactivate them instead.
+
 Never set `ALLOW_DEMO_ACCOUNTS` on the server. Two-step login is built last, before real data goes in.
 
 ## Every day

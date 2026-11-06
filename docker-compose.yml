@@ -214,6 +214,33 @@ services:
       start_period: 90s
 
   # --------------------------------------------------------------------------
+  # create-admins — one-off, not started by `up`: creates the first real admin accounts from first-admins.env.
+  # Run: docker compose run --rm create-admins   (see deploy/first-admins.env.example; delete the file afterwards)
+  # --------------------------------------------------------------------------
+  create-admins:
+    profiles: ["tools"]
+    image: gyn-worker:latest
+    command: ["node", "--experimental-strip-types", "prisma/create-admins.ts"]
+    env_file:
+      - ./first-admins.env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      NODE_ENV: production
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      - db_net
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: "no"
+
+  # --------------------------------------------------------------------------
   # caddy — HTTPS only (http redirects to https), /media/* static files, body limits, blocks /api/internal/*
   # --------------------------------------------------------------------------
   caddy:

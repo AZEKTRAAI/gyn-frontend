@@ -17,6 +17,7 @@
     "db:migrate": "node --env-file=.env.local ./node_modules/prisma/build/index.js migrate dev",
     "db:deploy": "node --env-file=.env.local ./node_modules/prisma/build/index.js migrate deploy",
     "db:generate": "prisma generate",
+    "db:create-admins": "node --env-file=.env.local --env-file=first-admins.env --experimental-strip-types prisma/create-admins.ts",
     "db:seed": "node --env-file=.env.local --experimental-strip-types prisma/seed.ts",
     "db:test:prepare": "node --env-file=.env.test ./node_modules/prisma/build/index.js migrate deploy",
     "worker": "node --env-file=.env.local --experimental-strip-types worker/index.ts",

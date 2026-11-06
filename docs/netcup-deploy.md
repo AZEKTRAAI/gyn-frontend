@@ -183,7 +183,16 @@ Then load the starting data once (roles, SISM 2026, FMST 2026 and their registra
 docker compose run --rm worker node --experimental-strip-types prisma/seed.ts
 ```
 
-There is no real admin account yet. Creating the first Super Admin from a one-off command is part of the remaining phase 3 work.
+Then create the first real admin accounts. Copy the template, fill in the names, emails and passwords (at least 12 characters), run the command, and delete the file:
+
+```bash
+cp deploy/first-admins.env.example first-admins.env
+nano first-admins.env
+docker compose run --rm create-admins
+rm first-admins.env
+```
+
+It creates Super Administrator accounts by default (or any of the six roles, see the comments in the file), skips accounts that already exist, and never changes an existing password. Sign in at the admin address with the email and password you entered. Two-step login is added before launch.
 
 
 ## Deploying an update

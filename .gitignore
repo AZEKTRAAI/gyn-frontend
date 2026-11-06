@@ -8,6 +8,8 @@ npm-debug.log*
 .env
 .env.local
 .env.*.local
+# first real admin accounts (deploy/first-admins.env.example); delete after use
+first-admins.env
 
 # OS
 .DS_Store

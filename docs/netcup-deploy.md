@@ -154,7 +154,11 @@ Fill in every value. Pay special attention to:
 - `POSTGRES_PASSWORD`: generate with `openssl rand -base64 32`.
 - `DATABASE_URL` and `DIRECT_URL`: replace `REPLACE_WITH_STRONG_PASSWORD` with the same password.
 - `FIELD_ENCRYPTION_KEYS`: generate with `openssl rand -base64 32`, prepend `1:`.
-- `SITE_ADDRESS`: the domain Caddy should handle (e.g. `thegyn.org`).
+- `SITE_ADDRESS`: the domain for the public website (e.g. `thegyn.org`).
+- `ADMIN_ADDRESS`: the domain for the separate admin app (e.g. `admin.thegyn.org`). It needs its own DNS A/AAAA record pointing at the VPS before the first deploy, or Caddy cannot get its certificate. Both sites are https only: Caddy redirects plain http to https and renews the certificates itself.
+- `INTERNAL_API_SECRET`: generate with `openssl rand -base64 32`. The admin uses it to tell the website to refresh pages.
+- `ADMIN_ALLOWED_IPS` (optional): limit the admin to office or staff addresses, e.g. `203.0.113.7 198.51.100.0/24`.
+- Do not set `ALLOW_DEMO_ACCOUNTS` here. It creates six demo admin accounts with a public password.
 - All `STRIPE_*`, `PAYPAL_*`, `SMTP_*`, and `TURNSTILE_*` values from each provider.
 
 Restrict permissions so only the deploy user can read it:
@@ -169,9 +173,17 @@ chmod 600 .env
 ./deploy/deploy.sh
 ```
 
-This builds the images, starts all services, and waits for the app to report healthy.
+This builds the images, starts all services, and waits for the website and the admin to report healthy.
 
 The first run will also run `prisma migrate deploy`, which creates the database schema.
+
+Then load the starting data once (roles, SISM 2026, FMST 2026 and their registration categories). It is safe to run again; it never creates demo accounts in production:
+
+```bash
+docker compose run --rm worker node --experimental-strip-types prisma/seed.ts
+```
+
+There is no real admin account yet. Creating the first Super Admin from a one-off command is part of the remaining phase 3 work.
 
 
 ## Deploying an update
@@ -195,8 +207,8 @@ All services log to stdout; Docker Compose captures them.
 # Follow all services
 docker compose logs -f
 
-# Follow just the app
-docker compose logs -f app
+# Follow just the website (or `admin`, `worker`)
+docker compose logs -f web
 
 # Last 100 lines of the worker
 docker compose logs --tail=100 worker
@@ -209,8 +221,8 @@ docker compose logs --since 2026-11-01T00:00:00
 ## Restarting a service
 
 ```bash
-# Restart just the app without rebuilding
-docker compose restart app
+# Restart just the website without rebuilding (or `admin`, `worker`)
+docker compose restart web
 
 # Restart all services
 docker compose restart
@@ -234,15 +246,15 @@ ls -lh backups/
 2. Restore it (this OVERWRITES the current database):
 
 ```bash
-# Stop the app and worker so they are not writing during the restore
-docker compose stop app worker
+# Stop the website, admin and worker so they are not writing during the restore
+docker compose stop web admin worker
 
 # Drop and recreate the database, then restore
 docker compose exec -T db psql -U gyn -c "DROP DATABASE gyn; CREATE DATABASE gyn;"
 gunzip -c backups/pre-deploy-TIMESTAMP.sql.gz | docker compose exec -T db psql -U gyn -d gyn
 
 # Restart
-docker compose start app worker
+docker compose start web admin worker
 ```
 
 3. Verify: visit the site and check a few pages work correctly.
@@ -276,7 +288,11 @@ docker compose ps
 All services should show "healthy" or "running". The `migrate` service shows "exited (0)" after a successful run, which is correct.
 
 ```bash
-# Quick API health check
+# Quick API health check, website and admin
 curl https://thegyn.org/api/health
+curl https://admin.thegyn.org/api/health
 # Expected: {"ok":true,"db":"up"}
+
+# The internal route must NOT be reachable from outside (expected: 404)
+curl -i -X POST https://thegyn.org/api/internal/revalidate
 ```

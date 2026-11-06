@@ -27,20 +27,28 @@ These are settled with Azam. Change them only if he says so.
 ```
             internet
                |
-            Caddy :443  (HTTPS, gzip, 25 MB body limit, /media/* served from disk)
-               |
-          app (Next.js standalone, node server.js)
-           |        \
-       Postgres    /data/uploads  (volume)
-           |        /
-          worker (same image, `node worker/index.ts`)
-           - email outbox, letter PDFs, payment re-checks,
-             auto-close forms, nightly reconciliation
-          backup (cron: pg_dump + uploads, copied off-server)
+            Caddy :443  (HTTPS only, http redirects; gzip, body limits, /media/* served from disk;
+               |         /api/internal/* answers 404 to the internet)
+        -------+-----------------------
+        |                             |
+  web (public site)            admin (separate app, own subdomain,
+  thegyn.org                    own login, sessions, CSP, container)
+  Next.js standalone :3000      admin.thegyn.org  Next.js standalone :3100
+        |                             |
+        |  <-- POST /api/internal/revalidate (shared secret, private network only) --
+        |                             |
+     Postgres  <----------------------+---- same database, same /data/uploads volume
+        |
+     worker (own image, `node worker/index.ts`)
+      - email outbox, letter PDFs, payment re-checks,
+        auto-close forms, nightly reconciliation
+     backup (cron: pg_dump + uploads, copied off-server)
 ```
 
-- **Route handlers** for the public API (form submit, payment webhooks, file download). **Server actions** for the admin. Every action and handler checks the session and permission itself; `proxy.ts` only redirects to the login page.
-- **One instance.** Next caches to local disk by default, which works for a single `next start` (self-hosting guide). No Redis, no multi-instance cache work.
+- **The admin is a completely separate app** (decision of 6 Nov): its own folder `admin/`, its own container, subdomain, login, cookie, security headers and deploys. A bug or an attack on the public site cannot reach the admin's session, and the admin can be restricted to staff IP addresses at Caddy (`ADMIN_ALLOWED_IPS`). The two apps and the worker share code through the `@gyn/core` workspace package (`packages/core`) and the one database. The admin tells the website to refresh a page after publishing; the website also refreshes every 5 minutes by itself, so a failed call never loses an edit.
+
+- **Route handlers** for the public API (form submit, payment webhooks) in the website. **Server actions** and the document download route in the admin. Every action and handler checks the session and permission itself.
+- **One instance of each app.** Next caches to local disk by default, which works for a single `next start` (self-hosting guide). No Redis, no multi-instance cache work.
 - **Worker** polls an `outbox` style table with `SELECT ... FOR UPDATE SKIP LOCKED`. No queue service. If the worker is down, jobs wait; nothing is lost.
 - **Public vs private files.** Public media (event photos, logos) lives under `/data/uploads/public` and Caddy serves it at `/media/...` with long cache headers. Participant documents (passports, CVs) live under `/data/uploads/private`, never served directly, and only come out through an admin-only route that checks permission, logs the download, and sends `Content-Disposition: attachment`.
 
@@ -194,7 +202,8 @@ SRS 8.3, plus protecting the most sensitive data (passports and personal details
 
 **People and access**
 
-- Every admin account gets **two-step login** (an authenticator app code, TOTP built with Node's crypto, no dependency). Required, not optional.
+- Every admin account gets **two-step login** (an authenticator app code, TOTP built with Node's crypto, no dependency). Required, not optional. **Built last, just before real data and launch** (decision of 6 Nov): until then the admin uses password login with lockout and rate limiting, and the six demo accounts are removed at the same time.
+- **HTTPS only.** Caddy redirects http to https and sets HSTS; the admin session cookie is `Secure` with the `__Host-` prefix, so a browser never sends it over plain http.
 - Login rate limit and lockout, session rotation on login, 8-hour sessions, every session revocable.
 - Least privilege: permissions per action. Exporting data and downloading documents are separate permissions, and **every export and every document download is logged** with who, when and what.
 - The Viewer role sees participant data with sensitive fields hidden.
@@ -243,13 +252,17 @@ So participant uploads need hard limits: 2 MB per file, PDF, JPG and PNG only, i
 **Phase 1 (foundation) is done**, on the `backend` branch (not merged to `master`, so the live Vercel pitch site is untouched). Details and how to run it are in `docs/dev-setup.md`.
 
 - New baseline schema (all models above) and migration, with the database-level rules added by hand: frozen published form versions, frozen letter template versions, append-only audit log, form capacity and money CHECK constraints.
-- `lib/server/crypto.ts` (AES-256-GCM, key rotation, values bound to their record), `lib/server/storage.ts` (random keys, atomic writes, refuses when the disk is nearly full, private files encrypted), `lib/server/jobs.ts` and `worker/` (outbox queue, retries with backoff, stuck-job recovery, graceful shutdown), `/api/health`.
+- `crypto.ts` (AES-256-GCM, key rotation, values bound to their record), `storage.ts` (random keys, atomic writes, refuses when the disk is nearly full, private files encrypted), `jobs.ts` (all in `packages/core/src`) and `worker/` (outbox queue, retries with backoff, stuck-job recovery, graceful shutdown), `/api/health`.
 - Dev Postgres in Docker, seed for SISM 2026 and FMST 2026 with their categories (scholarships `MANUAL_REVIEW`; Forum Access, Self-Funded and Invitation Letter `AUTOMATIC`), 63 unit tests and 20 integration tests.
 - `output: 'standalone'` for the Docker image; production Dockerfile, compose stack, Caddy config and the Netcup runbook (`docs/netcup-deploy.md`). The whole stack was run locally the way it will run on Netcup: migrations applied (30 tables, 3 safety triggers), all containers healthy, real pages served through Caddy, `/admin` locked, `/.env` blocked, a 30 MB upload refused with 413, the worker ran a queued job, the database has no internet access, the worker can reach the internet, and the app restarted itself after its process exited. Two bugs found and fixed in review: the health check used `wget`, which the slim Node image does not have (the stack would never have come up), and the worker was on the no-internet network (it could not have reached email, Stripe or PayPal).
 - Finding from the load test: Prisma gives up after 2 seconds waiting for a database connection, which lost 22 of 300 simultaneous submissions. Fixed with `createPrismaClient` (15 second wait). With it, 300 simultaneous submits finish in about 3 seconds on a 20-connection pool with none lost, and exactly 250 of 300 take the 250 available places.
 - The old fixed-ticket registration flow is switched off when a database is configured; phase 6 replaces it.
 
-Not started: everything from phase 2 on. Phase 2 waits for the Netcup details.
+**Separate admin app is built** (phase 3, first part): `admin/` runs on port 3100 with its own password login (scrypt, 5-failure lockout, per-IP rate limit, hashed server-side sessions, `__Host-` httpOnly cookie in production), a menu that shows only what the role may use, a dashboard with the four revenue cards, the home page editor moved over from the website (publish writes to Postgres, writes the audit log and refreshes the website), and six dummy accounts, one per SRS role (`docs/dev-setup.md`). A 22-check browser test covers the six menus, redirects, lockout, permission enforcement, cookie and header hardening, sign-out and the publish round trip. Docker, Caddy and the runbook now describe two apps.
+
+The Docker stack was run locally in production mode with a browser (website and admin through Caddy on two host names, 22 + 7 checks). It found two bugs that development mode hides, both fixed: the website container's read-only filesystem stopped Next from saving refreshed pages, so a publish in the admin would never have reached the live site; and Caddy sent all of `/media/*` to the uploads folder, which would have broken the website's own built-in photos (hero, speakers, gallery, logos) that also live under `/media/`. Caddy now matches only the random upload file names.
+
+Still to do in phase 3: the first real Super Admin (a one-off command, since demo accounts are refused in production), user and role management screens, audit log viewer, password change and reset, then **two-step login last**. Everything from phase 4 on is not started. Phase 2 (staging) waits for the Netcup details.
 
 ## Build order
 
@@ -257,7 +270,7 @@ Each phase ends working, tested and committed. Sizes are relative (S, M, L).
 
 1. **Foundation (M).** Docker Compose for dev (Postgres) and prod (app, worker, db, Caddy, backup). New baseline Prisma schema. Local storage module. Worker skeleton with the job table. Test setup against a real Postgres in Docker. Seed SISM 2026 and FMST 2026 from `content/events.json` (our own content, not old WordPress data).
 2. **Staging on Netcup (S), as soon as access arrives.** Deploy the skeleton next to WordPress on a test subdomain (for example `new.thegyn.org`), so server problems show up in week one, not at launch. WordPress keeps the main domain until cutover.
-3. **Admin accounts and roles (M).** Login, sessions, users, roles and permissions, audit log, admin shell (sidebar, header, layout). Replaces `ADMIN_BASIC_AUTH`.
+3. **Admin accounts and roles (M).** Login, sessions, users, roles and permissions, audit log, admin shell (sidebar, header, layout). The separate admin app. Replaced `ADMIN_BASIC_AUTH`. Two-step login is not part of this phase; it is built last (see Security).
 4. **Events and categories (M).** Event CRUD, categories and fees, section editor, upcoming and past computed from dates, public event pages and navbar dropdowns from the database, redirects from the old URLs.
 5. **Form engine and builder (L).** Definition format, engine with tests, public renderer (steps, conditions, file uploads), builder with drag and drop, preview, drafts, publishing, versions, forms table, duplicate and archive.
 6. **Registrations (L).** Submit flow, listing, detail view, edit with audit, notes, documents, CSV and Excel export, and the **applications review panel** with accept, waitlist and reject (the decisions and statuses; the email sending comes in phase 8).
@@ -265,9 +278,9 @@ Each phase ends working, tested and committed. Sizes are relative (S, M, L).
 8. **Email and letters (L).** SMTP outbox, email templates, letter templates with rich text and merge fields, PDF generation, the automatic flow for Self-Funded, Forum Access and Invitation Letter, the admin-sent flow for review categories (personalised preview, per-person edits, "send now / send later", bulk send, ready-to-send list), delivery log, resend and regenerate, test with sample data.
 9. **Dashboard and reports (M).** Cards, filters, report pages, Excel, CSV and PDF exports.
 10. **Media, pages, SEO, contact inbox (M).** Media library and galleries, page sections for Home, About, Contact and policies, SEO fields, sitemap, robots, analytics settings.
-11. **Launch (L).** Off-server encrypted backups with WAL shipping and a tested restore, zero-downtime deploys, uptime alerts, error logging, server hardening, the k6 load tests (1,000 registrations in an hour, 50 at once with files) passing on the real server, the security review with its fixes, UAT against SRS section 11, DNS cutover from WordPress, a week of watching.
+11. **Launch (L).** **Two-step login for every admin account, and removal of the demo accounts.** Off-server encrypted backups with WAL shipping and a tested restore, zero-downtime deploys, uptime alerts, error logging, server hardening, the k6 load tests (1,000 registrations in an hour, 50 at once with files) passing on the real server, the security review with its fixes, UAT against SRS section 11, DNS cutover from WordPress, a week of watching.
 
-Built in from phase 1, not bolted on at the end: the outbox table, idempotency keys, field encryption, the audit log, and the two-step login in phase 3.
+Built in from phase 1, not bolted on at the end: the outbox table, idempotency keys, field encryption, the audit log, and nothing else is deferred except two-step login, which goes in at the very end by decision, before real data and launch.
 
 The frontend redesign starts after phase 4, when event data comes from the database.
 

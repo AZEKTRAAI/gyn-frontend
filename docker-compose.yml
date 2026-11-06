@@ -2,8 +2,8 @@
 # Start: docker compose up -d
 # Update: deploy/deploy.sh
 #
-# Services: db, migrate (one-shot), app, worker, caddy.
-# Networks: db_net (internal, no internet routing), web_net (caddy <-> app).
+# Services: db, migrate (one-shot), web (public site), admin (separate admin app), worker, caddy.
+# Networks: db_net (internal, no internet routing), web_net (caddy <-> web/admin).
 # Only caddy publishes ports 80 and 443.
 
 name: gyn
@@ -43,7 +43,7 @@ services:
 
   # --------------------------------------------------------------------------
   # migrate — one-shot: runs prisma migrate deploy, then exits.
-  # app and worker depend on this completing successfully.
+  # web, admin and worker depend on this completing successfully.
   # --------------------------------------------------------------------------
   migrate:
     build:
@@ -60,16 +60,16 @@ services:
     restart: "no"
 
   # --------------------------------------------------------------------------
-  # app — Next.js standalone server (node server.js)
+  # web — public website, Next.js standalone server (node server.js)
   # --------------------------------------------------------------------------
-  app:
+  web:
     build:
       context: .
-      target: runner
+      target: web
       args:
         NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
         NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-    image: gyn-app:latest
+    image: gyn-web:latest
     restart: unless-stopped
     environment:
       DATABASE_URL: ${DATABASE_URL}
@@ -81,8 +81,8 @@ services:
       DB_POOL_MAX: ${DB_POOL_MAX:-10}
       NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
       NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-      # Temporary: the current /admin/home editor is guarded by this until phase 3 adds real admin accounts. Empty locks /admin.
-      ADMIN_BASIC_AUTH: ${ADMIN_BASIC_AUTH:-}
+      # Shared with the admin app: the admin calls /api/internal/* on this container (private network only).
+      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET}
       PITCH_BASIC_AUTH: ${PITCH_BASIC_AUTH:-}
       TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY}
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
@@ -98,11 +98,10 @@ services:
       SMTP_FROM: ${SMTP_FROM}
     volumes:
       - uploads:/data/uploads
-    # read_only root fs: Next.js writes cache to .next/cache; temp files go to /tmp.
-    read_only: true
+    # Not read_only: Next writes regenerated pages into /app/.next/server after the admin publishes (see the Dockerfile).
+    # Still non-root with no capabilities and no privilege escalation. The admin and worker do run read_only.
     tmpfs:
       - /tmp
-      - /app/.next/cache:uid=1001,gid=1001,mode=0750
     security_opt:
       - no-new-privileges:true
     cap_drop:
@@ -116,6 +115,49 @@ services:
     healthcheck:
       # node:22-bookworm-slim has no wget or curl, so the check is a one-line Node script (Node 22 has fetch built in).
       test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  # --------------------------------------------------------------------------
+  # admin — the separate admin app: own subdomain, own login and sessions, own container.
+  # Same database and uploads volume as the website; after publishing it asks web to refresh pages.
+  # --------------------------------------------------------------------------
+  admin:
+    build:
+      context: .
+      target: admin
+    image: gyn-admin:latest
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      NODE_ENV: production
+      STORAGE_DIR: /data/uploads
+      FIELD_ENCRYPTION_KEYS: ${FIELD_ENCRYPTION_KEYS}
+      FIELD_ENCRYPTION_KEY_ID: ${FIELD_ENCRYPTION_KEY_ID}
+      MIN_FREE_BYTES: ${MIN_FREE_BYTES:-524288000}
+      DB_POOL_MAX: ${DB_POOL_MAX:-10}
+      INTERNAL_API_SECRET: ${INTERNAL_API_SECRET}
+      WEB_INTERNAL_URL: http://web:3000
+    volumes:
+      - uploads:/data/uploads
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /app/admin/.next/cache:uid=1001,gid=1001,mode=0750
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    networks:
+      - db_net
+      - web_net
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3100/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 15s
       timeout: 5s
       retries: 3
@@ -172,7 +214,7 @@ services:
       start_period: 90s
 
   # --------------------------------------------------------------------------
-  # caddy — HTTPS termination, /media/* static files, 25 MB body limit
+  # caddy — HTTPS only (http redirects to https), /media/* static files, body limits, blocks /api/internal/*
   # --------------------------------------------------------------------------
   caddy:
     image: caddy:2
@@ -183,6 +225,8 @@ services:
       - "443:443/udp"  # HTTP/3 QUIC
     environment:
       SITE_ADDRESS: ${SITE_ADDRESS}
+      ADMIN_ADDRESS: ${ADMIN_ADDRESS}
+      ADMIN_ALLOWED_IPS: ${ADMIN_ALLOWED_IPS:-0.0.0.0/0 ::/0}
     volumes:
       - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
       # uploads volume mounted read-only; Caddy only serves /srv/uploads/public via /media/*.
@@ -193,7 +237,9 @@ services:
     networks:
       - web_net
     depends_on:
-      app:
+      web:
+        condition: service_healthy
+      admin:
         condition: service_healthy
 
 # --------------------------------------------------------------------------
@@ -210,7 +256,7 @@ volumes:
 # --------------------------------------------------------------------------
 networks:
   db_net:
-    # internal: db, migrate, app, worker connect here. No internet routing.
+    # internal: db, migrate, web, admin, worker connect here. No internet routing.
     internal: true
   web_net:
-    # caddy and app connect here. caddy needs internet access for ACME certificates.
+    # caddy, web and admin connect here. caddy needs internet access for ACME certificates.

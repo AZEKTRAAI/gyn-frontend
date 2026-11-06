@@ -9,14 +9,14 @@
 #   3. git pull.
 #   4. docker compose build.
 #   5. docker compose up -d (rolling restart: existing containers stop, new ones start).
-#   6. Waits for the app healthcheck to pass, then prints status.
+#   6. Waits for the web and admin healthchecks to pass, then prints status.
 #
 # Zero-downtime blue/green is planned for Phase 11.
 # When that arrives, replace step 5 with:
-#   - docker compose up -d --no-recreate --scale app=2
-#   - wait for the new app container to be healthy
+#   - docker compose up -d --no-recreate --scale web=2 (and the same for admin)
+#   - wait for the new container to be healthy
 #   - update Caddy's upstream to point to the new container
-#   - docker compose stop the old app container
+#   - docker compose stop the old container
 
 set -euo pipefail
 
@@ -70,25 +70,26 @@ docker compose build
 echo "Starting services..."
 docker compose up -d
 
-# 6. Wait for the app healthcheck (up to 90 seconds).
-echo "Waiting for app to become healthy..."
-APP_CONTAINER="$(docker compose ps -q app 2>/dev/null | head -1 || echo '')"
-HEALTHY=0
-for i in $(seq 1 45); do
-    STATUS="$(docker inspect --format='{{.State.Health.Status}}' "$APP_CONTAINER" 2>/dev/null || echo 'unknown')"
-    if [[ "$STATUS" == "healthy" ]]; then
-        HEALTHY=1
-        break
+# 6. Wait for the web and admin healthchecks (up to 90 seconds each).
+for SERVICE in web admin; do
+    echo "Waiting for $SERVICE to become healthy..."
+    CONTAINER="$(docker compose ps -q "$SERVICE" 2>/dev/null | head -1 || echo '')"
+    HEALTHY=0
+    for i in $(seq 1 45); do
+        STATUS="$(docker inspect --format='{{.State.Health.Status}}' "$CONTAINER" 2>/dev/null || echo 'unknown')"
+        if [[ "$STATUS" == "healthy" ]]; then
+            HEALTHY=1
+            break
+        fi
+        sleep 2
+    done
+    if [[ $HEALTHY -eq 1 ]]; then
+        echo "$SERVICE is healthy."
+    else
+        echo "WARNING: $SERVICE did not become healthy within 90 seconds." >&2
+        echo "         Check logs: docker compose logs $SERVICE" >&2
     fi
-    sleep 2
 done
-
-if [[ $HEALTHY -eq 1 ]]; then
-    echo "App is healthy."
-else
-    echo "WARNING: app did not become healthy within 90 seconds." >&2
-    echo "         Check logs: docker compose logs app" >&2
-fi
 
 echo ""
 docker compose ps

@@ -1,6 +1,6 @@
-# Build outputs
-.next/
-node_modules/
+# Build outputs (any depth: the admin and packages have their own)
+**/.next/
+**/node_modules/
 
 # Version control
 .git/

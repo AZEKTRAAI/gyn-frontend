@@ -1,0 +1,4 @@
+# The server runs Linux: these must never be checked out with Windows line endings.
+*.sh text eol=lf
+Dockerfile text eol=lf
+Caddyfile text eol=lf

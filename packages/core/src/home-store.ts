@@ -25,10 +25,17 @@ function mergeOverSeed(stored: Partial<Record<string, unknown>>): HomeContent {
 export async function getHome(): Promise<HomeContent> {
   const prisma = getPrisma();
   if (!prisma) return seedContent;
-  const page = await prisma.page.findUnique({
-    where: { slug: SLUG },
-    include: { sections: { orderBy: { sortOrder: "asc" } } },
-  });
+  let page;
+  try {
+    page = await prisma.page.findUnique({
+      where: { slug: SLUG },
+      include: { sections: { orderBy: { sortOrder: "asc" } } },
+    });
+  } catch (err) {
+    // a database outage (or a build machine with no database) shows the seed instead of breaking the public home page
+    console.error("[home] database read failed, using seed", err instanceof Error ? err.message : err);
+    return seedContent;
+  }
   if (!page) return seedContent;
   return mergeOverSeed(Object.fromEntries(page.sections.map((b) => [b.blockType, b.data])));
 }

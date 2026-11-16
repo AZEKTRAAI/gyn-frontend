@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { Anton, Newsreader } from 'next/font/google'
-import dynamic from 'next/dynamic'
+import { Plus_Jakarta_Sans, Inter } from 'next/font/google'
 import './globals.css'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
@@ -8,16 +7,10 @@ import { cms } from '@/lib/cms'
 import { getHome } from '@gyn/core/home-store'
 import { FloatingPill } from '@/components/home/FloatingPill'
 
-// Both are pure enhancement — split into async chunks so they don't block initial parse
-const LenisScroll = dynamic(() =>
-  import('@/components/LenisScroll').then((m) => ({ default: m.LenisScroll })),
-)
-
-// Anton: free condensed gothic standing in for Conthic, headings only (one weight).
-const anton = Anton({ weight: '400', subsets: ['latin'], variable: '--font-heading', display: 'swap' })
-
-// Newsreader: editorial serif for everything else; variable 200 to 800 with optical sizes, upright only.
-const newsreader = Newsreader({ subsets: ['latin'], axes: ['opsz'], variable: '--font-text', display: 'swap' })
+// The site's only two fonts (docs/frontend-design-plan.md): Plus Jakarta Sans for headings, Inter for text.
+// latin-ext covers the accented letters in delegates' names.
+const heading = Plus_Jakarta_Sans({ subsets: ['latin', 'latin-ext'], weight: ['600', '700', '800'], variable: '--font-heading', display: 'swap' })
+const text = Inter({ subsets: ['latin', 'latin-ext'], variable: '--font-text', display: 'swap' })
 
 export const metadata: Metadata = {
   // absolute URLs for OG/Twitter images
@@ -42,7 +35,7 @@ export default async function RootLayout({
   const [sitemap, home] = await Promise.all([cms.getSitemap(), getHome()])
 
   return (
-    <html lang="en" className={`${anton.variable} ${newsreader.variable}`} data-scroll-behavior="smooth">
+    <html lang="en" className={`${heading.variable} ${text.variable}`} data-scroll-behavior="smooth">
       <head>
         {/* Prevent browser scroll restoration on reload — page always starts at the top.
             Must run synchronously before the browser attempts to restore position.
@@ -51,8 +44,9 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body>
-        <LenisScroll />
+      {/* browser extensions (e.g. Grammarly) add attributes to <body> before React loads; ignore those attribute
+          differences here only. Children are still checked. */}
+      <body suppressHydrationWarning>
         <a href="#main" className="sr-only focus:not-sr-only">
           Skip to main content
         </a>

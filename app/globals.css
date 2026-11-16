@@ -7,12 +7,12 @@
   --color-blue-sky: #26BDE2;
   --color-navy-900: #0E1530;
   --color-navy-800: #16204A;
-  --color-navy-700: #202F60;
+  --color-navy-700: #2D3FE0;
   --color-navy-500: #3A4C8C;
   --color-navy-300: #8E9BCB;
   --color-navy-100: #E3E7F4;
-  --color-yellow: #FCC30B;
-  --color-yellow-dk: #D6A200;
+  --color-yellow: #C6F432;
+  --color-yellow-dk: #ADDB1E;
   --color-crimson-600: #C52035;
   --color-crimson-500: #E0334A;
   --color-ember-500: #F2692C;
@@ -35,9 +35,9 @@
   --color-n-900: #141413;
 
   /* === TYPE (Direction I) === */
-  --font-display: var(--font-heading), Impact, sans-serif;
-  --font-body: var(--font-text), Georgia, serif;
-  --font-serif: var(--font-text), Georgia, serif;
+  --font-display: var(--font-heading), system-ui, sans-serif;
+  --font-body: var(--font-text), system-ui, sans-serif;
+  --font-serif: var(--font-text), system-ui, sans-serif;
 
   /* === SPACING SCALE (fluid) === */
   --spacing-gut: clamp(1rem, 4vw, 3.5rem);
@@ -56,15 +56,28 @@
 
 /* === CSS CUSTOM PROPERTIES for non-Tailwind use === */
 :root {
+  /* === 2026-11 SCHEME (docs/frontend-design-plan.md) ===
+     White stage, royal-blue brand, lime for actions only (always ink text on lime: 14:1; lime on white fails, like yellow did).
+     Old token names below point at these, so every page follows a change made here. */
+  --brand: #2D3FE0;        /* white on it 7.2:1 */
+  --brand-dk: #1E2AA8;
+  --brand-tint: #E9ECFD;
+  --action: #C6F432;       /* buttons and the highlight marker only */
+  --action-dk: #ADDB1E;
+  --mist: #F4F6FB;         /* alternate sections */
+  --line: #E3E7F2;
+  --muted: #4B5372;        /* secondary text, 8.1:1 on white */
+  --peach: #FFD9C7;        /* collage stickers */
+  --sky: #26BDE2;
   --blue-deep: #00689D;
   --blue-ocean: #0A97D9;
   --blue-sky: #26BDE2;
   --navy-900: #0E1530;
   --navy-800: #16204A;
-  --navy-700: #202F60;
+  --navy-700: var(--brand);
   --navy-300: #8E9BCB;
-  --yellow: #FCC30B;
-  --yellow-dk: #D6A200;
+  --yellow: var(--action);
+  --yellow-dk: var(--action-dk);
   --white: #FFFFFF;
   --paper: #F7F7F4;
   --n-50: #F7F7F4;
@@ -83,16 +96,16 @@
   --sdg5: #FF3A21;
   --sdg9: #FD6925;
   --sdg13: #3F7E44;
-  /* Anton for headings (free stand-in for Conthic), Newsreader for everything else, no italics */
-  --fd: var(--font-heading), Impact, sans-serif;
-  --fb: var(--font-text), Georgia, serif;
+  /* The only two fonts: Plus Jakarta Sans for headings, Inter for everything else. No italics. */
+  --fd: var(--font-heading), system-ui, sans-serif;
+  --fb: var(--font-text), system-ui, sans-serif;
   --fs: var(--fb);
-  --field: #EEF2F6;
+  --field: var(--mist);
   --ink: #0E1530;
-  --navy: #202F60;
+  --navy: var(--brand);
   --gut: clamp(1rem, 4vw, 3.5rem);
   --sp: clamp(72px, 9vw, 136px);
-  --y: #FCC30B;
+  --y: var(--action);
 }
 
 *, *::before, *::after {
@@ -158,16 +171,56 @@ a { color: inherit; text-decoration: none; }
 
 /* === TYPE SCALE === */
 /* Direction I scale (Apple-style weights and tracking). overflow-wrap stops long words clipping under overflow-x:clip. */
-.d1 { font-family: var(--fd); font-weight: 400; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.04; letter-spacing: 0; overflow-wrap: break-word; text-wrap: balance; }
-.d2 { font-family: var(--fd); font-weight: 400; font-size: clamp(1.875rem, 3.6vw, 3rem); line-height: 1.08; letter-spacing: 0; overflow-wrap: break-word; text-wrap: balance; }
-.d3 { font-family: var(--fd); font-weight: 400; font-size: clamp(1.125rem, 1.8vw, 1.5rem); line-height: 1.2; letter-spacing: 0.01em; overflow-wrap: break-word; }
+.d1 { font-family: var(--fd); font-weight: 800; font-size: clamp(2.4rem, 5.6vw, 4.25rem); line-height: 1.04; letter-spacing: -0.03em; overflow-wrap: break-word; text-wrap: balance; }
+.d2 { font-family: var(--fd); font-weight: 800; font-size: clamp(1.875rem, 3.6vw, 3rem); line-height: 1.08; letter-spacing: -0.025em; overflow-wrap: break-word; text-wrap: balance; }
+.d3 { font-family: var(--fd); font-weight: 700; font-size: clamp(1.125rem, 1.8vw, 1.5rem); line-height: 1.2; letter-spacing: -0.01em; overflow-wrap: break-word; }
 /* the accent word in a headline: same face, upright (no italics anywhere) */
 .accent { font-style: normal; text-decoration: underline var(--y) 0.12em; text-underline-offset: 0.1em; text-decoration-skip-ink: none; }
-/* Anton has one weight and no italic: never fake bold or slanted versions */
+/* never fake bold or slanted versions */
 html { font-synthesis: none; }
-/* every heading is Anton unless a component says otherwise; em/i stay upright */
-h1, h2, h3, h4 { font-family: var(--fd); font-weight: 400; }
+/* every heading uses the heading font; em/i stay upright (no italics anywhere) */
+h1, h2, h3, h4 { font-family: var(--fd); font-weight: 800; letter-spacing: -0.02em; }
 em, i { font-style: normal; }
+
+/* === GLASS === only over colour or photos; frosted glass on plain white is invisible */
+.glass {
+  background: rgba(255, 255, 255, .62);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, .7);
+  box-shadow: 0 10px 30px rgba(14, 21, 48, .10), inset 0 1px 0 rgba(255, 255, 255, .6);
+}
+.glass-dark {
+  background: rgba(14, 21, 48, .42);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, .18);
+  color: #fff;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: rgba(255, 255, 255, .92); }
+  .glass-dark { background: rgba(14, 21, 48, .82); }
+}
+
+/* Cards that sit over smooth colour glows: the glass look without backdrop blur (blurring a smooth gradient changes
+   nothing you can see, and skipping it keeps scrolling smooth on mid-range phones). */
+.glass-lite {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .82), rgba(255, 255, 255, .55));
+  border: 1px solid rgba(255, 255, 255, .85);
+  box-shadow: 0 12px 32px -14px rgba(14, 21, 48, .22), inset 0 1px 0 #fff;
+}
+
+/* === HIGHLIGHT WORD === yellow text on white fails contrast (1.6:1), so the word gets a yellow marker swipe under ink text */
+.hl {
+  color: inherit;
+  background: linear-gradient(var(--y), var(--y)) no-repeat 0 92% / 100% .38em;
+}
+/* on navy, yellow text is fine (7.9:1) */
+.hl-dark { color: var(--y); background: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .hl { animation: hl-swipe .9s .35s cubic-bezier(.2, .8, .2, 1) both; }
+}
+@keyframes hl-swipe { from { background-size: 0% .38em; } }
 
 /* === BUTTONS === */
 .btn {

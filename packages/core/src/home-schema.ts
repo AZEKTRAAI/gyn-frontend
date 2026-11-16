@@ -54,17 +54,43 @@ export const homeSchema = z
         headline: long('Headline', 120, 'Wrap one word in *stars* to highlight it, e.g. "global *stage*." Press Enter for a line break. Shown in capitals.'),
         lead: long('Lead paragraph', 400),
         facts: z
-          .array(z.object({ label: str('Text', 40), hot: z.boolean().meta({ title: 'Yellow highlight' }) }).meta({ title: 'Fact chip' }))
-          .max(6)
-          .meta({ title: 'Fact chips' }),
+          .array(z.object({ label: str('Text', 40) }).meta({ title: 'Fact chip' }))
+          .max(5)
+          .meta({ title: 'Fact chips', description: 'Short facts, e.g. "Ages 17 to 50". They are not buttons, so they are never yellow.' }),
         primaryCta: linkSchema.meta({ title: 'Main button' }),
         secondaryCta: optionalLink,
-        film: z
-          .array(z.object({ image: imageSchema, caption: str('Caption', 40) }).meta({ title: 'Photo' }))
-          .max(12)
-          .meta({ title: 'Film strip photos (scroll under the headline)' }),
+        collage: z
+          .object({
+            photos: z
+              .array(imageSchema)
+              .min(1)
+              .max(3)
+              .meta({ title: 'Photos', description: 'Real GYN photos. The first is the big one. They get torn-paper edges.' }),
+            people: z.array(imageSchema).max(3).meta({ title: 'Round portraits (optional)', description: 'Up to three faces, ideally from different countries.' }),
+            stickers: z.array(str('Sticker', 24)).max(3).meta({ title: 'Sticker labels' }),
+            ribbon: str('Ribbon text', 60, 'Runs across the collage, e.g. "Your first global stage".'),
+          })
+          .meta({ title: 'Collage picture' }),
       })
       .meta({ title: 'Top of the page' }),
+
+    about: z
+      .object({
+        visible,
+        kicker,
+        heading,
+        text: long('Who GYN is', 600),
+        stats: z
+          .array(z.object({ n: str('Number', 12), label: str('Label', 60) }).meta({ title: 'Number' }))
+          .max(4)
+          .meta({ title: 'Numbers (up to four)' }),
+        objectives: z
+          .array(z.object({ title: str('Title', 40), text: str('Text', 200) }).meta({ title: 'Objective' }))
+          .max(5)
+          .meta({ title: 'What GYN does (up to five)' }),
+        cta: optionalLink,
+      })
+      .meta({ title: 'Who we are' }),
 
     strip: z
       .object({
@@ -138,6 +164,8 @@ export const homeSchema = z
                 facts: z.array(z.object({ n: str('Number', 10), label: str('Label', 40) }).meta({ title: 'Fact' })).max(4).meta({ title: 'Facts on the ticket' }),
                 videoUrl: href.meta({ title: 'Video link (YouTube)' }),
                 videoPoster: imageSchema.meta({ title: 'Video poster' }),
+                // default: editions saved before this field existed still load
+                link: z.union([z.literal(''), href]).default('').meta({ title: 'Event page link (optional)' }),
               })
               .meta({ title: 'Edition' }),
           )
@@ -311,7 +339,7 @@ export type HomeContent = z.infer<typeof homeSchema>
 export type HomeSectionKey = keyof HomeContent
 export const HOME_SECTIONS = Object.keys(homeSchema.shape) as HomeSectionKey[]
 
-/** Splits "global *stage*." into plain and italic runs for rendering. */
+/** Splits "global *stage*." into plain and highlighted runs for rendering (`italic` is the highlighted run; nothing is set in italics). */
 export function accentRuns(text: string): { text: string; italic: boolean }[] {
   return text
     .split(/(\*[^*]+\*)/)

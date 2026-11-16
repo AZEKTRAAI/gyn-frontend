@@ -1,0 +1,97 @@
+/* Footer: ink panel with soft brand glows, the columns on a glass sheet, and a giant gradient wordmark as the signature. */
+.footer {
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(56px, 7vw, 96px);
+  border-radius: 40px 40px 0 0;
+  color: rgba(255, 255, 255, .72);
+  background:
+    radial-gradient(40rem 28rem at 10% 0%, rgba(45, 63, 224, .55), transparent 70%),
+    radial-gradient(34rem 26rem at 95% 20%, rgba(38, 189, 226, .28), transparent 70%),
+    radial-gradient(30rem 22rem at 50% 110%, rgba(198, 244, 50, .14), transparent 70%),
+    #0B1128;
+}
+
+.sheet {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  padding: clamp(28px, 4vw, 48px);
+  border-radius: 32px;
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.brand { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+/* the wordmark is navy, so it sits on a white chip on the dark panel */
+.logoChip { display: inline-flex; background: #fff; border-radius: 14px; padding: 8px 14px; }
+.about { font-size: 15px; line-height: 1.6; max-width: 34ch; }
+
+.socials { display: flex; gap: 10px; list-style: none; }
+.social {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  color: #fff; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .14);
+  transition: background-color .2s, color .2s, transform .2s cubic-bezier(.2, .8, .2, 1);
+}
+.social svg { width: 19px; height: 19px; }
+.social:hover { background: var(--action); color: var(--ink); transform: translateY(-2px); }
+.social:focus-visible { outline: 2px solid var(--action); outline-offset: 3px; }
+.socialText { font-size: 12px; font-weight: 700; text-transform: uppercase; }
+
+.colHead {
+  font-family: var(--fb); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: #fff; margin-bottom: 16px;
+}
+.col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.link { font-size: 15px; color: rgba(255, 255, 255, .72); transition: color .15s; }
+.link:hover { color: #fff; }
+.link:focus-visible, .contactLink:focus-visible, .top:focus-visible { outline: 2px solid var(--action); outline-offset: 3px; border-radius: 4px; }
+.contact { font-style: normal; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5; }
+.contactLink { color: var(--action); font-weight: 500; }
+.contactLink:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.bottom {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  padding-block: 22px 0; font-size: 13px; color: rgba(255, 255, 255, .55);
+}
+.top {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px;
+  color: #fff; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .14);
+  transition: background-color .2s;
+}
+.top:hover { background: rgba(255, 255, 255, .16); }
+
+.wordmark {
+  font-family: var(--fd); font-weight: 800; letter-spacing: -.055em; line-height: .78;
+  /* sized so the whole name fits the width of any screen */
+  font-size: clamp(2.2rem, 8.4vw, 8.6rem);
+  text-align: center; white-space: nowrap;
+  margin-top: clamp(28px, 4vw, 48px);
+  /* faded so it reads as texture; the gradient runs through the brand colours */
+  background: linear-gradient(90deg, rgba(198, 244, 50, .9), rgba(38, 189, 226, .9) 50%, rgba(140, 150, 255, .9));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: .22;
+  translate: 0 12%;
+  user-select: none;
+}
+
+.wa {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 50;
+  width: 3.25rem; height: 3.25rem; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: #25D366; color: #fff; box-shadow: 0 2px 12px rgba(0, 0, 0, .25);
+}
+
+@media (max-width: 900px) {
+  .sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .brand { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  .sheet { grid-template-columns: 1fr; }
+  .footer { border-radius: 28px 28px 0 0; }
+}

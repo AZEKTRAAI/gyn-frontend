@@ -10,6 +10,8 @@ import s from './Network.module.css'
 
 interface Props {
   data: HomeContent['network']
+  /** dark: navy band (About page). light: white page with glass cards (home, event pages). */
+  tone?: 'dark' | 'light'
 }
 
 const W = 720, H = 360
@@ -26,7 +28,8 @@ function arcControl(x1: number, y1: number, x2: number, y2: number): [number, nu
   return [mx, my]
 }
 
-export function Network({ data }: Props) {
+export function Network({ data, tone = 'dark' }: Props) {
+  const light = tone === 'light'
   const headingRef = useRef<HTMLHeadingElement>(null)
   const introRef = useRef<HTMLParagraphElement>(null)
   const ambListRef = useRef<HTMLDivElement>(null)
@@ -52,7 +55,7 @@ export function Network({ data }: Props) {
     const { cols, rows, land } = MAP_DATA
     const bytes = Uint8Array.from(atob(land), (ch) => ch.charCodeAt(0))
     const cw = W / cols, ch = H / rows
-    bx.fillStyle = 'rgba(255,255,255,.28)'
+    bx.fillStyle = light ? 'rgba(32,47,96,.22)' : 'rgba(255,255,255,.28)'
     for (let i = 0; i < cols * rows; i++) {
       if ((bytes[i >> 3] >> (7 - (i & 7))) & 1) {
         bx.beginPath()
@@ -61,7 +64,7 @@ export function Network({ data }: Props) {
       }
     }
     baseCanvasRef.current = base
-  }, [])
+  }, [light])
 
   // Draw arcs each frame (animated dashoffset)
   useEffect(() => {
@@ -77,7 +80,7 @@ export function Network({ data }: Props) {
       ctx.lineWidth = 1.5
       ctx.setLineDash([4, 6])
       ctx.lineDashOffset = -off
-      ctx.strokeStyle = 'rgba(252,195,11,.75)'
+      ctx.strokeStyle = light ? 'rgba(32,47,96,.55)' : 'rgba(252,195,11,.75)'
 
       data.people.forEach((p) => {
         if (p.lon === data.hub.lon && p.lat === data.hub.lat) return
@@ -101,7 +104,7 @@ export function Network({ data }: Props) {
     }
 
     return () => cancelAnimationFrame(rafRef.current)
-  }, [data.people, data.hub, hubX, hubY, reduced])
+  }, [data.people, data.hub, hubX, hubY, reduced, light])
 
   // Stop rAF when off-screen
   useEffect(() => {
@@ -181,7 +184,7 @@ export function Network({ data }: Props) {
 
   return (
     <section
-      className={s.section}
+      className={`${s.section} ${light ? s.light : ''}`}
       id="network"
       data-name="Ambassadors in 11 countries"
       aria-labelledby="network-h2"
@@ -192,7 +195,7 @@ export function Network({ data }: Props) {
           <h2 id="network-h2" ref={headingRef} className={s.heading}>
             {headingRuns.map((r, i) =>
               r.italic ? (
-                <em key={i} className={s.accent}>{r.text}</em>
+                <em key={i} className={light ? 'hl' : s.accent}>{r.text}</em>
               ) : (
                 <span key={i}>{r.text}</span>
               ),
@@ -225,7 +228,7 @@ export function Network({ data }: Props) {
               {data.primaryCta.label} <span aria-hidden="true">&#8594;</span>
             </Link>
             {data.secondaryCta.label && (
-              <Link href={data.secondaryCta.href} className="btn btn-ow">
+              <Link href={data.secondaryCta.href} className={light ? 'btn btn-g' : 'btn btn-ow'}>
                 {data.secondaryCta.label}
               </Link>
             )}
@@ -270,7 +273,7 @@ export function Network({ data }: Props) {
           {/* Popup */}
           <div
             ref={popupRef}
-            className={`${s.popup} ${activePin !== null ? s.on : s.hidden}`}
+            className={`${s.popup} ${light ? 'glass' : ''} ${activePin !== null ? s.on : s.hidden}`}
             role="status"
             aria-live="polite"
           >

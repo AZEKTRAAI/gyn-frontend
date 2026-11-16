@@ -5,27 +5,19 @@
   },
   "hero": {
     "headline": "Your first\nglobal *stage*.",
-    "lead": "GYN brings 100 young leaders, students and founders to one summit a year. Workshops, a speaking slot, a certificate, a $1,000 grant to pitch for, and 30 funded seats. Next stop: Kuala Lumpur, 19 to 22 November 2026.",
+    "lead": "Global Youth Network brings students, researchers and young founders from every country to international summits on the Sustainable Development Goals. Every delegate speaks on stage.",
     "facts": [
       {
-        "label": "30 funded seats",
-        "hot": true
+        "label": "Ages 17 to 50"
       },
       {
-        "label": "Confirmed seats from $199",
-        "hot": false
+        "label": "Any field, any country"
       },
       {
-        "label": "Ages 17 to 50",
-        "hot": false
+        "label": "No IELTS needed"
       },
       {
-        "label": "No IELTS needed",
-        "hot": false
-      },
-      {
-        "label": "Any field, any country",
-        "hot": false
+        "label": "A speaking slot in every ticket"
       }
     ],
     "primaryCta": {
@@ -33,53 +25,94 @@
       "href": "/sism-2026"
     },
     "secondaryCta": {
-      "label": "See what you get",
-      "href": "#get"
+      "label": "What is GYN?",
+      "href": "#who"
     },
-    "film": [
-      {
-        "image": {
-          "src": "/media/gallery/fmst-dsc01881-1.webp",
-          "alt": "Delegates at the FutureMinds Summit, Bangkok"
-        },
-        "caption": "Bangkok, July 2026"
-      },
-      {
-        "image": {
+    "collage": {
+      "photos": [
+        {
           "src": "/media/gallery/fmst-dsc02172-1.webp",
-          "alt": "Delegates at the FutureMinds Summit, Bangkok"
+          "alt": "GYN delegates together on the summit floor"
         },
-        "caption": "70 delegates"
+        {
+          "src": "/media/gallery/fmst-dsc03736-1.webp",
+          "alt": "International delegate badges"
+        },
+        {
+          "src": "/media/gallery/fmst-dsc01989-1.webp",
+          "alt": "A speaker presenting the Sustainable Development Goals on stage"
+        }
+      ],
+      "people": [
+        {
+          "src": "/media/ambassadors/yara-shamas.webp",
+          "alt": "Yara Shamas, GYN ambassador, Lebanon"
+        },
+        {
+          "src": "/media/ambassadors/dr-righteous.webp",
+          "alt": "Dr Righteous, GYN ambassador, Nigeria"
+        },
+        {
+          "src": "/media/ambassadors/kritika-ghimire.webp",
+          "alt": "Kritika Ghimire, GYN ambassador, Nepal"
+        }
+      ],
+      "stickers": [
+        "Youth leaders",
+        "Changemakers"
+      ],
+      "ribbon": "Your first global stage"
+    }
+  },
+  "about": {
+    "visible": true,
+    "kicker": "Who we are",
+    "heading": "Connecting youth across *borders*.",
+    "text": "The Global Youth Network is a US-based organisation that connects young people from every part of the world. Through international conferences and leadership programmes, students, professionals and innovators work together on global challenges, with a focus on four SDGs: 4, 5, 9 and 13.",
+    "stats": [
+      {
+        "n": "12",
+        "label": "ambassadors"
       },
       {
-        "image": {
-          "src": "/media/gallery/fmst-dsc01976-1.webp",
-          "alt": "A panel at the FutureMinds Summit"
-        },
-        "caption": "12 speakers"
+        "n": "11",
+        "label": "countries"
       },
       {
-        "image": {
-          "src": "/media/gallery/fmst-dsc02243-1.webp",
-          "alt": "Cultural night at the FutureMinds Summit"
-        },
-        "caption": "Cultural night"
+        "n": "8",
+        "label": "global advisors"
       },
       {
-        "image": {
-          "src": "/media/gallery/fmst-dsc01945-1.webp",
-          "alt": "A workshop at the FutureMinds Summit"
-        },
-        "caption": "Workshops"
-      },
-      {
-        "image": {
-          "src": "/media/gallery/fmst-dsc02120-1.webp",
-          "alt": "Delegates presenting at the FutureMinds Summit"
-        },
-        "caption": "World Got a Problem"
+        "n": "4",
+        "label": "SDGs we work on"
       }
-    ]
+    ],
+    "objectives": [
+      {
+        "title": "Conferences",
+        "text": "International forums, workshops and summits that promote dialogue on the Sustainable Development Goals."
+      },
+      {
+        "title": "Networking",
+        "text": "A collaborative space of mentorship, technical support and resource sharing."
+      },
+      {
+        "title": "Leadership",
+        "text": "A new generation of leaders with the foresight, integrity and skills for measurable impact."
+      },
+      {
+        "title": "Mentoring",
+        "text": "Tailor-made, hands-on mentoring to help young people become effective leaders."
+      },
+      {
+        "title": "Training",
+        "text": "Workshops that build leadership capacity and policy expertise."
+      }
+    ],
+    "cta": {
+      "label": "More about GYN",
+      "href": "/about-us"
+    }
   },
   "strip": {
     "label": "Next summit:",
@@ -132,8 +165,8 @@
   "network": {
     "visible": true,
     "kicker": "GYN global ambassadors",
-    "heading": "Twelve ambassadors. *Eleven* countries. One stage.",
-    "intro": "Every line on this map is a route to Kuala Lumpur. Wherever you are, someone from GYN is near, and they're the first people you meet when you land.",
+    "heading": "Twelve ambassadors. *Eleven* countries.",
+    "intro": "Wherever you are, someone from GYN is near. Ambassadors help applicants from their region, and they are the first people you meet at the summit.",
     "hub": {
       "label": "Kuala Lumpur",
       "lon": 101.7,
@@ -272,8 +305,8 @@
   },
   "past": {
     "visible": true,
-    "kicker": "Our previous summit",
-    "heading": "Bangkok, July 2026. *We were there.*",
+    "kicker": "Where we have been",
+    "heading": "Our past *summits*.",
     "editions": [
       {
         "name": "FutureMinds Summit, edition 01",
@@ -299,10 +332,11 @@
         "videoPoster": {
           "src": "/media/video/Aqqo3cL4W6w.jpg",
           "alt": "FutureMinds Summit 2026, Day 1 highlights"
-        }
+        },
+        "link": "/fms-thailand"
       }
     ],
-    "note": "Edition 02 is Kuala Lumpur. Your ticket is below."
+    "note": ""
   },
   "event": {
     "visible": true,
@@ -563,7 +597,7 @@
     "visible": true,
     "kicker": "The wall",
     "heading": "See it. Then *picture yourself* in it.",
-    "intro": "Pinned up the way delegates keep them. Hover to pick one up.",
+    "intro": "Moments from our summits, as delegates keep them.",
     "items": [
       {
         "image": {
@@ -641,9 +675,9 @@
   },
   "stories": {
     "visible": true,
-    "kicker": "Stories of impact",
+    "kicker": "Voices",
     "heading": "Delegates, in their *own* words.",
-    "intro": "What Bangkok delegates posted afterwards, and what they said on camera.",
+    "intro": "What delegates posted afterwards, and what they said on camera.",
     "quotes": [
       {
         "name": "Delegate name",
@@ -728,8 +762,8 @@
   },
   "closing": {
     "visible": true,
-    "headline": "See you in\n*Kuala Lumpur*.",
-    "text": "Twelve ambassadors in *11 countries*, eight advisors and *70 Bangkok delegates* already carry the GYN badge. The next hundred seats are in Kuala Lumpur.",
+    "headline": "Your first global stage\nis *waiting*.",
+    "text": "Twelve ambassadors in 11 countries, eight advisors and 70 delegates already carry the GYN badge. Apply for the next summit or book a confirmed seat.",
     "primaryCta": {
       "label": "Apply for SISM 2026",
       "href": "/sism-2026"

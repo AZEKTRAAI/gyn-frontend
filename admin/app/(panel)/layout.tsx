@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { can } from '@gyn/core/permissions'
 import { requireSession, signOut } from '@/lib/auth'
@@ -30,9 +31,12 @@ export default async function PanelLayout({ children }: { children: React.ReactN
             <strong>{session.user.name}</strong>
             <span className={styles.role}>{session.roleName}</span>
           </div>
-          <form action={signOutAction}>
-            <button type="submit">Sign out</button>
-          </form>
+          <div className={styles.topActions}>
+            <Link href="/account/password" className={styles.topLink}>Change password</Link>
+            <form action={signOutAction}>
+              <button type="submit">Sign out</button>
+            </form>
+          </div>
         </header>
         <main id="main" className={styles.content}>
           {children}

@@ -23,7 +23,8 @@ export const COOKIE = process.env.NODE_ENV === 'production' ? '__Host-gyn_admin'
 export class PermissionError extends Error {}
 
 export interface AdminSession {
-  user: { id: string; email: string; name: string }
+  sessionId: string
+  user: { id: string; email: string; name: string; mustChangePassword: boolean }
   roleName: string
   permissions: string[]
 }
@@ -100,7 +101,8 @@ export const getSession = cache(async (): Promise<AdminSession | null> => {
   })
   if (!row || row.expiresAt < new Date() || !row.user.active) return null
   return {
-    user: { id: row.user.id, email: row.user.email, name: row.user.name },
+    sessionId: row.id,
+    user: { id: row.user.id, email: row.user.email, name: row.user.name, mustChangePassword: row.user.mustChangePassword },
     roleName: row.user.role.name,
     permissions: row.user.role.permissions,
   }

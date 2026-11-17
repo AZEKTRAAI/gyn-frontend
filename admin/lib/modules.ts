@@ -24,7 +24,7 @@ export const MODULES: AdminModule[] = [
   { slug: 'media', href: '/media-library', label: 'Media', permission: 'media.manage', built: false, phase: 10, about: 'Photos, banners, videos and galleries.' },
   { slug: 'home', href: '/home', label: 'Home page', permission: 'home.edit', built: true },
   { slug: 'pages', href: '/pages', label: 'Pages and SEO', permission: 'pages.manage', built: false, phase: 10, about: 'About, Contact and policy pages, plus SEO settings.' },
-  { slug: 'contact', href: '/contact', label: 'Contact inbox', permission: 'contact.view', built: false, phase: 10, about: 'Messages sent through the website contact form.' },
-  { slug: 'users', href: '/users', label: 'Users and roles', permission: 'users.manage', built: false, phase: 3, about: 'Create admin users, assign roles and edit what each role may do.' },
-  { slug: 'audit', href: '/audit', label: 'Audit log', permission: 'audit.view', built: false, phase: 3, about: 'Who changed what and when.' },
+  { slug: 'contact', href: '/contact', label: 'Contact inbox', permission: 'contact.view', built: true, phase: 10, about: 'Messages sent through the website contact form.' },
+  { slug: 'users', href: '/users', label: 'Users and roles', permission: 'users.manage', built: true, about: 'Create admin users, assign roles and edit what each role may do.' },
+  { slug: 'audit', href: '/audit', label: 'Audit log', permission: 'audit.view', built: true, about: 'Who changed what and when.' },
 ]

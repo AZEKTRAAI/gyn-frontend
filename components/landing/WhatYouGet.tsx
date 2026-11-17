@@ -15,15 +15,13 @@ function Card({ t }: { t: Tile }) {
   )
 }
 
-/** What every delegate leaves with: the photo in the middle, two benefit cards on each side. */
+/** What every delegate leaves with: the photo, and the benefit cards beside it. */
 export function WhatYouGet({ data }: { data: HomeContent['benefits'] }) {
-  const half = Math.ceil(data.tiles.length / 2)
   return (
     <section id="get" className={`${s.section} ${s.glowSection}`} data-name="What you leave with" aria-labelledby="get-h2">
       <div className="wrap">
-        <SectionHead id="get-h2" kicker={data.kicker} heading={data.heading} intro={data.intro} />
+        <SectionHead id="get-h2" heading={data.heading} />
         <div className={s.getGrid}>
-          <ul className={s.getCol}>{data.tiles.slice(0, half).map((t) => <Card key={t.big} t={t} />)}</ul>
           <figure className={s.getPhoto}>
             <Image src={data.photo.src} alt={data.photo.alt} fill sizes="(max-width: 900px) 100vw, 40vw" style={{ objectFit: 'cover' }} />
             <figcaption className={`glass ${s.getCaption}`}>
@@ -31,7 +29,7 @@ export function WhatYouGet({ data }: { data: HomeContent['benefits'] }) {
               <span>{data.photoText}</span>
             </figcaption>
           </figure>
-          <ul className={s.getCol}>{data.tiles.slice(half).map((t) => <Card key={t.big} t={t} />)}</ul>
+          <ul className={s.getCol}>{data.tiles.map((t) => <Card key={t.big} t={t} />)}</ul>
         </div>
       </div>
     </section>

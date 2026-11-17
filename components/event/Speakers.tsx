@@ -5,7 +5,7 @@ import e from './event.module.css'
 
 export function Speakers({ data, glow }: { data: EventPageContent['speakers']; glow: boolean }) {
   return (
-    <EventSection id="speakers" kicker={data.kicker} heading={data.heading} glow={glow}>
+    <EventSection id="speakers" heading={data.heading} glow={glow}>
       <ul className={`${e.cards} ${e.people}`} style={cardRow(data.people.length, 170, 200, 6)}>
         {data.people.map((p) => (
           <li key={p.name} className={`${cardClass(glow)} ${e.person}`}>

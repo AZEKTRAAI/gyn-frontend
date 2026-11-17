@@ -7,7 +7,7 @@ import e from './event.module.css'
 /** Hosts and partners: an optional logo on white, the role, a name and a short text. */
 export function Partners({ data, glow }: { data: EventPageContent['partners']; glow: boolean }) {
   return (
-    <EventSection id="partners" kicker={data.kicker} heading={data.heading} glow={glow}>
+    <EventSection id="partners" heading={data.heading} glow={glow}>
       <ul className={e.cards} style={cardRow(data.items.length, 280, 440, 3)}>
         {data.items.map((p) => (
           <li key={p.name} className={`${cardClass(glow)} ${e.partner}`}>

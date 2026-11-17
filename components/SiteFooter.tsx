@@ -41,6 +41,10 @@ export function SiteFooter({ footer, socials }: Props) {
   const usefulLinks = footer.find((x) => x.heading === 'Useful Links')
   const policies = footer.find((x) => x.heading === 'Policies')
   const contact = footer.find((x) => x.heading === 'Contact Info')
+  // affiliate links are for partners, not visitors: a small line of their own instead of rows in the main list
+  const isAffiliate = (label: string) => /^affiliate/i.test(label)
+  const explore = usefulLinks?.links?.filter((l) => !isAffiliate(l.label)) ?? []
+  const affiliates = usefulLinks?.links?.filter((l) => isAffiliate(l.label)) ?? []
   const copyright = footer.find((x) => x.type === 'copyright')
 
   return (
@@ -68,11 +72,22 @@ export function SiteFooter({ footer, socials }: Props) {
           <nav className={s.col} aria-labelledby="ft-links">
             <h2 id="ft-links" className={s.colHead}>Explore</h2>
             <ul>
-              {usefulLinks?.links?.map((l) => (
+              {explore.map((l) => (
                 <li key={l.href}><Link href={local(l.href)} className={s.link}>{l.label}</Link></li>
               ))}
               <li><Link href="/videos" className={s.link}>Videos</Link></li>
             </ul>
+            {affiliates.length > 0 && (
+              <p className={s.affiliates}>
+                Affiliates:{' '}
+                {affiliates.map((l, i) => (
+                  <span key={l.href}>
+                    {i > 0 && <span aria-hidden="true"> &middot; </span>}
+                    <a href={l.href} className={s.affiliateLink}>{l.label.replace(/^affiliate\s+/i, '')}</a>
+                  </span>
+                ))}
+              </p>
+            )}
           </nav>
 
           <nav className={s.col} aria-labelledby="ft-policies">

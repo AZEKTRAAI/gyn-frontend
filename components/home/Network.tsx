@@ -32,7 +32,6 @@ export function Network({ data, tone = 'dark' }: Props) {
   const light = tone === 'light'
   const headingRef = useRef<HTMLHeadingElement>(null)
   const introRef = useRef<HTMLParagraphElement>(null)
-  const ambListRef = useRef<HTMLDivElement>(null)
   const btnsRef = useRef<HTMLDivElement>(null)
   const mapWrapRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -121,7 +120,7 @@ export function Network({ data, tone = 'dark' }: Props) {
   // Reveal animations
   useEffect(() => {
     const targets: React.RefObject<Element | null>[] = [
-      headingRef, introRef, ambListRef, btnsRef, mapWrapRef,
+      headingRef, introRef, btnsRef, mapWrapRef,
     ]
     const observers: IntersectionObserver[] = []
 
@@ -191,7 +190,6 @@ export function Network({ data, tone = 'dark' }: Props) {
     >
       <div className={`wrap ${s.grid}`}>
         <div>
-          <p className={s.kicker}>{data.kicker}</p>
           <h2 id="network-h2" ref={headingRef} className={s.heading}>
             {headingRuns.map((r, i) =>
               r.italic ? (
@@ -203,35 +201,10 @@ export function Network({ data, tone = 'dark' }: Props) {
           </h2>
           <p ref={introRef} className={s.intro}>{data.intro}</p>
 
-          <div ref={ambListRef} className={s.ambList} aria-label="Ambassadors">
-            {data.people.map((p, i) => (
-              <button
-                key={i}
-                className={`${s.ambChip} ${activePin === i ? s.on : ''}`}
-                onClick={() => handlePinClick(i)}
-                aria-pressed={activePin === i}
-              >
-                <Image
-                  src={p.photo.src}
-                  alt=""
-                  width={26}
-                  height={26}
-                  style={{ borderRadius: '50%', objectFit: 'cover', width: 26, height: 26 }}
-                />
-                {p.name}, {p.country}
-              </button>
-            ))}
-          </div>
-
           <div ref={btnsRef} className={s.btns}>
             <Link href={data.primaryCta.href} className="btn btn-y">
               {data.primaryCta.label} <span aria-hidden="true">&#8594;</span>
             </Link>
-            {data.secondaryCta.label && (
-              <Link href={data.secondaryCta.href} className={light ? 'btn btn-g' : 'btn btn-ow'}>
-                {data.secondaryCta.label}
-              </Link>
-            )}
           </div>
         </div>
 

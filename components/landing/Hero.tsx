@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import type { HomeContent } from '@gyn/core/home-schema'
 import { SdgWheel } from '@/components/SdgWheel'
@@ -10,16 +9,14 @@ import s from './landing.module.css'
  * Home hero: one big royal box filling the screen, the words centred in it,
  * and the photos (events and ambassadors) scattered with torn edges down both sides.
  */
-export function Hero({ hero, strip, ambassadors }: { hero: HomeContent['hero']; strip: HomeContent['strip']; ambassadors: string }) {
-  const { photos, people, stickers, ribbon } = hero.collage
-  // events and faces alternate, so each side gets a mix; slot classes place them (scrap0 = top left, then around)
+export function Hero({ hero, strip }: { hero: HomeContent['hero']; strip: HomeContent['strip'] }) {
+  const { photos, people, stickers } = hero.collage
+  // four photos: events top left and right, two faces between them (slot classes scrap0 to scrap3)
   const scraps = [
     photos[0] && { ...photos[0], kind: 'photo' },
     photos[1] && { ...photos[1], kind: 'photo' },
     people[0] && { ...people[0], kind: 'face' },
     people[1] && { ...people[1], kind: 'face' },
-    photos[2] && { ...photos[2], kind: 'photo' },
-    people[2] && { ...people[2], kind: 'face' },
   ].filter(Boolean) as ScatterItem[]
 
   return (
@@ -50,28 +47,7 @@ export function Hero({ hero, strip, ambassadors }: { hero: HomeContent['hero']; 
               </Link>
             )}
           </div>
-          {hero.facts.length > 0 && (
-            <ul className={s.facts} aria-label="At a glance">
-              {hero.facts.map((f) => <li key={f.label} className="glass-dark">{f.label}</li>)}
-            </ul>
-          )}
-          <p className={s.network}>
-            {people.length > 0 && (
-              <span className={s.faces} aria-hidden="true">
-                {people.map((p) => <Image key={p.src} src={p.src} alt="" width={64} height={64} sizes="32px" />)}
-              </span>
-            )}
-            {ambassadors}
-          </p>
         </div>
-
-        {ribbon && (
-          <div className={s.ribbon} aria-hidden="true">
-            <div className={s.ribbonTrack}>
-              {Array.from({ length: 10 }, (_, i) => <span key={i}>{ribbon}</span>)}
-            </div>
-          </div>
-        )}
       </div>
     </section>
   )

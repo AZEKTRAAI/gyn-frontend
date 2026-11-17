@@ -234,7 +234,6 @@ export function defaultEventContent(kind: EventKind, details: EventDetails): Eve
   const v = (k: EventSectionKey) => shown.has(k);
   // A stand-in until the team uploads real photos.
   const placeholder = { src: "/media/logos/gyn-logo.png", alt: "Global Youth Network" };
-  const none = { kicker: "", heading: "" };
   const cta = kind === "upcoming" ? { label: "Register", href: "#categories" } : { label: "Contact us", href: "/contact-us" };
   const place = [details.venue, details.city].filter(Boolean).join(", ");
   return {
@@ -249,28 +248,26 @@ export function defaultEventContent(kind: EventKind, details: EventDetails): Eve
       secondaryCta: { label: "", href: "/" },
     },
     highlights: { visible: v("highlights"), items: [] },
-    overview: { visible: v("overview"), kicker: "About the event", heading: "About *this event*", text: details.theme, image: placeholder },
-    categories: { visible: v("categories"), kicker: "Registration", heading: "Choose how you *join*", intro: "", note: "" },
-    steps: { visible: v("steps"), kicker: "How to apply", heading: "How to *apply*", items: [] },
-    lists: { visible: v("lists"), kicker: "Eligibility", heading: "Who can *apply*", intro: "", groups: [] },
+    overview: { visible: v("overview"), heading: "About *this event*", text: details.theme, image: placeholder },
+    categories: { visible: v("categories"), heading: "Choose how you *join*", note: "" },
+    steps: { visible: v("steps"), heading: "How to *apply*", items: [] },
+    lists: { visible: v("lists"), heading: "Who can *apply*", groups: [] },
     ambassadors: {
       visible: v("ambassadors"),
-      kicker: "GYN ambassadors",
       heading: "Our *ambassadors*",
       intro: "",
       hub: { label: details.city, lon: 0, lat: 0 },
       people: [],
       primaryCta: { label: "", href: "/" },
-      secondaryCta: { label: "", href: "/" },
     },
-    chapters: { visible: v("chapters"), ...none, items: [] },
-    schedule: { visible: v("schedule"), kicker: "Schedule", heading: "The *programme*", days: [] },
-    speakers: { visible: v("speakers"), kicker: "Speakers", heading: "Our *speakers*", people: [] },
-    partners: { visible: v("partners"), kicker: "Partners", heading: "Our *partners*", items: [] },
-    gallery: { visible: v("gallery"), kicker: "Gallery", heading: "Photos from *the event*", photos: [] },
-    videos: { visible: v("videos"), kicker: "Videos", heading: "Watch *the highlights*", items: [] },
-    stories: { visible: v("stories"), kicker: "Stories", heading: "Delegate *stories*", quotes: [] },
-    faq: { visible: v("faq"), kicker: "Questions", heading: "Frequently asked *questions*", items: [] },
+    chapters: { visible: v("chapters"), heading: "", items: [] },
+    schedule: { visible: v("schedule"), heading: "The *programme*", days: [] },
+    speakers: { visible: v("speakers"), heading: "Our *speakers*", people: [] },
+    partners: { visible: v("partners"), heading: "Our *partners*", items: [] },
+    gallery: { visible: v("gallery"), heading: "Photos from *the event*", photos: [] },
+    videos: { visible: v("videos"), heading: "Watch *the highlights*", items: [] },
+    stories: { visible: v("stories"), heading: "Delegate *stories*", quotes: [] },
+    faq: { visible: v("faq"), heading: "Frequently asked *questions*", items: [] },
     cta: { visible: v("cta"), heading: "Be part of the *next one*", text: "", primaryCta: cta, secondaryCta: { label: "", href: "/" } },
   };
 }

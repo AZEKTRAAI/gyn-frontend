@@ -5,7 +5,7 @@ import e from './event.module.css'
 
 export function Stories({ data, glow }: { data: EventPageContent['stories']; glow: boolean }) {
   return (
-    <EventSection id="stories" kicker={data.kicker} heading={data.heading} glow={glow}>
+    <EventSection id="stories" heading={data.heading} glow={glow}>
       <ul className={e.cards} style={cardRow(data.quotes.length, 280, 400, 3)}>
         {data.quotes.map((q) => (
           <li key={q.name + q.quote.slice(0, 20)} className={`${cardClass(glow)} ${e.quote}`}>

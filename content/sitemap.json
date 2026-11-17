@@ -51,8 +51,12 @@
           "href": "https://thegyn.org/about-us/"
         },
         {
-          "label": "Event",
-          "href": "https://thegyn.org/fms-thailand/"
+          "label": "Upcoming events",
+          "href": "https://thegyn.org/upcoming-events/"
+        },
+        {
+          "label": "Past events",
+          "href": "https://thegyn.org/past-events/"
         },
         {
           "label": "Contact Us",

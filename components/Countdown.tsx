@@ -66,7 +66,7 @@ export function Countdown({ serverNow, target = null }: { serverNow: number; tar
             >
               {u.value}
             </span>
-            <span style={{ fontSize: '0.6875rem', color: 'currentColor', letterSpacing: '0.03em' }}>
+            <span style={{ fontSize: '0.8125rem', color: 'currentColor', letterSpacing: '0.03em' }}>
               {u.label}
             </span>
           </div>

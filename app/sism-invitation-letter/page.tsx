@@ -28,7 +28,6 @@ export default async function InvitationLetterPage() {
       title="*Invitation* letter application"
       lead="Official invitation letter for your Malaysian visa application. Delivered within 48 hours of payment."
       facts={['For SISM 2026', '19–22 Nov, Teedo Hotel, Kuala Lumpur', '$49 USD']}
-      sectionKicker="Get your letter"
       sectionHeading="Request your *letter*"
       includesHeading="What you receive"
       note={<>Passport number is used only to generate the letter and is not stored afterwards.</>}

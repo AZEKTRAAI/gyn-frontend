@@ -15,7 +15,6 @@ const href = z
   .regex(/^(https?:\/\/|mailto:|tel:|\/(?![\/\\])|#)/, 'Links must start with https://, /, #, mailto: or tel:')
 
 const visible = z.boolean().meta({ title: 'Show this section' })
-const kicker = str('Small label above the heading', 60)
 const heading = str('Heading', 120, 'Wrap words in *stars* to highlight them.')
 const optionalLink = linkSchema.meta({ title: 'Second button (leave text empty to hide)' })
 
@@ -27,7 +26,7 @@ export const eventPageSchema = z
 
     hero: z
       .object({
-        kicker,
+        kicker: str('Small label above the headline', 60),
         headline: long('Headline', 120, 'Wrap one word in *stars* to highlight it. Press Enter for a line break.'),
         lead: long('Lead paragraph', 400),
         chips: z.array(z.object({ label: str('Text', 50) }).meta({ title: 'Chip' })).max(5).meta({ title: 'Fact chips', description: 'e.g. dates, city, "70+ delegates".' }),
@@ -45,15 +44,13 @@ export const eventPageSchema = z
       .meta({ title: 'Numbers' }),
 
     overview: z
-      .object({ visible, kicker, heading, text: long('Text', 1500), image: imageSchema.meta({ title: 'Photo next to the text' }) })
+      .object({ visible, heading, text: long('Text', 1500), image: imageSchema.meta({ title: 'Photo next to the text' }) })
       .meta({ title: 'About this event' }),
 
     categories: z
       .object({
         visible,
-        kicker,
         heading,
-        intro: long('Intro', 400),
         note: long('Small print under the cards', 300),
       })
       .meta({ title: 'Registration categories', description: 'The cards themselves (names, fees, open or closed) come from the event\'s registration categories.' }),
@@ -61,7 +58,6 @@ export const eventPageSchema = z
     steps: z
       .object({
         visible,
-        kicker,
         heading,
         items: z.array(z.object({ title: str('Step', 80), text: long('What happens', 300) }).meta({ title: 'Step' })).max(8).meta({ title: 'Steps' }),
       })
@@ -70,9 +66,7 @@ export const eventPageSchema = z
     lists: z
       .object({
         visible,
-        kicker,
         heading,
-        intro: long('Intro', 400),
         groups: z
           .array(
             z
@@ -89,7 +83,6 @@ export const eventPageSchema = z
     chapters: z
       .object({
         visible,
-        kicker,
         heading,
         items: z
           .array(
@@ -110,7 +103,6 @@ export const eventPageSchema = z
     schedule: z
       .object({
         visible,
-        kicker,
         heading,
         days: z
           .array(
@@ -130,7 +122,6 @@ export const eventPageSchema = z
     speakers: z
       .object({
         visible,
-        kicker,
         heading,
         people: z.array(z.object({ name: str('Name', 80), role: str('Role and organisation', 160), photo: imageSchema }).meta({ title: 'Speaker' })).max(40).meta({ title: 'Speakers' }),
       })
@@ -139,7 +130,6 @@ export const eventPageSchema = z
     partners: z
       .object({
         visible,
-        kicker,
         heading,
         items: z
           .array(
@@ -161,7 +151,6 @@ export const eventPageSchema = z
     gallery: z
       .object({
         visible,
-        kicker,
         heading,
         photos: z.array(z.object({ image: imageSchema, caption: str('Caption', 100) }).meta({ title: 'Photo' })).max(40).meta({ title: 'Photos' }),
       })
@@ -170,7 +159,6 @@ export const eventPageSchema = z
     videos: z
       .object({
         visible,
-        kicker,
         heading,
         items: z.array(z.object({ url: href.meta({ title: 'YouTube link' }), title: str('Title', 120), poster: imageSchema }).meta({ title: 'Video' })).max(12).meta({ title: 'Videos' }),
       })
@@ -179,7 +167,6 @@ export const eventPageSchema = z
     stories: z
       .object({
         visible,
-        kicker,
         heading,
         quotes: z
           .array(z.object({ name: str('Name', 80), country: str('Country', 60), quote: long('Quote', 600), photo: imageSchema }).meta({ title: 'Quote' }))
@@ -191,7 +178,6 @@ export const eventPageSchema = z
     faq: z
       .object({
         visible,
-        kicker,
         heading,
         items: z.array(z.object({ q: str('Question', 200), a: long('Answer', 1500) }).meta({ title: 'Question' })).max(30).meta({ title: 'Questions' }),
       })

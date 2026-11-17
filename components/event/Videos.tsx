@@ -11,7 +11,7 @@ const isShort = (url: string) => url.includes('/shorts/')
 export function Videos({ data, glow }: { data: EventPageContent['videos']; glow: boolean }) {
   const sum = data.items.reduce((n, v) => n + (isShort(v.url) ? 9 / 16 : 16 / 9), 0)
   return (
-    <EventSection id="videos" kicker={data.kicker} heading={data.heading} glow={glow}>
+    <EventSection id="videos" heading={data.heading} glow={glow}>
       <ul className={e.reel} style={{ '--sum': sum, '--cnt': data.items.length } as CSSProperties}>
         {data.items.map((v) => (
           <li key={v.url} className={`${e.clip} ${isShort(v.url) ? e.tall : ''}`}>

@@ -28,7 +28,6 @@ export default async function SelfFundedPage() {
       title="Self *Funded* application"
       lead="Confirmed seat with twin-sharing accommodation at Teedo Hotel, Kuala Lumpur."
       facts={['19–22 November 2026', 'Teedo Hotel, Kuala Lumpur', '$399 USD']}
-      sectionKicker="Book your seat"
       sectionHeading="Secure your *place*"
       includesHeading="What is included"
       note={<>Group discounts available. Email{' '}

@@ -22,7 +22,7 @@ export default function RegistrationCancelledPage() {
         <Link href="/sism-2026" className={`btn glass-dark ${p.btnGlass}`}>Back to summit page</Link>
       </PageBox>
 
-      <PageSection id="help" kicker="Need help?" heading="Trouble with your *card*?" glow>
+      <PageSection id="help" heading="Trouble with your *card*?" glow>
         <div className={`glass-lite ${p.card} ${p.narrow}`}>
           <p className={p.body}>
             If you ran into a problem with your card, check that international transactions are enabled and that your account has sufficient funds. Need help? Email{' '}

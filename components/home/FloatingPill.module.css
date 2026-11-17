@@ -1,4 +1,4 @@
-/* Direction J "Echo stack" — floating where-you-are pill, bottom-centre.
+/* Direction J "Echo stack" — floating booking pill, bottom-centre.
    Concept: .bubble in j-echo-stack.html. This is ONLY the compact scrolled version
    (not the full navbar mode — SiteHeader handles that). */
 
@@ -8,13 +8,12 @@
   right: 0;
   margin-inline: auto;
   width: fit-content;
-  max-width: min(calc(100% - 2rem), 70vw);
   bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
   z-index: 60;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 5px;
+  gap: 4px;
+  padding: 4px;
   border-radius: 999px;
   /* glass, like the navbar: photos and colour show through as the page scrolls under it */
   background: rgba(255, 255, 255, .72);
@@ -38,8 +37,8 @@
 
 /* progress ring container */
 .ring {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   flex: none;
   display: grid;
   place-items: center;
@@ -50,49 +49,13 @@
   transition: stroke-dashoffset 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.where {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 10px 0 4px;
-  min-width: 0;
-}
-
-.whereLabel {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--brand);
-  line-height: 1;
-}
-
-.whereName {
-  font-size: 13px;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
-  line-height: 1.25;
-  /* fade-slide in when section changes (key= triggers remount) */
-  animation: wn-in 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
-}
-
-@keyframes wn-in {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-}
-
 .apply {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
   min-height: 40px;
-  padding: 9px 16px;
+  padding: 9px 18px 9px 14px;
   border-radius: 999px;
   background: var(--y, #FCC30B);
   color: var(--ink, #0E1530);
@@ -127,12 +90,5 @@
     margin-inline: 0;
     left: 1rem;
     right: auto;
-    max-width: calc(100vw - 6.5rem);
-  }
-  .whereName {
-    max-width: 110px;
-  }
-  .applyLong {
-    display: none;
   }
 }

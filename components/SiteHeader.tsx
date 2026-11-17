@@ -397,7 +397,7 @@ export function SiteHeader({ nav, book }: Props) {
         }
         .nav-book-pill:hover .nav-book-icon { transform: rotate(-45deg); }
 
-        /* Mobile: compact price pill beside the menu button */
+        /* Mobile: compact "Book · price" pill beside the menu button */
         .nav-m-book {
           display: none;
           background: var(--action);
@@ -405,9 +405,10 @@ export function SiteHeader({ nav, book }: Props) {
           font-size: 0.8125rem;
           font-weight: 700;
           line-height: 1;
-          padding: 0.5rem 1rem;
+          padding: 0.5rem 0.875rem;
           border-radius: 999px;
           min-height: 44px;
+          white-space: nowrap;
           align-items: center;
           justify-content: center;
           transition: background-color 140ms;
@@ -592,7 +593,7 @@ export function SiteHeader({ nav, book }: Props) {
 
             {book && <div className="nav-cta-wrap" style={{ flexShrink: 0 }}>
               <Link href={book.href} className="nav-book-pill">
-                Book Forum Access, {book.fee}
+                Book your seat &middot; {book.fee}
                 <span className="nav-book-icon" aria-hidden="true">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
@@ -604,8 +605,8 @@ export function SiteHeader({ nav, book }: Props) {
             {/* Mobile: compact pill + hamburger */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               {book && (
-                <Link href={book.href} className="nav-m-book" aria-label={`Book Forum Access, ${book.fee}`}>
-                  {book.fee}
+                <Link href={book.href} className="nav-m-book" aria-label={`Book your seat, ${book.fee}`}>
+                  Book &middot; {book.fee}
                 </Link>
               )}
               <button
@@ -671,7 +672,7 @@ export function SiteHeader({ nav, book }: Props) {
               onClick={closeMenu}
               tabIndex={menuOpen ? 0 : -1}
             >
-              Book Forum Access, {book.fee}
+              Book your seat &middot; {book.fee}
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>

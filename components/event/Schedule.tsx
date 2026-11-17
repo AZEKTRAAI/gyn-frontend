@@ -4,7 +4,7 @@ import e from './event.module.css'
 
 export function Schedule({ data, glow }: { data: EventPageContent['schedule']; glow: boolean }) {
   return (
-    <EventSection id="schedule" kicker={data.kicker} heading={data.heading} glow={glow}>
+    <EventSection id="schedule" heading={data.heading} glow={glow}>
       <ol className={e.cards} style={cardRow(data.days.length, 240, 330, 4)}>
         {data.days.map((d) => (
           <li key={d.label + d.date} className={cardClass(glow)}>

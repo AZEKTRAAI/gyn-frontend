@@ -81,9 +81,8 @@
     },
     "overview": {
       "visible": true,
-      "kicker": "About the summit",
       "heading": "Exploring sustainability through *innovative* minds",
-      "text": "FutureMinds Summit Thailand was the first GYN summit: four days at the Le Srivaree Suvarnabhumi Hotel in Bangkok, from 16 to 19 July 2026. Delegates took part in keynotes and policy workshops, built and pitched solutions in the World Got a Problem challenge, joined an AI corner, and closed the summit with a cultural night. The programme delivered organizational and decision-making capability, quantitative research for the SDGs, smart innovation and sustainable industry, and global collaboration and leadership.",
+      "text": "FutureMinds Summit Thailand was the first GYN summit: four days at the Le Srivaree Suvarnabhumi Hotel in Bangkok, 16 to 19 July 2026. Delegates joined keynotes and policy workshops, pitched solutions in the World Got a Problem challenge, explored an AI corner, and closed with a cultural night.",
       "image": {
         "src": "/media/gallery/fmst-dsc01894-1.webp",
         "alt": "Panel session at FutureMinds Summit Thailand 2026"
@@ -91,27 +90,21 @@
     },
     "categories": {
       "visible": false,
-      "kicker": "",
       "heading": "",
-      "intro": "",
       "note": ""
     },
     "steps": {
       "visible": false,
-      "kicker": "",
       "heading": "",
       "items": []
     },
     "lists": {
       "visible": false,
-      "kicker": "",
       "heading": "",
-      "intro": "",
       "groups": []
     },
     "ambassadors": {
-      "visible": true,
-      "kicker": "GYN global ambassadors",
+      "visible": false,
       "heading": "Twelve ambassadors. *Eleven* countries.",
       "intro": "Wherever you are, someone from GYN is near. Ambassadors help applicants from their region, and they are the first people you meet at the summit.",
       "hub": {
@@ -244,15 +237,10 @@
       "primaryCta": {
         "label": "Meet the ambassadors",
         "href": "/about-us"
-      },
-      "secondaryCta": {
-        "label": "Coming as a group?",
-        "href": "mailto:contact@thegyn.org"
       }
     },
     "chapters": {
       "visible": true,
-      "kicker": "Past summit programme",
       "heading": "Programme *chapters*",
       "items": [
         {
@@ -331,7 +319,6 @@
     },
     "schedule": {
       "visible": true,
-      "kicker": "Four days",
       "heading": "Four days *on the ground*",
       "days": [
         {
@@ -378,7 +365,6 @@
     },
     "speakers": {
       "visible": true,
-      "kicker": "The speakers",
       "heading": "12 speakers. *One* summit.",
       "people": [
         {
@@ -481,13 +467,11 @@
     },
     "partners": {
       "visible": false,
-      "kicker": "",
       "heading": "",
       "items": []
     },
     "gallery": {
       "visible": true,
-      "kicker": "Gallery",
       "heading": "A glimpse into *FMST 2026*",
       "photos": [
         {
@@ -578,7 +562,6 @@
     },
     "videos": {
       "visible": true,
-      "kicker": "Highlights",
       "heading": "Bangkok, July 2026. *We were there.*",
       "items": [
         {
@@ -609,13 +592,11 @@
     },
     "stories": {
       "visible": false,
-      "kicker": "",
       "heading": "",
       "quotes": []
     },
     "faq": {
       "visible": false,
-      "kicker": "",
       "heading": "",
       "items": []
     },
@@ -628,7 +609,7 @@
         "href": "/sism-2026"
       },
       "secondaryCta": {
-        "label": "Book Forum Access, $199",
+        "label": "Book your seat, from $199",
         "href": "/sism-forum-access"
       }
     }

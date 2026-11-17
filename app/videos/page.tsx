@@ -57,7 +57,7 @@ export default async function VideosPage() {
         photos={PHOTOS}
       />
 
-      <PageSection id="videos" kicker="All videos" heading="Pick a *video* to play" glow>
+      <PageSection id="videos" heading="Pick a *video* to play" glow>
         {/* VideosClient reads ?v= from the URL, so it renders client-side; the fallback keeps the list in the static HTML */}
         <Suspense
           fallback={

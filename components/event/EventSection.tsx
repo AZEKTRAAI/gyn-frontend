@@ -3,20 +3,18 @@ import { SectionHead } from '@/components/landing/SectionHead'
 import l from '@/components/landing/landing.module.css'
 import e from './event.module.css'
 
-/** The one way every event section opens (small label, heading, intro, all centred), on white or on the soft glow glass needs. */
-export function EventSection({ id, kicker, heading, intro, glow, children }: {
+/** The one way every event section opens (a centred heading), on white or on the soft glow glass needs. */
+export function EventSection({ id, heading, glow, children }: {
   id: string
-  kicker: string
   /** Wrap words in *stars* to highlight them. */
   heading: string
-  intro?: string
   glow: boolean
   children: ReactNode
 }) {
   return (
-    <section id={id} className={`${l.section} ${e.sec} ${glow ? l.glowSection : ''}`} data-name={kicker || heading.replace(/\*/g, '')} aria-labelledby={`${id}-h2`}>
+    <section id={id} className={`${l.section} ${e.sec} ${glow ? l.glowSection : ''}`} data-name={heading.replace(/\*/g, '')} aria-labelledby={`${id}-h2`}>
       <div className="wrap">
-        <SectionHead id={`${id}-h2`} kicker={kicker} heading={heading} intro={intro} />
+        <SectionHead id={`${id}-h2`} heading={heading} />
         {children}
       </div>
     </section>

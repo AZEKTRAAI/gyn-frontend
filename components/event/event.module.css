@@ -34,7 +34,7 @@
 
 /* registration categories */
 .catTop { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; }
-.pill { font-size: 12px; font-weight: 600; letter-spacing: .04em; padding: 4px 10px; border-radius: 999px; background: #fff; color: var(--muted); border: 1px solid var(--line); }
+.pill { font-size: 12.5px; font-weight: 600; letter-spacing: .04em; padding: 4px 10px; border-radius: 999px; background: #fff; color: var(--muted); border: 1px solid var(--line); }
 .pillOpen { background: var(--brand-tint); color: var(--brand); border-color: transparent; }
 .catName { margin-top: 12px; }
 .fee { margin-top: 10px; font-family: var(--fd); font-weight: 800; font-size: clamp(1.9rem, min(3vw, 4.6svh), 2.6rem); letter-spacing: -.045em; line-height: 1; color: var(--ink); }
@@ -50,13 +50,13 @@
 /* chapters and schedule */
 .sessions { margin-top: 12px; list-style: none; display: grid; gap: 8px; text-align: left; }
 .sessions li { font-size: 14px; line-height: 1.45; color: var(--ink); padding-top: 8px; border-top: 1px solid var(--line); }
-.tag { display: inline-block; margin-right: 8px; font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--brand); background: var(--brand-tint); border-radius: 999px; padding: 2px 9px; }
+.tag { display: inline-block; margin-right: 8px; font-size: 12.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--brand); background: var(--brand-tint); border-radius: 999px; padding: 2px 9px; }
 .label { font-size: 12.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--brand); }
 .date { margin-top: 2px; font-size: 14px; color: var(--muted); }
 .day { margin-top: 8px; list-style: none; display: grid; gap: 0; text-align: left; }
-.day li { padding: 5px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.4; color: var(--ink); }
+.day li { padding: 7px 0; border-top: 1px solid var(--line); font-size: 14.5px; line-height: 1.5; color: var(--ink); }
 .day li b { font-weight: 600; }
-.day li span { display: block; color: var(--muted); font-size: 13px; }
+.day li span { display: block; color: var(--muted); font-size: 13.5px; }
 
 /* speakers */
 .person { padding: 10px 10px 16px; }
@@ -69,7 +69,7 @@
 .tile { position: relative; flex: 0 0 calc((100% - 5 * var(--gap)) / 6); aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden; }
 .tile .tileCap { opacity: 0; transition: opacity .2s; }
 .tile:hover .tileCap, .tile:focus-within .tileCap { opacity: 1; }
-.tileCap { position: absolute; left: 8px; bottom: 8px; max-width: calc(100% - 16px); border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tileCap { position: absolute; left: 8px; bottom: 8px; max-width: calc(100% - 16px); border-radius: 999px; padding: 4px 10px; font-size: 12.5px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 @media (max-width: 1000px) { .tile { flex-basis: calc((100% - 3 * var(--gap)) / 4); } }
 @media (max-width: 640px) { .tile { flex-basis: calc((100% - var(--gap)) / 2); } }
 
@@ -88,11 +88,16 @@
 
 /* faq */
 .faq { max-width: 860px; margin-inline: auto; display: grid; gap: 10px; list-style: none; }
-.faq details { border-radius: 20px; padding: 0 clamp(16px, 2vw, 24px); }
+.faq details { border-radius: 20px; padding: 0 clamp(16px, 2vw, 24px); text-align: left; }
 .faq summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; cursor: pointer; list-style: none; font-weight: 600; font-size: 1.02rem; line-height: 1.4; color: var(--ink); border-radius: 12px; }
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary::after { content: "+"; flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; font-size: 1.2rem; line-height: 1; color: var(--brand); background: var(--brand-tint); }
 .faq details[open] summary::after { content: "\2212"; }
+.faqMore { max-width: 860px; margin: 14px auto 0; }
+.faqMore > summary { display: flex; align-items: center; justify-content: center; width: fit-content; min-height: 44px; margin: 0 auto; padding: 0 22px; border-radius: 999px; cursor: pointer; list-style: none; font-weight: 600; font-size: 15px; color: var(--brand); background: var(--brand-tint); }
+.faqMore > summary::-webkit-details-marker { display: none; }
+.faqMore[open] > summary { margin-bottom: 10px; }
+.faqMore[open] .whenClosed, .faqMore:not([open]) .whenOpen { display: none; }
 .answer { padding-bottom: 14px; }
 .answer p { font-size: 15px; line-height: 1.65; color: var(--muted); }
 .answer p + p { margin-top: .7em; }

@@ -5,23 +5,9 @@
   },
   "hero": {
     "headline": "Your first\nglobal *stage*.",
-    "lead": "Global Youth Network brings students, researchers and young founders from every country to international summits on the Sustainable Development Goals. Every delegate speaks on stage.",
-    "facts": [
-      {
-        "label": "Ages 17 to 50"
-      },
-      {
-        "label": "Any field, any country"
-      },
-      {
-        "label": "No IELTS needed"
-      },
-      {
-        "label": "A speaking slot with every place"
-      }
-    ],
+    "lead": "Summits on the Sustainable Development Goals for students, researchers and young founders, where every delegate speaks on stage.",
     "primaryCta": {
-      "label": "Apply for SISM 2026",
+      "label": "Book your seat",
       "href": "/sism-2026"
     },
     "secondaryCta": {
@@ -37,10 +23,6 @@
         {
           "src": "/media/gallery/fmst-dsc03736-1.webp",
           "alt": "International delegate badges"
-        },
-        {
-          "src": "/media/gallery/fmst-dsc01989-1.webp",
-          "alt": "A speaker presenting the Sustainable Development Goals on stage"
         }
       ],
       "people": [
@@ -51,24 +33,18 @@
         {
           "src": "/media/ambassadors/dr-righteous.webp",
           "alt": "Dr Righteous, GYN ambassador, Nigeria"
-        },
-        {
-          "src": "/media/ambassadors/kritika-ghimire.webp",
-          "alt": "Kritika Ghimire, GYN ambassador, Nepal"
         }
       ],
       "stickers": [
         "Youth leaders",
         "Changemakers"
-      ],
-      "ribbon": "Your first global stage"
+      ]
     }
   },
   "about": {
     "visible": true,
-    "kicker": "Who we are",
     "heading": "Connecting youth across *borders*.",
-    "text": "The Global Youth Network is a US-based organisation that connects young people from every part of the world. Through international conferences and leadership programmes, students, professionals and innovators work together on global challenges, with a focus on four SDGs: 4, 5, 9 and 13.",
+    "text": "A US-based organisation that connects young people worldwide through international conferences on four SDGs: 4, 5, 9 and 13.",
     "stats": [
       {
         "n": "12",
@@ -85,28 +61,6 @@
       {
         "n": "4",
         "label": "SDGs we work on"
-      }
-    ],
-    "objectives": [
-      {
-        "title": "Conferences",
-        "text": "International forums, workshops and summits that promote dialogue on the Sustainable Development Goals."
-      },
-      {
-        "title": "Networking",
-        "text": "A collaborative space of mentorship, technical support and resource sharing."
-      },
-      {
-        "title": "Leadership",
-        "text": "A new generation of leaders with the foresight, integrity and skills for measurable impact."
-      },
-      {
-        "title": "Mentoring",
-        "text": "Tailor-made, hands-on mentoring to help young people become effective leaders."
-      },
-      {
-        "title": "Training",
-        "text": "Workshops that build leadership capacity and policy expertise."
       }
     ],
     "cta": {
@@ -126,9 +80,7 @@
   },
   "benefits": {
     "visible": true,
-    "kicker": "What you leave with",
     "heading": "More than *photos*.",
-    "intro": "Every GYN delegate goes home with a stage they spoke on, a certificate, a hundred new contacts and a shot at seed money. Scholars and paid delegates get the same four days.",
     "photo": {
       "src": "/media/gallery/fmst-dsc02243-1.webp",
       "alt": "Delegates at the FutureMinds Summit in Bangkok"
@@ -149,12 +101,6 @@
         "render": "/renders/r3/sdg9-gears-poster.webp"
       },
       {
-        "big": "30",
-        "text": "Funded seats. The top 15 applicants fly free: airfare, visa, hotel and meals.",
-        "sdg": "13",
-        "render": "/renders/r3/sdg13-leaf-poster.webp"
-      },
-      {
         "big": "Certificate",
         "text": "Of participation, from a summit co-hosted by UNU Global Health.",
         "sdg": "5",
@@ -164,7 +110,6 @@
   },
   "network": {
     "visible": true,
-    "kicker": "GYN global ambassadors",
     "heading": "Twelve ambassadors. *Eleven* countries.",
     "intro": "Wherever you are, someone from GYN is near. Ambassadors help applicants from their region, and they are the first people you meet at the summit.",
     "hub": {
@@ -297,15 +242,10 @@
     "primaryCta": {
       "label": "Meet the ambassadors",
       "href": "/about-us"
-    },
-    "secondaryCta": {
-      "label": "Coming as a group?",
-      "href": "mailto:contact@thegyn.org"
     }
   },
   "past": {
     "visible": true,
-    "kicker": "Where we have been",
     "heading": "Our past *summits*.",
     "editions": [
       {
@@ -340,32 +280,17 @@
   },
   "event": {
     "visible": true,
-    "kicker": "Next summit",
     "heading": "Next: *Kuala Lumpur*.",
     "text": "SDG Innovation Summit Malaysia 2026. 19 to 22 November, Teedo Hotel, Kuala Lumpur. Co-hosted by UNU Global Health. Theme: Innovative Ideas for Social Impact.",
     "countdownTo": "2026-11-19T00:00",
     "utcOffset": "+08:00",
     "primaryCta": {
-      "label": "Confirm my seat, $199",
+      "label": "Book your seat",
       "href": "/sism-forum-access"
-    },
-    "secondaryCta": {
-      "label": "All four ways in",
-      "href": "/sism-2026"
-    },
-    "note": "Scholarship applications closed 11 October. Confirmed seats are open: $199 forum access, $399 with hotel, $49 invitation letter.",
-    "seats": {
-      "total": 100,
-      "full": 15,
-      "partial": 15,
-      "fullLabel": "15 fully funded",
-      "partialLabel": "15 partially funded",
-      "restLabel": "70 confirmed seats, from $199"
     }
   },
   "speakers": {
     "visible": true,
-    "kicker": "Speakers at SISM 2026",
     "heading": "Who you'll *learn* from.",
     "intro": "Eight speakers from universities, UN-linked programmes and startups. You sit in their workshops, then present to them.",
     "people": [
@@ -453,7 +378,6 @@
   },
   "programme": {
     "visible": true,
-    "kicker": "The programme",
     "heading": "Four days, *hour by hour*.",
     "days": [
       {
@@ -511,7 +435,6 @@
   },
   "advisors": {
     "visible": true,
-    "kicker": "Global advisory board",
     "heading": "The people *behind* it.",
     "intro": "Eight advisors across China, Palestine, Oman, the US, the UAE, the UK and Canada shape the programme and sit on the selection panel.",
     "cta": {
@@ -593,128 +516,6 @@
       }
     ]
   },
-  "gallery": {
-    "visible": true,
-    "kicker": "The wall",
-    "heading": "See it. Then *picture yourself* in it.",
-    "intro": "Moments from our summits, as delegates keep them.",
-    "items": [
-      {
-        "image": {
-          "src": "/media/video/FwjXKiF4QJ0.jpg",
-          "alt": "FutureMinds Summit Day 2 highlights"
-        },
-        "title": "Day 2 highlights",
-        "caption": "Bangkok, July 2026. Video",
-        "videoUrl": "https://youtu.be/FwjXKiF4QJ0"
-      },
-      {
-        "image": {
-          "src": "/media/gallery/fmst-dsc02172-1.webp",
-          "alt": "Delegates at the FutureMinds Summit"
-        },
-        "title": "Seventy of us",
-        "caption": "Le Srivaree Hotel, Bangkok",
-        "videoUrl": ""
-      },
-      {
-        "image": {
-          "src": "/media/gallery/fmst-dsc01894-1.webp",
-          "alt": "Policy workshop"
-        },
-        "title": "Policy workshop",
-        "caption": "Chapter 2",
-        "videoUrl": ""
-      },
-      {
-        "image": {
-          "src": "/media/gallery/fmst-dsc02159-1.webp",
-          "alt": "World Got a Problem challenge"
-        },
-        "title": "World Got a Problem",
-        "caption": "The delegate-led chapter",
-        "videoUrl": ""
-      },
-      {
-        "image": {
-          "src": "/media/video/TjnrswlwX8k.jpg",
-          "alt": "FutureMinds Summit Day 3 highlights"
-        },
-        "title": "Day 3 highlights",
-        "caption": "Video",
-        "videoUrl": "https://youtu.be/TjnrswlwX8k"
-      },
-      {
-        "image": {
-          "src": "/media/gallery/fmst-dsc03736-1.webp",
-          "alt": "Cultural night"
-        },
-        "title": "Cultural night",
-        "caption": "Certificates and performances",
-        "videoUrl": ""
-      },
-      {
-        "image": {
-          "src": "/media/gallery/fmst-dsc01976-1.webp",
-          "alt": "Keynotes and panels"
-        },
-        "title": "Keynotes and panels",
-        "caption": "12 speakers",
-        "videoUrl": ""
-      },
-      {
-        "image": {
-          "src": "/media/gallery/fmst-dsc01960-1.webp",
-          "alt": "Between sessions"
-        },
-        "title": "Between sessions",
-        "caption": "Bangkok, July 2026",
-        "videoUrl": ""
-      }
-    ]
-  },
-  "stories": {
-    "visible": true,
-    "kicker": "Voices",
-    "heading": "Delegates, in their *own* words.",
-    "intro": "What delegates posted afterwards, and what they said on camera.",
-    "quotes": [
-      {
-        "name": "Delegate name",
-        "status": "FMS Thailand '26, partially funded delegate",
-        "country": "Country",
-        "quote": "Placeholder for a real quote. The SISM page embeds seven LinkedIn posts from Bangkok delegates. Each becomes a card like this one, with the delegate's name, photo, funding status and the first lines of their post, once they've given permission.",
-        "photo": {
-          "src": "/media/gallery/fmst-dsc01881-1.webp",
-          "alt": ""
-        },
-        "link": "https://thegyn.org/sism-2026/"
-      }
-    ],
-    "videos": [
-      {
-        "url": "https://youtube.com/shorts/cO1D5dJFops",
-        "poster": {
-          "src": "/media/video/cO1D5dJFops.jpg",
-          "alt": "Delegate testimonial"
-        }
-      },
-      {
-        "url": "https://youtube.com/shorts/eeFq13x-_rQ",
-        "poster": {
-          "src": "/media/video/eeFq13x-_rQ.jpg",
-          "alt": "Delegate testimonial"
-        }
-      },
-      {
-        "url": "https://youtube.com/shorts/-UwHA0DhXkA",
-        "poster": {
-          "src": "/media/video/-UwHA0DhXkA.jpg",
-          "alt": "Delegate testimonial"
-        }
-      }
-    ]
-  },
   "partners": {
     "visible": true,
     "cohost": {
@@ -763,9 +564,9 @@
   "closing": {
     "visible": true,
     "headline": "Your first global stage\nis *waiting*.",
-    "text": "Twelve ambassadors in 11 countries, eight advisors and 70 delegates already carry the GYN badge. Apply for the next summit or book a confirmed seat.",
+    "text": "Join the delegates who already carry the GYN badge.",
     "primaryCta": {
-      "label": "Apply for SISM 2026",
+      "label": "Book your seat",
       "href": "/sism-2026"
     },
     "secondaryCta": {

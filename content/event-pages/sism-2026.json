@@ -51,7 +51,7 @@
         }
       ],
       "primaryCta": {
-        "label": "Book Forum Access, $199",
+        "label": "Book your seat, from $199",
         "href": "/sism-forum-access"
       },
       "secondaryCta": {
@@ -82,49 +82,26 @@
     },
     "overview": {
       "visible": true,
-      "kicker": "About the summit",
       "heading": "What is the SDG *Innovation* Summit 2026?",
-      "text": "The SDG Innovation Summit Malaysia 2026 is a premier international youth summit designed to bring together 100 young leaders, innovators, students, entrepreneurs, professionals, researchers, and changemakers from around the world to explore innovative ideas, foster meaningful collaboration, and create sustainable impact in support of the United Nations Sustainable Development Goals (SDGs). Following the success of our international summit in Bangkok, Thailand, the summit continues in Kuala Lumpur, Malaysia. Through keynote addresses, high-level panel discussions, leadership workshops, innovation labs, strategic networking, and cultural exchange activities, delegates will gain valuable knowledge, practical skills, global perspectives, and meaningful international connections. Participants also compete for a $1,000 Seed Grant to support innovative projects and social impact initiatives, whether at the conceptual stage, in the pilot phase, under implementation or fully realized.\n\nDelegates present innovative ideas aligned with four focus SDGs: SDG 4 Quality Education, SDG 5 Gender Equality, SDG 9 Industry, Innovation and Infrastructure, and SDG 13 Climate Action.",
+      "text": "The SDG Innovation Summit Malaysia brings together 100 young leaders, innovators and changemakers in Kuala Lumpur, 19 to 22 November 2026, co-hosted by UNU Global Health.\n\nDelegates work on SDGs 4, 5, 9 and 13 through keynotes, workshops and innovation labs, and compete for a $1,000 seed grant for their project.",
       "image": {
-        "src": "/renders/r3/kl-towers.webp",
-        "alt": "Petronas Twin Towers, Kuala Lumpur"
+        "src": "/media/gallery/fmst-dsc01989-1.webp",
+        "alt": "A speaker at the FutureMinds Summit Thailand in Bangkok, with the four focus SDGs on the banner beside the stage"
       }
     },
     "categories": {
       "visible": true,
-      "kicker": "Ways to join",
       "heading": "Attend *SISM 2026*",
-      "intro": "100 seats, 30 of them scholarships. Scholarship applications closed on 11 October. Forum Access, Self-Funded and Invitation Letter registration are open.",
       "note": "Group discounts are available for group enrolments. Email contact@thegyn.org."
     },
     "steps": {
-      "visible": true,
-      "kicker": "Application",
-      "heading": "How to *apply*",
-      "items": [
-        {
-          "title": "Choose Your Category",
-          "text": "Select Fully Funded, Partially Funded, Forum Access, or Self-Funded"
-        },
-        {
-          "title": "Complete Application",
-          "text": "Double-check that you have answered every question thoroughly"
-        },
-        {
-          "title": "Pay Application Fee",
-          "text": "$18.50 for scholarship categories, $199/$399 for forum access/self-funded."
-        },
-        {
-          "title": "Submit Application",
-          "text": "Review and submit your application after the application fee."
-        }
-      ]
+      "visible": false,
+      "heading": "",
+      "items": []
     },
     "lists": {
       "visible": true,
-      "kicker": "Requirements",
       "heading": "Who can *apply*",
-      "intro": "Scholarship applications closed on 11 October 2026. Results were announced on 16 October 2026.",
       "groups": [
         {
           "title": "Eligibility",
@@ -150,7 +127,6 @@
     },
     "ambassadors": {
       "visible": false,
-      "kicker": "GYN global ambassadors",
       "heading": "Twelve ambassadors. *Eleven* countries.",
       "intro": "Wherever you are, someone from GYN is near. Ambassadors help applicants from their region, and they are the first people you meet at the summit.",
       "hub": {
@@ -283,21 +259,15 @@
       "primaryCta": {
         "label": "Meet the ambassadors",
         "href": "/about-us"
-      },
-      "secondaryCta": {
-        "label": "Coming as a group?",
-        "href": "mailto:contact@thegyn.org"
       }
     },
     "chapters": {
       "visible": false,
-      "kicker": "",
       "heading": "",
       "items": []
     },
     "schedule": {
       "visible": true,
-      "kicker": "Schedule",
       "heading": "4-day *programme*",
       "days": [
         {
@@ -436,7 +406,6 @@
     },
     "speakers": {
       "visible": true,
-      "kicker": "Confirmed speakers",
       "heading": "Speakers at *SISM 2026*",
       "people": [
         {
@@ -507,13 +476,12 @@
     },
     "partners": {
       "visible": true,
-      "kicker": "Partners",
       "heading": "Co-host and *institutional visit*",
       "items": [
         {
           "name": "UNU Global Health",
           "role": "Co-host",
-          "text": "The Global Youth Network (GYN) organizes the SDG Innovation Summit Malaysia, co-hosted by the United Nations University International Institute for Global Health, Malaysia. Participants will have an opportunity to engage with UNU Global Health representatives and UNU Young Leaders during the summit. The institute operates in Kuala Lumpur as a global research think tank focusing on health equity and sustainable development.",
+          "text": "GYN organizes the summit with the United Nations University International Institute for Global Health, Malaysia, a Kuala Lumpur research think tank on health equity and sustainable development. Delegates will meet UNU Global Health representatives and UNU Young Leaders.",
           "logo": [
             {
               "src": "/media/logos/unu-global-health-logo.png",
@@ -528,7 +496,7 @@
         {
           "name": "Asia Pacific University (APU)",
           "role": "Institutional visit",
-          "text": "Experience an exclusive institutional visit to Asia Pacific University (APU), one of Malaysia's leading universities. Explore its academic environment and global learning community while connecting with fellow international delegates. Delegates will also explore Petaling Street (Chinatown), GMBB KL, Petronas Twin Towers, KLCC Park and many other spots.",
+          "text": "An exclusive institutional visit to Asia Pacific University (APU), one of Malaysia's leading universities, to explore its academic environment and meet fellow delegates. Delegates also see Petaling Street (Chinatown), GMBB KL, the Petronas Twin Towers and KLCC Park.",
           "logo": [
             {
               "src": "/media/venue/apu-asia-pacific-university.webp",
@@ -544,13 +512,11 @@
     },
     "gallery": {
       "visible": false,
-      "kicker": "",
       "heading": "",
       "photos": []
     },
     "videos": {
       "visible": true,
-      "kicker": "Testimonials",
       "heading": "Hear from *past delegates*",
       "items": [
         {
@@ -613,13 +579,11 @@
     },
     "stories": {
       "visible": false,
-      "kicker": "",
       "heading": "",
       "quotes": []
     },
     "faq": {
       "visible": true,
-      "kicker": "Questions",
       "heading": "Frequently asked *questions*",
       "items": [
         {
@@ -673,7 +637,7 @@
       "heading": "Join us in *Kuala Lumpur*",
       "text": "19–22 November 2026. 100 seats. Forum Access from $199.",
       "primaryCta": {
-        "label": "Book Forum Access, $199",
+        "label": "Book your seat, from $199",
         "href": "/sism-forum-access"
       },
       "secondaryCta": {

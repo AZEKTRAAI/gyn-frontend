@@ -11,16 +11,14 @@ interface Props {
 }
 
 /**
- * Fixed "where you are" pill at bottom-centre.
- * Hidden until the user scrolls past the hero; springs in/out.
- * Tracks section[data-name] via IntersectionObserver (rootMargin -45%/-50%).
- * Shows a progress ring (SVG) indicating how far down the page the user is.
- * Squishes slightly on fast scroll. Respects reduced motion.
+ * Compact booking pill, fixed at bottom-centre: a progress ring (how far down the page you are) and the "Book your seat" button.
+ * Hidden until the user scrolls past the hero, and again while the footer is in view so it never covers footer links.
+ * Springs in/out, squishes slightly on fast scroll. Respects reduced motion.
  */
 export function FloatingPill({ apply }: Props) {
   const pathname = usePathname()
   const [visible, setVisible] = useState(false)
-  const [sectionName, setSectionName] = useState('Your first global stage')
+  const [footerInView, setFooterInView] = useState(false)
   const [squish, setSquish] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const squishTimer = useRef<ReturnType<typeof setTimeout>>(null)
@@ -58,46 +56,32 @@ export function FloatingPill({ apply }: Props) {
     }
   }, [])
 
-  // IntersectionObserver: track which section is centred in the viewport
+  // hide over the footer; re-find it on every page change
   useEffect(() => {
-    const sections = document.querySelectorAll<HTMLElement>('section[data-name]')
-    if (!sections.length) return
-
-    const obs = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            const name = (e.target as HTMLElement).dataset.name
-            if (name) setSectionName(name)
-          }
-        }
-      },
-      { rootMargin: '-45% 0px -50% 0px', threshold: 0 },
-    )
-
-    sections.forEach((sec) => obs.observe(sec))
+    const footer = document.querySelector('footer')
+    if (!footer) return
+    const obs = new IntersectionObserver(([e]) => setFooterInView(e.isIntersecting), { threshold: 0 })
+    obs.observe(footer)
     return () => obs.disconnect()
-    // re-scan sections on every page change
   }, [pathname])
 
   // the admin, the pitch page and booking forms have their own calls to action
   if (/^\/(admin|pitch|sism-(forum-access|self-funded|invitation-letter))/.test(pathname)) return null
 
-  const classes = [s.pill, !visible ? s.hidden : '', squish ? s.squish : ''].filter(Boolean).join(' ')
+  const hidden = !visible || footerInView
+  const classes = [s.pill, hidden ? s.hidden : '', squish ? s.squish : ''].filter(Boolean).join(' ')
 
   // SVG progress ring: r=13, circumference = 2π×13 ≈ 81.68
   const r = 13
   const circ = 2 * Math.PI * r
   const offset = circ * (1 - scrollProgress)
 
-  // Fix for the label split: strip leading "Apply" and its trailing space, then prepend a space
-  const applyRest = apply.label.replace(/^Apply\s*/i, '').trim()
-
   return (
-    <nav className={classes} aria-label="Section navigation">
+    // inert keeps the hidden pill out of the tab order
+    <div className={classes} inert={hidden}>
       {/* Progress ring replaces squashed logo; shows how far down the page you are */}
       <span className={s.ring} aria-hidden="true">
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
           {/* track */}
           <circle cx="18" cy="18" r={r} stroke="#D3DAE6" strokeWidth="2.5" fill="none" />
           {/* progress arc: starts from top (-90deg rotation) */}
@@ -130,20 +114,12 @@ export function FloatingPill({ apply }: Props) {
         </svg>
       </span>
 
-      <div className={s.where} aria-live="polite" aria-atomic="true">
-        <small className={s.whereLabel}>You&apos;re at</small>
-        {/* key triggers CSS fade-in when section changes */}
-        <b className={s.whereName} key={sectionName}>{sectionName}</b>
-      </div>
-
       <Link href={apply.href} className={s.apply}>
-        Apply
-        {/* clean split: no double/missing space */}
-        <span className={s.applyLong}>{applyRest ? ' ' + applyRest : ''}</span>
+        Book your seat
         <svg className={s.applyArrow} aria-hidden="true" width="13" height="13" viewBox="0 0 13 13" fill="none">
           <path d="M2 6.5h9M7 2.5l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </Link>
-    </nav>
+    </div>
   )
 }

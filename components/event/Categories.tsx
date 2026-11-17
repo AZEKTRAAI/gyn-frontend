@@ -35,7 +35,7 @@ export function Categories({ data, categories, glow, eventSlug, timeZone, now }:
   now: number
 }) {
   return (
-    <EventSection id="categories" kicker={data.kicker} heading={data.heading} intro={data.intro} glow={glow}>
+    <EventSection id="categories" heading={data.heading} glow={glow}>
       <ul className={`${e.cards} ${e.catRow}`} style={cardRow(categories.length, 200, 300, 5)}>
         {categories.map((c) => {
           const href = eventSlug === SISM ? REGISTER[c.slug] : undefined

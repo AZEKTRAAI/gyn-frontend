@@ -28,7 +28,6 @@ export default async function ForumAccessPage() {
       title="Forum *Access* application"
       lead="Confirmed seat at SISM 2026. No selection process: pay and your place is secured."
       facts={['19–22 November 2026', 'Kuala Lumpur, Malaysia', '$199 USD']}
-      sectionKicker="Book your seat"
       sectionHeading="Secure your *place*"
       includesHeading="What is included"
       note={<>Group discounts available. Email{' '}

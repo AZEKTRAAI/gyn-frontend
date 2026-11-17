@@ -9,7 +9,7 @@ export function PastEvents({ data }: { data: HomeContent['past'] }) {
   return (
     <section id="past" className={s.section} data-name="Past summits" aria-labelledby="past-h2">
       <div className="wrap">
-        <SectionHead id="past-h2" kicker={data.kicker} heading={data.heading} />
+        <SectionHead id="past-h2" heading={data.heading} />
 
         <ul className={s.tickets}>
           {data.editions.map((ed) => (

@@ -5,7 +5,7 @@ import e from './event.module.css'
 /** Programme chapters of a past summit, with their sessions. */
 export function Chapters({ data, glow }: { data: EventPageContent['chapters']; glow: boolean }) {
   return (
-    <EventSection id="chapters" kicker={data.kicker} heading={data.heading} glow={glow}>
+    <EventSection id="chapters" heading={data.heading} glow={glow}>
       <ul className={e.cards} style={cardRow(data.items.length, 380, 600, 2)}>
         {data.items.map((c) => (
           <li key={c.label + c.title} className={cardClass(glow)}>

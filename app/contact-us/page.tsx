@@ -41,7 +41,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
         lead="Have a question, a partnership idea, or want to book for a group? We would love to hear from you."
       />
 
-      <PageSection id="contact-details" kicker="Contact details" heading="Four ways to *reach* us">
+      <PageSection id="contact-details" heading="Four ways to *reach* us">
         <div className={styles.stage}>
           <ul className={styles.tiles}>
             <li className="glass">
@@ -74,7 +74,7 @@ export default async function ContactUsPage({ searchParams }: PageProps) {
         </div>
       </PageSection>
 
-      <PageSection id="contact-form" kicker="Contact form" heading="Send a *message*" glow>
+      <PageSection id="contact-form" heading="Send a *message*" glow>
         <div className={`glass-lite ${styles.formCard}`}>
           <ContactForm defaultTopic={topic} />
         </div>

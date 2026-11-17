@@ -5,7 +5,7 @@ import e from './event.module.css'
 
 export function Gallery({ data, glow }: { data: EventPageContent['gallery']; glow: boolean }) {
   return (
-    <EventSection id="gallery" kicker={data.kicker} heading={data.heading} glow={glow}>
+    <EventSection id="gallery" heading={data.heading} glow={glow}>
       <ul className={e.wall}>
         {data.photos.map((p) => (
           <li key={p.image.src} className={e.tile}>

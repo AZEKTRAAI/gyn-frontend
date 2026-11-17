@@ -12,7 +12,7 @@
 .body { display: flex; flex: 1; flex-direction: column; align-items: center; gap: 6px; padding: clamp(14px, 2.2svh, 22px) clamp(16px, 1.6vw, 22px) clamp(16px, 2.4svh, 24px); text-align: center; }
 
 .pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
-.pill { font-size: 12px; font-weight: 600; letter-spacing: .04em; padding: 4px 10px; border-radius: 999px; background: #fff; color: var(--muted); border: 1px solid var(--line); }
+.pill { font-size: 12.5px; font-weight: 600; letter-spacing: .04em; padding: 4px 10px; border-radius: 999px; background: #fff; color: var(--muted); border: 1px solid var(--line); }
 .pillOpen { background: var(--brand-tint); color: var(--brand); border-color: transparent; }
 
 .name { font-size: clamp(1.1rem, 1.5vw, 1.3rem); line-height: 1.2; letter-spacing: -.03em; color: var(--ink); text-wrap: balance; }
@@ -29,3 +29,5 @@
 .empty p { font-size: clamp(1rem, 1.2vw, 1.1rem); line-height: 1.6; color: var(--muted); text-wrap: pretty; }
 .link { display: inline-block; margin-top: 14px; font-weight: 600; color: var(--brand); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
 .link:hover { color: var(--brand-dk); }
+.other { margin-top: 20px; text-align: center; }
+.other .link { margin-top: 0; padding: 10px 6px; }

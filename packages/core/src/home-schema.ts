@@ -35,7 +35,6 @@ export const linkSchema = z
 
 const optionalLink = linkSchema.meta({ title: 'Second button (leave text empty to hide)' })
 const visible = z.boolean().meta({ title: 'Show this section' })
-const kicker = str('Small label above the heading', 60)
 const heading = str('Heading', 120, 'Wrap words in *stars* to highlight them.')
 
 export const SDG_GOALS = ['4', '5', '9', '13'] as const
@@ -53,10 +52,6 @@ export const homeSchema = z
       .object({
         headline: long('Headline', 120, 'Wrap one word in *stars* to highlight it, e.g. "global *stage*." Press Enter for a line break. Shown in capitals.'),
         lead: long('Lead paragraph', 400),
-        facts: z
-          .array(z.object({ label: str('Text', 40) }).meta({ title: 'Fact chip' }))
-          .max(5)
-          .meta({ title: 'Fact chips', description: 'Short facts, e.g. "Ages 17 to 50". They are not buttons, so they are never yellow.' }),
         primaryCta: linkSchema.meta({ title: 'Main button' }),
         secondaryCta: optionalLink,
         collage: z
@@ -65,10 +60,9 @@ export const homeSchema = z
               .array(imageSchema)
               .min(1)
               .max(3)
-              .meta({ title: 'Photos', description: 'Real GYN photos. The first is the big one. They get torn-paper edges.' }),
-            people: z.array(imageSchema).max(3).meta({ title: 'Round portraits (optional)', description: 'Up to three faces, ideally from different countries.' }),
+              .meta({ title: 'Photos', description: 'Real GYN photos. Only the first two are shown, top left and top right, with torn-paper edges.' }),
+            people: z.array(imageSchema).max(3).meta({ title: 'Portraits (optional)', description: 'Only the first two are shown, ideally faces from different countries.' }),
             stickers: z.array(str('Sticker', 24)).max(3).meta({ title: 'Sticker labels' }),
-            ribbon: str('Ribbon text', 60, 'Runs across the collage, e.g. "Your first global stage".'),
           })
           .meta({ title: 'Collage picture' }),
       })
@@ -77,17 +71,12 @@ export const homeSchema = z
     about: z
       .object({
         visible,
-        kicker,
         heading,
         text: long('Who GYN is', 600),
         stats: z
           .array(z.object({ n: str('Number', 12), label: str('Label', 60) }).meta({ title: 'Number' }))
           .max(4)
           .meta({ title: 'Numbers (up to four)' }),
-        objectives: z
-          .array(z.object({ title: str('Title', 40), text: str('Text', 200) }).meta({ title: 'Objective' }))
-          .max(5)
-          .meta({ title: 'What GYN does (up to five)' }),
         cta: optionalLink,
       })
       .meta({ title: 'Who we are' }),
@@ -105,9 +94,7 @@ export const homeSchema = z
     benefits: z
       .object({
         visible,
-        kicker,
         heading,
-        intro: long('Intro', 400),
         photo: imageSchema.meta({ title: 'Big photo tile' }),
         photoBig: str('Big number on the photo', 20),
         photoText: str('Text on the photo', 160),
@@ -125,14 +112,13 @@ export const homeSchema = z
               .meta({ title: 'Tile' }),
           )
           .max(4)
-          .meta({ title: 'Colour tiles (four)' }),
+          .meta({ title: 'Colour tiles (three or four)' }),
       })
       .meta({ title: 'What you leave with' }),
 
     network: z
       .object({
         visible,
-        kicker,
         heading,
         intro: long('Intro', 400),
         hub: z.object({ label: str('Destination city', 60), lon, lat }).meta({ title: 'Where the routes go' }),
@@ -143,14 +129,12 @@ export const homeSchema = z
           .max(40)
           .meta({ title: 'Ambassadors (one pin each)' }),
         primaryCta: linkSchema.meta({ title: 'Main button' }),
-        secondaryCta: optionalLink,
       })
       .meta({ title: 'Ambassadors map' }),
 
     past: z
       .object({
         visible,
-        kicker,
         heading,
         editions: z
           .array(
@@ -178,7 +162,6 @@ export const homeSchema = z
     event: z
       .object({
         visible,
-        kicker,
         heading,
         text: long('Text', 400),
         countdownTo: z
@@ -186,25 +169,12 @@ export const homeSchema = z
           .meta({ title: 'Countdown to (event local time)', description: 'Leave empty to hide the countdown. It also hides itself once the time has passed.', widget: 'datetime' }),
         utcOffset: z.string().regex(/^[+-]\d{2}:\d{2}$/, 'Use +08:00 style').meta({ title: 'Event time zone (UTC offset)' }),
         primaryCta: linkSchema.meta({ title: 'Main button' }),
-        secondaryCta: optionalLink,
-        note: long('Small print', 300),
-        seats: z
-          .object({
-            total: z.number().int().min(1).max(400).meta({ title: 'Total seats' }),
-            full: z.number().int().min(0).max(400).meta({ title: 'Fully funded' }),
-            partial: z.number().int().min(0).max(400).meta({ title: 'Partially funded' }),
-            fullLabel: str('Label, fully funded', 60),
-            partialLabel: str('Label, partially funded', 60),
-            restLabel: str('Label, the rest', 80),
-          })
-          .meta({ title: 'Seat grid' }),
       })
       .meta({ title: 'Next summit' }),
 
     speakers: z
       .object({
         visible,
-        kicker,
         heading,
         intro: long('Intro', 400),
         people: z
@@ -219,7 +189,6 @@ export const homeSchema = z
     programme: z
       .object({
         visible,
-        kicker,
         heading,
         days: z
           .array(
@@ -242,7 +211,6 @@ export const homeSchema = z
     advisors: z
       .object({
         visible,
-        kicker,
         heading,
         intro: long('Intro', 400),
         cta: optionalLink,
@@ -252,56 +220,6 @@ export const homeSchema = z
           .meta({ title: 'Advisors' }),
       })
       .meta({ title: 'Advisory board' }),
-
-    gallery: z
-      .object({
-        visible,
-        kicker,
-        heading,
-        intro: str('Intro', 160),
-        items: z
-          .array(
-            z
-              .object({
-                image: imageSchema,
-                title: str('Title', 60),
-                caption: str('Caption', 80),
-                videoUrl: z.union([z.literal(''), href]).meta({ title: 'Video link (optional)' }),
-              })
-              .meta({ title: 'Photo or video' }),
-          )
-          .max(12)
-          .meta({ title: 'Wall' }),
-      })
-      .meta({ title: 'The wall' }),
-
-    stories: z
-      .object({
-        visible,
-        kicker,
-        heading,
-        intro: long('Intro', 300),
-        quotes: z
-          .array(
-            z
-              .object({
-                name: str('Name', 80),
-                status: str('Edition and funding status', 80),
-                country: str('Country', 60),
-                quote: long('Quote', 600),
-                photo: imageSchema,
-                link: z.union([z.literal(''), href]).meta({ title: 'Link to the post (optional)' }),
-              })
-              .meta({ title: 'Quote' }),
-          )
-          .max(12)
-          .meta({ title: 'Quotes' }),
-        videos: z
-          .array(z.object({ url: href.meta({ title: 'Video link' }), poster: imageSchema }).meta({ title: 'Video' }))
-          .max(6)
-          .meta({ title: 'Short videos' }),
-      })
-      .meta({ title: 'Stories' }),
 
     partners: z
       .object({

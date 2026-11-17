@@ -45,11 +45,17 @@
   font-family: var(--fb); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
   color: #fff; margin-bottom: 16px;
 }
-.col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.link { font-size: 15px; color: rgba(255, 255, 255, .72); transition: color .15s; }
+.col ul { list-style: none; display: flex; flex-direction: column; }
+/* padded so each link is a comfortable tap target (about 32px on desktop, 42px on phones) without a taller footer */
+.link { display: inline-block; padding-block: 5px; font-size: 15px; color: rgba(255, 255, 255, .72); transition: color .15s; }
+.affiliates { margin-top: 10px; font-size: 13px; color: rgba(255, 255, 255, .55); }
+.affiliateLink { display: inline-block; padding-block: 8px; color: rgba(255, 255, 255, .72); text-decoration: underline; text-underline-offset: 3px; }
+.affiliateLink:hover { color: #fff; }
+.affiliateLink:focus-visible { outline: 2px solid var(--action); outline-offset: 3px; border-radius: 4px; }
 .link:hover { color: #fff; }
 .link:focus-visible, .contactLink:focus-visible, .top:focus-visible { outline: 2px solid var(--action); outline-offset: 3px; border-radius: 4px; }
-.contact { font-style: normal; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5; }
+.contact { font-style: normal; display: flex; flex-direction: column; font-size: 15px; line-height: 1.5; }
+.contact > * { padding-block: 5px; }
 .contactLink { color: var(--action); font-weight: 500; }
 .contactLink:hover { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -90,6 +96,9 @@
 @media (max-width: 900px) {
   .sheet { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .brand { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .link, .contact > * { padding-block: 9px; }
 }
 @media (max-width: 480px) {
   .sheet { grid-template-columns: 1fr; }

@@ -58,7 +58,7 @@ export default async function RegisteredPage({ searchParams }: Props) {
         <a href="/api/calendar/sism-2026.ics" download="sism-2026.ics" className={`btn glass-dark ${p.btnGlass}`}>Download .ics file</a>
       </PageBox>
 
-      <PageSection id="next" kicker="Next steps" heading="What happens *next*" glow>
+      <PageSection id="next" heading="What happens *next*" glow>
         {demo && (
           <p role="note" className={s.demo}>
             Demo mode: no payment was taken. This is a preview of the confirmation page.

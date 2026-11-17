@@ -14,7 +14,6 @@ const COPY = {
     lead: 'Where GYN gathers next. Open an event to see its programme, speakers and how to register.',
     heading: 'Pick an *event*',
     empty: 'No upcoming events are announced right now. New ones appear here as soon as they are published.',
-    intro: 'Curious what a GYN summit looks like?',
     other: { label: 'See past events', href: '/past-events' },
   },
   past: {
@@ -23,7 +22,6 @@ const COPY = {
     lead: 'The summits GYN has hosted, with photos, videos and the delegates who were there.',
     heading: 'Where we have *been*',
     empty: 'No past events are published yet.',
-    intro: 'Looking ahead instead?',
     other: { label: 'See upcoming events', href: '/upcoming-events' },
   },
 }
@@ -35,7 +33,7 @@ export function EventListing({ kind, events }: { kind: 'upcoming' | 'past'; even
   return (
     <main id="main">
       <PageBox id={`${kind}-events-h1`} kicker={c.kicker} title={c.title} lead={c.lead} />
-      <PageSection id="events" kicker="All events" heading={c.heading} intro={c.intro} link={c.other} glow>
+      <PageSection id="events" heading={c.heading} glow>
         {list.length === 0 ? (
           <div className={`glass-lite ${s.empty}`}>
             <p>{c.empty}</p>
@@ -71,6 +69,7 @@ export function EventListing({ kind, events }: { kind: 'upcoming' | 'past'; even
             ))}
           </ul>
         )}
+        {list.length > 0 && <p className={s.other}><Link href={c.other.href} className={s.link}>{c.other.label} <span aria-hidden="true">&rarr;</span></Link></p>}
       </PageSection>
     </main>
   )

@@ -454,6 +454,22 @@ export function SiteHeader({ nav }: Props) {
         }
         .nav-drawer a:hover, .nav-drawer a[aria-current="page"] { color: var(--brand); }
         .nav-drawer a:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; }
+        /* grouped links (Past / Upcoming events): small label, then indented, slightly smaller children */
+        .drawer-group { display: flex; flex-direction: column; }
+        .drawer-group-label {
+          padding: 18px 0 2px;
+          font-family: var(--fb);
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(14,21,48,.55);
+        }
+        .nav-drawer .drawer-child {
+          font-size: 1.375rem;
+          padding: 12px 0 12px 16px;
+          min-height: 48px;
+        }
         .drawer-book {
           margin-top: 28px;
           display: inline-flex !important;
@@ -614,17 +630,36 @@ export function SiteHeader({ nav }: Props) {
           aria-label="Navigation menu"
           aria-hidden={!menuOpen}
         >
-          {nav.map((item) => (
-            <Link
-              key={item.label}
-              href={primaryHref(item)}
-              onClick={closeMenu}
-              tabIndex={menuOpen ? 0 : -1}
-              aria-current={isActive(item.href) ? 'page' : undefined}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {nav.map((item, i) =>
+            item.children ? (
+              // a group: small label, then every child as its own link (the label is not a link)
+              <div key={item.label} role="group" aria-labelledby={`drawer-group-${i}`} className="drawer-group">
+                <span id={`drawer-group-${i}`} className="drawer-group-label">{item.label}</span>
+                {item.children.map((child) => (
+                  <Link
+                    key={child.label}
+                    href={child.href.replace('https://thegyn.org', '') || '/'}
+                    className="drawer-child"
+                    onClick={closeMenu}
+                    tabIndex={menuOpen ? 0 : -1}
+                    aria-current={isActive(child.href) ? 'page' : undefined}
+                  >
+                    {child.label.replace(/[\u{1F1E0}-\u{1F1FF}]{2}/gu, '').trim()}
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <Link
+                key={item.label}
+                href={primaryHref(item)}
+                onClick={closeMenu}
+                tabIndex={menuOpen ? 0 : -1}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
           <Link
             href="/sism-forum-access"
             className="drawer-book"

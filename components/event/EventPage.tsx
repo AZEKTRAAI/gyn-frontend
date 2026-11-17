@@ -11,7 +11,9 @@ import { EventHero } from './EventHero'
 import { Faq } from './Faq'
 import { Gallery } from './Gallery'
 import { Highlights } from './Highlights'
+import { Lists } from './Lists'
 import { Overview } from './Overview'
+import { Partners } from './Partners'
 import { Schedule } from './Schedule'
 import { Speakers } from './Speakers'
 import { Steps } from './Steps'
@@ -26,10 +28,12 @@ function isEmpty(key: EventSectionKey, c: EventPageContent, ev: PublicEvent): bo
     case 'overview': return !c.overview.text
     case 'categories': return ev.categories.length === 0
     case 'steps': return c.steps.items.length === 0
+    case 'lists': return c.lists.groups.length === 0
     case 'ambassadors': return c.ambassadors.people.length === 0
     case 'chapters': return c.chapters.items.length === 0
     case 'schedule': return c.schedule.days.length === 0
     case 'speakers': return c.speakers.people.length === 0
+    case 'partners': return c.partners.items.length === 0
     case 'gallery': return c.gallery.photos.length === 0
     case 'videos': return c.videos.items.length === 0
     case 'stories': return c.stories.quotes.length === 0
@@ -45,10 +49,12 @@ function section(key: EventSectionKey, c: EventPageContent, ev: PublicEvent, glo
     case 'overview': return <Overview key={key} data={c.overview} glow={glow} />
     case 'categories': return <Categories key={key} data={c.categories} categories={ev.categories} glow={glow} eventSlug={ev.slug} timeZone={ev.details.timezone} now={now} />
     case 'steps': return <Steps key={key} data={c.steps} glow={glow} />
+    case 'lists': return <Lists key={key} data={c.lists} glow={glow} />
     case 'ambassadors': return <Ambassadors key={key} data={c.ambassadors} />
     case 'chapters': return <Chapters key={key} data={c.chapters} glow={glow} />
     case 'schedule': return <Schedule key={key} data={c.schedule} glow={glow} />
     case 'speakers': return <Speakers key={key} data={c.speakers} glow={glow} />
+    case 'partners': return <Partners key={key} data={c.partners} glow={glow} />
     case 'gallery': return <Gallery key={key} data={c.gallery} glow={glow} />
     case 'videos': return <Videos key={key} data={c.videos} glow={glow} />
     case 'stories': return <Stories key={key} data={c.stories} glow={glow} />

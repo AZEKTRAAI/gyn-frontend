@@ -102,6 +102,13 @@
       "heading": "",
       "items": []
     },
+    "lists": {
+      "visible": false,
+      "kicker": "",
+      "heading": "",
+      "intro": "",
+      "groups": []
+    },
     "ambassadors": {
       "visible": true,
       "kicker": "GYN global ambassadors",
@@ -471,6 +478,12 @@
           }
         }
       ]
+    },
+    "partners": {
+      "visible": false,
+      "kicker": "",
+      "heading": "",
+      "items": []
     },
     "gallery": {
       "visible": true,

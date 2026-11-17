@@ -67,6 +67,23 @@ export const eventPageSchema = z
       })
       .meta({ title: 'How to apply' }),
 
+    lists: z
+      .object({
+        visible,
+        kicker,
+        heading,
+        intro: long('Intro', 400),
+        groups: z
+          .array(
+            z
+              .object({ title: str('Column title', 60), items: z.array(str('Point', 300)).max(10).meta({ title: 'Points' }) })
+              .meta({ title: 'Column' }),
+          )
+          .max(4)
+          .meta({ title: 'Columns (up to four)', description: 'Side by side, e.g. who can apply and the scholarship criteria.' }),
+      })
+      .meta({ title: 'Lists' }),
+
     ambassadors: homeSchema.shape.network.meta({ title: 'Ambassadors map' }),
 
     chapters: z
@@ -118,6 +135,28 @@ export const eventPageSchema = z
         people: z.array(z.object({ name: str('Name', 80), role: str('Role and organisation', 160), photo: imageSchema }).meta({ title: 'Speaker' })).max(40).meta({ title: 'Speakers' }),
       })
       .meta({ title: 'Speakers' }),
+
+    partners: z
+      .object({
+        visible,
+        kicker,
+        heading,
+        items: z
+          .array(
+            z
+              .object({
+                name: str('Name', 120),
+                role: str('Role', 60, 'e.g. Co-host, Institutional visit, Venue partner.'),
+                text: long('About them', 600),
+                logo: z.array(imageSchema).max(1).meta({ title: 'Logo (optional)', description: 'Add one image, or leave empty.' }),
+                link: linkSchema.meta({ title: 'Link (leave text empty to hide)' }),
+              })
+              .meta({ title: 'Partner' }),
+          )
+          .max(8)
+          .meta({ title: 'Partners' }),
+      })
+      .meta({ title: 'Partners and hosts' }),
 
     gallery: z
       .object({

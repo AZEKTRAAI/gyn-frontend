@@ -54,7 +54,7 @@ test('new events start with the right sections showing', () => {
     return EVENT_SECTIONS.filter((k) => 'visible' in c[k] && c[k].visible)
   }
   assert.deepEqual(shown('past'), ['highlights', 'overview', 'ambassadors', 'chapters', 'schedule', 'speakers', 'gallery', 'videos', 'stories', 'cta'])
-  assert.deepEqual(shown('upcoming'), ['highlights', 'overview', 'categories', 'schedule', 'speakers', 'faq', 'cta'])
+  assert.deepEqual(shown('upcoming'), ['highlights', 'overview', 'categories', 'lists', 'schedule', 'speakers', 'partners', 'faq', 'cta'])
 })
 
 test('without a database the public readers serve the seed', async () => {

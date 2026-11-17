@@ -84,7 +84,7 @@
       "visible": true,
       "kicker": "About the summit",
       "heading": "What is the SDG *Innovation* Summit 2026?",
-      "text": "The SDG Innovation Summit Malaysia 2026 is a premier international youth summit designed to bring together 100 young leaders, innovators, students, entrepreneurs, professionals, researchers, and changemakers from around the world to explore innovative ideas, foster meaningful collaboration, and create sustainable impact in support of the United Nations Sustainable Development Goals (SDGs). Following the success of our international summit in Bangkok, Thailand, the summit continues in Kuala Lumpur, Malaysia. It is organized by GYN and co-hosted by UNU Global Health. Through keynote addresses, high-level panel discussions, leadership workshops, innovation labs, strategic networking, cultural exchange activities, and an exclusive institutional visit to Asia Pacific University (APU), Malaysia, delegates will gain valuable knowledge, practical skills, global perspectives, and meaningful international connections. Participants also compete for a $1,000 Seed Grant for their project.\n\nDelegates present innovative ideas aligned with four focus SDGs: SDG 4 Quality Education, SDG 5 Gender Equality, SDG 9 Industry, Innovation and Infrastructure, and SDG 13 Climate Action.",
+      "text": "The SDG Innovation Summit Malaysia 2026 is a premier international youth summit designed to bring together 100 young leaders, innovators, students, entrepreneurs, professionals, researchers, and changemakers from around the world to explore innovative ideas, foster meaningful collaboration, and create sustainable impact in support of the United Nations Sustainable Development Goals (SDGs). Following the success of our international summit in Bangkok, Thailand, the summit continues in Kuala Lumpur, Malaysia. Through keynote addresses, high-level panel discussions, leadership workshops, innovation labs, strategic networking, and cultural exchange activities, delegates will gain valuable knowledge, practical skills, global perspectives, and meaningful international connections. Participants also compete for a $1,000 Seed Grant to support innovative projects and social impact initiatives, whether at the conceptual stage, in the pilot phase, under implementation or fully realized.\n\nDelegates present innovative ideas aligned with four focus SDGs: SDG 4 Quality Education, SDG 5 Gender Equality, SDG 9 Industry, Innovation and Infrastructure, and SDG 13 Climate Action.",
       "image": {
         "src": "/renders/r3/kl-towers.webp",
         "alt": "Petronas Twin Towers, Kuala Lumpur"
@@ -117,6 +117,34 @@
         {
           "title": "Submit Application",
           "text": "Review and submit your application after the application fee."
+        }
+      ]
+    },
+    "lists": {
+      "visible": true,
+      "kicker": "Requirements",
+      "heading": "Who can *apply*",
+      "intro": "Scholarship applications closed on 11 October 2026. Results were announced on 16 October 2026.",
+      "groups": [
+        {
+          "title": "Eligibility",
+          "items": [
+            "Applicants from worldwide.",
+            "All educational and professional fields.",
+            "17-50 years old.",
+            "IELTS/TOEFL not required.",
+            "Students, volunteers, graduates, change-makers, social entrepreneurs, and professionals at any stage of their careers.",
+            "Must be available to attend the summit in Kuala Lumpur from 19-22 Nov 2026"
+          ]
+        },
+        {
+          "title": "Scholarship criteria",
+          "items": [
+            "A strong personal statement of 250–300 words explaining why you are interested in joining the SDG Innovation Summit 2026.",
+            "Applicants should possess leadership skills, a passion for the SDGs, and a visionary mindset.",
+            "Volunteering or leadership experience preferred but not mandatory.",
+            "Applicants from all backgrounds and fields are welcome to apply."
+          ]
         }
       ]
     },
@@ -473,6 +501,43 @@
           "photo": {
             "src": "/media/speakers/arumita-mitra.webp",
             "alt": "Arumita Mitra"
+          }
+        }
+      ]
+    },
+    "partners": {
+      "visible": true,
+      "kicker": "Partners",
+      "heading": "Co-host and *institutional visit*",
+      "items": [
+        {
+          "name": "UNU Global Health",
+          "role": "Co-host",
+          "text": "The Global Youth Network (GYN) organizes the SDG Innovation Summit Malaysia, co-hosted by the United Nations University International Institute for Global Health, Malaysia. Participants will have an opportunity to engage with UNU Global Health representatives and UNU Young Leaders during the summit. The institute operates in Kuala Lumpur as a global research think tank focusing on health equity and sustainable development.",
+          "logo": [
+            {
+              "src": "/media/logos/unu-global-health-logo.png",
+              "alt": "UNU Global Health logo"
+            }
+          ],
+          "link": {
+            "label": "",
+            "href": "/"
+          }
+        },
+        {
+          "name": "Asia Pacific University (APU)",
+          "role": "Institutional visit",
+          "text": "Experience an exclusive institutional visit to Asia Pacific University (APU), one of Malaysia's leading universities. Explore its academic environment and global learning community while connecting with fellow international delegates. Delegates will also explore Petaling Street (Chinatown), GMBB KL, Petronas Twin Towers, KLCC Park and many other spots.",
+          "logo": [
+            {
+              "src": "/media/venue/apu-asia-pacific-university.webp",
+              "alt": "Asia Pacific University (APU) logo"
+            }
+          ],
+          "link": {
+            "label": "",
+            "href": "/"
           }
         }
       ]

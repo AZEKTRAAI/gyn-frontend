@@ -198,7 +198,7 @@ function sortEvents<T extends EventSummary>(list: T[]): T[] {
 // ---------------------------------------------------------------------------
 
 const PAST_SECTIONS: EventSectionKey[] = ["highlights", "overview", "ambassadors", "chapters", "schedule", "speakers", "gallery", "videos", "stories", "cta"];
-const UPCOMING_SECTIONS: EventSectionKey[] = ["highlights", "overview", "categories", "schedule", "speakers", "faq", "cta"];
+const UPCOMING_SECTIONS: EventSectionKey[] = ["highlights", "overview", "categories", "lists", "schedule", "speakers", "partners", "faq", "cta"];
 
 function dateRange(d: Pick<EventDetails, "startsAt" | "endsAt">): string {
   const f = (ymd: string) => new Date(`${ymd}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
@@ -229,6 +229,7 @@ export function defaultEventContent(kind: EventKind, details: EventDetails): Eve
     overview: { visible: v("overview"), kicker: "About the event", heading: "About *this event*", text: details.theme, image: placeholder },
     categories: { visible: v("categories"), kicker: "Registration", heading: "Choose how you *join*", intro: "", note: "" },
     steps: { visible: v("steps"), kicker: "How to apply", heading: "How to *apply*", items: [] },
+    lists: { visible: v("lists"), kicker: "Eligibility", heading: "Who can *apply*", intro: "", groups: [] },
     ambassadors: {
       visible: v("ambassadors"),
       kicker: "GYN ambassadors",
@@ -242,6 +243,7 @@ export function defaultEventContent(kind: EventKind, details: EventDetails): Eve
     chapters: { visible: v("chapters"), ...none, items: [] },
     schedule: { visible: v("schedule"), kicker: "Schedule", heading: "The *programme*", days: [] },
     speakers: { visible: v("speakers"), kicker: "Speakers", heading: "Our *speakers*", people: [] },
+    partners: { visible: v("partners"), kicker: "Partners", heading: "Our *partners*", items: [] },
     gallery: { visible: v("gallery"), kicker: "Gallery", heading: "Photos from *the event*", photos: [] },
     videos: { visible: v("videos"), kicker: "Videos", heading: "Watch *the highlights*", items: [] },
     stories: { visible: v("stories"), kicker: "Stories", heading: "Delegate *stories*", quotes: [] },

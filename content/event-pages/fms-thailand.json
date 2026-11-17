@@ -96,6 +96,12 @@
       "intro": "",
       "note": ""
     },
+    "steps": {
+      "visible": false,
+      "kicker": "",
+      "heading": "",
+      "items": []
+    },
     "ambassadors": {
       "visible": true,
       "kicker": "GYN global ambassadors",

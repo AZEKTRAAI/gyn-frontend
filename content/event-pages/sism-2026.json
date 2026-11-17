@@ -84,7 +84,7 @@
       "visible": true,
       "kicker": "About the summit",
       "heading": "What is the SDG *Innovation* Summit 2026?",
-      "text": "The SDG Innovation Summit Malaysia 2026 is a premier international youth summit designed to bring together 100 young leaders, innovators, students, entrepreneurs, professionals, researchers, and changemakers from around the world to explore innovative ideas, foster meaningful collaboration, and create sustainable impact in support of the United Nations Sustainable Development Goals (SDGs). Following the success of our international summit in Bangkok, Thailand, the summit continues in Kuala Lumpur, Malaysia. It is organized by GYN and co-hosted by UNU Global Health. Through keynote addresses, high-level panel discussions, leadership workshops, innovation labs, strategic networking, cultural exchange activities, and an exclusive institutional visit to Asia Pacific University (APU), Malaysia, delegates will gain valuable knowledge, practical skills, global perspectives, and meaningful international connections. Participants also compete for a $1,000 Seed Grant for their project.",
+      "text": "The SDG Innovation Summit Malaysia 2026 is a premier international youth summit designed to bring together 100 young leaders, innovators, students, entrepreneurs, professionals, researchers, and changemakers from around the world to explore innovative ideas, foster meaningful collaboration, and create sustainable impact in support of the United Nations Sustainable Development Goals (SDGs). Following the success of our international summit in Bangkok, Thailand, the summit continues in Kuala Lumpur, Malaysia. It is organized by GYN and co-hosted by UNU Global Health. Through keynote addresses, high-level panel discussions, leadership workshops, innovation labs, strategic networking, cultural exchange activities, and an exclusive institutional visit to Asia Pacific University (APU), Malaysia, delegates will gain valuable knowledge, practical skills, global perspectives, and meaningful international connections. Participants also compete for a $1,000 Seed Grant for their project.\n\nDelegates present innovative ideas aligned with four focus SDGs: SDG 4 Quality Education, SDG 5 Gender Equality, SDG 9 Industry, Innovation and Infrastructure, and SDG 13 Climate Action.",
       "image": {
         "src": "/renders/r3/kl-towers.webp",
         "alt": "Petronas Twin Towers, Kuala Lumpur"
@@ -96,6 +96,29 @@
       "heading": "Attend *SISM 2026*",
       "intro": "100 seats, 30 of them scholarships. Scholarship applications closed on 11 October. Forum Access, Self-Funded and Invitation Letter registration are open.",
       "note": "Group discounts are available for group enrolments. Email contact@thegyn.org."
+    },
+    "steps": {
+      "visible": true,
+      "kicker": "Application",
+      "heading": "How to *apply*",
+      "items": [
+        {
+          "title": "Choose Your Category",
+          "text": "Select Fully Funded, Partially Funded, Forum Access, or Self-Funded"
+        },
+        {
+          "title": "Complete Application",
+          "text": "Double-check that you have answered every question thoroughly"
+        },
+        {
+          "title": "Pay Application Fee",
+          "text": "$18.50 for scholarship categories, $199/$399 for forum access/self-funded."
+        },
+        {
+          "title": "Submit Application",
+          "text": "Review and submit your application after the application fee."
+        }
+      ]
     },
     "ambassadors": {
       "visible": false,

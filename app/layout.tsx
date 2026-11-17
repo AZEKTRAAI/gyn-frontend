@@ -5,6 +5,8 @@ import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { cms } from '@/lib/cms'
 import { getHome } from '@gyn/core/home-store'
+import { listPublicEvents } from '@gyn/core/event-store'
+import type { NavItem } from '@/lib/cms/types'
 import { FloatingPill } from '@/components/home/FloatingPill'
 
 // The site's only two fonts (docs/frontend-design-plan.md): Plus Jakarta Sans for headings, Inter for text.
@@ -21,10 +23,27 @@ export const metadata: Metadata = {
   },
   description:
     'GYN hosts international conferences, forums and summits to promote dialogue on the UN Sustainable Development Goals. Next: SDG Innovation Summit Malaysia 2026, 19–22 November, Kuala Lumpur.',
+  // './' resolves against each page's own URL, so every page gets its own canonical
+  alternates: { canonical: './' },
   openGraph: {
     siteName: 'Global Youth Network',
     locale: 'en_US',
   },
+}
+
+// The old sitemap links are absolute (https://thegyn.org/about-us/); the site links to itself, without the trailing slash.
+const local = (href: string) => href.replace(/^https:\/\/thegyn\.org/, '').replace(/(.)\/$/, '$1') || '/'
+
+/** The two event dropdowns come from the published events (so a new event appears by itself); an empty group is left out. */
+function buildNav(nav: NavItem[], events: Awaited<ReturnType<typeof listPublicEvents>>): NavItem[] {
+  const group = (timing: 'past' | 'upcoming') =>
+    events.filter((e) => e.timing === timing).map((e) => ({ label: e.navLabel || e.name, href: `/${e.slug}` }))
+  return nav
+    .map((item): NavItem => {
+      const children = item.label === 'Past Events' ? group('past') : item.label === 'Upcoming Events' ? group('upcoming') : item.children?.map((c) => ({ ...c, href: local(c.href) }))
+      return { ...item, href: local(item.href), ...(children && { children }) }
+    })
+    .filter((item) => !item.children || item.children.length > 0)
 }
 
 export default async function RootLayout({
@@ -32,7 +51,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [sitemap, home] = await Promise.all([cms.getSitemap(), getHome()])
+  const [sitemap, home, events] = await Promise.all([cms.getSitemap(), getHome(), listPublicEvents()])
 
   return (
     <html lang="en" className={`${heading.variable} ${text.variable}`} data-scroll-behavior="smooth">
@@ -50,7 +69,7 @@ export default async function RootLayout({
         <a href="#main" className="sr-only focus:not-sr-only">
           Skip to main content
         </a>
-        <SiteHeader nav={sitemap.nav} />
+        <SiteHeader nav={buildNav(sitemap.nav, events)} />
         {children}
         <FloatingPill apply={home.hero.primaryCta} />
         <SiteFooter footer={sitemap.footer} socials={sitemap.socials} />

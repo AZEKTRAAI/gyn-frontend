@@ -288,6 +288,7 @@ a.catLink:hover { background: rgba(255, 255, 255, .08); border-radius: 18px; }
   background: var(--action); box-shadow: 0 0 0 10px rgba(198, 244, 50, .28), 0 16px 30px rgba(0, 0, 0, .3);
   transition: transform .3s cubic-bezier(.3, 1.4, .5, 1);
 }
+.playSm { width: 52px; height: 52px; box-shadow: 0 0 0 6px rgba(198, 244, 50, .28), 0 10px 20px rgba(0, 0, 0, .3); }
 button:hover .playBtn, a:hover .playBtn { transform: scale(1.08); }
 
 /* ---------- voices: three videos centred, the quote below ---------- */

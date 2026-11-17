@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { HomeContent } from '@gyn/core/home-schema'
 import { SdgWheel } from '@/components/SdgWheel'
 import { Accent } from './Accent'
-import { tornPolygon } from './torn'
+import { Scatter, type ScatterItem } from './Scatter'
 import s from './landing.module.css'
 
 /**
@@ -14,13 +14,13 @@ export function Hero({ hero, strip, ambassadors }: { hero: HomeContent['hero']; 
   const { photos, people, stickers, ribbon } = hero.collage
   // events and faces alternate, so each side gets a mix; slot classes place them (scrap0 = top left, then around)
   const scraps = [
-    photos[0] && { img: photos[0], kind: 'photo' },
-    photos[1] && { img: photos[1], kind: 'photo' },
-    people[0] && { img: people[0], kind: 'face' },
-    people[1] && { img: people[1], kind: 'face' },
-    photos[2] && { img: photos[2], kind: 'photo' },
-    people[2] && { img: people[2], kind: 'face' },
-  ].filter(Boolean) as { img: HomeContent['hero']['collage']['photos'][number]; kind: 'photo' | 'face' }[]
+    photos[0] && { ...photos[0], kind: 'photo' },
+    photos[1] && { ...photos[1], kind: 'photo' },
+    people[0] && { ...people[0], kind: 'face' },
+    people[1] && { ...people[1], kind: 'face' },
+    photos[2] && { ...photos[2], kind: 'photo' },
+    people[2] && { ...people[2], kind: 'face' },
+  ].filter(Boolean) as ScatterItem[]
 
   return (
     <section className={s.hero} data-name="Your first global stage" aria-labelledby="hero-h1">
@@ -28,37 +28,7 @@ export function Hero({ hero, strip, ambassadors }: { hero: HomeContent['hero']; 
         <SdgWheel className={s.wheel} />
         <SdgWheel className={s.wheel2} />
 
-        <div className={s.scatter}>
-          {scraps.map((x, i) => (
-            <figure key={x.img.src + i} className={`${s.paper} ${s[`scrap${i}`]} ${x.kind === 'face' ? s.face : ''}`}>
-              <div className={s.paperCut} style={{ clipPath: tornPolygon(i * 37 + 11) }}>
-                <div className={s.paperImg}>
-                  <Image
-                    src={x.img.src}
-                    alt={x.img.alt}
-                    fill
-                    loading={i === 0 ? 'eager' : 'lazy'}
-                    fetchPriority={i === 0 ? 'high' : 'auto'}
-                    sizes="(max-width: 900px) 40vw, 18vw"
-                    style={{ objectFit: 'cover' }}
-                  />
-                </div>
-              </div>
-            </figure>
-          ))}
-          {stickers.map((t, i) => (
-            <span key={t} className={`${s.sticker} ${s[`sticker${i}`]}`} aria-hidden="true">{t}</span>
-          ))}
-          <svg className={s.burst} viewBox="0 0 100 100" aria-hidden="true">
-            {Array.from({ length: 12 }, (_, i) => (
-              <rect key={i} x="47" y="4" width="6" height="34" rx="3" transform={`rotate(${i * 30} 50 50)`} />
-            ))}
-          </svg>
-          <svg className={s.plane} viewBox="0 0 64 48" aria-hidden="true">
-            <path d="M2 22 62 2 44 46 30 30z" fill="#fff" />
-            <path d="M30 30 62 2 24 26z" fill="#C9D3FF" />
-          </svg>
-        </div>
+        <Scatter items={scraps} stickers={stickers} dense />
 
         <div className={s.heroCopy}>
           <Link href={hero.primaryCta.href} className={`glass-dark ${s.eyebrow}`}>

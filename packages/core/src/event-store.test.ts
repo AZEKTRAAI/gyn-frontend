@@ -4,7 +4,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { eventPageSchema, EVENT_SECTIONS } from './event-schema.ts'
 import {
-  EVENT_SEEDS, EventStoreError, dateToLocal, defaultEventContent, eventDates, localToDate, getPublicEvent, listPublicEvents, mergeEventContent,
+  EVENT_SEEDS, EventStoreError, dateToLocal, defaultEventContent, eventDates, localToDate, getPublicEvent, listExtras, listPublicEvents, mergeEventContent, sortEvents,
 } from './event-store.ts'
 
 delete process.env.DATABASE_URL
@@ -62,6 +62,13 @@ test('without a database the public readers serve the seed', async () => {
   assert.deepEqual(list.map((e) => e.slug).sort(), ['fms-thailand', 'sism-2026'])
   assert.equal(list.find((e) => e.slug === 'fms-thailand')!.timing, 'past')
   assert.equal(await getPublicEvent('nope'), null)
+  const sism0 = list.find((e) => e.slug === 'sism-2026')!
+  assert.equal(sism0.cardImage?.src, EVENT_SEEDS['sism-2026'].content.hero.photos[0].src)
+  assert.equal(sism0.lead, EVENT_SEEDS['sism-2026'].content.hero.lead)
+  assert.equal(sism0.timezone, 'Asia/Kuala_Lumpur')
+  assert.equal(sism0.featured, false)
+  assert.equal(sism0.registration, 'open')
+  assert.equal(list.find((e) => e.slug === 'fms-thailand')!.registration, null, 'no categories, nothing to say')
   const sism = (await getPublicEvent('sism-2026'))!
   assert.equal(sism.categories.find((c) => c.slug === 'fully-funded')!.open, false)
   assert.equal(sism.categories.find((c) => c.slug === 'forum-access')!.open, true)
@@ -85,4 +92,28 @@ test('a local date and time survive the round trip in zones that change clocks a
     }
   }
   assert.ok(checked > 10_000)
+})
+
+const ev = (slug: string, start: string, o: { featured?: boolean; timing?: 'upcoming' | 'past' } = {}) => ({
+  slug, startsAt: new Date(start), featured: !!o.featured, timing: o.timing ?? 'upcoming',
+}) as Parameters<typeof sortEvents>[0][number]
+
+test('upcoming events run soonest first, past latest first, featured ones lead their group', () => {
+  const list = [
+    ev('late', '2027-05-01'), ev('soon', '2027-01-01'), ev('mid', '2027-03-01'),
+    ev('old', '2024-01-01', { timing: 'past' }), ev('older', '2023-01-01', { timing: 'past' }), ev('newest-past', '2025-06-01', { timing: 'past' }),
+  ]
+  assert.deepEqual(sortEvents(list).map((e) => e.slug), ['soon', 'mid', 'late', 'newest-past', 'old', 'older'])
+  const featured = [...list.slice(0, 3), ...list.slice(3)].map((e) => (e.slug === 'late' || e.slug === 'older' ? { ...e, featured: true } : e))
+  assert.deepEqual(sortEvents(featured).map((e) => e.slug), ['late', 'soon', 'mid', 'older', 'newest-past', 'old'], 'featured first inside each group, never across groups')
+  assert.deepEqual(sortEvents([ev('b', '2027-02-01', { featured: true }), ev('a', '2027-01-01', { featured: true })]).map((e) => e.slug), ['a', 'b'], 'two featured: by date')
+})
+
+test('the card fields: first hero photo, hero lead, and whether any category is open now', () => {
+  const hero = { ...EVENT_SEEDS['sism-2026'].content.hero, lead: 'Hello', photos: [{ src: '/a.jpg', alt: 'a' }, { src: '/b.jpg', alt: 'b' }] }
+  const now = new Date('2026-06-01T00:00:00Z')
+  const cat = (o: { active?: boolean; opensAt?: string; closesAt?: string }) => ({ active: o.active ?? true, opensAt: o.opensAt ? new Date(o.opensAt) : null, closesAt: o.closesAt ? new Date(o.closesAt) : null })
+  assert.deepEqual(listExtras(hero, [], now), { cardImage: hero.photos[0], lead: 'Hello', registration: null })
+  assert.equal(listExtras(hero, [cat({ closesAt: '2026-01-01' }), cat({})], now).registration, 'open')
+  assert.equal(listExtras(hero, [cat({ closesAt: '2026-01-01' }), cat({ active: false }), cat({ opensAt: '2026-07-01' })], now).registration, 'closed')
 })

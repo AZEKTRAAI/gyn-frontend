@@ -65,7 +65,7 @@ export default async function EventsPage() {
                     <span className={styles.sub}>/{e.slug}{e.city ? ` · ${[e.city, e.country].filter(Boolean).join(', ')}` : ''}</span>
                   </td>
                   <td className={styles.nowrap}>{range(e)}</td>
-                  <td><span className={`${styles.badge} ${styles[e.timing]}`}>{e.timing === 'upcoming' ? 'Upcoming' : 'Past'}</span></td>
+                  <td><span className={`${styles.badge} ${styles[e.timing]}`}>{e.timing === 'upcoming' ? 'Upcoming' : 'Past'}</span>{e.featured && <> <span className={`${styles.badge} ${styles.upcoming}`}>Featured</span></>}</td>
                   <td><span className={`${styles.badge} ${cls}`}>{label}</span></td>
                   <td className={styles.nowrap}>{stamp(e.updatedAt)}</td>
                 </tr>

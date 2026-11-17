@@ -41,8 +41,11 @@ const local = (href: string) => href.replace(/^https:\/\/thegyn\.org/, '').repla
 
 /** The two event dropdowns come from the published events (so a new event appears by itself); an empty group is left out. */
 function buildNav(nav: NavItem[], events: Awaited<ReturnType<typeof listPublicEvents>>): NavItem[] {
-  const group = (timing: 'past' | 'upcoming') =>
-    events.filter((e) => e.timing === timing).map((e) => ({ label: e.navLabel || e.name, href: `/${e.slug}` }))
+  // The last child of each group is the listing page; a group with no events still has no dropdown.
+  const group = (timing: 'past' | 'upcoming') => {
+    const items = events.filter((e) => e.timing === timing).map((e) => ({ label: e.navLabel || e.name, href: `/${e.slug}` }))
+    return items.length ? [...items, { label: `All ${timing} events`, href: `/${timing === 'past' ? 'past' : 'upcoming'}-events` }] : items
+  }
   return nav
     .map((item): NavItem => {
       const children = item.label === 'Past Events' ? group('past') : item.label === 'Upcoming Events' ? group('upcoming') : item.children?.map((c) => ({ ...c, href: local(c.href) }))

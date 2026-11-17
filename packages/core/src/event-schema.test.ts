@@ -24,6 +24,17 @@ test('details need real dates in order', () => {
   assert.equal(eventDetailsSchema.safeParse({ ...d, startsAt: '2 Jan 2027' }).success, false)
 })
 
+test('featured is optional and off by default, and must be a boolean', () => {
+  const d = { name: 'Test summit', shortName: '', theme: '', startsAt: '2027-01-01', endsAt: '2027-01-02', timezone: 'UTC', venue: '', city: '', country: '', navLabel: '', timingOverride: '' }
+  assert.equal(eventDetailsSchema.parse(d).featured, false)
+  assert.equal(eventDetailsSchema.parse({ ...d, featured: true }).featured, true)
+  assert.equal(eventDetailsSchema.safeParse({ ...d, featured: 'yes' }).success, false)
+})
+
+test('the listing pages are reserved addresses', () => {
+  for (const slug of ['upcoming-events', 'past-events']) assert.equal(slugSchema.safeParse(slug).success, false, slug)
+})
+
 test('the video link rejects protocol-relative and backslash addresses', () => {
   const url = (u: string) => eventPageSchema.shape.videos.safeParse({ visible: true, kicker: '', heading: '', items: [{ url: u, title: 't', poster: { src: '/media/x.png', alt: '' } }] }).success
   for (const ok of ['https://youtu.be/x', '/media/v.mp4', '#x']) assert.ok(url(ok), ok)

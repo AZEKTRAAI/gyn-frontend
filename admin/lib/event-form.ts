@@ -91,6 +91,11 @@ const DETAIL_FIELDS: Record<keyof EventDetails, JsonNode> = {
     enumLabels: { '': 'Automatic: past once the last day has gone by', UPCOMING: 'Always show as upcoming', PAST: 'Always show as past' },
     description: 'Leave on automatic unless the dates are not what decides it (for example an event that was postponed).',
   }),
+  featured: {
+    type: 'boolean',
+    title: 'Featured event',
+    description: 'Listed first on the upcoming or past events page. A featured upcoming event is also the one the home page promotes; with none featured it shows the soonest upcoming event.',
+  },
 }
 export const detailsNode: JsonNode = { type: 'object', title: 'Event details', properties: DETAIL_FIELDS }
 

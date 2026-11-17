@@ -36,7 +36,7 @@ export function NewEventForm() {
   function submit(ev: React.FormEvent) {
     ev.preventDefault()
     const { slug, kind, ...details } = form
-    const found: FieldIssues = validateDetails({ ...details, shortName: '', theme: '', navLabel: '', timingOverride: '' })
+    const found: FieldIssues = validateDetails({ ...details, shortName: '', theme: '', navLabel: '', timingOverride: '', featured: false })
     const slugError = validateSlug(slug)
     if (slugError) found.slug = slugError
     if (Object.keys(found).length) {
@@ -47,7 +47,7 @@ export function NewEventForm() {
     setErrors({})
     setMessage('')
     startTransition(async () => {
-      const res = await createEventAction({ slug, kind, details: { ...details, shortName: '', theme: '', navLabel: '', timingOverride: '' } })
+      const res = await createEventAction({ slug, kind, details: { ...details, shortName: '', theme: '', navLabel: '', timingOverride: '', featured: false } })
       if (res.ok) {
         router.push(`/events/${res.slug}`)
         return

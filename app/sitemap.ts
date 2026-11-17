@@ -6,7 +6,7 @@ export const revalidate = 3600
 
 // Fixed pages only. /pitch, /sism-2026/registered, /sism-2026/registration-cancelled and /api are deliberately absent.
 const FIXED = [
-  'about-us', 'contact-us', 'videos', 'sism-forum-access', 'sism-self-funded', 'sism-invitation-letter',
+  'upcoming-events', 'past-events', 'about-us', 'contact-us', 'videos', 'sism-forum-access', 'sism-self-funded', 'sism-invitation-letter',
   'privacy-policy', 'refund-policy', 'terms-conditions',
 ]
 

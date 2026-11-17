@@ -37,7 +37,15 @@ export interface EventSummary {
   endsAt: Date;
   city: string;
   country: string;
+  /** The event's own time zone: startsAt/endsAt are instants, so showing their calendar day needs it. */
+  timezone: string;
   timing: EventTiming;
+  /** Listed first in its group, and the home page's next event when upcoming. */
+  featured: boolean;
+  /** Only the public lists (listPublicEvents) fill these three: the first hero photo and the hero lead, for cards, and whether any registration category is open now (null: the event has none). */
+  cardImage?: EventPageContent["hero"]["photos"][number] | null;
+  lead?: string;
+  registration?: "open" | "closed" | null;
 }
 
 export interface PublicCategory {
@@ -61,8 +69,6 @@ export interface PublicEvent extends EventSummary {
 }
 
 export interface AdminEventRow extends EventSummary {
-  /** The event's own time zone: startsAt/endsAt are instants, so showing their calendar day needs it. */
-  timezone: string;
   status: EventStatus;
   updatedAt: Date;
 }
@@ -148,6 +154,7 @@ export function eventRowFields(d: EventDetails, seo: EventPageContent["seo"]) {
     country: d.country || null,
     navLabel: d.navLabel || null,
     timingOverride: d.timingOverride || null,
+    featured: d.featured,
     seoTitle: seo.title || null,
     seoDescription: seo.description || null,
   };
@@ -168,10 +175,13 @@ function rowToDetails(r: EventRow): EventDetails {
     country: r.country ?? "",
     navLabel: r.navLabel ?? "",
     timingOverride: r.timingOverride ?? "",
+    featured: r.featured,
   };
 }
 
-function summary(slug: string, d: EventDetails, dates: { startsAt: Date; endsAt: Date }, now = new Date()): EventSummary {
+type ListExtras = Pick<EventSummary, "cardImage" | "lead" | "registration">;
+
+function summary(slug: string, d: EventDetails, dates: { startsAt: Date; endsAt: Date }, now = new Date(), extras: ListExtras = {}): EventSummary {
   return {
     slug,
     name: d.name,
@@ -180,17 +190,30 @@ function summary(slug: string, d: EventDetails, dates: { startsAt: Date; endsAt:
     ...dates,
     city: d.city,
     country: d.country,
+    timezone: d.timezone,
     timing: eventTiming({ endsAt: dates.endsAt, timingOverride: d.timingOverride || null }, now),
+    featured: d.featured,
+    ...extras,
   };
 }
 
-const rowSummary = (r: EventRow, now = new Date()) => summary(r.slug, rowToDetails(r), { startsAt: r.startsAt, endsAt: r.endsAt }, now);
+const rowSummary = (r: EventRow, now = new Date(), extras?: ListExtras) => summary(r.slug, rowToDetails(r), { startsAt: r.startsAt, endsAt: r.endsAt }, now, extras);
 
-/** Upcoming first (soonest start), then past (latest start first). */
-function sortEvents<T extends EventSummary>(list: T[]): T[] {
-  const up = list.filter((e) => e.timing === "upcoming").sort((a, b) => a.startsAt.getTime() - b.startsAt.getTime());
-  const past = list.filter((e) => e.timing === "past").sort((a, b) => b.startsAt.getTime() - a.startsAt.getTime());
+/** Upcoming first (soonest start), then past (latest start first); featured events lead their group. */
+export function sortEvents<T extends EventSummary>(list: T[]): T[] {
+  const by = (dir: 1 | -1) => (a: T, b: T) => Number(b.featured) - Number(a.featured) || dir * (a.startsAt.getTime() - b.startsAt.getTime());
+  const up = list.filter((e) => e.timing === "upcoming").sort(by(1));
+  const past = list.filter((e) => e.timing === "past").sort(by(-1));
   return [...up, ...past];
+}
+
+/** Open now: active and inside its opens/closes window. */
+const isOpen = (c: { active: boolean; opensAt: Date | null; closesAt: Date | null }, now: Date) =>
+  c.active && (!c.opensAt || c.opensAt <= now) && (!c.closesAt || c.closesAt >= now);
+
+/** The card fields from a hero section and a list of categories. */
+export function listExtras(hero: EventPageContent["hero"], cats: { active: boolean; opensAt: Date | null; closesAt: Date | null }[], now: Date): ListExtras {
+  return { cardImage: hero.photos[0] ?? null, lead: hero.lead, registration: cats.length === 0 ? null : cats.some((c) => isOpen(c, now)) ? "open" : "closed" };
 }
 
 // ---------------------------------------------------------------------------
@@ -280,7 +303,12 @@ async function loadContent(db: Db, row: EventRow): Promise<EventPageContent> {
   return mergeEventContent(defaultsFor(row.slug, details, rowSummary(row).timing), Object.fromEntries(sections.map((s) => [s.blockType, s.data])), row.slug);
 }
 
-const seedSummaries = () => Object.entries(EVENT_SEEDS).map(([slug, s]) => summary(slug, s.details, eventDates(s.details)));
+const seedSummaries = () => {
+  const now = new Date();
+  return Object.entries(EVENT_SEEDS).map(([slug, s]) =>
+    summary(slug, s.details, eventDates(s.details), now, listExtras(s.content.hero, (seedCategories[slug] ?? []).map((c) => ({ ...c, opensAt: null })), now)),
+  );
+};
 
 /** Published events, upcoming first then past. A failed database read serves the seed only during the build (read-fallback.ts); at runtime it throws so ISR keeps the last good page. */
 export async function listPublicEvents(): Promise<EventSummary[]> {
@@ -288,8 +316,21 @@ export async function listPublicEvents(): Promise<EventSummary[]> {
   if (!prisma) return sortEvents(seedSummaries());
   try {
     const now = new Date();
-    const rows = await prisma.event.findMany({ where: { status: "PUBLISHED", deletedAt: null } });
-    return sortEvents(rows.map((r) => rowSummary(r, now)));
+    // One query for every event: the hero section and the categories ride along.
+    const rows = await prisma.event.findMany({
+      where: { status: "PUBLISHED", deletedAt: null },
+      include: {
+        sections: { where: { blockType: "hero" }, select: { data: true } },
+        categories: { where: { deletedAt: null }, select: { active: true, opensAt: true, closesAt: true } },
+      },
+    });
+    return sortEvents(
+      rows.map((r) => {
+        const stored = eventPageSchema.shape.hero.safeParse(r.sections[0]?.data);
+        const hero = stored.success ? stored.data : defaultsFor(r.slug, rowToDetails(r), rowSummary(r, now).timing).hero;
+        return rowSummary(r, now, listExtras(hero, r.categories, now));
+      }),
+    );
   } catch (err) {
     if (!seedOnReadError()) throw err;
     console.error("[events] database read failed during the build, using seed", err instanceof Error ? err.message : err);
@@ -301,7 +342,7 @@ function fromSeed(slug: string): PublicEvent | null {
   const s = EVENT_SEEDS[slug];
   if (!s) return null;
   const now = new Date();
-  const open = (c: SeedCategory) => c.active && (!c.closesAt || c.closesAt >= now);
+  const open = (c: SeedCategory) => isOpen({ ...c, opensAt: null }, now);
   return {
     ...summary(slug, s.details, eventDates(s.details), now),
     details: s.details,
@@ -336,7 +377,7 @@ export async function getPublicEvent(slug: string): Promise<PublicEvent | null> 
         seatLimit: c.seatLimit,
         opensAt: c.opensAt,
         closesAt: c.closesAt,
-        open: c.active && (!c.opensAt || c.opensAt <= now) && (!c.closesAt || c.closesAt >= now),
+        open: isOpen(c, now),
       })),
     };
   } catch (err) {
@@ -356,7 +397,7 @@ function needDb(): PrismaClient {
   return prisma;
 }
 
-const adminRow = (r: EventRow): AdminEventRow => ({ ...rowSummary(r), timezone: r.timezone, status: r.status, updatedAt: r.updatedAt });
+const adminRow = (r: EventRow): AdminEventRow => ({ ...rowSummary(r), status: r.status, updatedAt: r.updatedAt });
 
 /** Every event that is not deleted, drafts and archived included: upcoming first, then past. */
 export async function listAllEvents(): Promise<AdminEventRow[]> {

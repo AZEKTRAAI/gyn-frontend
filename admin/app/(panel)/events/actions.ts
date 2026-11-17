@@ -37,7 +37,7 @@ function failure(e: unknown, what: string): { ok: false; error: string; issues?:
 }
 
 // A refresh that fails never loses the edit: it is saved, and the website refreshes by itself within 5 minutes.
-const refreshWeb = (slug: string) => revalidateWeb([`/${slug}`, '/', '__layout'])
+const refreshWeb = (slug: string) => revalidateWeb([`/${slug}`, '/', '/upcoming-events', '/past-events', '__layout'])
 
 export async function createEventAction(input: { slug: string; kind: string; details: EventDetails }): Promise<ActionResult<{ slug: string }>> {
   try {

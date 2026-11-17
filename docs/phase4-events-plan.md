@@ -80,11 +80,11 @@ Azam is asleep and asked for work that needs no input from him, run as Opus plan
 | 9 | Contact form messages saved to the DB + admin Contact inbox (phase 10 part) | done (menu flag lands with E's commit; a contact.manage permission would allow read-only access) |
 | 10 | Registration categories editor inside the admin event page (fees, approval mode, seats, open/close dates) | done (register link per category waits for phase 5 forms) |
 | 10b | Mobile menu lists every event in each dropdown group (G) | done |
-| 10c | SISM content the schema still lacks: eligibility, scholarship criteria, co-host and APU blocks (a generic titled-list section may cover them) | |
-| 11 | **Red team** review of 1 to 10 against the SRS and the plan; fix every confirmed flag | review done; fixes R1, R2, R3 running |
-| 11b | Next.js printed a known-vulnerability warning for 16.4.2: check `npm audit`, move to the patched 16.x release if one exists, rerun every check. Do it when no agent is mid-build. | |
-| 13 | Past and upcoming event listing pages, featured-event flag in the admin (SRS 2.2, 2.3) | |
-| 12 | Phase 5 start: form definition format + engine with tests (SRS 3.4), no builder UI yet | |
+| 10c | SISM content the schema still lacks: eligibility, scholarship criteria, co-host and APU blocks (a generic titled-list section may cover them) | done, 953fb96 |
+| 11 | **Red team** review of 1 to 10 against the SRS and the plan; fix every confirmed flag | done, 13a5041 |
+| 11b | Next.js printed a known-vulnerability warning for 16.4.2: check `npm audit`, move to the patched 16.x release if one exists, rerun every check. Do it when no agent is mid-build. | done, a23a32d (16.4.5; audit 0) |
+| 13 | Past and upcoming event listing pages, featured-event flag in the admin (SRS 2.2, 2.3) | done |
+| 12 | Phase 5 start: form definition format + engine with tests (SRS 3.4), no builder UI yet | done, 33fc9a2 (see docs/forms-engine.md for what phase 5 still needs) |
 
 ## Red-team triage (18 Nov 2026, early morning)
 

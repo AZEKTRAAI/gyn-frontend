@@ -130,3 +130,28 @@ test("two saves from the same version at the same moment: exactly one wins", asy
   for (const r of results) if (r.status === "rejected") assert.equal((r.reason as EventStoreError).code, "STALE");
   assert.equal((await audit("EVENT_UPDATED")).length, 1);
 });
+
+test("featured is saved, shown to the public lists, and puts the event first in its group; the stale check still holds", async () => {
+  await createEvent({ slug: "sis-dubai-2099", details, kind: "upcoming" }, meta);
+  await createEvent({ slug: "sis-cairo-2098", details: { ...details, name: "SIS Cairo 2098", startsAt: "2098-03-10", endsAt: "2098-03-12" }, kind: "upcoming" }, meta);
+  for (const slug of ["sis-dubai-2099", "sis-cairo-2098"]) await setEventStatus(slug, "PUBLISHED", meta);
+  assert.deepEqual((await listPublicEvents()).map((e) => [e.slug, e.featured]), [["sis-cairo-2098", false], ["sis-dubai-2099", false]], "soonest first when nothing is featured");
+
+  const edit = (await getEventForEdit("sis-dubai-2099"))!;
+  assert.equal(edit.details.featured, false);
+  const stale = edit.updatedAt.toISOString();
+  const next = await saveEvent("sis-dubai-2099", { details: { ...edit.details, featured: true }, content: edit.content, expectedUpdatedAt: stale }, meta);
+  assert.equal((await getEventForEdit("sis-dubai-2099"))!.details.featured, true);
+  const list = await listPublicEvents();
+  assert.deepEqual(list.map((e) => e.slug), ["sis-dubai-2099", "sis-cairo-2098"]);
+  assert.equal(list[0].featured, true);
+  assert.equal(list[0].cardImage?.src, edit.content.hero.photos[0].src, "the card photo is the hero's first photo");
+  assert.equal(list[0].lead, edit.content.hero.lead);
+  assert.equal(list[0].registration, null, "no categories yet");
+  assert.equal(((await audit("EVENT_UPDATED"))[0].newValue as { details: EventDetails }).details.featured, true);
+
+  await assert.rejects(saveEvent("sis-dubai-2099", { details: { ...edit.details, featured: false }, content: edit.content, expectedUpdatedAt: stale }, meta), (e: EventStoreError) => e.code === "STALE");
+  assert.equal((await getEventForEdit("sis-dubai-2099"))!.details.featured, true, "the stale save changed nothing");
+  await saveEvent("sis-dubai-2099", { details: { ...edit.details, featured: false }, content: edit.content, expectedUpdatedAt: next }, meta);
+  assert.deepEqual((await listPublicEvents()).map((e) => e.slug), ["sis-cairo-2098", "sis-dubai-2099"]);
+});

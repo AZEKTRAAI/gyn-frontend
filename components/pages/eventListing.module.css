@@ -1,0 +1,31 @@
+/* The events listing pages. Cards are glass-lite over the .glow section of PageSection; the whole card is one link. */
+.cards { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(12px, 1.6vw, 20px); list-style: none; }
+.cards > * { flex: 1 1 var(--min, 280px); max-width: var(--max, 360px); min-width: 0; }
+@media (max-width: 640px) { .cards > * { flex-basis: 100%; max-width: none; } }
+
+.card { position: relative; display: flex; flex-direction: column; overflow: hidden; border-radius: 26px; transition: transform .25s cubic-bezier(.2, .8, .2, 1), box-shadow .25s; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 22px 40px -16px rgba(14, 21, 48, .3), inset 0 1px 0 #fff; }
+.card:focus-within { outline: 3px solid var(--brand); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+
+.photo { position: relative; aspect-ratio: 16 / 9; background: var(--brand-tint); }
+.body { display: flex; flex: 1; flex-direction: column; align-items: center; gap: 6px; padding: clamp(14px, 2.2svh, 22px) clamp(16px, 1.6vw, 22px) clamp(16px, 2.4svh, 24px); text-align: center; }
+
+.pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.pill { font-size: 12px; font-weight: 600; letter-spacing: .04em; padding: 4px 10px; border-radius: 999px; background: #fff; color: var(--muted); border: 1px solid var(--line); }
+.pillOpen { background: var(--brand-tint); color: var(--brand); border-color: transparent; }
+
+.name { font-size: clamp(1.1rem, 1.5vw, 1.3rem); line-height: 1.2; letter-spacing: -.03em; color: var(--ink); text-wrap: balance; }
+/* the link's ::after covers the whole card, so a tap anywhere opens the event */
+.stretch { color: inherit; text-decoration: none; }
+.stretch::after { content: ''; position: absolute; inset: 0; }
+.when { font-weight: 700; font-size: 15px; color: var(--ink); }
+.where { font-size: 14.5px; color: var(--muted); }
+.lead { margin-top: 2px; font-size: 14.5px; line-height: 1.55; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-wrap: pretty; }
+.more { margin-top: auto; padding-top: 10px; font-weight: 600; font-size: 14.5px; color: var(--brand); }
+.card:hover .more { color: var(--brand-dk); text-decoration: underline; text-underline-offset: 4px; }
+
+.empty { max-width: 560px; margin-inline: auto; padding: clamp(24px, 4svh, 40px) clamp(20px, 3vw, 36px); border-radius: 26px; text-align: center; }
+.empty p { font-size: clamp(1rem, 1.2vw, 1.1rem); line-height: 1.6; color: var(--muted); text-wrap: pretty; }
+.link { display: inline-block; margin-top: 14px; font-weight: 600; color: var(--brand); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.link:hover { color: var(--brand-dk); }

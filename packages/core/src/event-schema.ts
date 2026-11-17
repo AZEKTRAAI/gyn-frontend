@@ -225,7 +225,7 @@ export function eventTiming(e: { endsAt: Date; timingOverride?: 'UPCOMING' | 'PA
 // Event pages live at the site root (/fms-thailand, /sism-2026), so a slug must not take a fixed page's address.
 export const RESERVED_SLUGS = new Set([
   'about-us', 'contact-us', 'privacy-policy', 'refund-policy', 'terms-conditions', 'videos', 'pitch', 'api', 'media',
-  'admin', 'sism-forum-access', 'sism-invitation-letter', 'sism-self-funded',
+  'admin', 'sism-forum-access', 'sism-invitation-letter', 'sism-self-funded', 'upcoming-events', 'past-events',
   // old WordPress addresses that redirect (OLD_URL_REDIRECTS in next.config.ts)
   'home', 'fmst-2026', 'thank-you-page', 'sism-2026-application-form', 'sism-fully-funded-scholarship',
 ])
@@ -250,5 +250,7 @@ export const eventDetailsSchema = z.object({
   country: z.string().trim().max(80),
   navLabel: z.string().trim().max(40),
   timingOverride: z.enum(['', 'UPCOMING', 'PAST']),
+  // Listed first in its group on the listing pages, and the home page's next event when it is upcoming.
+  featured: z.boolean().default(false),
 }).refine((d) => d.endsAt >= d.startsAt, { message: 'The end date is before the start date', path: ['endsAt'] })
 export type EventDetails = z.infer<typeof eventDetailsSchema>

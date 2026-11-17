@@ -32,6 +32,21 @@ const securityHeaders = [
   { key: "Permissions-Policy",          value: "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
 ];
 
+// Old thegyn.org (WordPress) URLs that no longer have their own page. The old site used trailing slashes;
+// Next already 308s /about-us/ to /about-us, so only renamed or removed pages need an entry here.
+// The two SISM application pages are closed (scholarship applications ended 11 Oct); the event page lists the categories.
+export const OLD_URL_REDIRECTS = [
+  { source: '/home', destination: '/' },
+  { source: '/fmst-2026', destination: '/fms-thailand' },
+  { source: '/sism-2026-application-form', destination: '/sism-2026#categories' },
+  { source: '/sism-fully-funded-scholarship', destination: '/sism-2026#categories' },
+  // it confirmed a scholarship application, which is not a registration, so it must not land on /sism-2026/registered
+  { source: '/thank-you-page', destination: '/sism-2026' },
+]
+
+// Staging and Vercel previews must not be indexed. Same rule as app/robots.ts.
+const noindex = process.env.NOINDEX === '1' || process.env.VERCEL_ENV === 'preview'
+
 const nextConfig: NextConfig = {
   // Self-hosting on the Netcup VPS: .next/standalone is a self-contained server (node server.js) for the Docker image.
   output: 'standalone',
@@ -46,8 +61,12 @@ const nextConfig: NextConfig = {
   },
   // admin image uploads are capped at 4 MB; the rest is multipart overhead
   experimental: { serverActions: { bodySizeLimit: '5mb' } },
+  async redirects() {
+    return OLD_URL_REDIRECTS.map((r) => ({ ...r, permanent: true }))
+  },
   async headers() {
-    return [{ source: "/(.*)", headers: securityHeaders }];
+    const robots = noindex ? [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] : [];
+    return [{ source: "/(.*)", headers: [...securityHeaders, ...robots] }];
   },
 }
 

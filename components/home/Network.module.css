@@ -138,19 +138,30 @@
   border-radius: 50%;
   border: 2px solid var(--y, #FCC30B);
   opacity: 0;
-  animation: pulse 2.4s ease-out infinite;
-  animation-delay: var(--d, 0s);
 }
+/* only the selected ambassador pulses; twelve pulsing rings at once was noise */
+.pin.on::after { animation: pulse 2.4s ease-out infinite; }
 
 .pin:hover, .pin:focus-visible, .pin.on {
   transform: translate(-50%, -50%) scale(1.5);
 }
+/* invisible 36px tap area around the 14px dot */
+.pin::before { content: ''; position: absolute; inset: -11px; border-radius: 50%; }
+.pin:focus-visible { outline: 2px solid var(--brand, #2D3FE0); outline-offset: 3px; }
 
-.pinHub {
-  background: #fff;
-  width: 18px;
-  height: 18px;
-  border-color: var(--y, #FCC30B);
+/* Destination city: always labelled */
+.hub { position: absolute; transform: translate(-50%, -50%); pointer-events: none; z-index: 2; }
+.hubDot {
+  display: block; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--y, #FCC30B); border: 3px solid #fff;
+  box-shadow: 0 0 0 6px rgba(252, 195, 11, .25), 0 0 18px rgba(252, 195, 11, .6);
+}
+.hubLabel {
+  /* to the left of the dot, over the Indian Ocean, where no pin sits */
+  position: absolute; right: calc(100% + 8px); top: 50%; transform: translateY(-50%);
+  white-space: nowrap; font-size: 12.5px; font-weight: 700; letter-spacing: .01em;
+  padding: 3px 10px; border-radius: 999px;
+  background: rgba(14, 21, 48, .78); color: #fff;
 }
 
 @keyframes pulse {
@@ -174,11 +185,16 @@
   width: max-content;
   max-width: 200px;
   z-index: 3;
-  transition: opacity 0.2s;
+  left: 0;
+  top: 0;
+  transition: left .5s cubic-bezier(.2, .8, .2, 1), top .5s cubic-bezier(.2, .8, .2, 1);
 }
-
-.popup.hidden { opacity: 0; }
-.popup.on { opacity: 1; }
+.popupImg { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; animation: popIn .45s cubic-bezier(.2, .8, .2, 1); }
+.popupText { animation: popIn .45s cubic-bezier(.2, .8, .2, 1); }
+@keyframes popIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .popup, .popupImg, .popupText { transition: none; animation: none; }
+}
 
 /* Text column: natural size, shrinks only when popup hits max-width */
 .popupText {
@@ -210,6 +226,13 @@
 @media (max-width: 860px) {
   .grid { grid-template-columns: 1fr; }
 }
+/* phones: the map is small, so the name card shrinks with it */
+@media (max-width: 520px) {
+  .popup { padding: 5px 10px 5px 5px; gap: 8px; border-radius: 12px; }
+  .popupImg { width: 32px; height: 32px; border-radius: 8px; }
+  .popupName { font-size: 13.5px; }
+  .hubLabel { font-size: 12px; padding: 2px 8px; }
+}
 
 /* Light tone: white page, navy dots and routes, glass cards. The data and behaviour are the same as the dark band. */
 .light {
@@ -227,7 +250,10 @@
 .light .btns { margin-top: 20px; }
 .light .heading { font-size: clamp(2rem, 4.2vw, 3.4rem); letter-spacing: -0.035em; line-height: 1.04; }
 .light .intro { color: #4A5370; }
-.light .pin { border-color: #fff; box-shadow: 0 0 0 1px rgba(32, 47, 96, .35); }
-.light .pinHub { background: var(--navy, #202F60); border-color: var(--y, #FCC30B); }
+.light .pin { background: var(--action, #C6F432); border-color: #fff; box-shadow: 0 0 0 1px rgba(45, 63, 224, .45), 0 2px 6px rgba(14, 21, 48, .2); }
+.light .pin::after { border-color: var(--brand, #2D3FE0); }
+.light .pin.on { background: var(--brand, #2D3FE0); }
+.light .hubDot { background: var(--brand, #2D3FE0); box-shadow: 0 0 0 6px rgba(45, 63, 224, .18), 0 0 18px rgba(45, 63, 224, .45); }
+.light .hubLabel { background: var(--brand, #2D3FE0); }
 .light .popup { box-shadow: 0 14px 34px rgba(14, 21, 48, .18); }
 .light .popupName { font-weight: 700; }

@@ -5,6 +5,9 @@ export const preferredRegion = "sin1"; // Neon Singapore; avoids cross-Pacific D
 
 import { NextRequest, NextResponse } from "next/server";
 import { getRepo } from "@/lib/db.ts";
+import { getPrisma } from "@gyn/core/db";
+import { saveContactMessage } from "@gyn/core/contact-store";
+import type { Repo } from "@/lib/server/repo.ts";
 import { checkRateLimit } from "@/lib/server/rate-limit.ts";
 import { verifyTurnstile, TurnstileError } from "@/lib/server/turnstile.ts";
 import { handleContact } from "@/features/contact/server/contact.ts";
@@ -34,7 +37,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   const { allowed } = await checkRateLimit(`contact:${ip}`);
 
-  const repo = getRepo();
+  // With a database every valid message is saved first, with the client IP; a failed write comes back as a 500, never as success.
+  // handleContact only calls saveContactSubmission, so the shim is enough. No email is sent from this route.
+  const repo = getPrisma()
+    ? ({ saveContactSubmission: (d) => saveContactMessage({ ...d, ip }) } as Pick<Repo, "saveContactSubmission"> as Repo)
+    : getRepo();
   const result = await handleContact(body, allowed, repo);
 
   if (!result.ok) {

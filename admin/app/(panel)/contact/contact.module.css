@@ -1,0 +1,38 @@
+/* Contact inbox. Colours come from the `.scope` class of editor.module.css, which wraps these pages. */
+.head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 16px; }
+.head h1 { margin: 0; }
+.filters { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin-bottom: 16px; }
+.filters label { display: grid; gap: 4px; font-size: 13px; font-weight: 600; }
+.filters select { min-height: 44px; padding: 8px 12px; border: 1.5px solid var(--line); border-radius: 10px; font: inherit; background: #fff; }
+.filters button, .btns button, .reply {
+  min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1.5px solid var(--navy);
+  background: transparent; color: var(--navy); font: inherit; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; text-decoration: none;
+}
+.filters a { color: var(--navy); align-self: center; font-size: 14px; }
+.tableWrap { overflow-x: auto; background: #fff; border: 1px solid var(--line); border-radius: 12px; }
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th, .table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.table th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: #4a5370; background: var(--field); white-space: nowrap; }
+.table tr:last-child td { border-bottom: 0; }
+.table td a { font-weight: 600; color: var(--ink); }
+.unread td { background: #fffbea; }
+.nowrap { white-space: nowrap; }
+.sub { display: block; font-size: 12px; color: #4a5370; font-weight: 400; overflow-wrap: anywhere; }
+.snippet { max-width: 340px; overflow-wrap: anywhere; }
+.empty { padding: 28px 18px; color: #4a5370; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1.5px solid currentColor; white-space: nowrap; }
+.new { color: #8a5a00; }
+.read { color: var(--green); }
+.archived { color: #4a5370; }
+
+.card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-top: 16px; max-width: 760px; }
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0 0 16px; font-size: 14px; }
+.facts dt { font-weight: 600; color: #4a5370; }
+.facts dd { margin: 0; overflow-wrap: anywhere; }
+/* The message is plain text from a stranger: React escapes it, pre-wrap keeps the line breaks. */
+.body { white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; padding: 14px 16px; background: var(--field); border-radius: 10px; line-height: 1.5; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.btns form { display: contents; }
+.reply { background: var(--ink); color: #fff; border-color: var(--ink); }
+.scope :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }

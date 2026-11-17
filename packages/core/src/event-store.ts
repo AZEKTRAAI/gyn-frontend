@@ -1,7 +1,7 @@
 // Event storage. One Event row holds the details; page content is one EventSection row per section key
 // (blockType = key, data = that section's JSON), the same pattern home-store.ts uses for the home page.
-// Without DATABASE_URL (or when the database is unreachable) the public readers serve content/event-pages/<slug>.json,
-// so the site still builds and renders. The admin writers need the database.
+// Without DATABASE_URL the public readers serve content/event-pages/<slug>.json, so the site still builds and renders;
+// with it, a failed read serves the seed only during `next build` (see read-fallback.ts). The admin writers need the database.
 
 import type { Prisma, PrismaClient } from "@prisma/client";
 import eventsJson from "../../../content/events.json" with { type: "json" };
@@ -9,6 +9,7 @@ import fmsThailandJson from "../../../content/event-pages/fms-thailand.json" wit
 import sism2026Json from "../../../content/event-pages/sism-2026.json" with { type: "json" };
 import { buildSeed, type SeedCategory } from "../../../prisma/seed-data.ts";
 import { getPrisma } from "./db.ts";
+import { seedOnReadError } from "./read-fallback.ts";
 import {
   EVENT_SECTIONS,
   eventDetailsSchema,
@@ -73,7 +74,7 @@ export interface EventForEdit extends AdminEventRow {
 
 export class EventStoreUnavailable extends Error {}
 export class EventStoreError extends Error {
-  code: "SLUG_TAKEN" | "NOT_FOUND" | "INVALID";
+  code: "SLUG_TAKEN" | "NOT_FOUND" | "INVALID" | "STALE";
   constructor(code: EventStoreError["code"], message: string) {
     super(message);
     this.code = code;
@@ -109,10 +110,15 @@ function zoneOffsetMs(at: Date, tz: string): number {
   return Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second) - at.getTime();
 }
 
-// shortcut: one offset lookup, so a time inside the hour a daylight-saving change skips can be off by an hour; our events start at 00:00 and end at 23:59.
+/** The instant when the clock in `tz` shows `ymd` `hm`. The offsets a day either side are the candidates (a clock change moves
+ * the offset at most once in that span); the one that reads back as the same wall time wins (an ambiguous time gets its earlier
+ * occurrence). A time a clock change skips resolves to the nearest instant that is still on `ymd`. */
 export function localToDate(ymd: string, hm: string, tz: string): Date {
-  const asUtc = new Date(`${ymd}T${hm}:00Z`);
-  return new Date(asUtc.getTime() - zoneOffsetMs(asUtc, tz));
+  const wall = new Date(`${ymd}T${hm}:00Z`).getTime();
+  const day = 86_400_000;
+  const candidates = [...new Set([zoneOffsetMs(new Date(wall - day), tz), zoneOffsetMs(new Date(wall + day), tz)])].map((o) => wall - o).sort((a, b) => a - b);
+  const exact = candidates.find((c) => c + zoneOffsetMs(new Date(c), tz) === wall);
+  return new Date(exact ?? candidates.reverse().find((c) => dateToLocal(new Date(c), tz) === ymd) ?? candidates[0]);
 }
 
 export function dateToLocal(at: Date, tz: string): string {
@@ -274,7 +280,7 @@ async function loadContent(db: Db, row: EventRow): Promise<EventPageContent> {
 
 const seedSummaries = () => Object.entries(EVENT_SEEDS).map(([slug, s]) => summary(slug, s.details, eventDates(s.details)));
 
-/** Published events, upcoming first then past. The public site never throws because the database is down. */
+/** Published events, upcoming first then past. A failed database read serves the seed only during the build (read-fallback.ts); at runtime it throws so ISR keeps the last good page. */
 export async function listPublicEvents(): Promise<EventSummary[]> {
   const prisma = getPrisma();
   if (!prisma) return sortEvents(seedSummaries());
@@ -283,7 +289,8 @@ export async function listPublicEvents(): Promise<EventSummary[]> {
     const rows = await prisma.event.findMany({ where: { status: "PUBLISHED", deletedAt: null } });
     return sortEvents(rows.map((r) => rowSummary(r, now)));
   } catch (err) {
-    console.error("[events] database read failed, using seed", err instanceof Error ? err.message : err);
+    if (!seedOnReadError()) throw err;
+    console.error("[events] database read failed during the build, using seed", err instanceof Error ? err.message : err);
     return sortEvents(seedSummaries());
   }
 }
@@ -331,7 +338,8 @@ export async function getPublicEvent(slug: string): Promise<PublicEvent | null> 
       })),
     };
   } catch (err) {
-    console.error(`[events] database read failed for "${slug}", using seed`, err instanceof Error ? err.message : err);
+    if (!seedOnReadError()) throw err;
+    console.error(`[events] database read failed for "${slug}" during the build, using seed`, err instanceof Error ? err.message : err);
     return fromSeed(slug);
   }
 }
@@ -400,16 +408,25 @@ export async function createEvent(input: { slug: string; details: EventDetails; 
   }
 }
 
-/** Replaces the details and every section. Old and new versions go to the audit log so a bad edit can be rolled back by hand. */
-export async function saveEvent(slug: string, input: { details: EventDetails; content: EventPageContent }, meta: AuditMeta): Promise<void> {
+/**
+ * Replaces the details and every section. Old and new versions go to the audit log so a bad edit can be rolled back by hand.
+ * `expectedUpdatedAt` is the event's `updatedAt` (ISO string) from when the editor loaded it; if the row has changed since, nothing is
+ * written and the error code is 'STALE'. Returns the new `updatedAt`, to send with the next save.
+ */
+export async function saveEvent(slug: string, input: { details: EventDetails; content: EventPageContent; expectedUpdatedAt: string }, meta: AuditMeta): Promise<string> {
   const prisma = needDb();
+  const expected = new Date(input.expectedUpdatedAt);
+  if (Number.isNaN(expected.getTime())) throw new EventStoreError("INVALID", "Missing the version this edit started from. Reload the page.");
   const details = eventDetailsSchema.safeParse(input.details);
   const content = eventPageSchema.safeParse(input.content);
   if (!details.success || !content.success) throw new EventStoreError("INVALID", (details.error ?? content.error)!.issues[0].message);
-  await prisma.$transaction(async (tx) => {
+  return prisma.$transaction(async (tx) => {
     const previous = await readForEdit(tx, slug);
     if (!previous) throw new EventStoreError("NOT_FOUND", `No event at /${slug}.`);
-    const event = await tx.event.update({ where: { slug }, data: eventRowFields(details.data, content.data.seo) });
+    // The version check is part of the UPDATE, so two saves that read the same version cannot both win (the second waits on the row, then matches nothing).
+    const changed = await tx.event.updateMany({ where: { slug, deletedAt: null, updatedAt: expected }, data: eventRowFields(details.data, content.data.seo) });
+    if (changed.count === 0) throw new EventStoreError("STALE", "Someone else saved this event since you opened it. Reload to see their changes.");
+    const event = await tx.event.findFirstOrThrow({ where: { slug } });
     await tx.eventSection.deleteMany({ where: { eventId: event.id } });
     await tx.eventSection.createMany({ data: sectionRows(event.id, content.data) });
     await tx.auditLog.create({
@@ -424,6 +441,7 @@ export async function saveEvent(slug: string, input: { details: EventDetails; co
         ip: meta.ip,
       },
     });
+    return event.updatedAt.toISOString();
   });
 }
 

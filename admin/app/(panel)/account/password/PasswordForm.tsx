@@ -1,10 +1,12 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import editor from '@/components/editor.module.css'
 import { changePasswordAction } from './actions'
 
-export function PasswordForm() {
+export function PasswordForm({ wasTemporary }: { wasTemporary: boolean }) {
+  const router = useRouter()
   const [pending, startTransition] = useTransition()
   const [error, setError] = useState('')
   const [done, setDone] = useState('')
@@ -19,6 +21,7 @@ export function PasswordForm() {
       const res = await changePasswordAction({ current: String(data.get('current')), next: String(data.get('next')), confirm: String(data.get('confirm')) })
       if (!res.ok) return setError(res.error)
       form.reset()
+      if (wasTemporary) return router.replace('/') // the panel is unlocked now
       setDone(res.otherSessionsEnded ? `Your password was changed. ${res.otherSessionsEnded} other sign-in${res.otherSessionsEnded === 1 ? ' was' : 's were'} ended.` : 'Your password was changed.')
     })
   }

@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import type { ContactMessage } from '@prisma/client'
 import { can } from '@gyn/core/permissions'
-import { CONTACT_TOPICS, ContactStoreUnavailable, firstLine, listContactMessages, parseFilters } from '@gyn/core/contact-store'
+import { CONTACT_TOPICS } from '@gyn/core/contact-topics'
+import { ContactStoreUnavailable, firstLine, listContactMessages, parseFilters } from '@gyn/core/contact-store'
 import { requireSession } from '@/lib/auth'
 import { Forbidden } from '../Forbidden'
 import editor from '@/components/editor.module.css'
@@ -47,7 +48,7 @@ export default async function ContactInboxPage({ searchParams }: { searchParams:
           Topic
           <select name="topic" defaultValue={filters.topic ?? ''}>
             <option value="">All</option>
-            {CONTACT_TOPICS.map((t) => <option key={t} value={t}>{TOPIC_LABEL[t]}</option>)}
+            {CONTACT_TOPICS.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
           </select>
         </label>
         <button type="submit">Filter</button>

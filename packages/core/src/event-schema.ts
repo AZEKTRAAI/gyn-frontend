@@ -12,7 +12,7 @@ const href = z
   .string()
   .trim()
   .max(500)
-  .regex(/^(https?:\/\/|mailto:|tel:|\/|#)/, 'Links must start with https://, /, #, mailto: or tel:')
+  .regex(/^(https?:\/\/|mailto:|tel:|\/(?![\/\\])|#)/, 'Links must start with https://, /, #, mailto: or tel:')
 
 const visible = z.boolean().meta({ title: 'Show this section' })
 const kicker = str('Small label above the heading', 60)
@@ -186,7 +186,9 @@ export function eventTiming(e: { endsAt: Date; timingOverride?: 'UPCOMING' | 'PA
 // Event pages live at the site root (/fms-thailand, /sism-2026), so a slug must not take a fixed page's address.
 export const RESERVED_SLUGS = new Set([
   'about-us', 'contact-us', 'privacy-policy', 'refund-policy', 'terms-conditions', 'videos', 'pitch', 'api', 'media',
-  'admin', 'sism-forum-access', 'sism-invitation-letter', 'sism-self-funded', '_next', 'sitemap.xml', 'robots.txt',
+  'admin', 'sism-forum-access', 'sism-invitation-letter', 'sism-self-funded',
+  // old WordPress addresses that redirect (OLD_URL_REDIRECTS in next.config.ts)
+  'home', 'fmst-2026', 'thank-you-page', 'sism-2026-application-form', 'sism-fully-funded-scholarship',
 ])
 export const slugSchema = z
   .string()

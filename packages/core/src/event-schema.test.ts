@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { eventDetailsSchema, eventTiming, slugSchema } from './event-schema.ts'
+import { eventDetailsSchema, eventPageSchema, eventTiming, slugSchema } from './event-schema.ts'
 
 test('an event is upcoming until its end date passes; the override wins', () => {
   const endsAt = new Date('2026-11-22T15:59:00Z')
@@ -22,4 +22,10 @@ test('details need real dates in order', () => {
   assert.equal(eventDetailsSchema.safeParse(d).success, false)
   assert.ok(eventDetailsSchema.safeParse({ ...d, endsAt: '2027-01-02' }).success)
   assert.equal(eventDetailsSchema.safeParse({ ...d, startsAt: '2 Jan 2027' }).success, false)
+})
+
+test('the video link rejects protocol-relative and backslash addresses', () => {
+  const url = (u: string) => eventPageSchema.shape.videos.safeParse({ visible: true, kicker: '', heading: '', items: [{ url: u, title: 't', poster: { src: '/media/x.png', alt: '' } }] }).success
+  for (const ok of ['https://youtu.be/x', '/media/v.mp4', '#x']) assert.ok(url(ok), ok)
+  for (const bad of ['//evil.com', '/\\evil.com']) assert.equal(url(bad), false, bad)
 })

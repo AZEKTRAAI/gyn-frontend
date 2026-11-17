@@ -4,7 +4,7 @@ import { headers } from 'next/headers'
 import { categoryFormSchema } from '@gyn/core/category-schema'
 import { createCategory, moveCategory, removeCategory, updateCategory } from '@gyn/core/category-store'
 import { eventDetailsSchema, eventPageSchema, type EventDetails } from '@gyn/core/event-schema'
-import { createEvent, EventStoreError, EventStoreUnavailable, saveEvent, setEventStatus, type EventStatus } from '@gyn/core/event-store'
+import { createEvent, EventStoreError, getEventForEdit, EventStoreUnavailable, saveEvent, setEventStatus, type EventStatus } from '@gyn/core/event-store'
 import { PermissionError, requirePermission } from '@/lib/auth'
 import { issuesToErrors, validateDetails, validateSlug } from '@/lib/event-form'
 import { getClientIp } from '@/lib/ip'
@@ -21,11 +21,14 @@ async function actor() {
   return { actor: session.user.email, userId: session.user.id, ip: getClientIp({ headers: await headers() }) }
 }
 
+const STALE_MESSAGE = 'Someone else saved this event after you opened it. Reload to see their changes; your edits are still on screen.'
+
 /** Turns anything the store or the permission check throws into a message a person can act on. */
 function failure(e: unknown, what: string): { ok: false; error: string; issues?: Issue[] } {
   if (e instanceof PermissionError || e instanceof EventStoreUnavailable) return { ok: false, error: e.message }
   if (e instanceof EventStoreError) {
     if (e.code === 'SLUG_TAKEN') return { ok: false, error: e.message, issues: [{ area: 'form', path: 'slug', message: e.message }] }
+    if (e.code === 'STALE') return { ok: false, error: STALE_MESSAGE }
     if (e.code === 'NOT_FOUND') return { ok: false, error: 'This event no longer exists. It may have been removed. Go back to the list.' }
     return { ok: false, error: e.message }
   }
@@ -55,7 +58,7 @@ export async function createEventAction(input: { slug: string; kind: string; det
   }
 }
 
-export async function saveEventAction(slug: string, input: { details: unknown; content: unknown }): Promise<ActionResult<{ savedAt: string }>> {
+export async function saveEventAction(slug: string, input: { details: unknown; content: unknown; expectedUpdatedAt: unknown }): Promise<ActionResult<{ savedAt: string; updatedAt: string }>> {
   try {
     const meta = await actor()
     const errors = validateDetails(input?.details)
@@ -64,9 +67,9 @@ export async function saveEventAction(slug: string, input: { details: unknown; c
       const pageIssues = page.success ? [] : issuesOf('page', issuesToErrors(page.error.issues.slice(0, 50)))
       return { ok: false, error: 'Some fields need fixing before this can be saved.', issues: [...issuesOf('details', errors), ...pageIssues] }
     }
-    await saveEvent(slug, { details: eventDetailsSchema.parse(input.details), content: page.data }, meta)
+    const updatedAt = await saveEvent(slug, { details: eventDetailsSchema.parse(input.details), content: page.data, expectedUpdatedAt: String(input?.expectedUpdatedAt ?? '') }, meta)
     await refreshWeb(slug)
-    return { ok: true, savedAt: new Date().toISOString() }
+    return { ok: true, savedAt: new Date().toISOString(), updatedAt }
   } catch (e) {
     return failure(e, 'saving the event')
   }
@@ -114,13 +117,15 @@ export async function removeCategoryAction(slug: string, id: string): Promise<Ac
   }
 }
 
-export async function setEventStatusAction(slug: string, status: string): Promise<ActionResult<{ status: EventStatus }>> {
+export async function setEventStatusAction(slug: string, status: string): Promise<ActionResult<{ status: EventStatus; updatedAt: string }>> {
   try {
     const meta = await actor()
     if (status !== 'DRAFT' && status !== 'PUBLISHED' && status !== 'ARCHIVED') return { ok: false, error: 'Unknown status.' }
     await setEventStatus(slug, status, meta)
     await refreshWeb(slug)
-    return { ok: true, status }
+    // A status change also moves the event's updatedAt, and the store does not return it. Without the new value the next save would be refused as stale.
+    const updatedAt = (await getEventForEdit(slug))?.updatedAt.toISOString() ?? ''
+    return { ok: true, status, updatedAt }
   } catch (e) {
     return failure(e, 'changing the status')
   }

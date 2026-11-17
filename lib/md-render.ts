@@ -6,8 +6,9 @@
  * shortcut: only handles the constructs present in the three policy files;
  *   not a general-purpose renderer. Upgrade to remark if more pages land.
  *
- * Returns an array of { id, text } for each H2 (used by the sticky TOC); pages with no H2 use their H4s instead
- * alongside the HTML string.
+ * Heading levels are remapped so the page's h1 (the layout's title) is followed by h2, h3, ... with no skipped level:
+ * the distinct levels the document uses below its H1 keep their order and become 2, 3, 4 ... A document H1 stays h1.
+ * Returns an array of { id, text } for each top remapped level (h2) (used by the sticky TOC) alongside the HTML string.
  */
 
 export interface TocEntry {
@@ -29,8 +30,8 @@ function slugify(text: string): string {
 
 export function renderMd(markdown: string): RenderResult {
   const toc: TocEntry[] = []
-  const tocH4: TocEntry[] = []
   const lines = markdown.split('\n')
+  const used = [...new Set(lines.map((l) => /^(#{2,6})\s+\S/.exec(l)?.[1].length ?? 0).filter(Boolean))].sort()
   const out: string[] = []
   let i = 0
 
@@ -39,13 +40,16 @@ export function renderMd(markdown: string): RenderResult {
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
   }
 
   /** Allow only safe URL schemes; drop anything else (e.g. javascript:, data:). */
   function safeHref(raw: string): string {
     // raw has already been HTML-escaped by escape(); unescape for scheme check
     const url = raw.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-    if (/^(https?:\/\/|mailto:|tel:|\/|#)/i.test(url)) return raw;
+    // a leading "//" or "/\" is protocol-relative (another site), not a site path
+    if (/^(https?:\/\/|mailto:|tel:|\/(?![\/\\])|#)/i.test(url)) return raw;
     return '#'; // unsupported scheme → harmless anchor
   }
 
@@ -62,11 +66,11 @@ export function renderMd(markdown: string): RenderResult {
     // H1–H6
     const hMatch = line.match(/^(#{1,6})\s+(.+)/)
     if (hMatch) {
-      const level = hMatch[1].length
+      const written = hMatch[1].length
+      const level = written === 1 ? 1 : used.indexOf(written) + 2
       const text = hMatch[2].replace(/\*\*/g, '')
       const id = slugify(text)
       if (level === 2) toc.push({ id, text })
-      if (level === 4) tocH4.push({ id, text })
       out.push(`<h${level} id="${id}">${escape(text)}</h${level}>`)
       i++
       continue
@@ -149,5 +153,5 @@ export function renderMd(markdown: string): RenderResult {
     }
   }
 
-  return { html: out.join('\n'), toc: toc.length ? toc : tocH4 }
+  return { html: out.join('\n'), toc }
 }

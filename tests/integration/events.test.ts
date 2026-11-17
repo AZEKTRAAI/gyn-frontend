@@ -1,5 +1,6 @@
 // The event store against a real database: create, save, status changes, the audit trail and what the public sees.
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { after, beforeEach, test } from "node:test";
 import { EVENT_SECTIONS, eventDetailsSchema, type EventDetails } from "@gyn/core/event-schema";
 import { EventStoreError, createEvent, getEventForEdit, getPublicEvent, listAllEvents, listPublicEvents, saveEvent, setEventStatus } from "@gyn/core/event-store";
@@ -43,7 +44,7 @@ test("saving replaces the details and sections, keeps the old version in the aud
   const edit = (await getEventForEdit("sis-dubai-2099"))!;
   edit.content.hero.headline = "Dubai *2099*";
   edit.content.gallery.visible = true;
-  await saveEvent("sis-dubai-2099", { details: { ...edit.details, city: "Abu Dhabi" }, content: edit.content }, meta);
+  await saveEvent("sis-dubai-2099", { details: { ...edit.details, city: "Abu Dhabi" }, content: edit.content, expectedUpdatedAt: edit.updatedAt.toISOString() }, meta);
 
   const [log] = await audit("EVENT_UPDATED");
   assert.equal((log.oldValue as { content: { hero: { headline: string } } }).content.hero.headline, edit.details.name);
@@ -69,8 +70,8 @@ test("saving or changing an event that does not exist, or with bad content, writ
   await assert.rejects(setEventStatus("nope", "PUBLISHED", meta), (e: EventStoreError) => e.code === "NOT_FOUND");
   await createEvent({ slug: "sis-dubai-2099", details, kind: "past" }, meta);
   const edit = (await getEventForEdit("sis-dubai-2099"))!;
-  await assert.rejects(saveEvent("sis-dubai-2099", { details: { ...edit.details, endsAt: "2099-01-01" }, content: edit.content }, meta), (e: EventStoreError) => e.code === "INVALID");
-  await assert.rejects(saveEvent("nope", edit, meta), (e: EventStoreError) => e.code === "NOT_FOUND");
+  await assert.rejects(saveEvent("sis-dubai-2099", { details: { ...edit.details, endsAt: "2099-01-01" }, content: edit.content, expectedUpdatedAt: edit.updatedAt.toISOString() }, meta), (e: EventStoreError) => e.code === "INVALID");
+  await assert.rejects(saveEvent("nope", { ...edit, expectedUpdatedAt: edit.updatedAt.toISOString() }, meta), (e: EventStoreError) => e.code === "NOT_FOUND");
   assert.equal((await audit("EVENT_UPDATED")).length, 0);
 });
 
@@ -86,4 +87,46 @@ test("a stored section that no longer fits falls back to the default instead of 
   } finally {
     console.error = log;
   }
+});
+
+test("re-running the seed keeps the admin's category edits and fills in only what is missing", async () => {
+  const seed = () => {
+    const r = spawnSync(process.execPath, ["--experimental-strip-types", "prisma/seed.ts"], { env: process.env, encoding: "utf8" });
+    assert.equal(r.status, 0, r.stderr || r.stdout);
+  };
+  seed();
+  const cat = await prisma.registrationCategory.findFirstOrThrow({ where: { event: { slug: "sism-2026" } }, orderBy: { slug: "asc" } });
+  await prisma.registrationCategory.update({ where: { id: cat.id }, data: { feeCents: cat.feeCents + 1234, active: !cat.active, seatLimit: 7 } });
+  const total = await prisma.registrationCategory.count();
+  await prisma.registrationCategory.delete({ where: { id: (await prisma.registrationCategory.findFirstOrThrow({ where: { id: { not: cat.id } } })).id } });
+  seed();
+  const after = await prisma.registrationCategory.findUniqueOrThrow({ where: { id: cat.id } });
+  assert.equal(after.feeCents, cat.feeCents + 1234);
+  assert.equal(after.active, !cat.active);
+  assert.equal(after.seatLimit, 7);
+  assert.equal(await prisma.registrationCategory.count(), total, "the deleted-then-reseeded category comes back, nothing is duplicated");
+});
+
+test("a save from an out-of-date editor is refused with STALE and writes nothing; the next save uses the returned version", async () => {
+  await createEvent({ slug: "sis-dubai-2099", details, kind: "upcoming" }, meta);
+  const first = (await getEventForEdit("sis-dubai-2099"))!;
+  const second = (await getEventForEdit("sis-dubai-2099"))!;
+  const mine = (e: typeof first, headline: string) => ({ details: e.details, content: { ...e.content, hero: { ...e.content.hero, headline } }, expectedUpdatedAt: e.updatedAt.toISOString() });
+  const next = await saveEvent("sis-dubai-2099", mine(first, "First *editor*"), meta);
+  assert.ok(next > first.updatedAt.toISOString());
+  await assert.rejects(saveEvent("sis-dubai-2099", mine(second, "Second editor"), meta), (e: EventStoreError) => e.code === "STALE");
+  assert.equal((await getEventForEdit("sis-dubai-2099"))!.content.hero.headline, "First *editor*");
+  assert.equal((await audit("EVENT_UPDATED")).length, 1);
+  await saveEvent("sis-dubai-2099", { ...mine(second, "Third *editor*"), expectedUpdatedAt: next }, meta);
+  await assert.rejects(saveEvent("sis-dubai-2099", { ...mine(second, "x"), expectedUpdatedAt: "not a date" }, meta), (e: EventStoreError) => e.code === "INVALID");
+});
+
+test("two saves from the same version at the same moment: exactly one wins", async () => {
+  await createEvent({ slug: "sis-dubai-2099", details, kind: "upcoming" }, meta);
+  const e = (await getEventForEdit("sis-dubai-2099"))!;
+  const attempt = (headline: string) => saveEvent("sis-dubai-2099", { details: e.details, content: { ...e.content, hero: { ...e.content.hero, headline } }, expectedUpdatedAt: e.updatedAt.toISOString() }, meta);
+  const results = await Promise.allSettled([attempt("A"), attempt("B"), attempt("C")]);
+  assert.equal(results.filter((r) => r.status === "fulfilled").length, 1);
+  for (const r of results) if (r.status === "rejected") assert.equal((r.reason as EventStoreError).code, "STALE");
+  assert.equal((await audit("EVENT_UPDATED")).length, 1);
 });

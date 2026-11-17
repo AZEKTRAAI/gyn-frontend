@@ -29,6 +29,7 @@ export default async function EditEventPage({ params }: { params: Promise<{ slug
       slug={event.slug}
       name={event.details.name}
       initialStatus={event.status}
+      initialUpdatedAt={event.updatedAt.toISOString()}
       timing={event.timing}
       initialDetails={event.details}
       initialContent={event.content}

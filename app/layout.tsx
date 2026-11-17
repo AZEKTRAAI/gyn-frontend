@@ -5,9 +5,14 @@ import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
 import { cms } from '@/lib/cms'
 import { getHome } from '@gyn/core/home-store'
-import { listPublicEvents } from '@gyn/core/event-store'
+import { getPublicEvent, listPublicEvents } from '@gyn/core/event-store'
+import { money } from '@/components/event/money'
 import type { NavItem } from '@/lib/cms/types'
 import { FloatingPill } from '@/components/home/FloatingPill'
+
+// The navbar (past/upcoming groups, the Book pill) is built here from the events, so every page, including the fully
+// static ones, must refresh it: without this an event would only move to Past at the next deploy.
+export const revalidate = 300
 
 // The site's only two fonts (docs/frontend-design-plan.md): Plus Jakarta Sans for headings, Inter for text.
 // latin-ext covers the accented letters in delegates' names.
@@ -46,12 +51,23 @@ function buildNav(nav: NavItem[], events: Awaited<ReturnType<typeof listPublicEv
     .filter((item) => !item.children || item.children.length > 0)
 }
 
+/** The navbar's Book pill: the next upcoming event's open forum-access category, or null (the pill is hidden). One extra read, for that event only. */
+async function bookPill(events: Awaited<ReturnType<typeof listPublicEvents>>) {
+  const next = events.find((e) => e.timing === 'upcoming')
+  const ev = next && (await getPublicEvent(next.slug))
+  const cat = ev?.categories.find((c) => c.slug === 'forum-access' && c.open)
+  if (!ev || !cat) return null
+  // shortcut: SISM 2026 has the only registration page; other events send people to their categories until phase 5 forms exist.
+  return { fee: money(cat.feeCents, cat.currency), href: ev.slug === 'sism-2026' ? '/sism-forum-access' : `/${ev.slug}#categories` }
+}
+
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   const [sitemap, home, events] = await Promise.all([cms.getSitemap(), getHome(), listPublicEvents()])
+  const book = await bookPill(events)
 
   return (
     <html lang="en" className={`${heading.variable} ${text.variable}`} data-scroll-behavior="smooth">
@@ -69,7 +85,7 @@ export default async function RootLayout({
         <a href="#main" className="sr-only focus:not-sr-only">
           Skip to main content
         </a>
-        <SiteHeader nav={buildNav(sitemap.nav, events)} />
+        <SiteHeader nav={buildNav(sitemap.nav, events)} book={book} />
         {children}
         <FloatingPill apply={home.hero.primaryCta} />
         <SiteFooter footer={sitemap.footer} socials={sitemap.socials} />

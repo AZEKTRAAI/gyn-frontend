@@ -13,7 +13,7 @@ const imageSrc = z
   .string()
   .trim()
   .max(500)
-  .regex(/^(\/(?!\/)[^\s]*|https:\/\/res\.cloudinary\.com\/[^\s]+)$/, 'Use an uploaded image or a /media/... path')
+  .regex(/^(\/(?![\/\\])[^\s]*|https:\/\/res\.cloudinary\.com\/[^\s]+)$/, 'Use an uploaded image or a /media/... path')
 
 export const imageSchema = z
   .object({
@@ -27,7 +27,7 @@ const href = z
   .string()
   .trim()
   .max(500)
-  .regex(/^(https?:\/\/|mailto:|tel:|\/|#)/, 'Links must start with https://, /, #, mailto: or tel:')
+  .regex(/^(https?:\/\/|mailto:|tel:|\/(?![\/\\])|#)/, 'Links must start with https://, /, #, mailto: or tel:')
 
 export const linkSchema = z
   .object({ label: str('Button text', 60), href: href.meta({ title: 'Link' }) })
@@ -161,7 +161,7 @@ export const homeSchema = z
                 stamp: str('Stamp text', 20),
                 dates: str('Dates', 80),
                 text: long('Text', 400),
-                facts: z.array(z.object({ n: str('Number', 10), label: str('Label', 40) }).meta({ title: 'Fact' })).max(4).meta({ title: 'Facts on the ticket' }),
+                facts: z.array(z.object({ n: str('Number', 10), label: str('Label', 40) }).meta({ title: 'Fact' })).max(4).meta({ title: 'Facts on the summit card' }),
                 videoUrl: href.meta({ title: 'Video link (YouTube)' }),
                 videoPoster: imageSchema.meta({ title: 'Video poster' }),
                 // default: editions saved before this field existed still load
@@ -171,7 +171,7 @@ export const homeSchema = z
           )
           .max(6)
           .meta({ title: 'Past summits (newest first)' }),
-        note: str('Line under the ticket', 120),
+        note: str('Line under the summit card', 120),
       })
       .meta({ title: 'Previous summit' }),
 

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { eventPageSchema, EVENT_SECTIONS } from './event-schema.ts'
 import {
-  EVENT_SEEDS, EventStoreError, defaultEventContent, eventDates, getPublicEvent, listPublicEvents, mergeEventContent,
+  EVENT_SEEDS, EventStoreError, dateToLocal, defaultEventContent, eventDates, localToDate, getPublicEvent, listPublicEvents, mergeEventContent,
 } from './event-store.ts'
 
 delete process.env.DATABASE_URL
@@ -66,4 +66,23 @@ test('without a database the public readers serve the seed', async () => {
   assert.equal(sism.categories.find((c) => c.slug === 'fully-funded')!.open, false)
   assert.equal(sism.categories.find((c) => c.slug === 'forum-access')!.open, true)
   assert.equal((await getPublicEvent('fms-thailand'))!.categories.length, 0)
+})
+
+test('a local date and time survive the round trip in zones that change clocks at midnight', () => {
+  const zones = ['Africa/Cairo', 'America/Godthab', 'America/Sao_Paulo', 'Asia/Beirut', 'America/Havana', 'Europe/London', 'Pacific/Auckland', 'Asia/Kuala_Lumpur']
+  const pad = (n: number) => String(n).padStart(2, '0')
+  let checked = 0
+  for (const tz of zones) {
+    for (let day = Date.UTC(2026, 0, 1); day < Date.UTC(2028, 0, 1); day += 86_400_000) {
+      const d = new Date(day)
+      const ymd = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`
+      for (const hm of ['00:00', '23:59']) {
+        const back = dateToLocal(localToDate(ymd, hm, tz), tz)
+        // a wall time a clock change skips (Cairo 00:00 on the day clocks jump forward) resolves to the nearest instant still on that day
+        assert.equal(back, ymd, `${tz} ${ymd} ${hm} came back as ${back}`)
+        checked++
+      }
+    }
+  }
+  assert.ok(checked > 10_000)
 })

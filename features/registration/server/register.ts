@@ -85,7 +85,7 @@ export async function handleRegistration(
       return { ok: false, status: 409, error: "Scholarship applications closed on 11 October 2026." };
     }
     // unlisted or unknown slug
-    return { ok: false, status: 409, error: "This ticket type is not available." };
+    return { ok: false, status: 409, error: "This registration category is not available." };
   }
 
   // 3. Parse + validate
@@ -108,7 +108,7 @@ export async function handleRegistration(
     return {
       ok: false,
       status: 409,
-      error: `The "${ticket.name}" ticket is no longer available. Please contact us if you believe this is an error.`,
+      error: `Registration for "${ticket.name}" is no longer available. Please contact us if you believe this is an error.`,
     };
   }
 

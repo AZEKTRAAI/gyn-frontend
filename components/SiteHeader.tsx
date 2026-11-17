@@ -9,9 +9,11 @@ import type { NavItem } from '@/lib/cms/types'
 
 interface Props {
   nav: NavItem[]
+  /** Next upcoming event's forum-access fee and page; null hides the Book pill. */
+  book: { fee: string; href: string } | null
 }
 
-export function SiteHeader({ nav }: Props) {
+export function SiteHeader({ nav, book }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [openDrop, setOpenDrop] = useState<string | null>(null)
@@ -463,7 +465,7 @@ export function SiteHeader({ nav }: Props) {
           font-weight: 700;
           letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: rgba(14,21,48,.55);
+          color: rgba(14,21,48,.72);
         }
         .nav-drawer .drawer-child {
           font-size: 1.375rem;
@@ -588,22 +590,24 @@ export function SiteHeader({ nav }: Props) {
               ))}
             </ul>
 
-            <div className="nav-cta-wrap" style={{ flexShrink: 0 }}>
-              <Link href="/sism-forum-access" className="nav-book-pill">
-                Book Forum Access, $199
+            {book && <div className="nav-cta-wrap" style={{ flexShrink: 0 }}>
+              <Link href={book.href} className="nav-book-pill">
+                Book Forum Access, {book.fee}
                 <span className="nav-book-icon" aria-hidden="true">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </span>
               </Link>
-            </div>
+            </div>}
 
             {/* Mobile: compact pill + hamburger */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Link href="/sism-forum-access" className="nav-m-book" aria-label="Book Forum Access, $199">
-                $199
-              </Link>
+              {book && (
+                <Link href={book.href} className="nav-m-book" aria-label={`Book Forum Access, ${book.fee}`}>
+                  {book.fee}
+                </Link>
+              )}
               <button
                 ref={hamburgerRef}
                 className="ham-btn"
@@ -660,17 +664,19 @@ export function SiteHeader({ nav }: Props) {
               </Link>
             ),
           )}
-          <Link
-            href="/sism-forum-access"
-            className="drawer-book"
-            onClick={closeMenu}
-            tabIndex={menuOpen ? 0 : -1}
-          >
-            Book Forum Access, $199
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </Link>
+          {book && (
+            <Link
+              href={book.href}
+              className="drawer-book"
+              onClick={closeMenu}
+              tabIndex={menuOpen ? 0 : -1}
+            >
+              Book Forum Access, {book.fee}
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
+          )}
         </div>
       </header>
     </>

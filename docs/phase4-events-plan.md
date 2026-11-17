@@ -81,8 +81,18 @@ Azam is asleep and asked for work that needs no input from him, run as Opus plan
 | 10 | Registration categories editor inside the admin event page (fees, approval mode, seats, open/close dates) | done (register link per category waits for phase 5 forms) |
 | 10b | Mobile menu lists every event in each dropdown group (G) | done |
 | 10c | SISM content the schema still lacks: eligibility, scholarship criteria, co-host and APU blocks (a generic titled-list section may cover them) | |
-| 11 | **Red team** review of 1 to 10 against the SRS and the plan; fix every confirmed flag | running |
+| 11 | **Red team** review of 1 to 10 against the SRS and the plan; fix every confirmed flag | review done; fixes R1, R2, R3 running |
 | 11b | Next.js printed a known-vulnerability warning for 16.4.2: check `npm audit`, move to the patched 16.x release if one exists, rerun every check. Do it when no agent is mid-build. | |
+| 13 | Past and upcoming event listing pages, featured-event flag in the admin (SRS 2.2, 2.3) | |
 | 12 | Phase 5 start: form definition format + engine with tests (SRS 3.4), no builder UI yet | |
+
+## Red-team triage (18 Nov 2026, early morning)
+
+No critical findings, no permission bypass (actions called directly as viewer/content were refused). Fixes assigned:
+
+- **R1 core and data** (packages/core, prisma/seed.ts, lib/md-render.ts, features/seo test): seed never overwrites category edits; DB read errors at runtime keep the last good page instead of serving seed content (seed only with no DATABASE_URL or during the build); event saves refuse a stale `updatedAt`; reserved slugs include the redirect sources, tested against app/ routes; links and images refuse `//` and `/\`; daylight-saving date round trip fixed; markdown escaping of quotes; policy headings start at h2.
+- **R2 admin** (admin/**): temporary passwords must be changed before anything else; event editor sends `updatedAt` and shows a "someone else saved" message; image uploads write an audit row; LOGIN_FAILED stores the typed email only when it looks like an email; admin contact topics come from core.
+- **R3 public site** (components, app, content/home.json, app/api/contact, features/contact): Register buttons only where a real form exists (SISM 2026), editor-only categories say so; navbar "Book" pill and its price come from the next upcoming event's forum-access category and hide when none; navbar refreshes on its own (revalidate) so events move to Past without a redeploy; Event JSON-LD on event pages; registration close date on category cards; contact rate limit before Turnstile, one topic list; drawer label contrast; no "ticket" wording.
+- **Later / needs Azam:** privacy policy wording and retention for stored IPs and contact messages; who owns role permissions (admin screen vs code); shared-IP rate limiting if deployed behind nginx (Netcup phase); past/upcoming listing pages and the featured-event flag (queued as 13); dev DB leftovers (old home hero fails the schema; test users/events).
 
 Not tonight (needs Azam or comes last): two-step login, Netcup, merging to `main`, client sign-off items, payment keys.

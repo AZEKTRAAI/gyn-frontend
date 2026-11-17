@@ -40,6 +40,10 @@ function allowAttempt(ip: string): boolean {
   return recent.length <= 20
 }
 
+// A typed value goes into the audit log only if it looks like an email: people paste passwords into the wrong box.
+const EMAIL_SHAPE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const auditableEmail = (typed: string): string | null => (typed.length <= 254 && EMAIL_SHAPE.test(typed) ? typed : null)
+
 const GENERIC_FAILURE = 'That email and password do not match, or the account is locked.'
 
 export async function signIn(email: string, password: string): Promise<{ ok: true } | { ok: false; error: string }> {
@@ -63,7 +67,7 @@ export async function signIn(email: string, password: string): Promise<{ ok: tru
       })
     }
     await prisma.auditLog.create({
-      data: { userId: user?.id ?? null, userEmail: addr || null, action: 'LOGIN_FAILED', entityType: 'User', entityId: user?.id ?? 'unknown', ip, meta: { locked } },
+      data: { userId: user?.id ?? null, userEmail: user?.email ?? auditableEmail(addr), action: 'LOGIN_FAILED', entityType: 'User', entityId: user?.id ?? 'unknown', ip, meta: { locked, ...(!user && addr && !auditableEmail(addr) ? { note: 'not an email' } : {}) } },
     })
     return { ok: false, error: GENERIC_FAILURE }
   }
@@ -108,10 +112,17 @@ export const getSession = cache(async (): Promise<AdminSession | null> => {
   }
 })
 
-/** For pages: send the visitor to the sign-in page when there is no valid session. */
-export async function requireSession(): Promise<AdminSession> {
+export const PASSWORD_PAGE = '/account/password'
+export const MUST_CHANGE_MESSAGE = 'You are using a temporary password. Change it first (Change password page), then try again.'
+
+/**
+ * For pages: send the visitor to the sign-in page when there is no valid session. While the password is a temporary one, every
+ * page except the change-password page (which passes allowTemporaryPassword) redirects there.
+ */
+export async function requireSession(opts: { allowTemporaryPassword?: boolean } = {}): Promise<AdminSession> {
   const session = await getSession()
   if (!session) redirect('/login')
+  if (session.user.mustChangePassword && !opts.allowTemporaryPassword) redirect(PASSWORD_PAGE)
   return session
 }
 
@@ -119,6 +130,7 @@ export async function requireSession(): Promise<AdminSession> {
 export async function requirePermission(permission: Permission): Promise<AdminSession> {
   const session = await getSession()
   if (!session) throw new PermissionError('You are signed out. Sign in again.')
+  if (session.user.mustChangePassword) throw new PermissionError(MUST_CHANGE_MESSAGE)
   if (!can(session.permissions, permission)) throw new PermissionError('Your role does not allow this.')
   return session
 }

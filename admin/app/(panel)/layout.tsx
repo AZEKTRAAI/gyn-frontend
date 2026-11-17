@@ -17,8 +17,10 @@ async function signOutAction() {
 // The frame around every signed-in page. Each page still checks the session and permission itself: a layout is not re-run on
 // every navigation, so it cannot be the only gate.
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
-  const session = await requireSession()
-  const items = MODULES.filter((m) => can(session.permissions, m.permission)).map((m) => ({ href: m.href, label: m.label, built: m.built }))
+  // The frame itself must render on the change-password page, so it allows a temporary password; every page still redirects (requireSession).
+  const session = await requireSession({ allowTemporaryPassword: true })
+  const locked = session.user.mustChangePassword
+  const items = MODULES.filter((m) => !locked && can(session.permissions, m.permission)).map((m) => ({ href: m.href, label: m.label, built: m.built }))
   return (
     <div className={styles.shell}>
       <aside className={styles.side}>
@@ -32,7 +34,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
             <span className={styles.role}>{session.roleName}</span>
           </div>
           <div className={styles.topActions}>
-            <Link href="/account/password" className={styles.topLink}>Change password</Link>
+            {!locked && <Link href="/account/password" className={styles.topLink}>Change password</Link>}
             <form action={signOutAction}>
               <button type="submit">Sign out</button>
             </form>

@@ -1,12 +1,13 @@
 // Pure contact form handler — factored out of the route for testability.
 
 import { z } from "zod";
+import { CONTACT_TOPIC_VALUES } from "@gyn/core/contact-topics";
 import type { Repo } from "@/lib/server/repo.ts";
 
 export const contactInput = z.object({
   name: z.string().trim().min(2, "Enter your name").max(120),
   email: z.email("Enter a valid email address").trim().max(254),
-  topic: z.enum(["general", "partnership", "group-booking", "media"], "Choose a topic"),
+  topic: z.enum(CONTACT_TOPIC_VALUES, "Choose a topic"),
   message: z.string().trim().min(10, "Message must be at least 10 characters").max(2000, "Message must be under 2000 characters"),
   turnstileToken: z.string().max(4096).optional(),
   // honeypot

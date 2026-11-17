@@ -1,6 +1,6 @@
 // Idempotent seed: SISM 2026 and FMS Thailand with their page content (content/event-pages) and registration categories.
-// Run with: npm run db:seed (reads .env.local). Safe to run again: an existing event keeps whatever the admin edited,
-// the seed only fills in what is missing (the dropdown label, page sections) and refreshes the categories.
+// Run with: npm run db:seed (reads .env.local). Safe to run again: an existing event and its categories keep whatever the admin
+// edited; the seed only fills in what is missing (the dropdown label, page sections, categories that do not exist yet).
 // Roles, users and form definitions are seeded by their own phases (docs/backend-plan.md).
 
 import { Pool } from "pg";
@@ -46,7 +46,7 @@ async function seed(): Promise<void> {
       for (const c of categories) {
         await prisma.registrationCategory.upsert({
           where: { eventId_slug: { eventId: event.id, slug: c.slug } },
-          update: { ...c },
+          update: {}, // create-only: a re-seed must not undo the admin's fee, seat or window edits
           create: { ...c, eventId: event.id },
         });
         console.log(`seed:   category ${c.slug} (${c.approvalMode}, ${c.feeCents} cents)`);

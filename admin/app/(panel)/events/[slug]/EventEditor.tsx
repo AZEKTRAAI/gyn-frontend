@@ -40,6 +40,7 @@ export function EventEditor(props: {
   slug: string
   name: string
   initialStatus: EventStatus
+  initialUpdatedAt: string
   timing: 'upcoming' | 'past'
   initialDetails: EventDetails
   initialContent: EventPageContent
@@ -55,6 +56,8 @@ export function EventEditor(props: {
   const [content, setContent] = useState(props.initialContent)
   const [saved, setSaved] = useState(() => JSON.stringify([props.initialDetails, props.initialContent]))
   const [status, setStatus] = useState(props.initialStatus)
+  // The version this edit started from, sent with every save. A save or status change moves it forward.
+  const [updatedAt, setUpdatedAt] = useState(props.initialUpdatedAt)
   const [tab, setTab] = useState<Tab>('details')
   const [active, setActive] = useState(sections[0]?.[0] ?? 'hero')
   const [detailErrors, setDetailErrors] = useState<Errors>({})
@@ -87,8 +90,9 @@ export function EventEditor(props: {
     const p = page.success ? {} : issuesToErrors(page.error.issues)
     if (Object.keys(d).length || Object.keys(p).length) return showErrors(d, p)
     startTransition(async () => {
-      const res = await saveEventAction(slug, { details, content })
+      const res = await saveEventAction(slug, { details, content, expectedUpdatedAt: updatedAt })
       if (res.ok) {
+        setUpdatedAt(res.updatedAt)
         setSaved(JSON.stringify([details, content]))
         setDetailErrors({})
         setPageErrors({})
@@ -111,6 +115,7 @@ export function EventEditor(props: {
       const res = await setEventStatusAction(slug, next)
       if (res.ok) {
         setStatus(res.status)
+        if (res.updatedAt) setUpdatedAt(res.updatedAt)
         setMessage({ kind: 'ok', text: `Now ${STATUS_LABEL[res.status].toLowerCase()}.` })
       } else {
         setMessage({ kind: 'error', text: res.error })

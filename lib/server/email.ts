@@ -35,7 +35,7 @@ function confirmationHtml(d: RegistrationConfirmationData): string {
   <p>Your registration for the <strong>SDG Innovation Summit Malaysia 2026</strong> has been confirmed.</p>
   <table style="border-collapse:collapse;width:100%;margin:24px 0">
     <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Reference</td><td style="padding:8px;border:1px solid #ddd">${esc(d.reference)}</td></tr>
-    <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Ticket</td><td style="padding:8px;border:1px solid #ddd">${esc(d.ticketName)}</td></tr>
+    <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Registration</td><td style="padding:8px;border:1px solid #ddd">${esc(d.ticketName)}</td></tr>
     <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Amount paid</td><td style="padding:8px;border:1px solid #ddd">${esc(d.amountUsd)}</td></tr>
     <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Dates</td><td style="padding:8px;border:1px solid #ddd">${esc(d.eventDates)}</td></tr>
     <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Venue</td><td style="padding:8px;border:1px solid #ddd">${esc(d.venue)}</td></tr>
@@ -45,7 +45,7 @@ function confirmationHtml(d: RegistrationConfirmationData): string {
     <li>You will receive a detailed programme schedule closer to the event.</li>
     <li>Accommodation details and logistics will be sent 4–6 weeks before the summit.</li>
     <li>Join our delegate WhatsApp group via the link in a follow-up email.</li>
-    <li>If you purchased an Invitation Letter ticket, your letter will be prepared and sent within 3 business days.</li>
+    <li>If you registered for an Invitation Letter, your letter will be prepared and sent within 3 business days.</li>
   </ul>
   <p><strong>Refund policy:</strong> Please review our <a href="${esc(d.refundPolicyUrl)}">refund policy</a>. All approved refunds are issued as GYN Credit Vouchers.</p>
   <p style="color:#666;font-size:12px">Questions? Email us at events@thegyn.org. Include your reference number: <strong>${esc(d.reference)}</strong>.</p>
@@ -62,7 +62,7 @@ Hi ${d.recipientName},
 Your registration has been confirmed.
 
 Reference: ${d.reference}
-Ticket: ${d.ticketName}
+Registration: ${d.ticketName}
 Amount paid: ${d.amountUsd}
 Dates: ${d.eventDates}
 Venue: ${d.venue}
@@ -71,7 +71,7 @@ What happens next?
 - You will receive a detailed programme schedule closer to the event.
 - Accommodation details and logistics will be sent 4-6 weeks before the summit.
 - Join our delegate WhatsApp group via the link in a follow-up email.
-- If you purchased an Invitation Letter ticket, your letter will be prepared and sent within 3 business days.
+- If you registered for an Invitation Letter, your letter will be prepared and sent within 3 business days.
 
 Refund policy: ${d.refundPolicyUrl}
 

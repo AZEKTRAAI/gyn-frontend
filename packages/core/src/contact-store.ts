@@ -3,11 +3,11 @@
 
 import type { ContactMessage, Prisma } from "@prisma/client";
 import { getPrisma } from "./db.ts";
+import { isContactTopic } from "./contact-topics.ts";
 
 export type ContactStatus = "NEW" | "READ" | "ARCHIVED";
 export const CONTACT_STATUSES: readonly ContactStatus[] = ["NEW", "READ", "ARCHIVED"];
-// Same list as the website form (features/contact/server/contact.ts).
-export const CONTACT_TOPICS = ["general", "partnership", "group-booking", "media"] as const;
+export { CONTACT_TOPICS, type ContactTopic } from "./contact-topics.ts";
 export type AuditMeta = { actor: string; userId?: string | null; ip: string | null };
 
 export class ContactStoreUnavailable extends Error {}
@@ -45,7 +45,7 @@ export function parseFilters(raw: { status?: string | string[]; topic?: string |
   const topic = one(raw.topic);
   return {
     status: CONTACT_STATUSES.find((s) => s === status),
-    topic: CONTACT_TOPICS.find((t) => t === topic),
+    topic: isContactTopic(topic) ? topic : undefined,
   };
 }
 

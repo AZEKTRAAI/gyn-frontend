@@ -17,7 +17,7 @@
         "label": "No IELTS needed"
       },
       {
-        "label": "A speaking slot in every ticket"
+        "label": "A speaking slot with every place"
       }
     ],
     "primaryCta": {
@@ -138,7 +138,7 @@
     "tiles": [
       {
         "big": "Stage",
-        "text": "A speaking opportunity to present your project, in every ticket.",
+        "text": "A speaking opportunity to present your project, included with every place.",
         "sdg": "4",
         "render": ""
       },

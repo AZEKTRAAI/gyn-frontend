@@ -17,6 +17,7 @@ import { Speakers } from './Speakers'
 import { Steps } from './Steps'
 import { Stories } from './Stories'
 import { Videos } from './Videos'
+import { eventJsonLd, jsonLdString } from './jsonLd'
 
 /** True when a section has nothing to show, so it is skipped even if it is switched on. */
 function isEmpty(key: EventSectionKey, c: EventPageContent, ev: PublicEvent): boolean {
@@ -38,11 +39,11 @@ function isEmpty(key: EventSectionKey, c: EventPageContent, ev: PublicEvent): bo
   }
 }
 
-function section(key: EventSectionKey, c: EventPageContent, ev: PublicEvent, glow: boolean) {
+function section(key: EventSectionKey, c: EventPageContent, ev: PublicEvent, glow: boolean, now: number) {
   switch (key) {
     case 'highlights': return <Highlights key={key} data={c.highlights} />
     case 'overview': return <Overview key={key} data={c.overview} glow={glow} />
-    case 'categories': return <Categories key={key} data={c.categories} categories={ev.categories} glow={glow} />
+    case 'categories': return <Categories key={key} data={c.categories} categories={ev.categories} glow={glow} eventSlug={ev.slug} timeZone={ev.details.timezone} now={now} />
     case 'steps': return <Steps key={key} data={c.steps} glow={glow} />
     case 'ambassadors': return <Ambassadors key={key} data={c.ambassadors} />
     case 'chapters': return <Chapters key={key} data={c.chapters} glow={glow} />
@@ -58,7 +59,7 @@ function section(key: EventSectionKey, c: EventPageContent, ev: PublicEvent, glo
 }
 
 /** The visible sections in schema order. White and glow backgrounds alternate; the ambassadors map and the closing panel bring their own. */
-function buildBody(c: EventPageContent, ev: PublicEvent) {
+function buildBody(c: EventPageContent, ev: PublicEvent, now: number) {
   let prevGlow: boolean = true
   const out: ReactNode[] = []
   for (const k of EVENT_SECTIONS) {
@@ -68,7 +69,7 @@ function buildBody(c: EventPageContent, ev: PublicEvent) {
     const own = k === 'highlights' || k === 'ambassadors' || k === 'cta'
     const glow: boolean = own ? false : !prevGlow
     if (!own || k === 'ambassadors') prevGlow = glow
-    out.push(section(k, c, ev, glow))
+    out.push(section(k, c, ev, glow, now))
   }
   return out
 }
@@ -83,10 +84,11 @@ export async function EventPage({ slug }: { slug: string }) {
   const c = ev.content
   const now = renderedAt()
 
-  const body = buildBody(c, ev)
+  const body = buildBody(c, ev, now)
 
   return (
     <main id="main">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(eventJsonLd(ev, process.env.NEXT_PUBLIC_BASE_URL || 'https://thegyn.org')) }} />
       <EventHero hero={c.hero} startsAt={ev.startsAt.getTime()} now={now} upcoming={ev.timing === 'upcoming'} />
       {body}
     </main>

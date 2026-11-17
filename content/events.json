@@ -26,7 +26,7 @@
       "award": "$1,000 Seed Grant",
       "status": "closed",
       "statusDetail": "Scholarship applications closed (deadline passed; 'CLOSED NOW' on both scholarship cards). Forum Access, Self Funded and Invitation Letter registration buttons are still live.",
-      "deadline": { "date": "2026-10-11", "display": "11th October 2026", "countdownTarget": "2026-10-11T23:59:00+00:00" },
+      "deadline": { "date": "2026-10-11", "display": "11th October 2026", "countdownTarget": "2026-10-11T23:59:00+08:00" },
       "resultsDate": { "date": "2026-10-16", "display": "16th October 2026", "conflict": "thank-you-page says 'The scholarship results will be announced on 15 October 2026.'" },
       "applicationFee": { "amount": 18.5, "display": "$18.50", "appliesTo": "scholarship categories" },
       "scholarships": {

@@ -43,6 +43,8 @@
 .catAct { margin-top: auto; padding-top: 14px; }
 .catAct :global(.btn) { width: 100%; }
 .off { display: flex; align-items: center; justify-content: center; min-height: 44px; border-radius: 999px; font-size: 14.5px; font-weight: 600; color: var(--muted); border: 1.5px dashed var(--line); }
+.catSoon { text-align: center; font-size: 14.5px; font-weight: 600; color: var(--muted); }
+.catSoon a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
 .note { margin: 18px auto 0; max-width: 70ch; text-align: center; font-size: 14px; line-height: 1.6; color: var(--muted); }
 
 /* chapters and schedule */

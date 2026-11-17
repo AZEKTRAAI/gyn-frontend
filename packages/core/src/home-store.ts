@@ -32,7 +32,8 @@ export async function getHome(): Promise<HomeContent> {
       include: { sections: { orderBy: { sortOrder: "asc" } } },
     });
   } catch (err) {
-    // a database outage (or a build machine with no database) shows the seed instead of breaking the public home page
+    // Unlike events, home content has no hidden/archived state to resurrect, so an outage shows the seed (logged) instead of breaking the home page.
+    // Known limit: during an ISR refresh this replaces the last good page with the seed for one revalidate period; upgrade to read-fallback.ts if that matters.
     console.error("[home] database read failed, using seed", err instanceof Error ? err.message : err);
     return seedContent;
   }

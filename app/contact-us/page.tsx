@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { ContactForm } from '@/features/contact/ui/ContactForm'
 import { PageBox } from '@/components/pages/PageBox'
 import { PageSection } from '@/components/pages/PageSection'
+import { isContactTopic, type ContactTopic } from '@gyn/core/contact-topics'
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
@@ -14,9 +15,6 @@ export const metadata: Metadata = {
       'Email contact@thegyn.org or fill in our contact form for general enquiries, partnerships, group bookings and media requests.',
   },
 }
-
-const VALID_TOPICS = ['general', 'partnership', 'group-booking', 'media'] as const
-type Topic = typeof VALID_TOPICS[number]
 
 const SOCIAL = [
   { label: 'Facebook', href: 'https://www.facebook.com/thegyn.org/' },
@@ -32,10 +30,7 @@ interface PageProps {
 export default async function ContactUsPage({ searchParams }: PageProps) {
   const params = await searchParams
   const topicParam = params.topic
-  const topic: Topic =
-    typeof topicParam === 'string' && (VALID_TOPICS as readonly string[]).includes(topicParam)
-      ? (topicParam as Topic)
-      : 'general'
+  const topic: ContactTopic = isContactTopic(topicParam) ? topicParam : 'general'
 
   return (
     <main id="main">

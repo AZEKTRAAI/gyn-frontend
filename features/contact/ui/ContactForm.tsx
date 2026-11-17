@@ -12,11 +12,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import Script from 'next/script'
 import { useState, useEffect } from 'react'
+import { CONTACT_TOPICS, CONTACT_TOPIC_VALUES, type ContactTopic } from '@gyn/core/contact-topics'
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Enter a valid email address'),
-  topic: z.enum(['general', 'partnership', 'group-booking', 'media'], {
+  topic: z.enum(CONTACT_TOPIC_VALUES, {
     error: () => ({ message: 'Select a topic' }),
   }),
   message: z
@@ -29,15 +30,8 @@ const contactSchema = z.object({
 
 type ContactInput = z.infer<typeof contactSchema>
 
-const TOPIC_LABELS: Record<string, string> = {
-  general: 'General enquiry',
-  partnership: 'Partnership',
-  'group-booking': 'Group booking',
-  media: 'Media',
-}
-
 interface Props {
-  defaultTopic?: 'general' | 'partnership' | 'group-booking' | 'media'
+  defaultTopic?: ContactTopic
 }
 
 export function ContactForm({ defaultTopic = 'general' }: Props) {
@@ -227,7 +221,7 @@ export function ContactForm({ defaultTopic = 'general' }: Props) {
               style={{ ...inputStyle(!!errors.topic), cursor: 'pointer' }}
               {...register('topic')}
             >
-              {Object.entries(TOPIC_LABELS).map(([value, label]) => (
+              {CONTACT_TOPICS.map(({ value, label }) => (
                 <option key={value} value={value}>
                   {label}
                 </option>

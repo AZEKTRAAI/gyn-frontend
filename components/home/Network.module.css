@@ -52,6 +52,56 @@
 
 .btns.in { opacity: 1; }
 
+/* Liquid glass panel around the map only. Padding sits outside .mapWrap so pin % positions still match the canvas. */
+.mapGlass {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(14px, 2vw, 28px);
+  border-radius: clamp(24px, 2.6vw, 36px);
+  background: linear-gradient(140deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, .04));
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, .22);
+  box-shadow: 0 28px 60px -28px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -1px 0 rgba(255, 255, 255, .08);
+}
+/* specular sheen across the top-left, like light catching curved glass */
+.mapGlass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(120% 70% at 15% 0%, rgba(255, 255, 255, .22), transparent 55%);
+  pointer-events: none;
+}
+/* light page: soft brand tints inside the glass so it reads as coloured, curved glass rather than a white card */
+.light .mapGlass {
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, .62), rgba(255, 255, 255, .22)),
+    radial-gradient(55% 65% at 92% 8%, rgba(45, 63, 224, .20), transparent 70%),
+    radial-gradient(50% 60% at 4% 100%, rgba(198, 244, 50, .32), transparent 70%),
+    radial-gradient(45% 55% at 62% 108%, rgba(38, 189, 226, .24), transparent 70%);
+  border-color: transparent;
+  box-shadow: 0 34px 70px -32px rgba(45, 63, 224, .35), 0 12px 24px -16px rgba(14, 21, 48, .18), inset 0 1px 1px rgba(255, 255, 255, .95), inset 0 -10px 24px -14px rgba(45, 63, 224, .18);
+}
+.light .mapGlass::before { background: radial-gradient(110% 60% at 12% -4%, rgba(255, 255, 255, .95), transparent 55%); }
+/* rim light: a thin gradient edge, bright at the corners where light would catch */
+.light .mapGlass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, #fff, rgba(255, 255, 255, .25) 35%, rgba(45, 63, 224, .28) 70%, rgba(255, 255, 255, .95));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .light .mapGlass { background: rgba(255, 255, 255, .9); }
+}
+
 .mapWrap {
   position: relative;
   opacity: 0;

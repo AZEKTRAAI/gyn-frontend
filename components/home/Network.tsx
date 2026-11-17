@@ -208,6 +208,7 @@ export function Network({ data, tone = 'dark' }: Props) {
           </div>
         </div>
 
+        <div className={s.mapGlass}>
         <div ref={mapWrapRef} className={s.mapWrap}>
           <canvas
             ref={canvasRef}
@@ -266,6 +267,7 @@ export function Network({ data, tone = 'dark' }: Props) {
               </>
             )}
           </div>
+        </div>
         </div>
       </div>
     </section>

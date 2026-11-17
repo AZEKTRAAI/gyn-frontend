@@ -25,6 +25,7 @@ tsconfig.tsbuildinfo
 
 # local uploads and worker files (dev and test)
 /data/
+/admin/data/
 backups/
 admin/next-env.d.ts
 admin/tsconfig.tsbuildinfo

@@ -1,0 +1,597 @@
+{
+  "details": {
+    "name": "SDG Innovation Summit Malaysia 2026",
+    "shortName": "SISM",
+    "theme": "Innovative Ideas for Social Impact",
+    "startsAt": "2026-11-19",
+    "endsAt": "2026-11-22",
+    "timezone": "Asia/Kuala_Lumpur",
+    "venue": "Teedo Hotel",
+    "city": "Kuala Lumpur",
+    "country": "Malaysia",
+    "navLabel": "SIS Malaysia 2026 🇲🇾",
+    "timingOverride": ""
+  },
+  "content": {
+    "seo": {
+      "title": "SISM 2026, Kuala Lumpur, 19–22 Nov | Forum Access $199",
+      "description": "SDG Innovation Summit Malaysia 2026. Scholarship applications closed. Forum Access ($199) and Self-Funded ($399) seats open. 19–22 November, Kuala Lumpur."
+    },
+    "hero": {
+      "kicker": "SISM 2026",
+      "headline": "SDG *Innovation* Summit Malaysia 2026",
+      "lead": "100 seats, 30 scholarships. Join young leaders, innovators and professionals from around the world in Kuala Lumpur.",
+      "chips": [
+        {
+          "label": "19–22 November 2026"
+        },
+        {
+          "label": "Teedo Hotel, Kuala Lumpur"
+        },
+        {
+          "label": "Co-hosted by UNU Global Health"
+        }
+      ],
+      "photos": [
+        {
+          "src": "/media/hero/sism-2026-hero-visual.webp",
+          "alt": "SDG Innovation Summit Malaysia 2026 promotional visual"
+        },
+        {
+          "src": "/media/gallery/fmst-dsc01881-1.webp",
+          "alt": "Delegates at FutureMinds Summit Thailand, Bangkok 2026"
+        },
+        {
+          "src": "/media/gallery/fmst-dsc01945-1.webp",
+          "alt": "Workshop session at FutureMinds Summit Thailand 2026"
+        },
+        {
+          "src": "/media/gallery/fmst-dsc02120-1.webp",
+          "alt": "Cultural evening at FutureMinds Summit Thailand 2026"
+        }
+      ],
+      "primaryCta": {
+        "label": "Book Forum Access, $199",
+        "href": "/sism-forum-access"
+      },
+      "secondaryCta": {
+        "label": "See all ways to join",
+        "href": "#categories"
+      }
+    },
+    "highlights": {
+      "visible": true,
+      "items": [
+        {
+          "n": "100",
+          "label": "seats"
+        },
+        {
+          "n": "30",
+          "label": "scholarships"
+        },
+        {
+          "n": "$1,000",
+          "label": "seed grant"
+        },
+        {
+          "n": "4",
+          "label": "days"
+        }
+      ]
+    },
+    "overview": {
+      "visible": true,
+      "kicker": "About the summit",
+      "heading": "What is the SDG *Innovation* Summit 2026?",
+      "text": "The SDG Innovation Summit Malaysia 2026 is a premier international youth summit designed to bring together 100 young leaders, innovators, students, entrepreneurs, professionals, researchers, and changemakers from around the world to explore innovative ideas, foster meaningful collaboration, and create sustainable impact in support of the United Nations Sustainable Development Goals (SDGs). Following the success of our international summit in Bangkok, Thailand, the summit continues in Kuala Lumpur, Malaysia. It is organized by GYN and co-hosted by UNU Global Health. Through keynote addresses, high-level panel discussions, leadership workshops, innovation labs, strategic networking, cultural exchange activities, and an exclusive institutional visit to Asia Pacific University (APU), Malaysia, delegates will gain valuable knowledge, practical skills, global perspectives, and meaningful international connections. Participants also compete for a $1,000 Seed Grant for their project.",
+      "image": {
+        "src": "/renders/r3/kl-towers.webp",
+        "alt": "Petronas Twin Towers, Kuala Lumpur"
+      }
+    },
+    "categories": {
+      "visible": true,
+      "kicker": "Ways to join",
+      "heading": "Attend *SISM 2026*",
+      "intro": "100 seats, 30 of them scholarships. Scholarship applications closed on 11 October. Forum Access, Self-Funded and Invitation Letter registration are open.",
+      "note": "Group discounts are available for group enrolments. Email contact@thegyn.org."
+    },
+    "ambassadors": {
+      "visible": false,
+      "kicker": "GYN global ambassadors",
+      "heading": "Twelve ambassadors. *Eleven* countries.",
+      "intro": "Wherever you are, someone from GYN is near. Ambassadors help applicants from their region, and they are the first people you meet at the summit.",
+      "hub": {
+        "label": "Kuala Lumpur",
+        "lon": 101.7,
+        "lat": 3.1
+      },
+      "people": [
+        {
+          "name": "Helga Tongi",
+          "country": "USA",
+          "photo": {
+            "src": "/media/ambassadors/helga-tongi.webp",
+            "alt": "Helga Tongi"
+          },
+          "lon": -77,
+          "lat": 39
+        },
+        {
+          "name": "Casey",
+          "country": "USA",
+          "photo": {
+            "src": "/media/ambassadors/casey.webp",
+            "alt": "Casey"
+          },
+          "lon": -118,
+          "lat": 34
+        },
+        {
+          "name": "Yara Shamas",
+          "country": "Lebanon",
+          "photo": {
+            "src": "/media/ambassadors/yara-shamas.webp",
+            "alt": "Yara Shamas"
+          },
+          "lon": 35.8,
+          "lat": 33.9
+        },
+        {
+          "name": "Patee",
+          "country": "Thailand",
+          "photo": {
+            "src": "/media/ambassadors/patee.webp",
+            "alt": "Patee"
+          },
+          "lon": 100.5,
+          "lat": 13.7
+        },
+        {
+          "name": "Kritika Ghimire",
+          "country": "Nepal",
+          "photo": {
+            "src": "/media/ambassadors/kritika-ghimire.webp",
+            "alt": "Kritika Ghimire"
+          },
+          "lon": 85.3,
+          "lat": 27.7
+        },
+        {
+          "name": "Lim Pei En",
+          "country": "Malaysia",
+          "photo": {
+            "src": "/media/ambassadors/lim-pei-en.webp",
+            "alt": "Lim Pei En"
+          },
+          "lon": 101.7,
+          "lat": 3.1
+        },
+        {
+          "name": "Dr Righteous",
+          "country": "Nigeria",
+          "photo": {
+            "src": "/media/ambassadors/dr-righteous.webp",
+            "alt": "Dr Righteous"
+          },
+          "lon": 7.5,
+          "lat": 9.1
+        },
+        {
+          "name": "Md Nafi",
+          "country": "Bangladesh",
+          "photo": {
+            "src": "/media/ambassadors/md-nafi.webp",
+            "alt": "Md Nafi"
+          },
+          "lon": 90.4,
+          "lat": 23.8
+        },
+        {
+          "name": "Diba",
+          "country": "Australia",
+          "photo": {
+            "src": "/media/ambassadors/diba.webp",
+            "alt": "Diba"
+          },
+          "lon": 151.2,
+          "lat": -33.9
+        },
+        {
+          "name": "Ashif",
+          "country": "India",
+          "photo": {
+            "src": "/media/ambassadors/ashif.webp",
+            "alt": "Ashif"
+          },
+          "lon": 77.2,
+          "lat": 28.6
+        },
+        {
+          "name": "Boling",
+          "country": "Laos",
+          "photo": {
+            "src": "/media/ambassadors/boling.webp",
+            "alt": "Boling"
+          },
+          "lon": 102.6,
+          "lat": 17.9
+        },
+        {
+          "name": "Abdul Ahad",
+          "country": "Pakistan",
+          "photo": {
+            "src": "/media/ambassadors/abdul-ahad.webp",
+            "alt": "Abdul Ahad"
+          },
+          "lon": 73,
+          "lat": 33.7
+        }
+      ],
+      "primaryCta": {
+        "label": "Meet the ambassadors",
+        "href": "/about-us"
+      },
+      "secondaryCta": {
+        "label": "Coming as a group?",
+        "href": "mailto:contact@thegyn.org"
+      }
+    },
+    "chapters": {
+      "visible": false,
+      "kicker": "",
+      "heading": "",
+      "items": []
+    },
+    "schedule": {
+      "visible": true,
+      "kicker": "Schedule",
+      "heading": "4-day *programme*",
+      "days": [
+        {
+          "label": "Day 1",
+          "date": "November 19, 2026",
+          "items": [
+            {
+              "title": "Arrival",
+              "text": "Hotel Check-in"
+            },
+            {
+              "title": "Meet & Greet",
+              "text": "Delegate Registration & Welcome Kit Collection"
+            },
+            {
+              "title": "Free Time",
+              "text": "Explore KL"
+            }
+          ]
+        },
+        {
+          "label": "Day 2",
+          "date": "November 20, 2026",
+          "items": [
+            {
+              "title": "Breakfast",
+              "text": "Dining Hall"
+            },
+            {
+              "title": "Event Opening",
+              "text": "Welcome & Event Brief"
+            },
+            {
+              "title": "Ice-Breaking Session",
+              "text": ""
+            },
+            {
+              "title": "Delegate Introductions & Country Showcase",
+              "text": ""
+            },
+            {
+              "title": "Coffee Break",
+              "text": ""
+            },
+            {
+              "title": "Workshop 1 – Understanding SDGs",
+              "text": ""
+            },
+            {
+              "title": "Lunch",
+              "text": ""
+            },
+            {
+              "title": "Workshop 2 – Social Ventures",
+              "text": ""
+            },
+            {
+              "title": "Panel 1",
+              "text": ""
+            },
+            {
+              "title": "Summit Entrepreneurship Activity – A",
+              "text": ""
+            },
+            {
+              "title": "Free City Tour",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "label": "Day 3",
+          "date": "November 21, 2026",
+          "items": [
+            {
+              "title": "Event Brief – Day 2",
+              "text": ""
+            },
+            {
+              "title": "Ice-Breaking Session 2",
+              "text": ""
+            },
+            {
+              "title": "Coffee Break",
+              "text": ""
+            },
+            {
+              "title": "Workshop 3 – Policy Impact",
+              "text": ""
+            },
+            {
+              "title": "Lunch",
+              "text": ""
+            },
+            {
+              "title": "Workshop 4 – SDG Case Studies",
+              "text": ""
+            },
+            {
+              "title": "Hear You Out! Youth-led Presentations",
+              "text": ""
+            },
+            {
+              "title": "Summit Entrepreneurship Activity – B",
+              "text": ""
+            },
+            {
+              "title": "Cultural Night & Activities",
+              "text": ""
+            },
+            {
+              "title": "Dinner",
+              "text": ""
+            }
+          ]
+        },
+        {
+          "label": "Day 4",
+          "date": "November 22, 2026",
+          "items": [
+            {
+              "title": "Certification Ceremony",
+              "text": ""
+            },
+            {
+              "title": "Group Photo",
+              "text": ""
+            },
+            {
+              "title": "Check-out",
+              "text": ""
+            }
+          ]
+        }
+      ]
+    },
+    "speakers": {
+      "visible": true,
+      "kicker": "Confirmed speakers",
+      "heading": "Speakers at *SISM 2026*",
+      "people": [
+        {
+          "name": "Julie Victoire",
+          "role": "International Youth Advocate, Speaker, Australian Education Leader, Founder The Rise Edit",
+          "photo": {
+            "src": "/media/speakers/julie-victoire.webp",
+            "alt": "Julie Victoire"
+          }
+        },
+        {
+          "name": "Dr Mohd Farid bin Atan",
+          "role": "Deputy Director (Sustainability) Universiti Malaysia Sarawak (UNIMAS)",
+          "photo": {
+            "src": "/media/speakers/dr-mohd-farid-bin-atan.webp",
+            "alt": "Dr Mohd Farid bin Atan"
+          }
+        },
+        {
+          "name": "Ayman William Hermansson",
+          "role": "Assistant Professor - Heriot-Watt University Malaysia",
+          "photo": {
+            "src": "/media/speakers/ayman-william-hermansson.webp",
+            "alt": "Ayman William Hermansson"
+          }
+        },
+        {
+          "name": "Syed Bilal Qasim",
+          "role": "CEO Techsol Space, Project Director CEGA",
+          "photo": {
+            "src": "/media/speakers/syed-bilal-qasim.webp",
+            "alt": "Syed Bilal Qasim"
+          }
+        },
+        {
+          "name": "Sapargulay Mahtumov",
+          "role": "Youth Coordinator, MySDG Academy, Malaysia.",
+          "photo": {
+            "src": "/media/speakers/sapargulay-mahtumov.webp",
+            "alt": "Sapargulay Mahtumov"
+          }
+        },
+        {
+          "name": "Jasmine Cannon-Ikurusi",
+          "role": "CEO & Founder The Sapphire Employability & Wellbeing Academy, London, UK",
+          "photo": {
+            "src": "/media/speakers/jasmine-cannon-ikurusi.webp",
+            "alt": "Jasmine Cannon-Ikurusi"
+          }
+        },
+        {
+          "name": "Ashley Blake",
+          "role": "Head of Partnership vrCAVE Canada",
+          "photo": {
+            "src": "/media/speakers/ashley-blake.webp",
+            "alt": "Ashley Blake"
+          }
+        },
+        {
+          "name": "Arumita Mitra",
+          "role": "Founder - Sudhamta Foundation India, TedX Speaker, UN SDG Advocate",
+          "photo": {
+            "src": "/media/speakers/arumita-mitra.webp",
+            "alt": "Arumita Mitra"
+          }
+        }
+      ]
+    },
+    "gallery": {
+      "visible": false,
+      "kicker": "",
+      "heading": "",
+      "photos": []
+    },
+    "videos": {
+      "visible": true,
+      "kicker": "Testimonials",
+      "heading": "Hear from *past delegates*",
+      "items": [
+        {
+          "url": "https://youtu.be/Aqqo3cL4W6w",
+          "title": "Future Minds Summit 2026 – Day 1 Highlights",
+          "poster": {
+            "src": "/media/video/Aqqo3cL4W6w.jpg",
+            "alt": "Future Minds Summit 2026 – Day 1 Highlights"
+          }
+        },
+        {
+          "url": "https://youtube.com/shorts/cO1D5dJFops",
+          "title": "Experience of Sura Fitiani, one of our esteemed speakers from Palestine",
+          "poster": {
+            "src": "/media/video/cO1D5dJFops.jpg",
+            "alt": "Experience of Sura Fitiani, one of our esteemed speakers from Palestine"
+          }
+        },
+        {
+          "url": "https://youtube.com/shorts/eeFq13x-_rQ",
+          "title": "Meet Dr. (Hon) Suman Roy, most energetic and inspiring speaker at the FutureMinds Summit Thailand",
+          "poster": {
+            "src": "/media/video/eeFq13x-_rQ.jpg",
+            "alt": "Meet Dr. (Hon) Suman Roy, most energetic and inspiring speaker at the FutureMinds Summit Thailand"
+          }
+        },
+        {
+          "url": "https://youtube.com/shorts/-UwHA0DhXkA",
+          "title": "Speaker testimonial | Future Minds Summit 2026",
+          "poster": {
+            "src": "/media/video/-UwHA0DhXkA.jpg",
+            "alt": "Speaker testimonial | Future Minds Summit 2026"
+          }
+        },
+        {
+          "url": "https://youtube.com/shorts/vcwp4HK7UeI",
+          "title": "Special guest testimonial | Future Minds Summit 2026",
+          "poster": {
+            "src": "/media/video/vcwp4HK7UeI.jpg",
+            "alt": "Special guest testimonial | Future Minds Summit 2026"
+          }
+        },
+        {
+          "url": "https://youtube.com/shorts/T5Xrp8KcqOY",
+          "title": "A voice from India: Tejaswini on her experience at Future Minds Summit 2026",
+          "poster": {
+            "src": "/media/video/T5Xrp8KcqOY.jpg",
+            "alt": "A voice from India: Tejaswini on her experience at Future Minds Summit 2026"
+          }
+        },
+        {
+          "url": "https://youtube.com/shorts/q-nYUFwEdo4",
+          "title": "Future Minds Summit 2026 | Bangkok, Thailand",
+          "poster": {
+            "src": "/media/video/q-nYUFwEdo4.jpg",
+            "alt": "Future Minds Summit 2026 | Bangkok, Thailand"
+          }
+        }
+      ]
+    },
+    "stories": {
+      "visible": false,
+      "kicker": "",
+      "heading": "",
+      "quotes": []
+    },
+    "faq": {
+      "visible": true,
+      "kicker": "Questions",
+      "heading": "Frequently asked *questions*",
+      "items": [
+        {
+          "q": "When will the selected applicants be announced?",
+          "a": "The result will be announced on 16th October 2026."
+        },
+        {
+          "q": "How Can I Apply for Fully Funded and Partially Funded Slots?",
+          "a": "To apply for a fully or partially funded scholarship, please complete the general application form. All submissions are reviewed by our independent, international selection panel, which ensures a transparent process for final scholarship decisions."
+        },
+        {
+          "q": "Can I Attend the SDG Innovation Summit If Not Selected for the Scholarship?",
+          "a": "If you aren’t selected for a scholarship, you can still join us at the summit by choosing either the Self-Funded Package or the Forum Access Package. Regardless of your funding status, you will enjoy the same full experience and privileges as all other participants."
+        },
+        {
+          "q": "Does GYN Provide Visa Assistance?",
+          "a": "To help with your visa application, the GYN will provide an official invitation letter, proof of accommodation, and the program location. While we are happy to offer guidance throughout the process, please note that the final decision rests with the embassy, and we cannot guarantee visa approval."
+        },
+        {
+          "q": "What should I do if I do not have a passport at the time of application?",
+          "a": "You can still apply! Simply upload a copy or enter the number of your National Identity Card (NIC), or any student ID in place of the passport details for now."
+        },
+        {
+          "q": "How can I pay my application fee?",
+          "a": "You can securely pay the application fee using a debit or credit card, Google Pay through a trusted Stripe payment gateway."
+        },
+        {
+          "q": "Why is the application fee?",
+          "a": "Application fees are standard for many international conferences and youth programs. The fee supports our application, review, and selection process and helps us manage applications from participants worldwide. It does not guarantee selection."
+        },
+        {
+          "q": "Am I required to provide proof of English language proficiency?",
+          "a": "No, English test scores (such as IELTS or TOEFL) are not required for this application."
+        },
+        {
+          "q": "Need Assistance or Want to Contact Us?",
+          "a": "You can reach us via email at contact@thegyn.org"
+        },
+        {
+          "q": "How will I find out about my selection and results?",
+          "a": "All applicants will receive an email with their results. We will also post the final list of selected delegates on the GYN Facebook and Instagram pages. Follow us on Facebook and Instagram (facebook.com/thegyn.org, instagram.com/gyn_global)"
+        },
+        {
+          "q": "What is the application deadline?",
+          "a": "The application deadline is 11th October 2026."
+        }
+      ]
+    },
+    "cta": {
+      "visible": true,
+      "heading": "Join us in *Kuala Lumpur*",
+      "text": "19–22 November 2026. 100 seats. Forum Access from $199.",
+      "primaryCta": {
+        "label": "Book Forum Access, $199",
+        "href": "/sism-forum-access"
+      },
+      "secondaryCta": {
+        "label": "Book Self Funded, $399",
+        "href": "/sism-self-funded"
+      }
+    }
+  }
+}

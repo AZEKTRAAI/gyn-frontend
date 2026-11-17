@@ -1,11 +1,13 @@
-// Idempotent seed: upserts SISM 2026 and FMST 2026 with their registration categories.
-// Run with: npm run db:seed (reads .env.local). Safe to run again; it only updates rows it created.
+// Idempotent seed: SISM 2026 and FMS Thailand with their page content (content/event-pages) and registration categories.
+// Run with: npm run db:seed (reads .env.local). Safe to run again: an existing event keeps whatever the admin edited,
+// the seed only fills in what is missing (the dropdown label, page sections) and refreshes the categories.
 // Roles, users and form definitions are seeded by their own phases (docs/backend-plan.md).
 
 import { Pool } from "pg";
 import { createPrismaClient } from "@gyn/core/prisma-client";
 import eventsJson from "../content/events.json" with { type: "json" };
-import { buildSeed } from "./seed-data.ts";
+import { buildSeed, RENAMED_SLUGS } from "./seed-data.ts";
+import { EVENT_SEEDS, eventRowFields, sectionRows } from "@gyn/core/event-store";
 import { seedRoles, seedDemoUsers, DEMO_USERS, DEMO_PASSWORD } from "@gyn/core/access-seed";
 
 async function seed(): Promise<void> {
@@ -24,14 +26,22 @@ async function seed(): Promise<void> {
       console.log(`seed: demo accounts, password ${DEMO_PASSWORD}`);
       for (const u of DEMO_USERS) console.log(`seed:   ${u.email}  (${u.role})`);
     }
-    for (const e of buildSeed(eventsJson)) {
-      const { categories, ...fields } = e;
-      const event = await prisma.event.upsert({
-        where: { slug: e.slug },
-        update: { ...fields },
-        create: { ...fields, status: "PUBLISHED" },
-      });
-      console.log(`seed: event ${event.slug}`);
+    for (const [oldSlug, slug] of Object.entries(RENAMED_SLUGS)) {
+      const renamed = await prisma.event.updateMany({ where: { slug: oldSlug }, data: { slug } });
+      if (renamed.count) console.log(`seed: renamed event ${oldSlug} to ${slug}`);
+    }
+    for (const { categories, totalSeats, slug } of buildSeed(eventsJson)) {
+      const page = EVENT_SEEDS[slug];
+      if (!page) throw new Error(`seed: no content/event-pages/${slug}.json`);
+      const found = await prisma.event.findUnique({ where: { slug }, include: { sections: { select: { blockType: true } } } });
+      const event =
+        found ??
+        (await prisma.event.create({ data: { slug, status: "PUBLISHED", totalSeats, ...eventRowFields(page.details, page.content.seo) }, include: { sections: { select: { blockType: true } } } }));
+      if (found && !found.navLabel) await prisma.event.update({ where: { id: found.id }, data: { navLabel: page.details.navLabel } });
+      const have = new Set(event.sections.map((s) => s.blockType));
+      const missing = sectionRows(event.id, page.content).filter((r) => !have.has(r.blockType));
+      await prisma.eventSection.createMany({ data: missing });
+      console.log(`seed: event ${event.slug} (${found ? "kept" : "created"}, ${missing.length} sections added)`);
 
       for (const c of categories) {
         await prisma.registrationCategory.upsert({

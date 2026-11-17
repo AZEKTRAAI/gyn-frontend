@@ -1,0 +1,617 @@
+{
+  "details": {
+    "name": "FutureMinds Summit Thailand",
+    "shortName": "FMST",
+    "theme": "Exploring Sustainability through Innovative Minds",
+    "startsAt": "2026-07-16",
+    "endsAt": "2026-07-19",
+    "timezone": "Asia/Bangkok",
+    "venue": "Le Srivaree Suvarnabhumi Hotel",
+    "city": "Bangkok",
+    "country": "Thailand",
+    "navLabel": "FMS Thailand 🇹🇭",
+    "timingOverride": ""
+  },
+  "content": {
+    "seo": {
+      "title": "FutureMinds Summit Thailand 2026, Bangkok",
+      "description": "The inaugural GYN summit: four days in Bangkok, 16 to 19 July 2026, exploring sustainability through innovative minds. Programme, speakers, photos and videos."
+    },
+    "hero": {
+      "kicker": "FutureMinds Summit",
+      "headline": "FutureMinds *Summit* Thailand 2026",
+      "lead": "The inaugural GYN summit. Four days in Bangkok exploring sustainability through innovative minds.",
+      "chips": [
+        {
+          "label": "July 16–19, 2026"
+        },
+        {
+          "label": "Le Srivaree Suvarnabhumi Hotel, Bangkok"
+        },
+        {
+          "label": "70+ participants"
+        },
+        {
+          "label": "12 speakers"
+        }
+      ],
+      "photos": [
+        {
+          "src": "/media/gallery/fmst-dsc01881-1.webp",
+          "alt": "Delegates at FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "src": "/media/gallery/fmst-dsc01945-1.webp",
+          "alt": "Workshop session at FutureMinds Summit Thailand 2026"
+        },
+        {
+          "src": "/media/gallery/fmst-dsc02120-1.webp",
+          "alt": "Cultural evening at FutureMinds Summit Thailand 2026"
+        },
+        {
+          "src": "/media/gallery/fmst-dsc02159-1.webp",
+          "alt": "Certification ceremony at FutureMinds Summit Thailand 2026"
+        }
+      ],
+      "primaryCta": {
+        "label": "Programme chapters",
+        "href": "#chapters"
+      },
+      "secondaryCta": {
+        "label": "4-day schedule",
+        "href": "#schedule"
+      }
+    },
+    "highlights": {
+      "visible": true,
+      "items": [
+        {
+          "n": "70+",
+          "label": "participants"
+        },
+        {
+          "n": "12",
+          "label": "speakers"
+        },
+        {
+          "n": "4",
+          "label": "days"
+        }
+      ]
+    },
+    "overview": {
+      "visible": true,
+      "kicker": "About the summit",
+      "heading": "Exploring sustainability through *innovative* minds",
+      "text": "FutureMinds Summit Thailand was the first GYN summit: four days at the Le Srivaree Suvarnabhumi Hotel in Bangkok, from 16 to 19 July 2026. Delegates took part in keynotes and policy workshops, built and pitched solutions in the World Got a Problem challenge, joined an AI corner, and closed the summit with a cultural night. The programme delivered organizational and decision-making capability, quantitative research for the SDGs, smart innovation and sustainable industry, and global collaboration and leadership.",
+      "image": {
+        "src": "/media/gallery/fmst-dsc01894-1.webp",
+        "alt": "Panel session at FutureMinds Summit Thailand 2026"
+      }
+    },
+    "categories": {
+      "visible": false,
+      "kicker": "",
+      "heading": "",
+      "intro": "",
+      "note": ""
+    },
+    "ambassadors": {
+      "visible": true,
+      "kicker": "GYN global ambassadors",
+      "heading": "Twelve ambassadors. *Eleven* countries.",
+      "intro": "Wherever you are, someone from GYN is near. Ambassadors help applicants from their region, and they are the first people you meet at the summit.",
+      "hub": {
+        "label": "Bangkok",
+        "lon": 100.5,
+        "lat": 13.75
+      },
+      "people": [
+        {
+          "name": "Helga Tongi",
+          "country": "USA",
+          "photo": {
+            "src": "/media/ambassadors/helga-tongi.webp",
+            "alt": "Helga Tongi"
+          },
+          "lon": -77,
+          "lat": 39
+        },
+        {
+          "name": "Casey",
+          "country": "USA",
+          "photo": {
+            "src": "/media/ambassadors/casey.webp",
+            "alt": "Casey"
+          },
+          "lon": -118,
+          "lat": 34
+        },
+        {
+          "name": "Yara Shamas",
+          "country": "Lebanon",
+          "photo": {
+            "src": "/media/ambassadors/yara-shamas.webp",
+            "alt": "Yara Shamas"
+          },
+          "lon": 35.8,
+          "lat": 33.9
+        },
+        {
+          "name": "Patee",
+          "country": "Thailand",
+          "photo": {
+            "src": "/media/ambassadors/patee.webp",
+            "alt": "Patee"
+          },
+          "lon": 100.5,
+          "lat": 13.7
+        },
+        {
+          "name": "Kritika Ghimire",
+          "country": "Nepal",
+          "photo": {
+            "src": "/media/ambassadors/kritika-ghimire.webp",
+            "alt": "Kritika Ghimire"
+          },
+          "lon": 85.3,
+          "lat": 27.7
+        },
+        {
+          "name": "Lim Pei En",
+          "country": "Malaysia",
+          "photo": {
+            "src": "/media/ambassadors/lim-pei-en.webp",
+            "alt": "Lim Pei En"
+          },
+          "lon": 101.7,
+          "lat": 3.1
+        },
+        {
+          "name": "Dr Righteous",
+          "country": "Nigeria",
+          "photo": {
+            "src": "/media/ambassadors/dr-righteous.webp",
+            "alt": "Dr Righteous"
+          },
+          "lon": 7.5,
+          "lat": 9.1
+        },
+        {
+          "name": "Md Nafi",
+          "country": "Bangladesh",
+          "photo": {
+            "src": "/media/ambassadors/md-nafi.webp",
+            "alt": "Md Nafi"
+          },
+          "lon": 90.4,
+          "lat": 23.8
+        },
+        {
+          "name": "Diba",
+          "country": "Australia",
+          "photo": {
+            "src": "/media/ambassadors/diba.webp",
+            "alt": "Diba"
+          },
+          "lon": 151.2,
+          "lat": -33.9
+        },
+        {
+          "name": "Ashif",
+          "country": "India",
+          "photo": {
+            "src": "/media/ambassadors/ashif.webp",
+            "alt": "Ashif"
+          },
+          "lon": 77.2,
+          "lat": 28.6
+        },
+        {
+          "name": "Boling",
+          "country": "Laos",
+          "photo": {
+            "src": "/media/ambassadors/boling.webp",
+            "alt": "Boling"
+          },
+          "lon": 102.6,
+          "lat": 17.9
+        },
+        {
+          "name": "Abdul Ahad",
+          "country": "Pakistan",
+          "photo": {
+            "src": "/media/ambassadors/abdul-ahad.webp",
+            "alt": "Abdul Ahad"
+          },
+          "lon": 73,
+          "lat": 33.7
+        }
+      ],
+      "primaryCta": {
+        "label": "Meet the ambassadors",
+        "href": "/about-us"
+      },
+      "secondaryCta": {
+        "label": "Coming as a group?",
+        "href": "mailto:contact@thegyn.org"
+      }
+    },
+    "chapters": {
+      "visible": true,
+      "kicker": "Past summit programme",
+      "heading": "Programme *chapters*",
+      "items": [
+        {
+          "label": "Chapter 1",
+          "title": "Global Collaboration & Leadership",
+          "text": "Global leaders discuss how collaboration and leadership drive innovation across sustainable development.",
+          "sessions": [
+            {
+              "type": "Keynote",
+              "title": "From Local Action to Global Impact: Leading Collaborative Solutions for the SDGs – Kehkashan Basu (Green Hope Foundation)"
+            },
+            {
+              "type": "Interactive Keynote",
+              "title": "Bring Your Own Chair — 2000 to 2015 to 2030 to 2045: MDG to SDG to???? – Dr. Suman Roy (Zero Hunger Project)"
+            },
+            {
+              "type": "Keynote",
+              "title": "Advancing Women’s Rights through Global Collaboration & Leadership – Dr. Methinee Wongwanich Rumpagaporn (Kasetsart University & BINA Thailand)"
+            }
+          ]
+        },
+        {
+          "label": "Chapter 2",
+          "title": "Connecting Strategy, Policy & Social Impact",
+          "text": "Workshops and keynotes on policy formulation and strategic decision-making for sustainable futures.",
+          "sessions": [
+            {
+              "type": "Policy Workshop",
+              "title": "Transforming Education through Inclusive Policies and Innovation – Dr. Mona Al Kadi. (Axxon Group, MENA)"
+            },
+            {
+              "type": "Entrepreneurship Workshop",
+              "title": "Profit, People, Planet: A Lean Approach for Organizational Excellence – Sura Fitiani (Intersect Innovation Hub, Palestine)"
+            },
+            {
+              "type": "Keynote",
+              "title": "Feminist Climate Governance: Gender Mainstreaming in Climate Policy Making – Sidra Riaz (Environmental Change Makers, FIU)"
+            }
+          ]
+        },
+        {
+          "label": "Chapter 3 – Summit Theme",
+          "title": "Exploring Sustainability through Innovative Minds",
+          "text": "The delegate-led heart of the summit — see World Got a Problem below.",
+          "sessions": [
+            {
+              "type": "Interactive Delegate Activity",
+              "title": "World Got a Problem — Group Formation, Brainstorming, Presentations & Evaluation"
+            }
+          ]
+        },
+        {
+          "label": "Chapter 4",
+          "title": "AI Corner: Smart Innovation, Human Rights & AI",
+          "text": "A dedicated space exploring artificial intelligence, innovation and human rights with tech leaders and sustainability experts.",
+          "sessions": [
+            {
+              "type": "Keynote",
+              "title": "AI as Sustainable Digital Infrastructure: Building Inclusive, Trusted, Impact-Driven Innovation Ecosystems – Wenbo Li (Poly-Gamma, Greater China)"
+            },
+            {
+              "type": "Interactive Workshop",
+              "title": "Smart Innovation: AI, Gender Equality, and Human Rights Education — A Boon or a Challenge? – Dr. Shaleen Das (Youth for Human Rights International)"
+            },
+            {
+              "type": "AI Fireside Chat",
+              "title": "Innovation at the Intersection of AI and Immersive Experiences. -Ashley Blake (vrCAVE Canada) Syed Bilal Qasim (Techsol Space)"
+            },
+            {
+              "type": "AI Panel Discussion",
+              "title": "Future Minds and a Sustainable Future: Navigating the AI Revolution – Moderated by Sura Fitiani with Al Kadi, Roy, Li & Dr. Rishi Jain (AIT Bangkok)"
+            }
+          ]
+        }
+      ]
+    },
+    "schedule": {
+      "visible": true,
+      "kicker": "Four days",
+      "heading": "Four days *on the ground*",
+      "days": [
+        {
+          "label": "Day 1 Inaugural Evening",
+          "date": "16 July",
+          "items": [
+            {
+              "title": "Passport Bingo",
+              "text": "An icebreaking challenge that sent delegates around the venue to find peers matching five prompts — from multilingual speakers to fellow travelers and gender-equality advocates — building the summit's first connections and a social-media trail under #FMST26."
+            }
+          ]
+        },
+        {
+          "label": "Day 2",
+          "date": "17 July 2026",
+          "items": [
+            {
+              "title": "World Got a Problem — Phase A",
+              "text": "Delegates chose the SDG they were most passionate about, formed teams, elected a group representative, and identified one significant global problem to solve — with guest speakers and fellows on hand as mentors. An evening sightseeing tour (6:30–9:00 PM) gave the group a chance to unwind and take."
+            }
+          ]
+        },
+        {
+          "label": "Day 3",
+          "date": "18 July",
+          "items": [
+            {
+              "title": "World Got a Problem — Phase B: Present Your Solution",
+              "text": "Each team took the stage for five to six minutes to present their proposed solution to a panel of judges, scored on innovation, relevance to their SDG, feasibility, sustainability, presentation and teamwork."
+            }
+          ]
+        },
+        {
+          "label": "Day 3 Night",
+          "date": "18 July",
+          "items": [
+            {
+              "title": "Certificates, \"04:04\" & Cultural Night",
+              "text": "The summit closed with Certificates of Participation and a \"04:04 — hear you out\" reflection session, followed by the optional Cultural Night: a celebration of unity in diversity with traditional attire, an open dance floor, and a Rabindra Sangeet performance in Japanese, German and English by."
+            }
+          ]
+        }
+      ]
+    },
+    "speakers": {
+      "visible": true,
+      "kicker": "The speakers",
+      "heading": "12 speakers. *One* summit.",
+      "people": [
+        {
+          "name": "Ashley Blake",
+          "role": "VrCave Canada",
+          "photo": {
+            "src": "/media/speakers/ashley-blake.webp",
+            "alt": "Ashley Blake"
+          }
+        },
+        {
+          "name": "Dr. Suman Roy",
+          "role": "CEO Zero Hunger Project Canada",
+          "photo": {
+            "src": "/media/speakers/dr-suman-roy.webp",
+            "alt": "Dr. Suman Roy"
+          }
+        },
+        {
+          "name": "Wenbo Li",
+          "role": "CEO Poly Gamma, Greater China",
+          "photo": {
+            "src": "/media/advisory-board/wenbo-li.webp",
+            "alt": "Wenbo Li"
+          }
+        },
+        {
+          "name": "Sura Fitiani",
+          "role": "Intersect Innovation Hub, Palestine",
+          "photo": {
+            "src": "/media/speakers/sura-fitiani.webp",
+            "alt": "Sura Fitiani"
+          }
+        },
+        {
+          "name": "Dr. Mona Al Kadi",
+          "role": "Life Transformative Coach, UAE",
+          "photo": {
+            "src": "/media/speakers/dr-mona-al-kadi.webp",
+            "alt": "Dr. Mona Al Kadi"
+          }
+        },
+        {
+          "name": "Dr. Methinee Wongwanich",
+          "role": "",
+          "photo": {
+            "src": "/media/speakers/dr-methinee-wongwanich.webp",
+            "alt": "Dr. Methinee Wongwanich"
+          }
+        },
+        {
+          "name": "Kehkashan Basu",
+          "role": "Zehnder Group North America",
+          "photo": {
+            "src": "/media/speakers/kehkashan-basu.webp",
+            "alt": "Kehkashan Basu"
+          }
+        },
+        {
+          "name": "Dr. Shaleen Das",
+          "role": "",
+          "photo": {
+            "src": "/media/speakers/dr-shaleen-das.webp",
+            "alt": "Dr. Shaleen Das"
+          }
+        },
+        {
+          "name": "Dr. Rishi Jain",
+          "role": "Program Director Global Innovation Internship AIT",
+          "photo": {
+            "src": "/media/speakers/dr-rishi-jain.webp",
+            "alt": "Dr. Rishi Jain"
+          }
+        },
+        {
+          "name": "Elam Khan",
+          "role": "CEO Axxon group, UK",
+          "photo": {
+            "src": "/media/speakers/elam-khan.webp",
+            "alt": "Elam Khan"
+          }
+        },
+        {
+          "name": "Syed Bilal Qasim",
+          "role": "Founder & CEO Techsol Space",
+          "photo": {
+            "src": "/media/speakers/syed-bilal-qasim.webp",
+            "alt": "Syed Bilal Qasim"
+          }
+        },
+        {
+          "name": "Sidra Riaz",
+          "role": "COP 29 & COP30 Fellow",
+          "photo": {
+            "src": "/media/speakers/sidra-riaz.webp",
+            "alt": "Sidra Riaz"
+          }
+        }
+      ]
+    },
+    "gallery": {
+      "visible": true,
+      "kicker": "Gallery",
+      "heading": "A glimpse into *FMST 2026*",
+      "photos": [
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc01881-1.webp",
+            "alt": "Delegates at FutureMinds Summit Thailand, Bangkok 2026"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc01894-1.webp",
+            "alt": "Panel session at FutureMinds Summit Thailand 2026"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc01945-1.webp",
+            "alt": "Workshop session at FutureMinds Summit Thailand 2026"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc01960-1.webp",
+            "alt": "Delegates collaborating at FutureMinds Summit Thailand 2026"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc01976-1.webp",
+            "alt": "Summit activity at FutureMinds Summit Thailand 2026"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc01989-1.webp",
+            "alt": "Group discussion at FutureMinds Summit Thailand 2026"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc02120-1.webp",
+            "alt": "Cultural evening at FutureMinds Summit Thailand 2026"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc02142-1.webp",
+            "alt": "Delegates at FutureMinds Summit Thailand 2026"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc02159-1.webp",
+            "alt": "Certification ceremony at FutureMinds Summit Thailand 2026"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc02172-1.webp",
+            "alt": "Group photo at FutureMinds Summit Thailand 2026"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc02243-1.webp",
+            "alt": "Summit session at FutureMinds Summit Thailand 2026"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        },
+        {
+          "image": {
+            "src": "/media/gallery/fmst-dsc03736-1.webp",
+            "alt": "Sightseeing in Bangkok with FutureMinds Summit Thailand 2026 delegates"
+          },
+          "caption": "FutureMinds Summit, Bangkok, July 2026"
+        }
+      ]
+    },
+    "videos": {
+      "visible": true,
+      "kicker": "Highlights",
+      "heading": "Bangkok, July 2026. *We were there.*",
+      "items": [
+        {
+          "url": "https://youtu.be/Aqqo3cL4W6w",
+          "title": "Future Minds Summit 2026 – Day 1 Highlights",
+          "poster": {
+            "src": "/media/video/Aqqo3cL4W6w.jpg",
+            "alt": "Future Minds Summit 2026 – Day 1 Highlights"
+          }
+        },
+        {
+          "url": "https://youtu.be/FwjXKiF4QJ0",
+          "title": "Future Minds Summit 2026 – Day 2 Highlights",
+          "poster": {
+            "src": "/media/video/FwjXKiF4QJ0.jpg",
+            "alt": "Future Minds Summit 2026 – Day 2 Highlights"
+          }
+        },
+        {
+          "url": "https://youtu.be/TjnrswlwX8k",
+          "title": "Future Minds Summit 2026 – Day 3 Highlights",
+          "poster": {
+            "src": "/media/video/TjnrswlwX8k.jpg",
+            "alt": "Future Minds Summit 2026 – Day 3 Highlights"
+          }
+        }
+      ]
+    },
+    "stories": {
+      "visible": false,
+      "kicker": "",
+      "heading": "",
+      "quotes": []
+    },
+    "faq": {
+      "visible": false,
+      "kicker": "",
+      "heading": "",
+      "items": []
+    },
+    "cta": {
+      "visible": true,
+      "heading": "The next *chapter*",
+      "text": "Building on what we started in Bangkok, SISM Malaysia 2026 brings 100 delegates to Kuala Lumpur, 19 to 22 November 2026.",
+      "primaryCta": {
+        "label": "Full SISM 2026 programme",
+        "href": "/sism-2026"
+      },
+      "secondaryCta": {
+        "label": "Book Forum Access, $199",
+        "href": "/sism-forum-access"
+      }
+    }
+  }
+}

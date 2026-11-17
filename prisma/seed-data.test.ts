@@ -2,18 +2,16 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import eventsJson from "../content/events.json" with { type: "json" };
-import { buildSeed } from "./seed-data.ts";
+import { buildSeed, RENAMED_SLUGS } from "./seed-data.ts";
 
 const seed = buildSeed(eventsJson);
 const sism = seed.find((e) => e.slug === "sism-2026")!;
 
-test("both events are seeded with the right dates and timezone", () => {
-  assert.equal(seed.length, 2);
-  assert.equal(sism.timezone, "Asia/Kuala_Lumpur");
-  assert.equal(sism.startsAt.toISOString(), "2026-11-18T16:00:00.000Z"); // 19 Nov 00:00 in KL
-  const fmst = seed.find((e) => e.slug === "fmst-2026")!;
-  assert.equal(fmst.timezone, "Asia/Bangkok");
-  assert.ok(fmst.endsAt < new Date("2026-08-01"), "FMST is a past event");
+test("both events are seeded; FMST's address is its live page", () => {
+  assert.deepEqual(seed.map((e) => e.slug), ["sism-2026", "fms-thailand"]);
+  assert.equal(RENAMED_SLUGS["fmst-2026"], "fms-thailand");
+  assert.equal(sism.totalSeats, 100);
+  assert.equal(seed.find((e) => e.slug === "fms-thailand")!.categories.length, 0, "FMST is a past event with no registration");
 });
 
 test("fees are whole cents taken from the content file", () => {

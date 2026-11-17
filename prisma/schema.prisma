@@ -276,6 +276,8 @@ model Event {
   city                String?
   country             String?
   mapUrl              String?
+  // Short label in the navbar dropdowns, e.g. "FMS Thailand"; falls back to the name.
+  navLabel            String?
   bannerUrl           String?
   logoUrl             String?
   totalSeats          Int?

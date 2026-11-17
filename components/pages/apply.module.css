@@ -1,0 +1,18 @@
+/* registration pages: what is included beside the form, two equal halves over the soft glow */
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 28px); align-items: start; }
+.includes, .form { border-radius: 30px; padding: clamp(22px, 3.4vw, 38px); }
+.includes { position: sticky; top: 100px; }
+.includes h3 { font-size: 1.35rem; letter-spacing: -.03em; color: var(--ink); margin-bottom: 16px; }
+.includes ul { list-style: none; display: grid; gap: 10px; margin-bottom: 20px; }
+.includes li { position: relative; padding-left: 28px; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.includes li::before {
+  content: ""; position: absolute; left: 0; top: .28em; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.4l2.6 2.6L13 6.4' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+}
+.note { font-size: .9rem; line-height: 1.6; color: var(--muted); padding-top: 16px; border-top: 1px solid var(--line); }
+.note a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .includes { position: static; }
+}

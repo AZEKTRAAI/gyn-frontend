@@ -6,7 +6,7 @@
  * shortcut: only handles the constructs present in the three policy files;
  *   not a general-purpose renderer. Upgrade to remark if more pages land.
  *
- * Returns an array of { id, level, text } for each H2 (used by the sticky TOC)
+ * Returns an array of { id, text } for each H2 (used by the sticky TOC); pages with no H2 use their H4s instead
  * alongside the HTML string.
  */
 
@@ -29,6 +29,7 @@ function slugify(text: string): string {
 
 export function renderMd(markdown: string): RenderResult {
   const toc: TocEntry[] = []
+  const tocH4: TocEntry[] = []
   const lines = markdown.split('\n')
   const out: string[] = []
   let i = 0
@@ -65,6 +66,7 @@ export function renderMd(markdown: string): RenderResult {
       const text = hMatch[2].replace(/\*\*/g, '')
       const id = slugify(text)
       if (level === 2) toc.push({ id, text })
+      if (level === 4) tocH4.push({ id, text })
       out.push(`<h${level} id="${id}">${escape(text)}</h${level}>`)
       i++
       continue
@@ -147,5 +149,5 @@ export function renderMd(markdown: string): RenderResult {
     }
   }
 
-  return { html: out.join('\n'), toc }
+  return { html: out.join('\n'), toc: toc.length ? toc : tocH4 }
 }

@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { cms } from '@/lib/cms'
-import { PageHero } from '@/components/PageHero'
-import { RegistrationForm } from '@/features/registration/ui/RegistrationForm'
+import { ApplyPage } from '@/components/pages/ApplyPage'
 
 export const metadata: Metadata = {
   title: 'Forum Access Application | SDG Innovation Summit Malaysia',
@@ -23,46 +21,18 @@ export default async function ForumAccessPage() {
   const ticket = sism.ticketTypes.find(t => t.id === 'forum-access')!
 
   return (
-    <main id="main">
-      <PageHero
-        kicker="Forum Access"
-        title="Forum *Access* application"
-        lead="Confirmed seat at SISM 2026. No selection process: pay and your place is secured."
-        chips={['19–22 November 2026', 'Kuala Lumpur, Malaysia', '$199 USD']}
-        actions={
-          <Link href="/sism-2026" style={{ fontSize: '0.875rem', color: 'var(--navy)', textDecoration: 'underline' }}>
-            Back to summit page
-          </Link>
-        }
-      />
-
-      {/* Info + Form */}
-      <section data-name="Book your seat" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
-        <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
-
-          {/* Left: includes + facts */}
-          <div className="card">
-            <h2 className="d3" style={{ color: 'var(--ink)', marginBottom: '1rem' }}>What is included</h2>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.375rem', marginBottom: '1.5rem' }}>
-              {ticket.includes.map(item => (
-                <li key={item} style={{ fontSize: '0.9375rem', color: 'var(--n-700)', paddingLeft: '1.25rem', position: 'relative', lineHeight: 1.55 }}>
-                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--ink)', borderRadius: '50%', display: 'block' }} />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p style={{ fontSize: '0.875rem', color: 'var(--n-500)', lineHeight: 1.6 }}>
-              Group discounts available. Email{' '}
-              <a href="mailto:contact@thegyn.org" style={{ color: 'var(--navy)', textDecoration: 'underline' }}>contact@thegyn.org</a>.
-            </p>
-          </div>
-
-          {/* Right: form */}
-          <div>
-            <RegistrationForm ticket="forum-access" includes={ticket.includes} />
-          </div>
-        </div>
-      </section>
-    </main>
+    <ApplyPage
+      category="forum-access"
+      includes={ticket.includes}
+      kicker="Forum Access"
+      title="Forum *Access* application"
+      lead="Confirmed seat at SISM 2026. No selection process: pay and your place is secured."
+      facts={['19–22 November 2026', 'Kuala Lumpur, Malaysia', '$199 USD']}
+      sectionKicker="Book your seat"
+      sectionHeading="Secure your *place*"
+      includesHeading="What is included"
+      note={<>Group discounts available. Email{' '}
+          <a href="mailto:contact@thegyn.org">contact@thegyn.org</a>.</>}
+    />
   )
 }

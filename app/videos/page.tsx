@@ -8,8 +8,12 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { cms } from '@/lib/cms'
-import { PageHero } from '@/components/PageHero'
+import { GALLERY } from '@/features/media/media'
+import { PageBox } from '@/components/pages/PageBox'
+import { PageSection } from '@/components/pages/PageSection'
+import { PageClosing } from '@/components/pages/PageClosing'
 import { VideosClient } from './_client'
+import s from './page.module.css'
 
 export const metadata: Metadata = {
   title: 'Videos – GYN',
@@ -29,6 +33,9 @@ export interface VideoEntry {
   category: string
 }
 
+// four Bangkok summit photos for the sides of the box
+const PHOTOS = [0, 6, 2, 10].map((i) => ({ src: GALLERY[i].src, alt: GALLERY[i].alt }))
+
 export default async function VideosPage() {
   const mediaData = await cms.getMedia() as { videos: VideoEntry[] }
 
@@ -42,55 +49,36 @@ export default async function VideosPage() {
 
   return (
     <main id="main">
-      <PageHero
+      <PageBox
+        id="videos-h1"
         kicker="GYN films"
         title="*Summit* videos"
         lead="Highlights, speaker sessions, and delegate testimonials from GYN summits."
+        photos={PHOTOS}
       />
 
-      <section
-        aria-labelledby="videos-hd"
-        data-name="All videos"
-        style={{ background: 'var(--field)', paddingBlock: 'var(--sp)' }}
-      >
-        <div className="wrap">
-          <h2 id="videos-hd" className="d2" style={{ marginBottom: '2rem' }}>
-            All videos
-          </h2>
-          {/* VideosClient reads ?v= from the URL, so it renders client-side; the fallback keeps the list in the static HTML */}
-          <Suspense
-            fallback={
-              <ul>
-                {videos.map((v) => (
-                  <li key={v.youtubeId}>
-                    <a href={`https://www.youtube.com/watch?v=${v.youtubeId}`}>{v.title}</a>
-                  </li>
-                ))}
-              </ul>
-            }
-          >
-            <VideosClient videos={videos} />
-          </Suspense>
-        </div>
-      </section>
+      <PageSection id="videos" kicker="All videos" heading="Pick a *video* to play" glow>
+        {/* VideosClient reads ?v= from the URL, so it renders client-side; the fallback keeps the list in the static HTML */}
+        <Suspense
+          fallback={
+            <ul className={s.fallback}>
+              {videos.map((v) => (
+                <li key={v.youtubeId}>
+                  <a href={`https://www.youtube.com/watch?v=${v.youtubeId}`}>{v.title}</a>
+                </li>
+              ))}
+            </ul>
+          }
+        >
+          <VideosClient videos={videos} />
+        </Suspense>
+      </PageSection>
 
-      {/* Yellow closing band — links to SISM 2026 registration */}
-      <section
-        className="band-y"
-        data-name="Join SISM 2026"
-        aria-labelledby="vid-cta-hd"
-        style={{ paddingBlock: 'var(--sp)', textAlign: 'center' }}
-      >
-        <div className="wrap">
-          <p className="kick">Register now</p>
-          <h2 id="vid-cta-hd" className="d2" style={{ marginBottom: '1.5rem' }}>
-            See it for yourself
-          </h2>
-          <Link href="/sism-2026" className="btn btn-n">
-            See the 2026 programme
-          </Link>
-        </div>
-      </section>
+      <PageClosing id="video-cta" name="Join SISM 2026" heading="*See* it for yourself">
+        <Link href="/sism-2026" className="btn btn-y">
+          See the 2026 programme <span aria-hidden="true">&rarr;</span>
+        </Link>
+      </PageClosing>
     </main>
   )
 }

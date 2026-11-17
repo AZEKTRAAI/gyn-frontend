@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSearchParams, usePathname } from 'next/navigation'
 import Image from 'next/image'
 import type { VideoEntry } from './page'
+import s from './page.module.css'
 
 const CATEGORIES = ['all', 'highlights', 'speakers', 'testimonials'] as const
 type Category = (typeof CATEGORIES)[number]
@@ -58,38 +59,20 @@ export function VideosClient({ videos }: Props) {
   return (
     <>
       {/* Filter chips */}
-      <div
-        role="group"
-        aria-label="Filter videos by category"
-        style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}
-      >
+      <div role="group" aria-label="Filter videos by category" className={s.filters}>
         {CATEGORIES.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            aria-pressed={activeCategory === cat}
-            className={activeCategory === cat ? 'btn btn-n' : 'btn btn-g'}
-            style={{ minHeight: '36px', padding: '0.375rem 1rem', fontSize: '0.875rem' }}
-          >
+          <button key={cat} onClick={() => setActiveCategory(cat)} aria-pressed={activeCategory === cat} className={s.chip}>
             {cat.charAt(0).toUpperCase() + cat.slice(1)}
           </button>
         ))}
       </div>
 
-      {/* Video grid — rounded cards with yellow pill category label */}
-      <div className="vid-grid">
+      {/* Video grid: glass cards, lime category pill */}
+      <ul className={s.grid}>
         {filtered.map((v) => (
-          <div key={v.youtubeId} className="card" style={{ padding: 0, overflow: 'hidden' }}>
-            <button
-              onClick={() => setOpenId(v.youtubeId)}
-              style={{
-                all: 'unset',
-                cursor: 'pointer',
-                display: 'block',
-                width: '100%',
-              }}
-            >
-              <div style={{ position: 'relative', aspectRatio: '16/9', background: 'var(--field)' }}>
+          <li key={v.youtubeId} className={`glass-lite ${s.card}`}>
+            <button onClick={() => setOpenId(v.youtubeId)} className={s.cardBtn}>
+              <span className={s.thumb}>
                 <Image
                   src={v.thumbnail || `https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg`}
                   alt=""
@@ -98,130 +81,41 @@ export function VideosClient({ videos }: Props) {
                   style={{ objectFit: 'cover' }}
                   loading="lazy"
                 />
-                {/* Play icon overlay */}
-                <span
-                  aria-hidden="true"
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: 'rgba(14,21,48,.18)', /* scrim */
-                    transition: 'background 160ms ease',
-                  }}
-                  className="vid-play-overlay"
-                >
-                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true">
-                    <circle cx="22" cy="22" r="22" fill="rgba(255,255,255,.92)" />
+                <span aria-hidden="true" className={s.play}>
+                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+                    <circle cx="22" cy="22" r="22" fill="var(--action)" />
                     <polygon points="18,14 34,22 18,30" fill="var(--ink)" />
                   </svg>
                 </span>
-              </div>
-              <div style={{ padding: '1rem 1.25rem 1.25rem' }}>
-                {/* Yellow pill category label */}
-                <span
-                  style={{
-                    display: 'inline-block',
-                    background: 'var(--yellow)',
-                    color: 'var(--ink)',
-                    borderRadius: '999px',
-                    padding: '0.2rem 0.75rem',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    marginBottom: '0.5rem',
-                  }}
-                >
-                  {v.category.charAt(0).toUpperCase() + v.category.slice(1)}
-                </span>
-                <span style={{ fontFamily: 'var(--fd)', fontSize: '0.9375rem', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.3, display: 'block' }}>
-                  {v.title}
-                </span>
-              </div>
+              </span>
+              <span className={s.meta}>
+                <span className={s.tag}>{v.category.charAt(0).toUpperCase() + v.category.slice(1)}</span>
+                <span className={s.title}>{v.title}</span>
+              </span>
             </button>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
 
-      {filtered.length === 0 && (
-        <p style={{ color: 'var(--navy)', fontSize: '0.9375rem', marginTop: '2rem', opacity: 0.65 }}>
-          No videos in this category yet.
-        </p>
-      )}
+      {filtered.length === 0 && <p className={s.empty}>No videos in this category yet.</p>}
 
       {/* Video modal */}
-      <dialog
-        ref={dlgRef}
-        onClick={onBackdropClick}
-        aria-label={openVideo ? `Playing: ${openVideo.title}` : 'Video player'}
-        style={{
-          background: 'var(--ink)',
-          maxWidth: '800px',
-          width: '100%',
-          border: 'none',
-          padding: 0,
-          borderRadius: '20px',
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'space-between',
-            gap: '1rem',
-            padding: '1.25rem 1.5rem',
-            borderBottom: '1px solid rgba(255,255,255,.1)',
-          }}
-        >
-          <span style={{ fontFamily: 'var(--fd)', fontWeight: 600, fontSize: '0.9375rem', color: 'var(--white)' }}>
-            {openVideo?.title}
-          </span>
-          <button
-            onClick={() => setOpenId(null)}
-            aria-label="Close video"
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'rgba(255,255,255,.65)',
-              cursor: 'pointer',
-              fontSize: '1.25rem',
-              padding: '0.25rem',
-              flexShrink: 0,
-            }}
-          >
-            &#10005;
-          </button>
+      <dialog ref={dlgRef} onClick={onBackdropClick} aria-label={openVideo ? `Playing: ${openVideo.title}` : 'Video player'} className={s.dialog}>
+        <div className={s.dialogBar}>
+          <span>{openVideo?.title}</span>
+          <button onClick={() => setOpenId(null)} aria-label="Close video">&#10005;</button>
         </div>
         {openId && (
-          <div style={{ aspectRatio: '16/9', background: '#000' }}>
+          <div className={s.frame}>
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${openId}?autoplay=1&rel=0`}
               title={openVideo?.title ?? 'Video'}
               allow="autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
-              style={{ width: '100%', height: '100%', border: 'none' }}
             />
           </div>
         )}
       </dialog>
-
-      <style>{`
-        dialog::backdrop { background: rgba(14,21,48,.92); }
-        .vid-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1.5rem;
-        }
-        @media (max-width: 768px) {
-          dialog { max-width: 95vw; }
-          .vid-grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 1024px) and (min-width: 769px) {
-          .vid-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        .vid-play-overlay:hover { background: rgba(14,21,48,.32) !important; }
-      `}</style>
     </>
   )
 }

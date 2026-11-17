@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { cms } from '@/lib/cms'
-import { PageHero } from '@/components/PageHero'
-import { RegistrationForm } from '@/features/registration/ui/RegistrationForm'
+import { ApplyPage } from '@/components/pages/ApplyPage'
 
 export const metadata: Metadata = {
   title: 'Buy Invitation Letter | SDG Innovation Summit Malaysia 2026',
@@ -23,45 +21,17 @@ export default async function InvitationLetterPage() {
   const ticket = sism.ticketTypes.find(t => t.id === 'invitation-letter')!
 
   return (
-    <main id="main">
-      <PageHero
-        kicker="Invitation Letter"
-        title="*Invitation* letter application"
-        lead="Official invitation letter for your Malaysian visa application. Delivered within 48 hours of payment."
-        chips={['For SISM 2026', '19–22 Nov, Teedo Hotel, Kuala Lumpur', '$49 USD']}
-        actions={
-          <Link href="/sism-2026" style={{ fontSize: '0.875rem', color: 'var(--navy)', textDecoration: 'underline' }}>
-            Back to summit page
-          </Link>
-        }
-      />
-
-      {/* Info + Form */}
-      <section data-name="Get your letter" style={{ background: 'var(--white)', paddingBlock: 'var(--sp)' }}>
-        <div className="wrap who-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
-
-          {/* Left: includes + note */}
-          <div className="card">
-            <h2 className="d3" style={{ color: 'var(--ink)', marginBottom: '1rem' }}>What you receive</h2>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.375rem', marginBottom: '1.5rem' }}>
-              {ticket.includes.map(item => (
-                <li key={item} style={{ fontSize: '0.9375rem', color: 'var(--n-700)', paddingLeft: '1.25rem', position: 'relative', lineHeight: 1.55 }}>
-                  <span aria-hidden="true" style={{ position: 'absolute', left: 0, top: '0.55em', width: '6px', height: '6px', background: 'var(--ink)', borderRadius: '50%', display: 'block' }} />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p style={{ fontSize: '0.875rem', color: 'var(--n-500)', lineHeight: 1.6 }}>
-              Passport number is used only to generate the letter and is not stored afterwards.
-            </p>
-          </div>
-
-          {/* Right: form */}
-          <div>
-            <RegistrationForm ticket="invitation-letter" includes={ticket.includes} />
-          </div>
-        </div>
-      </section>
-    </main>
+    <ApplyPage
+      category="invitation-letter"
+      includes={ticket.includes}
+      kicker="Invitation Letter"
+      title="*Invitation* letter application"
+      lead="Official invitation letter for your Malaysian visa application. Delivered within 48 hours of payment."
+      facts={['For SISM 2026', '19–22 Nov, Teedo Hotel, Kuala Lumpur', '$49 USD']}
+      sectionKicker="Get your letter"
+      sectionHeading="Request your *letter*"
+      includesHeading="What you receive"
+      note={<>Passport number is used only to generate the letter and is not stored afterwards.</>}
+    />
   )
 }

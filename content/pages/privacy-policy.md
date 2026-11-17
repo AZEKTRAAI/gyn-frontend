@@ -11,7 +11,7 @@ lastModified: 2026-04-13T09:44:33+00:00
 
 The Global Youth Network (GYN) is committed to protecting the privacy and personal information of all visitors, applicants, delegates, partners, and stakeholders.
 
-Information We Collect
+## Information We Collect
 
 * Full name
 * Email address
@@ -21,7 +21,7 @@ Information We Collect
 * Passport information (for visa and delegation purposes)
 * Payment and transaction details (processed via secure third-party gateways)
 
-How We Use Your Information
+## How We Use Your Information
 
 The information collected is used to:
 
@@ -31,7 +31,7 @@ The information collected is used to:
 * Improve our programs, services, and website experience
 * Comply with legal or regulatory requirements
 
-Data Protection
+## Data Protection
 
 GYN ensures appropriate technical and organizational measures to safeguard your data. We do not sell, rent, or share personal information with third parties except where required for operational, legal, or payment processing purposes.
 

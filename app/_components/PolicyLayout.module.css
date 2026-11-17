@@ -1,0 +1,47 @@
+/* Policy pages: a comfortable reading column on white, with a sticky table of contents beside it on desktop. */
+.page { padding-block: clamp(40px, 7svh, 80px); }
+.grid { display: grid; justify-content: center; gap: clamp(32px, 5vw, 72px); }
+.toc { display: none; }
+
+@media (min-width: 900px) {
+  .gridToc { grid-template-columns: 250px minmax(0, 70ch); }
+  .toc {
+    display: block; position: sticky; top: 110px; align-self: start;
+    max-height: calc(100svh - 140px); overflow-y: auto;
+    padding: 20px 18px; border-radius: 22px; background: var(--mist); border: 1px solid var(--line);
+  }
+}
+.tocLabel { font-size: 12.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--brand); margin-bottom: 12px; }
+.toc ul { list-style: none; }
+.toc a {
+  display: block; padding: 5px 0 5px 12px; font-size: 13.5px; line-height: 1.45; color: var(--muted);
+  border-left: 2px solid transparent; transition: color .15s, border-color .15s;
+}
+.toc a:hover { color: var(--ink); }
+.toc a[aria-current="true"] { color: var(--brand); font-weight: 600; border-left-color: var(--brand); }
+
+/* the policy text itself is rendered from markdown, so it is styled by tag */
+.body { min-width: 0; }
+.body h1 { font-size: clamp(1.5rem, 3vw, 2rem); color: var(--ink); margin: 2.5rem 0 1rem; line-height: 1.12; letter-spacing: -.035em; }
+.body h1:first-child, .body h2:first-child { margin-top: 0; }
+.body h2 { font-size: clamp(1.25rem, 2.2vw, 1.6rem); color: var(--ink); margin: 2.75rem 0 .875rem; line-height: 1.15; letter-spacing: -.03em; scroll-margin-top: 110px; }
+.body h3, .body h4 { font-size: 1.05rem; color: var(--ink); margin: 2rem 0 .625rem; scroll-margin-top: 110px; }
+.body h5, .body h6 { font-size: .95rem; color: var(--ink); margin: 1.5rem 0 .5rem; }
+.body p, .body li { font-size: 1.0625rem; line-height: 1.75; color: var(--muted); }
+.body p { margin-bottom: 1rem; }
+.body ul, .body ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+.body ul { list-style: disc; }
+.body ol { list-style: decimal; }
+.body li::marker { color: var(--brand); }
+.body li { margin-bottom: .375rem; }
+.body strong { font-weight: 700; color: var(--ink); }
+.body a { color: var(--brand); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.body a:hover { color: var(--brand-dk); }
+.body table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: .9375rem; }
+.body th { background: var(--brand); color: #fff; padding: .625rem .875rem; text-align: left; font-weight: 600; }
+.body th strong { color: inherit; }
+.body td { padding: .5rem .875rem; border-bottom: 1px solid var(--line); color: var(--muted); vertical-align: top; }
+.body tr:nth-child(even) td { background: var(--mist); }
+@media (max-width: 640px) {
+  .body table { display: block; overflow-x: auto; }
+}

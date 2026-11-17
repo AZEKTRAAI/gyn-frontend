@@ -1,0 +1,142 @@
+/* Fixed public pages, 2026-11 redesign: the same look as the home page (see components/landing/landing.module.css).
+   A shorter royal box opens each page (words centred, torn photos down both sides where the page has photos),
+   then sections that each start with SectionHead. Glass only over colour; motion is transform and opacity,
+   off under reduced motion. */
+
+/* ---------- page-top royal box ---------- */
+.top {
+  padding: clamp(84px, 11svh, 100px) clamp(10px, 1.2vw, 18px) 0;
+  background: #fff;
+}
+.box {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: clamp(28px, 5svh, 56px) clamp(20px, 4vw, 48px);
+  border-radius: clamp(28px, 3vw, 44px);
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+  background:
+    radial-gradient(34rem 26rem at 92% 6%, rgba(38, 189, 226, .62), transparent 70%),
+    radial-gradient(30rem 24rem at 4% 98%, rgba(198, 244, 50, .30), transparent 70%),
+    radial-gradient(30rem 24rem at 50% 45%, rgba(140, 150, 255, .40), transparent 70%),
+    radial-gradient(24rem 20rem at 0% 10%, rgba(253, 105, 37, .22), transparent 70%),
+    linear-gradient(150deg, var(--brand) 0%, var(--brand-dk) 100%);
+  box-shadow: 0 50px 90px -50px rgba(30, 42, 168, .7), inset 0 1px 0 rgba(255, 255, 255, .25);
+}
+/* room for the photos: they sit in the side margins, the words in the middle half */
+.withPhotos { min-height: min(72svh, 560px); padding-inline: 25%; }
+
+.copy { position: relative; z-index: 8; display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 780px; }
+.pill {
+  display: inline-flex; align-items: center; gap: 10px; max-width: 100%;
+  font-size: 12.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #fff;
+  padding: 7px 14px 7px 12px; border-radius: 999px;
+}
+.dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--action); box-shadow: 0 0 0 4px rgba(198, 244, 50, .25); }
+.h1 {
+  margin-top: clamp(12px, 2.2svh, 20px);
+  font-size: clamp(2.2rem, min(4.8vw, 7.6svh), 4.6rem);
+  line-height: .98;
+  letter-spacing: -0.045em;
+  color: #fff;
+  white-space: pre-line;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.lead { margin-top: clamp(12px, 2svh, 18px); max-width: 58ch; font-size: clamp(1rem, 1.2vw, 1.12rem); line-height: 1.6; color: rgba(255, 255, 255, .88); text-wrap: pretty; }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: clamp(16px, 2.6svh, 26px); }
+.btnGlass { color: #fff; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .32); }
+.btnGlass:hover { background: rgba(255, 255, 255, .22); }
+.facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: clamp(12px, 2svh, 20px); list-style: none; }
+.facts li { font-size: 13.5px; font-weight: 500; color: #fff; padding: 7px 14px; border-radius: 999px; }
+.above { margin-bottom: clamp(10px, 1.6svh, 16px); }
+
+.wheel { position: absolute; width: 26%; top: -26%; right: -8%; z-index: 0; opacity: .9; }
+.wheel2 { position: absolute; width: 20%; bottom: -26%; left: -6%; z-index: 0; opacity: .8; }
+/* boxes without photos are short, so the wheels are smaller there */
+@media (min-width: 901px) {
+  .box:not(.withPhotos) .wheel { width: min(15%, 210px); top: -30%; right: -1%; }
+  .box:not(.withPhotos) .wheel2 { width: min(11%, 160px); bottom: -28%; left: 0; }
+}
+
+/* torn-paper photos (same recipe as the home hero); the shadow sits on the figure so the clip-path does not cut it */
+.scatter { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.ph { margin: 0; filter: drop-shadow(0 18px 24px rgba(10, 16, 60, .4)); }
+.scatter .ph { position: absolute; }
+.cut { background: #fff; padding: 8px; }
+.img { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; }
+.scatter[data-n="2"] .ph0 { width: 20%; left: 3%; top: 27%; rotate: -6deg; }
+.scatter[data-n="2"] .ph1 { width: 20%; right: 3%; top: 27%; rotate: 6deg; }
+.scatter[data-n="4"] .ph0 { width: 17%; left: 2.5%; top: 7%; rotate: -6deg; }
+.scatter[data-n="4"] .ph1 { width: 17%; right: 2.5%; top: 9%; rotate: 5deg; }
+.scatter[data-n="4"] .ph2 { width: 15%; left: 6%; bottom: 7%; rotate: 4deg; }
+.scatter[data-n="4"] .ph3 { width: 15%; right: 6%; bottom: 6%; rotate: -4deg; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .copy > * { animation: rise .8s cubic-bezier(.2, .8, .2, 1) both; }
+  .copy > :nth-child(2) { animation-delay: .05s; }
+  .copy > :nth-child(3) { animation-delay: .1s; }
+  .copy > :nth-child(4) { animation-delay: .15s; }
+  .copy > :nth-child(5) { animation-delay: .2s; }
+  .ph { animation: drop .9s cubic-bezier(.2, .8, .2, 1) both; }
+  .ph1 { animation-delay: .08s; } .ph2 { animation-delay: .16s; } .ph3 { animation-delay: .22s; }
+  .wheel { animation: spin 90s linear infinite; }
+  .wheel2 { animation: spin 120s linear infinite reverse; }
+}
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+@keyframes drop { from { opacity: 0; translate: 0 -24px; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- sections ---------- */
+/* vertical rhythm follows the screen height so each section fits one view on a laptop */
+.section { padding-block: clamp(44px, 7svh, 88px); }
+/* soft brand glows so glass cards in these sections have colour to catch */
+.glow {
+  padding-block: clamp(44px, 7svh, 88px);
+  background:
+    radial-gradient(40rem 28rem at 0% 10%, rgba(45, 63, 224, .10), transparent 70%),
+    radial-gradient(36rem 26rem at 100% 40%, rgba(38, 189, 226, .14), transparent 70%),
+    radial-gradient(32rem 24rem at 50% 100%, rgba(198, 244, 50, .14), transparent 70%),
+    var(--mist);
+}
+.narrow { max-width: 760px; margin-inline: auto; }
+.narrow .body:last-child { margin-bottom: 0; }
+.caption { margin-top: 10px; text-align: center; font-size: 13.5px; font-weight: 500; color: var(--muted); }
+.body { max-width: 66ch; margin: 0 auto 1rem; font-size: clamp(1rem, 1.2vw, 1.1rem); line-height: 1.7; color: var(--muted); text-align: center; text-wrap: pretty; }
+.card { border-radius: 26px; padding: clamp(20px, 3svh, 30px) clamp(18px, 2.2vw, 30px); }
+
+/* royal closing panel that ends a page, like the home closing */
+.closingWrap { padding-block: clamp(16px, 3svh, 36px) clamp(44px, 7svh, 88px); }
+.closing {
+  position: relative; overflow: hidden;
+  border-radius: 44px; padding: clamp(36px, 8svh, 84px) clamp(24px, 6vw, 80px); text-align: center; color: #fff;
+  background:
+    radial-gradient(34rem 26rem at 15% 0%, rgba(38, 189, 226, .55), transparent 70%),
+    radial-gradient(30rem 24rem at 85% 100%, rgba(198, 244, 50, .25), transparent 70%),
+    radial-gradient(26rem 22rem at 50% 50%, rgba(140, 150, 255, .3), transparent 70%),
+    linear-gradient(150deg, var(--brand) 0%, var(--brand-dk) 100%);
+  box-shadow: 0 50px 90px -40px rgba(30, 42, 168, .6), inset 0 1px 0 rgba(255, 255, 255, .2);
+}
+.closingH { font-size: clamp(2.2rem, 5vw, 4.4rem); line-height: .98; letter-spacing: -.05em; color: #fff; text-wrap: balance; }
+.closingText { margin: 20px auto 0; max-width: 56ch; color: rgba(255, 255, 255, .88); font-size: clamp(1rem, 1.25vw, 1.12rem); line-height: 1.6; }
+.closing .actions { margin-top: 28px; }
+
+/* ---------- phones and tablets: the words first, then the photos as a scattered band under them ---------- */
+@media (max-width: 900px) {
+  .box { padding: 28px 18px 32px; }
+  .withPhotos { display: flex; flex-direction: column; min-height: 0; padding: 28px 18px 0; }
+  .scatter { order: 1; position: relative; inset: auto; width: 100%; height: clamp(190px, 54vw, 300px); margin-top: 14px; }
+  .scatter[data-n] .ph0 { width: 52%; left: 0; right: auto; top: 4%; bottom: auto; }
+  .scatter[data-n] .ph1 { width: 48%; right: 0; left: auto; top: 18%; bottom: auto; }
+  .scatter[data-n] .ph2, .scatter[data-n] .ph3 { display: none; }
+  .wheel { width: 46%; top: -12%; right: -24%; opacity: .5; }
+  .wheel2 { width: 36%; bottom: -10%; left: -16%; opacity: .45; }
+  .closing { border-radius: 32px; }
+}
+
+/* links inside the lead and body copy */
+.lead a { color: #fff; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.mail { font-weight: 600; color: var(--brand); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.mail:hover { color: var(--brand-dk); }

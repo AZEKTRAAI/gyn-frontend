@@ -62,14 +62,14 @@ All decisions made by the Global Youth Network Selection Committee are final.
 
 Due to the competitive nature of the selection process, Global Youth Network is under no obligation to provide individual evaluation reports, scores, rankings, or reasons for selection or non-selection.
 
-General Conditions
+#### General Conditions
 
 * GYN reserves the right to accept or reject any application.
 * Submission of an application does not guarantee selection.
 * All information provided must be accurate and truthful.
 * Participants must be at least 17 years of age.
 
-Payment & Refunds Conditions
+#### Payment & Refunds Conditions
 
 * [Please Read GYN Refund Policies](https://thegyn.org/refund-policy/)
 
@@ -81,7 +81,7 @@ Applicants who are not selected for Fully Funded or Partially Funded participati
 
 Refund requests submitted for reasons that fall outside the published Refund Policy shall not be approved.
 
-Visa & Travel
+#### Visa & Travel
 
 * GYN does not guarantee visa approval. Global Youth Network will only provide visa supporting documents.
 * Global Youth Network will provide airfare support to scholarship applicants.

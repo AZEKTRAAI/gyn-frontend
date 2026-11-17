@@ -5,7 +5,8 @@ import { getHome } from '@gyn/core/home-store'
 import { can } from '@gyn/core/permissions'
 import { requireSession } from '@/lib/auth'
 import { Forbidden } from '../Forbidden'
-import { HomeEditor, type JsonNode } from './HomeEditor'
+import type { JsonNode } from '@/components/SchemaForm'
+import { HomeEditor } from './HomeEditor'
 
 export const metadata: Metadata = { title: 'Edit home page' }
 

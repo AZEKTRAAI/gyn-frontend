@@ -5,7 +5,6 @@ import { homeSchema } from '@gyn/core/home-schema'
 import { saveHome, HomeStoreUnavailable } from '@gyn/core/home-store'
 import { PermissionError, requirePermission } from '@/lib/auth'
 import { getClientIp } from '@/lib/ip'
-import { storeImage, UploadError } from '@/lib/upload'
 import { revalidateWeb } from '@/lib/web'
 
 export type SaveResult =
@@ -31,18 +30,5 @@ export async function saveHomeAction(content: unknown): Promise<SaveResult> {
     if (e instanceof PermissionError || e instanceof HomeStoreUnavailable) return { ok: false, error: e.message }
     console.error('[admin] saveHomeAction failed', e)
     return { ok: false, error: 'Saving failed. Nothing was changed. Try again in a minute.' }
-  }
-}
-
-export async function uploadImageAction(formData: FormData): Promise<{ ok: true; src: string } | { ok: false; error: string }> {
-  try {
-    await requirePermission('home.edit')
-    const file = formData.get('file')
-    if (!(file instanceof File)) return { ok: false, error: 'Choose an image first.' }
-    return { ok: true, src: await storeImage(file) }
-  } catch (e) {
-    if (e instanceof PermissionError || e instanceof UploadError) return { ok: false, error: e.message }
-    console.error('[admin] uploadImageAction failed', e)
-    return { ok: false, error: 'Upload failed. Try again.' }
   }
 }

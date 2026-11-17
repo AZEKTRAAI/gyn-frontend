@@ -60,6 +60,8 @@ export interface PublicEvent extends EventSummary {
 }
 
 export interface AdminEventRow extends EventSummary {
+  /** The event's own time zone: startsAt/endsAt are instants, so showing their calendar day needs it. */
+  timezone: string;
   status: EventStatus;
   updatedAt: Date;
 }
@@ -220,6 +222,7 @@ export function defaultEventContent(kind: EventKind, details: EventDetails): Eve
     highlights: { visible: v("highlights"), items: [] },
     overview: { visible: v("overview"), kicker: "About the event", heading: "About *this event*", text: details.theme, image: placeholder },
     categories: { visible: v("categories"), kicker: "Registration", heading: "Choose how you *join*", intro: "", note: "" },
+    steps: { visible: v("steps"), kicker: "How to apply", heading: "How to *apply*", items: [] },
     ambassadors: {
       visible: v("ambassadors"),
       kicker: "GYN ambassadors",
@@ -343,7 +346,7 @@ function needDb(): PrismaClient {
   return prisma;
 }
 
-const adminRow = (r: EventRow): AdminEventRow => ({ ...rowSummary(r), status: r.status, updatedAt: r.updatedAt });
+const adminRow = (r: EventRow): AdminEventRow => ({ ...rowSummary(r), timezone: r.timezone, status: r.status, updatedAt: r.updatedAt });
 
 /** Every event that is not deleted, drafts and archived included: upcoming first, then past. */
 export async function listAllEvents(): Promise<AdminEventRow[]> {

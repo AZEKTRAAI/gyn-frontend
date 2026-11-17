@@ -58,6 +58,15 @@ export const eventPageSchema = z
       })
       .meta({ title: 'Registration categories', description: 'The cards themselves (names, fees, open or closed) come from the event\'s registration categories.' }),
 
+    steps: z
+      .object({
+        visible,
+        kicker,
+        heading,
+        items: z.array(z.object({ title: str('Step', 80), text: long('What happens', 300) }).meta({ title: 'Step' })).max(8).meta({ title: 'Steps' }),
+      })
+      .meta({ title: 'How to apply' }),
+
     ambassadors: homeSchema.shape.network.meta({ title: 'Ambassadors map' }),
 
     chapters: z

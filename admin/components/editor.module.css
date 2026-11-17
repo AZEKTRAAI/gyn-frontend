@@ -1,5 +1,6 @@
-/* Admin home editor. Internal tool: plain, dense, high contrast. Tokens follow the Direction I palette. */
-.wrap {
+/* Shared by the home editor and the events editor (via SchemaForm). `.wrap` is the home editor's page frame; `.scope` only sets the colours.
+   Admin home editor. Internal tool: plain, dense, high contrast. Tokens follow the Direction I palette. */
+.wrap, .scope {
   --ink: #0e1530;
   --navy: #202f60;
   --field: #eef2f6;
@@ -7,12 +8,10 @@
   --yellow: #fcc30b;
   --red: #b3122a;
   --green: #2f6b34;
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 96px 20px 80px;
   color: var(--ink);
   font-size: 15px;
 }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 96px 20px 80px; }
 .bar {
   display: flex;
   flex-wrap: wrap;
@@ -71,11 +70,12 @@
 
 .form { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: grid; gap: 18px; }
 .form h2 { font-size: 22px; margin: 0; }
+.bare { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 18px; }
 .group { border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin: 0; display: grid; gap: 14px; min-width: 0; }
 .group legend { font-weight: 700; padding: 0 6px; }
 .field { display: grid; gap: 6px; min-width: 0; }
 .field label { font-weight: 600; }
-.field input[type='text'], .field input[type='datetime-local'], .field textarea, .field select {
+.field input[type='text'], .field input[type='datetime-local'], .field input[type='date'], .field textarea, .field select {
   width: 100%;
   font: inherit;
   color: var(--ink);
@@ -115,7 +115,7 @@
 .upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
 .upload:focus-within { outline: 2px solid var(--ink); outline-offset: 2px; }
 
-.wrap :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.wrap :focus-visible, .scope :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 @media (max-width: 860px) {
   .layout { grid-template-columns: 1fr; }

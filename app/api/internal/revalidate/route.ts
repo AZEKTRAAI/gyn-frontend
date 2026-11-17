@@ -6,6 +6,8 @@ export const dynamic = 'force-dynamic'
 import { revalidatePath } from 'next/cache'
 import { safeEqual } from '@gyn/core/crypto'
 
+const LAYOUT = '__layout'
+
 export async function POST(req: Request): Promise<Response> {
   const secret = process.env.INTERNAL_API_SECRET
   const given = req.headers.get('x-internal-secret') ?? ''
@@ -14,8 +16,12 @@ export async function POST(req: Request): Promise<Response> {
 
   const body = (await req.json().catch(() => null)) as { paths?: unknown } | null
   const paths = Array.isArray(body?.paths)
-    ? body.paths.filter((p): p is string => typeof p === 'string' && p.startsWith('/') && p.length < 200).slice(0, 20)
+    ? body.paths.filter((p): p is string => typeof p === 'string' && (p.startsWith('/') || p === LAYOUT) && p.length < 200).slice(0, 20)
     : []
-  for (const p of paths) revalidatePath(p)
+  for (const p of paths) {
+    // The navbar lives in the root layout, so a change that alters the menu refreshes every page.
+    if (p === LAYOUT) revalidatePath('/', 'layout')
+    else revalidatePath(p)
+  }
   return Response.json({ revalidated: paths.length })
 }

@@ -1,7 +1,7 @@
 // The event store against a real database: create, save, status changes, the audit trail and what the public sees.
 import assert from "node:assert/strict";
 import { after, beforeEach, test } from "node:test";
-import { eventDetailsSchema, type EventDetails } from "@gyn/core/event-schema";
+import { EVENT_SECTIONS, eventDetailsSchema, type EventDetails } from "@gyn/core/event-schema";
 import { EventStoreError, createEvent, getEventForEdit, getPublicEvent, listAllEvents, listPublicEvents, saveEvent, setEventStatus } from "@gyn/core/event-store";
 import { closeDb, prisma, resetDb } from "./helpers.ts";
 
@@ -19,7 +19,7 @@ test("a new event is a draft: hidden from the public, visible to the admin, with
   await createEvent({ slug: "sis-dubai-2099", details, kind: "upcoming" }, meta);
   assert.equal(await getPublicEvent("sis-dubai-2099"), null);
   assert.deepEqual((await listPublicEvents()).map((e) => e.slug), []);
-  assert.equal(await prisma.eventSection.count(), 14);
+  assert.equal(await prisma.eventSection.count(), EVENT_SECTIONS.length);
   const [row] = await listAllEvents();
   assert.equal(row.status, "DRAFT");
   assert.equal(row.timing, "upcoming");
@@ -48,7 +48,7 @@ test("saving replaces the details and sections, keeps the old version in the aud
   const [log] = await audit("EVENT_UPDATED");
   assert.equal((log.oldValue as { content: { hero: { headline: string } } }).content.hero.headline, edit.details.name);
   assert.equal((log.newValue as { details: EventDetails }).details.city, "Abu Dhabi");
-  assert.equal(await prisma.eventSection.count(), 14, "sections are replaced, not added");
+  assert.equal(await prisma.eventSection.count(), EVENT_SECTIONS.length, "sections are replaced, not added");
   assert.equal((await prisma.eventSection.findFirstOrThrow({ where: { blockType: "gallery" } })).visible, true);
 
   await setEventStatus("sis-dubai-2099", "PUBLISHED", meta);

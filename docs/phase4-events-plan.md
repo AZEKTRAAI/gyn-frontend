@@ -69,17 +69,20 @@ Azam is asleep and asked for work that needs no input from him, run as Opus plan
 
 | # | Task | Status |
 |---|---|---|
-| 1 | A: event store, migration, seed | running |
-| 2 | C: fixed pages redesign | running |
-| 3 | B: admin Events module | waiting on 1 |
-| 4 | D: public event pages + navbar from DB | waiting on 1 |
-| 5 | Admin users and roles screens (phase 3): list, create, deactivate, change role, Super Admin only | |
-| 6 | Audit log viewer (phase 3): filter by user, action, date; read only | |
-| 7 | Password change for the signed-in admin (phase 3); reset by email waits for phase 8 | |
-| 8 | Old URL redirects (trailing slashes, old WordPress paths in content/sitemap.json) and sitemap.xml / robots.txt from the events | |
-| 9 | Contact form messages saved to the DB + admin Contact inbox (phase 10 part) | |
-| 10 | Registration categories editor inside the admin event page (fees, approval mode, seats, open/close dates) | |
-| 11 | **Red team** review of 1 to 10 against the SRS and the plan; fix every confirmed flag | |
+| 1 | A: event store, migration, seed | done, 50665b9 |
+| 2 | C: fixed pages redesign | done, 83f63ab (forms still use the old dark submit buttons; follow-up in 11) |
+| 3 | B: admin Events module | done, de0e5cd |
+| 4 | D: public event pages + navbar from DB (also adds a `steps` section for SISM's application process) | done, f87f844, pushed |
+| 5 | Admin users and roles screens (phase 3): list, create, deactivate, change role, Super Admin only | done (role-permission editing needs a decision: seed overwrites Role.permissions) |
+| 6 | Audit log viewer (phase 3): filter by user, action, date; read only | done |
+| 7 | Password change for the signed-in admin (phase 3); reset by email waits for phase 8 | done (temporary password is a notice, not forced) |
+| 8 | Old URL redirects (trailing slashes, old WordPress paths in content/sitemap.json) and sitemap.xml / robots.txt from the events | done, f36f5ed (DB-managed redirects not honoured yet: look up Redirect only on a not-found slug) |
+| 9 | Contact form messages saved to the DB + admin Contact inbox (phase 10 part) | done (menu flag lands with E's commit; a contact.manage permission would allow read-only access) |
+| 10 | Registration categories editor inside the admin event page (fees, approval mode, seats, open/close dates) | done (register link per category waits for phase 5 forms) |
+| 10b | Mobile menu lists every event in each dropdown group (G) | done |
+| 10c | SISM content the schema still lacks: eligibility, scholarship criteria, co-host and APU blocks (a generic titled-list section may cover them) | |
+| 11 | **Red team** review of 1 to 10 against the SRS and the plan; fix every confirmed flag | running |
+| 11b | Next.js printed a known-vulnerability warning for 16.4.2: check `npm audit`, move to the patched 16.x release if one exists, rerun every check. Do it when no agent is mid-build. | |
 | 12 | Phase 5 start: form definition format + engine with tests (SRS 3.4), no builder UI yet | |
 
 Not tonight (needs Azam or comes last): two-step login, Netcup, merging to `main`, client sign-off items, payment keys.

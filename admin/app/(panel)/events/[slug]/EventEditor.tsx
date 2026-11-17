@@ -10,10 +10,13 @@ import type { EventStatus } from '@gyn/core/event-store'
 import { Field, SectionEditor, setIn, useUnsavedWarning, type Errors, type JsonNode, type Path } from '@/components/SchemaForm'
 import editor from '@/components/editor.module.css'
 import { detailsNode, issuesToErrors, validateDetails } from '@/lib/event-form'
+import type { CategoryRow } from '@gyn/core/category-store'
 import { saveEventAction, setEventStatusAction } from '../actions'
+import { CategoriesPanel } from './CategoriesPanel'
 import styles from '../events.module.css'
 
-type Tab = 'details' | 'page'
+type Tab = 'details' | 'page' | 'categories'
+const TABS: [Tab, string][] = [['details', 'Details'], ['page', 'Page'], ['categories', 'Registration categories']]
 
 const STATUS_TEXT: Record<EventStatus, string> = {
   DRAFT: 'Draft: only the team can see it. It is not on the website or in the menu.',
@@ -40,6 +43,8 @@ export function EventEditor(props: {
   timing: 'upcoming' | 'past'
   initialDetails: EventDetails
   initialContent: EventPageContent
+  categories: CategoryRow[]
+  timezone: string
   schema: JsonNode
   canManage: boolean
   viewUrl: string
@@ -163,7 +168,7 @@ export function EventEditor(props: {
       </div>
 
       <div className={styles.tabs} role="tablist" aria-label="Event">
-        {(['details', 'page'] as const).map((key) => (
+        {TABS.map(([key, label], i) => (
           <button
             key={key}
             type="button"
@@ -176,13 +181,13 @@ export function EventEditor(props: {
             onClick={() => setTab(key)}
             onKeyDown={(e) => {
               if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
-              const other = key === 'details' ? 'page' : 'details'
+              const other = TABS[(i + (e.key === 'ArrowRight' ? 1 : TABS.length - 1)) % TABS.length][0]
               setTab(other)
               document.getElementById(`tab-${other}`)?.focus()
             }}
           >
-            {key === 'details' ? 'Details' : 'Page'}
-            {errorCount[key] > 0 && <span className={styles.tabDot} aria-label="has errors" />}
+            {label}
+            {key !== 'categories' && errorCount[key] > 0 && <span className={styles.tabDot} aria-label="has errors" />}
           </button>
         ))}
       </div>
@@ -209,6 +214,9 @@ export function EventEditor(props: {
           uploads="local"
           readOnly={!canManage}
         />
+      </div>
+      <div className={styles.panel} role="tabpanel" id="panel-categories" aria-labelledby="tab-categories" hidden={tab !== 'categories'}>
+        <CategoriesPanel eventSlug={slug} categories={props.categories} timezone={props.timezone} canManage={canManage} sectionVisible={content.categories.visible} />
       </div>
     </div>
   )

@@ -37,7 +37,7 @@
 .statusBtns button:disabled { opacity: 0.45; cursor: not-allowed; }
 .statusBtns .go { background: var(--ink); color: #fff; border-color: var(--ink); }
 .statusBtns .warn { color: var(--red); border-color: #e7b7bf; }
-.tabs { display: flex; gap: 8px; margin: 22px 0 0; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; }
 .tab[aria-selected='true'] { background: var(--ink); color: #fff; border-color: var(--ink); }
 .tabDot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--red); margin-left: 8px; }
 .panel { margin-top: 16px; }
@@ -45,3 +45,14 @@
 .address { margin: 0; font-size: 14px; }
 .address code { background: var(--field); padding: 2px 6px; border-radius: 6px; }
 .scope :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.catHead p { margin: 0 0 8px; font-size: 14px; max-width: 760px; }
+.catNote { color: var(--navy); }
+.catBar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin: 16px 0 12px; }
+.catBar h2 { margin: 0; font-size: 20px; }
+.catForm { max-width: 760px; margin-bottom: 18px; }
+.catActions { display: flex; flex-wrap: wrap; gap: 10px; }
+.rowBtns { display: inline-flex; gap: 6px; }
+.rowBtns button { min-height: 36px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.rowBtns button:disabled { opacity: 0.4; cursor: not-allowed; }
+.rowBtns .dangerBtn { color: var(--red); border-color: #e7b7bf; }

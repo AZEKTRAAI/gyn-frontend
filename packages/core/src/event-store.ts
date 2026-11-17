@@ -110,12 +110,12 @@ function zoneOffsetMs(at: Date, tz: string): number {
 }
 
 // shortcut: one offset lookup, so a time inside the hour a daylight-saving change skips can be off by an hour; our events start at 00:00 and end at 23:59.
-function localToDate(ymd: string, hm: string, tz: string): Date {
+export function localToDate(ymd: string, hm: string, tz: string): Date {
   const asUtc = new Date(`${ymd}T${hm}:00Z`);
   return new Date(asUtc.getTime() - zoneOffsetMs(asUtc, tz));
 }
 
-function dateToLocal(at: Date, tz: string): string {
+export function dateToLocal(at: Date, tz: string): string {
   const p = zoneParts(at, tz);
   return `${p.year}-${String(p.month).padStart(2, "0")}-${String(p.day).padStart(2, "0")}`;
 }
@@ -308,7 +308,7 @@ export async function getPublicEvent(slug: string): Promise<PublicEvent | null> 
   try {
     const row = await prisma.event.findFirst({
       where: { slug, status: "PUBLISHED", deletedAt: null },
-      include: { categories: { where: { deletedAt: null }, orderBy: { sortOrder: "asc" } } },
+      include: { categories: { where: { deletedAt: null }, orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }, { id: "asc" }] } },
     });
     if (!row) return null;
     const now = new Date();

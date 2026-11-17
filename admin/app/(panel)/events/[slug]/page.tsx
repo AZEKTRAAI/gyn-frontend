@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { z } from 'zod'
+import { listCategoriesForEdit } from '@gyn/core/category-store'
 import { eventPageSchema } from '@gyn/core/event-schema'
 import { getEventForEdit } from '@gyn/core/event-store'
 import { can } from '@gyn/core/permissions'
@@ -22,6 +23,7 @@ export default async function EditEventPage({ params }: { params: Promise<{ slug
   const { slug } = await params
   const event = await getEventForEdit(slug)
   if (!event) notFound()
+  const categories = (await listCategoriesForEdit(slug)) ?? []
   return (
     <EventEditor
       slug={event.slug}
@@ -30,6 +32,8 @@ export default async function EditEventPage({ params }: { params: Promise<{ slug
       timing={event.timing}
       initialDetails={event.details}
       initialContent={event.content}
+      categories={categories}
+      timezone={event.timezone}
       // JSON round-trip: React refuses the non-plain objects toJSONSchema builds
       schema={JSON.parse(JSON.stringify(z.toJSONSchema(eventPageSchema))) as JsonNode}
       canManage={can(session.permissions, 'events.manage')}

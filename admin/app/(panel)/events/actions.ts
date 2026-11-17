@@ -1,6 +1,8 @@
 'use server'
 
 import { headers } from 'next/headers'
+import { categoryFormSchema } from '@gyn/core/category-schema'
+import { createCategory, moveCategory, removeCategory, updateCategory } from '@gyn/core/category-store'
 import { eventDetailsSchema, eventPageSchema, type EventDetails } from '@gyn/core/event-schema'
 import { createEvent, EventStoreError, EventStoreUnavailable, saveEvent, setEventStatus, type EventStatus } from '@gyn/core/event-store'
 import { PermissionError, requirePermission } from '@/lib/auth'
@@ -67,6 +69,48 @@ export async function saveEventAction(slug: string, input: { details: unknown; c
     return { ok: true, savedAt: new Date().toISOString() }
   } catch (e) {
     return failure(e, 'saving the event')
+  }
+}
+
+// Registration categories. Each change is saved at once (not with the page's Save button) and refreshes the event's public page.
+const categoryFailure = (e: unknown, what: string) =>
+  e instanceof EventStoreError && e.code === 'NOT_FOUND' ? { ok: false as const, error: e.message } : failure(e, what)
+
+export async function saveCategoryAction(slug: string, id: string | null, values: unknown): Promise<ActionResult> {
+  try {
+    const meta = await actor()
+    const parsed = categoryFormSchema.safeParse(values)
+    if (!parsed.success) return { ok: false, error: 'Some fields need fixing.', issues: issuesOf('form', issuesToErrors(parsed.error.issues)) }
+    await (id ? updateCategory(slug, id, values, meta) : createCategory(slug, values, meta))
+    await revalidateWeb([`/${slug}`])
+    return { ok: true }
+  } catch (e) {
+    const r = categoryFailure(e, 'saving the category')
+    // The address is the only field whose errors come from the store (taken, or locked by registrations).
+    return e instanceof EventStoreError && (e.code === 'SLUG_TAKEN' || /address/.test(e.message)) ? { ...r, issues: [{ area: 'form', path: 'slug', message: e.message }] } : r
+  }
+}
+
+export async function moveCategoryAction(slug: string, id: string, direction: string): Promise<ActionResult> {
+  try {
+    const meta = await actor()
+    if (direction !== 'up' && direction !== 'down') return { ok: false, error: 'Unknown direction.' }
+    await moveCategory(slug, id, direction, meta)
+    await revalidateWeb([`/${slug}`])
+    return { ok: true }
+  } catch (e) {
+    return categoryFailure(e, 'moving the category')
+  }
+}
+
+export async function removeCategoryAction(slug: string, id: string): Promise<ActionResult> {
+  try {
+    const meta = await actor()
+    await removeCategory(slug, id, meta)
+    await revalidateWeb([`/${slug}`])
+    return { ok: true }
+  } catch (e) {
+    return categoryFailure(e, 'removing the category')
   }
 }
 
